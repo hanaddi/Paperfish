@@ -1,33 +1,23 @@
-"use strict";
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Game = function () {
-	function Game(parentEl) {
-		var _this = this;
-
-		_classCallCheck(this, Game);
-
+class Game{
+	constructor(parentEl){
 		this.parentEl = parentEl;
 		this.el = {};
 
 		// setting aquarioum view
 		this.el.glass = f.ce("div");
-		f.sa(this.el.glass, "class", "glass");
-		f.ac(this.parentEl, this.el.glass);
+		f.sa(this.el.glass,"class","glass");
+		f.ac(this.parentEl,this.el.glass);
 		this.el.aqua = f.ce("div");
-		f.sa(this.el.aqua, "class", "aqua");
-		f.ac(this.el.glass, this.el.aqua);
+		f.sa(this.el.aqua,"class","aqua");
+		f.ac(this.el.glass,this.el.aqua);
 		this.el.amb = f.ce("div");
-		f.sa(this.el.amb, "class", "amb");
-		f.ac(this.el.aqua, this.el.amb);
+		f.sa(this.el.amb,"class","amb");
+		f.ac(this.el.aqua,this.el.amb);
 
 		// bottomBar
 		this.el.bottomBar = f.ce("div");
-		f.sa(this.el.bottomBar, "class", "bottomBar");
-		f.ac(this.parentEl, this.el.bottomBar);
+		f.sa(this.el.bottomBar,"class","bottomBar");
+		f.ac(this.parentEl,this.el.bottomBar);
 
 		// tutup
 		this.el.tutup = document.querySelector(".tutup");
@@ -51,27 +41,27 @@ var Game = function () {
 		this.fishVars = {};
 		this.uang = 0;
 		this.paper = {
-			B: 0,
-			R: 0,
-			Y: 0
+			B:0,
+			R:0,
+			Y:0
 		};
 
 		// setting modal popup
 		this.el.modal = f.ce("div");
-		f.sa(this.el.modal, "class", "modal");
+		f.sa(this.el.modal,"class","modal");
 		this.el.popUp = f.ce("div");
-		f.sa(this.el.popUp, "class", "popUp");
-		var uBar = f.ce("div");
+		f.sa(this.el.popUp,"class","popUp");
+		let uBar = f.ce("div");
 		f.ac(this.el.popUp, uBar);
-		var title = f.ce("div");
-		f.sa(title, "class", "title");
+		let title = f.ce("div");
+		f.sa(title,"class","title");
 		this.el.title = title;
 		f.ac(uBar, title);
-		var btnClose = f.ce("div");
-		f.sa(btnClose, "class", "btnClose");
-		var hideModal = function hideModal() {
-			_this.hideModal();
-		};
+		let btnClose = f.ce("div");
+		f.sa(btnClose,"class","btnClose");
+		let hideModal = ()=>{
+			this.hideModal();
+		}
 		btnClose.onclick = hideModal;
 		f.ac(uBar, btnClose);
 		this.el.content = f.ce("div");
@@ -80,627 +70,496 @@ var Game = function () {
 
 		// setting top bar
 		this.el.topBar = f.ce("div");
-		f.sa(this.el.topBar, "class", "topBar");
-		f.ac(this.parentEl, this.el.topBar);
+		f.sa(this.el.topBar,"class","topBar");
+		f.ac(this.parentEl,this.el.topBar);
 
 		// this.viewLogo();
 		this.viewPaper();
 		this.viewMoney();
 
+
 		this.glassLvl--;
 		this.glassLvlUp(true);
+
+
 	}
 
-	_createClass(Game, [{
-		key: "glassLvlUp",
-		value: function glassLvlUp() {
-			var free = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+	glassLvlUp(free=false){
+		if(this.glassLvl>=10){
+			this.glassLvl = 10;
+			return;
+		}
+		let cost = Math.pow(2,this.glassLvl-1)*this.glassLvlUpCost;
+		if(cost>this.paper.B && !free)return;
+		this.paper.B -= free?0:cost;
+		this.glassLvl++;
+		this.el.glass.style.width = Math.min(600,400+20*this.glassLvl) + "px";
+		this.el.glass.style.height = Math.min(400,200+20*this.glassLvl) + "px";
+		this.viewMoney();
+	}
 
-			if (this.glassLvl >= 10) {
-				this.glassLvl = 10;
-				return;
+	newGame(type){
+		this.transisiTutup();
+		this.hideModal();
+		let saya = this;
+
+		window.setTimeout(()=>{
+			try{
+				window.clearInteval(saya.saveInterval);
+			}catch(e){}
+			saya.el.aqua.innerHTML=null;
+
+			saya.uang = 500;
+			saya.viewMoney();
+
+			saya.ikan.map(e=>{
+				e.kill(saya);
+			});
+
+			saya.ikan = [];
+			saya.glassLvl=0;
+			saya.glassLvlUp(true);
+			saya.paper={};
+			saya.viewPaper();
+
+			saya.craftObj.map(e=>{
+				e.kill(saya);
+			});			
+			saya.craft=[];
+			saya.craftUnlocked=[];
+			saya.craftObj=[];
+			saya.fishVars = {};
+		},1000);
+
+		window.setTimeout(()=>{
+			saya.addIkan("B");
+			saya.transisiBuka();
+			if(type=="kongGuest"){
+				saya.showModalInfo("Hello Guest","You are playing in guest mode. Your progress will not be saved. To keep your progress save, please login.");
 			}
-			var cost = Math.pow(2, this.glassLvl - 1) * this.glassLvlUpCost;
-			if (cost > this.paper.B && !free) return;
-			this.paper.B -= free ? 0 : cost;
-			this.glassLvl++;
-			this.el.glass.style.width = Math.min(600, 400 + 20 * this.glassLvl) + "px";
-			this.el.glass.style.height = Math.min(400, 200 + 20 * this.glassLvl) + "px";
+		},2000);
+	}
+
+	addIkan(type,free = false,x=null,y=null){
+		if(!type)return;
+
+
+		let totalIkan = 0;
+		this.ikan.map(e=>e && (totalIkan++) );
+		if(this.glassLvl*2+1 <= totalIkan)return;
+
+		if(!free){
+			if(fishs[type].price > this.uang)return;
+			this.uang -= fishs[type].price;
 			this.viewMoney();
 		}
-	}, {
-		key: "newGame",
-		value: function newGame(type) {
-			this.transisiTutup();
-			this.hideModal();
-			var saya = this;
 
-			window.setTimeout(function () {
-				try {
-					window.clearInteval(saya.saveInterval);
-				} catch (e) {}
-				saya.el.aqua.innerHTML = "";
+		let ikan = new Ikan(x||this.el.aqua.offsetWidth*Math.random(),y||this.el.aqua.offsetHeight*Math.random(),this.el.aqua, 74, 46, type,!(x&&y));
+		ikan.move(0,0);
+		ikan.elWrap.style.animation = "birthIkan .5s";
+		this.ikan.push(ikan);
+		this.afterAddIkan(ikan);
+	}
 
-				saya.uang = 500;
-				saya.viewMoney();
+	addIkan2(type,free = false,x=null,y=null){
+		if(!type)return;
 
-				saya.ikan.map(function (e) {
-					e.kill(saya);
-				});
 
-				saya.ikan = [];
-				saya.glassLvl = 0;
-				saya.glassLvlUp(true);
-				saya.paper = {};
-				saya.viewPaper();
+		let totalIkan = 0;
+		this.ikan.map(e=>e && (totalIkan++) );
+		if(this.glassLvl*2+1 <= totalIkan)return;
 
-				saya.craftObj.map(function (e) {
-					e.kill(saya);
-				});
-				saya.craft = [];
-				saya.craftUnlocked = [];
-				saya.craftObj = [];
-				saya.fishVars = {};
-			}, 1000);
-
-			window.setTimeout(function () {
-				saya.addIkan("B");
-				saya.transisiBuka();
-				if (type == "kongGuest") {
-					saya.showModalInfo("Hello Guest", "You are playing in guest mode. Your progress will not be saved. To keep your progress save, please login.");
-				}
-			}, 2000);
+		if(!free){
+			if(fishs[type].price > this.uang)return;
+			this.uang -= fishs[type].price;
+			this.viewMoney();
 		}
-	}, {
-		key: "addIkan",
-		value: function addIkan(type) {
-			var free = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-			var x = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-			var y = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
 
-			if (!type) return;
+		let ikan = new Ikan2(x||this.el.aqua.offsetWidth*Math.random(),y||this.el.aqua.offsetHeight*Math.random(),this.el.aqua, 74, 46, type,!(x&&y));
+		ikan.move(0,0);
+		ikan.elWrap.style.animation = "birthIkan .5s";
+		this.ikan.push(ikan);
+		this.afterAddIkan(ikan);
+	}
 
-			var totalIkan = 0;
-			this.ikan.map(function (e) {
-				return e && totalIkan++;
-			});
-			if (this.glassLvl * 2 + 1 <= totalIkan) return;
+	loadIkan(arr){
+		if(!fishs[arr[1]]){
+			console.log("Game::loadIkan() ERROR");
+			return;
+		}
 
-			if (!free) {
-				if (fishs[type].price > this.uang) return;
-				this.uang -= fishs[type].price;
-				this.viewMoney();
-			}
-
-			var ikan = new Ikan(x || this.el.aqua.offsetWidth * Math.random(), y || this.el.aqua.offsetHeight * Math.random(), this.el.aqua, 74, 46, type, !(x && y));
-			ikan.move(0, 0);
-			ikan.elWrap.style.animation = "birthIkan .5s";
+		if(arr[4] && arr[4]==2){
+			let type = arr[1];
+			let level = arr[2] || 1;
+			let ikan = new Ikan2(this.el.aqua.offsetWidth*Math.random(),this.el.aqua.offsetHeight*Math.random(),this.el.aqua, 74, 46, type,true,true,level);
+			
+			// console.log(ikan.save());
+			ikan.timeCreated = arr[0]?arr[0]:ikan.timeCreated;
+			ikan.lastClaim = arr[3];
+			this.ikan.push(ikan);
+			this.afterAddIkan(ikan);
+			
+		}else{
+			let type = arr[1];
+			let level = arr[2] || 1;
+			let ikan = new Ikan(this.el.aqua.offsetWidth*Math.random(),this.el.aqua.offsetHeight*Math.random(),this.el.aqua, 74, 46, type,true,true,level);
+			ikan.timeCreated = arr[0]?arr[0]:ikan.timeCreated;
+			ikan.lastClaim = arr[3];
 			this.ikan.push(ikan);
 			this.afterAddIkan(ikan);
 		}
-	}, {
-		key: "addIkan2",
-		value: function addIkan2(type) {
-			var free = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-			var x = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-			var y = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
+	}
 
-			if (!type) return;
-
-			var totalIkan = 0;
-			this.ikan.map(function (e) {
-				return e && totalIkan++;
-			});
-			if (this.glassLvl * 2 + 1 <= totalIkan) return;
-
-			if (!free) {
-				if (fishs[type].price > this.uang) return;
-				this.uang -= fishs[type].price;
-				this.viewMoney();
-			}
-
-			var ikan = new Ikan2(x || this.el.aqua.offsetWidth * Math.random(), y || this.el.aqua.offsetHeight * Math.random(), this.el.aqua, 74, 46, type, !(x && y));
-			ikan.move(0, 0);
-			ikan.elWrap.style.animation = "birthIkan .5s";
-			this.ikan.push(ikan);
-			this.afterAddIkan(ikan);
-		}
-	}, {
-		key: "loadIkan",
-		value: function loadIkan(arr) {
-			if (!fishs[arr[1]]) {
-				console.log("Game::loadIkan() ERROR");
-				return;
-			}
-
-			if (arr[4] && arr[4] == 2) {
-				var type = arr[1];
-				var level = arr[2] || 1;
-				var ikan = new Ikan2(this.el.aqua.offsetWidth * Math.random(), this.el.aqua.offsetHeight * Math.random(), this.el.aqua, 74, 46, type, true, true, level);
-
-				// console.log(ikan.save());
-				ikan.timeCreated = arr[0] ? arr[0] : ikan.timeCreated;
-				ikan.lastClaim = arr[3];
-				this.ikan.push(ikan);
-				this.afterAddIkan(ikan);
-			} else {
-				var _type = arr[1];
-				var _level = arr[2] || 1;
-				var _ikan = new Ikan(this.el.aqua.offsetWidth * Math.random(), this.el.aqua.offsetHeight * Math.random(), this.el.aqua, 74, 46, _type, true, true, _level);
-				_ikan.timeCreated = arr[0] ? arr[0] : _ikan.timeCreated;
-				_ikan.lastClaim = arr[3];
-				this.ikan.push(_ikan);
-				this.afterAddIkan(_ikan);
-			}
-		}
-	}, {
-		key: "afterAddIkan",
-		value: function afterAddIkan(ikan) {
-			var _this2 = this;
-
-			// console.log("after add ikan");
-			ikan.onclick = function (e) {
-				ikan.nextPos = {
-					x: _this2.parentEl.offsetWidth / 2 | 0,
-					y: _this2.parentEl.offsetHeight / 2 | 0
-				};
-				_this2.el.content.innerHTML = "";
-				f.ac(_this2.el.content, ikan.viewStats(_this2));
-
-				_this2.showModal(ikan.name + " Fish");
+	afterAddIkan(ikan){
+		// console.log("after add ikan");
+		ikan.onclick = e=>{
+			ikan.nextPos = {
+				x:this.parentEl.offsetWidth/2|0,
+				y:this.parentEl.offsetHeight/2|0
 			};
-			ikan.paperIntervalClaim(this);
-			var now = new Date();
-			var saya = this;
-			window.setTimeout(function () {
-				ikan.kill(saya);
-			}, ikan.timeCreated + ikan.lifeSpan - now.getTime());
-		}
-	}, {
-		key: "addCraft",
-		value: function addCraft(type) {
-			if (!type) return;
-
-			var totalIkan = 0;
-			this.craft.map(function (e) {
-				return e && totalIkan++;
-			});
-			if (this.craftMaxItem <= totalIkan) return;
-			if (this.craft.indexOf(type) != -1) return;
-
-			// let ikan = new CraftV(this.el.aqua.offsetWidth*Math.random(),this.el.aqua.offsetHeight*Math.random(),this.el.aqua, 74, 46, type);
-			var ikan = new Craft(this.el.aqua.offsetWidth * Math.random(), this.el.aqua.offsetHeight * Math.random(), this.el.aqua, 74, 46, type);
-			ikan.intervalFunction(this);
-			this.craft.push(type);
-			this.craftObj.push(ikan);
-			ikan.function0(this);
-		}
-	}, {
-		key: "removeCraft",
-		value: function removeCraft(type) {
-			if (type == null) return;
-
-			var idx = this.craft.indexOf(type);
-			if (idx != -1) {
-
-				// for(let i in this.craftObj ){
-				// 	if(this.craftObj[i] && this.craftObj[i].type==type){
-
-				// 		this.craftObj[i].function1(this);
-				// 		this.craftObj[i].kill(this);
-				// 		// this.craftObj[i] = null;
-				// 		// this.craft[idx]=null;
-				// 		console.log(idx, this.craft);
-				// 		break;
-				// 	}
-				// }
-
-				this.craftObj[idx].function1(this);
-				this.craftObj[idx].kill(this);
-
-				// this.craft.splice(idx,1);
-				// this.craftObj.splice(idx,1);
-
-				// let craft =[];
-				// this.craft.map((e,i)=>i!=idx && craft.push(e) );
-				// this.craft = craft;
-				// let craftObj =[];
-				// this.craftObj.map((e,i)=>i!=idx && craftObj.push(e) );
-				// this.craftObj = craftObj;
-			}
-		}
-	}, {
-		key: "unlockCraft",
-		value: function unlockCraft(type) {
-			var _iteratorNormalCompletion = true;
-			var _didIteratorError = false;
-			var _iteratorError = undefined;
-
-			try {
-				for (var _iterator = Object.keys(fishCraft[type].price)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-					var i = _step.value;
-
-					if (fishCraft[type].price[i] > this.paper[i]) return;
-				}
-			} catch (err) {
-				_didIteratorError = true;
-				_iteratorError = err;
-			} finally {
-				try {
-					if (!_iteratorNormalCompletion && _iterator.return) {
-						_iterator.return();
-					}
-				} finally {
-					if (_didIteratorError) {
-						throw _iteratorError;
-					}
-				}
-			}
-
-			this.craftUnlocked.push(fishCraft[type].type);
-			var _iteratorNormalCompletion2 = true;
-			var _didIteratorError2 = false;
-			var _iteratorError2 = undefined;
-
-			try {
-				for (var _iterator2 = Object.keys(fishCraft[type].price)[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-					var _i = _step2.value;
-
-					this.paper[_i] -= fishCraft[type].price[_i];
-				}
-			} catch (err) {
-				_didIteratorError2 = true;
-				_iteratorError2 = err;
-			} finally {
-				try {
-					if (!_iteratorNormalCompletion2 && _iterator2.return) {
-						_iterator2.return();
-					}
-				} finally {
-					if (_didIteratorError2) {
-						throw _iteratorError2;
-					}
-				}
-			}
-
-			this.viewPaper();
-		}
-	}, {
-		key: "showModalInfo",
-		value: function showModalInfo() {
-			var title = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
-			var info = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
-
-			var saya = this;
 			this.el.content.innerHTML = "";
-			var div1 = f.ce("div");
-			f.sa(div1, "style", "text-align:center;padding:10px;");
-			div1.innerHTML = info;
-			f.ac(this.el.content, div1);
+			f.ac(this.el.content, ikan.viewStats(this));
 
-			div1 = f.ce("div");
-			f.sa(div1, "style", "text-align:center;");
-			var button = f.ce("button");
-			button.innerHTML = " OK ";
-			button.onclick = function () {
-				saya.hideModal();
-			};
-			f.ac(div1, button);
-			f.ac(this.el.content, div1);
-
-			this.showModal(title);
+			this.showModal(ikan.name+" Fish");
 		}
-	}, {
-		key: "showModalWide",
-		value: function showModalWide() {
-			var _this3 = this;
+		ikan.paperIntervalClaim(this);
+		let now = new Date();
+		let saya = this;
+		window.setTimeout(()=>{
+			ikan.kill(saya);
+		}, ikan.timeCreated + ikan.lifeSpan - now.getTime());
 
-			var title = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+	}
 
-			if (this.parentEl.contains(this.el.modal)) {} else {
-				this.el.title.innerText = title;
-				this.el.popUp.style.width = "95%";
-				this.el.popUp.style.height = "400px";
-				 this.el.popUp.style.opacity = 0;
-				f.ac(this.parentEl, this.el.modal);
-				var zoomin = function zoomin() {
-					 _this3.el.popUp.style.opacity = 1;
-				};
-				setTimeout(zoomin, 50);
+
+
+	addCraft(type){
+		if(!type)return;
+
+		let totalIkan = 0;
+		this.craft.map(e=>e && (totalIkan++) );
+		if(this.craftMaxItem <= totalIkan)return;
+		if(this.craft.indexOf(type)!=-1)return;
+
+		// let ikan = new CraftV(this.el.aqua.offsetWidth*Math.random(),this.el.aqua.offsetHeight*Math.random(),this.el.aqua, 74, 46, type);
+		let ikan = new Craft(this.el.aqua.offsetWidth*Math.random(),this.el.aqua.offsetHeight*Math.random(),this.el.aqua, 74, 46, type);
+		ikan.intervalFunction(this);
+		this.craft.push(type);
+		this.craftObj.push(ikan);
+		ikan.function0(this);
+	}
+
+	removeCraft(type){
+		if(type==null)return;
+
+		let idx = this.craft.indexOf(type);
+		if(idx!=-1){
+
+			// for(let i in this.craftObj ){
+			// 	if(this.craftObj[i] && this.craftObj[i].type==type){
+
+			// 		this.craftObj[i].function1(this);
+			// 		this.craftObj[i].kill(this);
+			// 		// this.craftObj[i] = null;
+			// 		// this.craft[idx]=null;
+			// 		console.log(idx, this.craft);
+			// 		break;
+			// 	}
+			// }
+
+			this.craftObj[idx].function1(this);
+			this.craftObj[idx].kill(this);
+
+			// this.craft.splice(idx,1);
+			// this.craftObj.splice(idx,1);
+
+			// let craft =[];
+			// this.craft.map((e,i)=>i!=idx && craft.push(e) );
+			// this.craft = craft;
+			// let craftObj =[];
+			// this.craftObj.map((e,i)=>i!=idx && craftObj.push(e) );
+			// this.craftObj = craftObj;
+		}
+	}
+
+	unlockCraft(type){
+		for(let i of Object.keys(fishCraft[type].price)){
+			if(fishCraft[type].price[i]>this.paper[i])return;
+		}
+		this.craftUnlocked.push(fishCraft[type].type);
+		for(let i of Object.keys(fishCraft[type].price)){
+			this.paper[i] -= fishCraft[type].price[i];
+		}
+		this.viewPaper();
+	}
+
+	showModalInfo(title="",info=""){
+		let saya = this;
+		this.el.content.innerHTML = "";
+		let div1 = f.ce("div");
+		f.sa(div1,"style","text-align:center;padding:10px;");
+		div1.innerHTML = info;
+		f.ac(this.el.content, div1);
+
+		div1 = f.ce("div");
+		f.sa(div1,"style","text-align:center;");
+		let button = f.ce("button");
+		button.innerHTML = " OK ";
+		button.onclick = function(){
+			saya.hideModal();
+		};
+		f.ac(div1, button);
+		f.ac(this.el.content, div1);
+
+		this.showModal(title);
+
+	}
+
+	showModalWide(title=null){
+		if(this.parentEl.contains(this.el.modal)){
+
+		}else{
+			this.el.title.innerText = title;
+			this.el.popUp.style.width = "95%";
+			this.el.popUp.style.height = "400px";
+			this.el.popUp.style.opacity = 0;
+			f.ac(this.parentEl,this.el.modal);
+			let zoomin = ()=>{
+				this.el.popUp.style.opacity = 1;
 			}
+			setTimeout(zoomin,50);
 		}
-	}, {
-		key: "showModal",
-		value: function showModal() {
-			var _this4 = this;
+	}
 
-			var title = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+	showModal(title=null){
+		if(this.parentEl.contains(this.el.modal)){
 
-			if (this.parentEl.contains(this.el.modal)) {} else {
-				this.el.title.innerText = title;
-				this.el.popUp.style.width = "400px";
-				this.el.popUp.style.height = "auto";
-				 this.el.popUp.style.opacity = 0;
-				f.ac(this.parentEl, this.el.modal);
-				var zoomin = function zoomin() {
-					 _this4.el.popUp.style.opacity = 1;
-				};
-				setTimeout(zoomin, 50);
+		}else{
+			this.el.title.innerText = title;
+			this.el.popUp.style.width = "400px";
+			this.el.popUp.style.height = "auto";
+			this.el.popUp.style.opacity = 0;
+			f.ac(this.parentEl,this.el.modal);
+			let zoomin = ()=>{
+				this.el.popUp.style.opacity = 1;
 			}
+			setTimeout(zoomin,50);
 		}
-	}, {
-		key: "hideModal",
-		value: function hideModal() {
-			var _this5 = this;
+	}
 
-			this.el.content.innerHTML = "";
-			if (this.parentEl.contains(this.el.modal)) {
-				 this.el.popUp.style.opacity = 0;
-				var zoomin = function zoomin() {
-					f.rc(_this5.parentEl, _this5.el.modal);
-				};
-				setTimeout(zoomin, 100);
-			} else {}
-		}
-
-		// visual
-
-	}, {
-		key: "viewLogo",
-		value: function viewLogo() {
-			var logo = f.ce("div");
-			f.sa(logo, "class", "logo");
-			logo.innerHTML = "&nbsp;";
-			logo.style.backgroundImage = "url('" + IMG.logo + "')";
-			f.ac(this.el.topBar, logo);
-		}
-	}, {
-		key: "viewMoney",
-		value: function viewMoney() {
-			if (!this.el.moneyBar) {
-				this.el.moneyBar = f.ce("div");
-				f.sa(this.el.moneyBar, "class", "moneyBar");
+	hideModal(){
+		this.el.content.innerHTML = "";
+		if(this.parentEl.contains(this.el.modal)){
+			this.el.popUp.style.opacity = 0;
+			let zoomin = ()=>{
+				f.rc(this.parentEl,this.el.modal);
 			}
-			if (!this.el.topBar.contains(this.el.moneyBar)) {
-				f.ac(this.el.topBar, this.el.moneyBar);
-			}
-			this.uang = Math.min(this.uang || 0, 2000000000);
-			this.el.moneyBar.innerText = f.numFormat(this.uang);
+			setTimeout(zoomin,100);
+		}else{
 		}
-	}, {
-		key: "viewPaper",
-		value: function viewPaper() {
-			this.viewPaperChild("B");
-			this.viewPaperChild("R");
-			this.viewPaperChild("Y");
+	}
+
+
+	// visual
+	viewLogo(){
+		let logo = f.ce("div");
+		f.sa(logo,"class","logo");
+		logo.innerHTML = "&nbsp;";
+		logo.style.backgroundImage = "url('"+IMG.logo+"')";
+		f.ac(this.el.topBar,logo);
+	}
+
+	viewMoney(){
+		if(!this.el.moneyBar){
+			this.el.moneyBar = f.ce("div");
+			f.sa(this.el.moneyBar,"class","moneyBar");
 		}
-	}, {
-		key: "viewPaperChild",
-		value: function viewPaperChild(id) {
-			if (!this.el.paperBar) {
-				this.el.paperBar = {};
-			}
-			if (!this.el.paperBar[id]) {
-				this.el.paperBar[id] = f.ce("div");
-				f.sa(this.el.paperBar[id], "class", "paperBar paper" + id);
-			}
-			this.paper[id] = Math.min(parseInt(this.paper[id]) || 0, 2000000);
-			this.el.paperBar[id].innerText = f.numFormat(this.paper[id]);
-			if (!this.el.topBar.contains(this.el.paperBar[id])) {
-				f.ac(this.el.topBar, this.el.paperBar[id]);
-			}
+		if(!this.el.topBar.contains(this.el.moneyBar)){
+			f.ac(this.el.topBar,this.el.moneyBar);
 		}
-	}, {
-		key: "viewStatus",
-		value: function viewStatus(text) {
-			var _this6 = this;
+		this.uang = Math.min(this.uang||0,2000000000);
+		this.el.moneyBar.innerText = f.numFormat(this.uang);
+	}
 
-			var div = f.ce("div");
-			// f.sa(div,"class","bottomBar");
-			div.innerText = text;
-			f.ac(this.el.bottomBar, div);
+	viewPaper(){
+		this.viewPaperChild("B");
+		this.viewPaperChild("R");
+		this.viewPaperChild("Y");
+	}
 
-			window.setTimeout(function () {
-				div.style.transitionDuration = "1s";
-				div.style.opacity = "0";
-				div.style.height = "0px";
-				div.style.padding = "0px";
-			}, 2000);
-			window.setTimeout(function () {
-				f.rc(_this6.el.bottomBar, div);
-			}, 4000);
+	viewPaperChild(id){
+		if(!this.el.paperBar){
+			this.el.paperBar = {};
 		}
-	}, {
-		key: "transisiBuka",
-		value: function transisiBuka() {
-			try {
-				this.el.tutup.style.left = (Math.random() > .5 ? 100 : -100) + "%";
-			} catch (e) {}
+		if(!this.el.paperBar[id]){
+			this.el.paperBar[id] = f.ce("div");
+			f.sa(this.el.paperBar[id],"class","paperBar paper"+id);
 		}
-	}, {
-		key: "transisiTutup",
-		value: function transisiTutup() {
-			try {
-				this.el.tutup.style.left = "0%";
-			} catch (e) {}
+		this.paper[id] = Math.min(parseInt(this.paper[id])||0,2000000);
+		this.el.paperBar[id].innerText = f.numFormat(this.paper[id]);
+		if(!this.el.topBar.contains(this.el.paperBar[id])){
+			f.ac(this.el.topBar,this.el.paperBar[id]);
 		}
+	}
 
-		// PLAYFAB RELATED
 
-	}, {
-		key: "kongLogin",
-		value: function kongLogin() {
-			var _this7 = this;
+	viewStatus(text){
+		let div = f.ce("div");
+		// f.sa(div,"class","bottomBar");
+		div.innerText = text;
+		f.ac(this.el.bottomBar,div);
 
-			var param = {
-				"KongregateId": window.kongVars.userId,
-				"AuthTicket": window.kongVars.token,
-				"CreateAccount": true,
-				"TitleId": PlayFab.settings.titleId
-			};
-			PlayFabClientSDK.LoginWithKongregate(param, function (r, e) {
-				try {
-					// console.log(r);
-					if (!r.data.NewlyCreated && 1) {
-						_this7.loadData();
-					} else {
-						// this.newGame();
-						_this7.saveData();
-						_this7.transisiBuka();
-					}
+		window.setTimeout(()=>{
+			div.style.transitionDuration = "1s";
+			div.style.opacity = "0";
+			div.style.height = "0px";
+			div.style.padding = "0px";
+		},2000);
+		window.setTimeout(()=>{
+			f.rc(this.el.bottomBar,div);
+		},4000);
 
-					var saya = _this7;
-					saya.loggedIn = true;
-					_this7.saveInterval = window.setInterval(function () {
-						saya.saveData();
-					}, 60000);
-				} catch (e) {
-					_this7.newGame();
-				}
-			});
-		}
-	}, {
-		key: "loadData",
-		value: function loadData() {
-			var saya = this;
-			saya.transisiTutup();
+	}
 
-			var param = {
-				Keys: []
-			};
-			PlayFabClientSDK.GetUserData(param, function (r, e) {
+	transisiBuka(){
+		try{
+			this.el.tutup.style.left=(Math.random()>.5?100:-100)+"%";
+		}catch(e){}
+	}
+	transisiTutup(){
+		try{
+			this.el.tutup.style.left="0%";
+		}catch(e){}
+	}
+
+	// PLAYFAB RELATED
+
+	kongLogin(){
+		let param = {
+			"KongregateId": window.kongVars.userId,
+			"AuthTicket": window.kongVars.token,
+			"CreateAccount": true,
+			"TitleId": PlayFab.settings.titleId
+		};
+		PlayFabClientSDK.LoginWithKongregate(param, (r,e)=>{
+			try{
 				// console.log(r);
-				try {
-					// throw 123;
-
-					if (r.data.Data.glassLvl) {
-						saya.glassLvl = 1;
-						while (saya.glassLvl < parseInt(r.data.Data.glassLvl.Value)) {
-							saya.glassLvlUp(true);
-						}
-					}
-
-					if (r.data.Data.curr) {
-						var data = JSON.parse(r.data.Data.curr.Value);
-						saya.uang = parseInt(data[0]);
-						saya.viewMoney();
-						saya.paper = data[1];
-						saya.viewPaper();
-					}
-
-					if (r.data.Data.craftUnlocked) {
-						saya.craftUnlocked = JSON.parse(r.data.Data.craftUnlocked.Value);
-					}
-
-					if (r.data.Data.ikan1) {
-						var _iteratorNormalCompletion3 = true;
-						var _didIteratorError3 = false;
-						var _iteratorError3 = undefined;
-
-						try {
-
-							for (var _iterator3 = saya.ikan[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-								var i = _step3.value;
-
-								i.kill(saya);
-							}
-						} catch (err) {
-							_didIteratorError3 = true;
-							_iteratorError3 = err;
-						} finally {
-							try {
-								if (!_iteratorNormalCompletion3 && _iterator3.return) {
-									_iterator3.return();
-								}
-							} finally {
-								if (_didIteratorError3) {
-									throw _iteratorError3;
-								}
-							}
-						}
-
-						JSON.parse(r.data.Data.ikan1.Value).sort(function (i, j) {
-							return Math.random() > .5 ? 1 : -1;
-						}).map(function (e) {
-							try {
-								saya.loadIkan(e);
-							} catch (e) {}
-						});
-					}
-
-					if (r.data.Data.craft) {
-						var _iteratorNormalCompletion4 = true;
-						var _didIteratorError4 = false;
-						var _iteratorError4 = undefined;
-
-						try {
-							for (var _iterator4 = saya.craft[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
-								var _i2 = _step4.value;
-
-								saya.removeCraft(_i2);
-							}
-						} catch (err) {
-							_didIteratorError4 = true;
-							_iteratorError4 = err;
-						} finally {
-							try {
-								if (!_iteratorNormalCompletion4 && _iterator4.return) {
-									_iterator4.return();
-								}
-							} finally {
-								if (_didIteratorError4) {
-									throw _iteratorError4;
-								}
-							}
-						}
-
-						JSON.parse(r.data.Data.craft.Value).map(function (e) {
-							try {
-								saya.addCraft(e);
-							} catch (e) {}
-						});
-					}
-
-					window.setTimeout(function () {
-						saya.transisiBuka();
-					}, 2001);
-				} catch (e) {
-					console.error(e);
-					saya.newGame();
+				if(!r.data.NewlyCreated && 1){
+					this.loadData();
+				}else{
+					// this.newGame();
+					this.saveData();
+					this.transisiBuka();
 				}
-			});
-		}
-	}, {
-		key: "saveData",
-		value: function saveData() {
-			var param = {
-				Data: {
-					glassLvl: this.glassLvl,
-					ikan1: JSON.stringify(this.ikan.map(function (e) {
-						try {
-							// console.log("Game::saveData()");
-							// console.log(e.save());
-							return e.save();
-						} catch (e) {}
-					})),
 
-					// money:this.uang,
-					// paper:JSON.stringify(this.paper),
-					curr: JSON.stringify([this.uang, this.paper]),
+				let saya = this;
+				saya.loggedIn = true;
+				this.saveInterval = window.setInterval(()=>{
+					saya.saveData();
+				},60000);
+			}catch(e){
+				this.newGame();
+			}
+		});
+	}
 
-					craft: JSON.stringify(this.craft),
-					craftUnlocked: JSON.stringify(this.craftUnlocked)
+	loadData(){
+		let saya = this;
+		saya.transisiTutup();
+
+		let param = {
+			Keys :[]
+		};
+		PlayFabClientSDK.GetUserData(param, (r,e)=>{
+			// console.log(r);
+			try{
+				// throw 123;
+
+				if(r.data.Data.glassLvl){
+					saya.glassLvl=1;
+					while(saya.glassLvl<parseInt(r.data.Data.glassLvl.Value)){
+						saya.glassLvlUp(true);
+					}
 				}
-			};
-			var saya = this;
-			var saving = function saving(r, e) {
-				if (r !== null) {
-					saya.viewStatus("Game saved.");
-				}
-			};
-			PlayFabClientSDK.UpdateUserData(param, saving);
-		}
-	}]);
 
-	return Game;
-}();
+				if(r.data.Data.curr){
+					let data = JSON.parse(r.data.Data.curr.Value);
+					saya.uang = parseInt(data[0]);
+					saya.viewMoney();
+					saya.paper = data[1];
+					saya.viewPaper();
+				}
+				
+				if(r.data.Data.craftUnlocked){
+					saya.craftUnlocked = JSON.parse(r.data.Data.craftUnlocked.Value);
+				}
+
+				if(r.data.Data.ikan1){
+
+					for(let i of saya.ikan){
+						i.kill(saya);
+					}
+
+					JSON.parse(r.data.Data.ikan1.Value).sort((i,j)=>Math.random()>.5?1:-1).map(e=>{
+						try{
+							saya.loadIkan(e);
+						}catch(e){}
+					});
+				}
+				
+				if(r.data.Data.craft){
+					for(let i of saya.craft){
+						saya.removeCraft(i);
+					}
+					JSON.parse(r.data.Data.craft.Value).map(e=>{
+						try{
+							saya.addCraft(e);
+						}catch(e){}
+					});
+				}
+
+
+				window.setTimeout(()=>{
+					saya.transisiBuka();
+				},2001);
+			}catch(e){
+				console.error(e);
+				saya.newGame();
+			}
+		});
+
+	}
+
+	saveData(){
+		let param = {
+			Data:{
+				glassLvl: this.glassLvl,
+				ikan1:JSON.stringify(this.ikan.map(e=>{
+					try{
+						// console.log("Game::saveData()");
+						// console.log(e.save());
+						return e.save();
+					}catch(e){}
+				})),
+
+				// money:this.uang,
+				// paper:JSON.stringify(this.paper),
+				curr:JSON.stringify([this.uang, this.paper]),
+
+				craft:JSON.stringify(this.craft),
+				craftUnlocked:JSON.stringify(this.craftUnlocked)
+			}
+		};
+		let saya = this;
+		let saving = function(r,e){
+			if(r!==null){
+				saya.viewStatus("Game saved.");
+			}
+		};
+		PlayFabClientSDK.UpdateUserData(param,saving);
+
+	}
+
+
+
+}

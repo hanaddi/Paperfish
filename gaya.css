@@ -358,7 +358,7 @@ button.green:disabled{
 	/*background: #3986c8;*/
 }
 .paperBar::before{
-	background-image: url('data:image/svg+xml;utf8, %3Csvg width%3D"2.3183mm" height%3D"2.3183mm" version%3D"1.1" viewBox%3D"0 0 8.2143 8.2143" xmlns%3D"http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg" xmlns%3Acc%3D"http%3A%2F%2Fcreativecommons.org%2Fns%23" xmlns%3Adc%3D"http%3A%2F%2Fpurl.org%2Fdc%2Felements%2F1.1%2F" xmlns%3Ardf%3D"http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23"%3E%3Cmetadata%3E%3Crdf%3ARDF%3E%3Ccc%3AWork rdf%3Aabout%3D""%3E%3Cdc%3Aformat%3Eimage%2Fsvg%2Bxml%3C%2Fdc%3Aformat%3E%3Cdc%3Atype rdf%3Aresource%3D"http%3A%2F%2Fpurl.org%2Fdc%2Fdcmitype%2FStillImage"%2F%3E%3Cdc%3Atitle%2F%3E%3C%2Fcc%3AWork%3E%3C%2Frdf%3ARDF%3E%3C%2Fmetadata%3E%3Cg transform%3D"translate(-157.47 -290.26)"%3E%3Cpath transform%3D"translate(157.47 290.26)" d%3D"m4.1074 0.25781c-2.1322 0-3.8496 1.7174-3.8496 3.8496 0 2.1322 1.7174 3.8477 3.8496 3.8477 2.1322 0 3.8477-1.7155 3.8477-3.8477 0-2.1322-1.7155-3.8496-3.8477-3.8496zm-0.64453 2.1465h3.5l-1.1582 2.2344-2.5371 1.3809h-1.6797l1.875-3.6152z" fill%3D"%23fff" fill-opacity%3D".76023" stroke%3D"%23000" stroke-linecap%3D"square" stroke-linejoin%3D"round" stroke-width%3D".1"%2F%3E%3Cpath transform%3D"translate(157.47 290.26)" d%3D"m4.1074 0c-2.2754 0-4.1074 1.8321-4.1074 4.1074s1.8321 4.1074 4.1074 4.1074 4.1074-1.8321 4.1074-4.1074-1.8321-4.1074-4.1074-4.1074zm0 0.25781c2.1322 0 3.8477 1.7174 3.8477 3.8496 0 2.1322-1.7155 3.8477-3.8477 3.8477-2.1322 0-3.8496-1.7155-3.8496-3.8477 0-2.1322 1.7174-3.8496 3.8496-3.8496z" fill%3D"%231b1b1b" fill-opacity%3D".5614"%2F%3E%3Cpath d%3D"m160.74 296.28 2.5373-1.381-1.2382-0.18464z" fill%3D"%23fff" fill-opacity%3D".64327" stroke%3D"%23000" stroke-linecap%3D"round" stroke-linejoin%3D"round" stroke-width%3D".1"%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E');
+	background-image: url('data:image/svg+xml;utf8, %3Csvg%20width%3D%222.3183mm%22%20height%3D%222.3183mm%22%20version%3D%221.1%22%20viewBox%3D%220%200%208.2143%208.2143%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Acc%3D%22http%3A%2F%2Fcreativecommons.org%2Fns%23%22%20xmlns%3Adc%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Felements%2F1.1%2F%22%20xmlns%3Ardf%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%22%3E%3Cmetadata%3E%3Crdf%3ARDF%3E%3Ccc%3AWork%20rdf%3Aabout%3D%22%22%3E%3Cdc%3Aformat%3Eimage%2Fsvg%2Bxml%3C%2Fdc%3Aformat%3E%3Cdc%3Atype%20rdf%3Aresource%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Fdcmitype%2FStillImage%22%2F%3E%3Cdc%3Atitle%2F%3E%3C%2Fcc%3AWork%3E%3C%2Frdf%3ARDF%3E%3C%2Fmetadata%3E%3Cg%20transform%3D%22translate(-157.47%20-290.26)%22%3E%3Cpath%20transform%3D%22translate(157.47%20290.26)%22%20d%3D%22m4.1074%200.25781c-2.1322%200-3.8496%201.7174-3.8496%203.8496%200%202.1322%201.7174%203.8477%203.8496%203.8477%202.1322%200%203.8477-1.7155%203.8477-3.8477%200-2.1322-1.7155-3.8496-3.8477-3.8496zm-0.64453%202.1465h3.5l-1.1582%202.2344-2.5371%201.3809h-1.6797l1.875-3.6152z%22%20fill%3D%22%23fff%22%20fill-opacity%3D%22.76023%22%20stroke%3D%22%23000%22%20stroke-linecap%3D%22square%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.1%22%2F%3E%3Cpath%20transform%3D%22translate(157.47%20290.26)%22%20d%3D%22m4.1074%200c-2.2754%200-4.1074%201.8321-4.1074%204.1074s1.8321%204.1074%204.1074%204.1074%204.1074-1.8321%204.1074-4.1074-1.8321-4.1074-4.1074-4.1074zm0%200.25781c2.1322%200%203.8477%201.7174%203.8477%203.8496%200%202.1322-1.7155%203.8477-3.8477%203.8477-2.1322%200-3.8496-1.7155-3.8496-3.8477%200-2.1322%201.7174-3.8496%203.8496-3.8496z%22%20fill%3D%22%231b1b1b%22%20fill-opacity%3D%22.5614%22%2F%3E%3Cpath%20d%3D%22m160.74%20296.28%202.5373-1.381-1.2382-0.18464z%22%20fill%3D%22%23fff%22%20fill-opacity%3D%22.64327%22%20stroke%3D%22%23000%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.1%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E');
 }
 
 
@@ -614,8 +614,13 @@ button.green:disabled{
 	width: 100%;
 	height: 100%;
 	/*background: #1e2939;*/
-	display: grid;
-	place-items :center;
+	z-index: 10;
+
+	/*display: grid;*/
+	/*place-items :center;*/
+	/*align-items: center;*/
+	/*justify-content: center;*/
+	resize: both;
 }
 .modal::before{
 	content: '';
@@ -626,12 +631,11 @@ button.green:disabled{
 	height: 100%;
 	background: #1e2939;
 	opacity: .2;
-	z-index: 10;
+	/*z-index: 10;*/
 }
 
 .modal > .popUp{
 	background: #fff;
-	opacity: 1;
 	width: 400px;
 	min-height: 100px;
 	z-index: 11;
@@ -641,6 +645,13 @@ button.green:disabled{
 
 	transition-duration: .4s;
 	border-radius: 5px;
+
+
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	resize: both;
 }
 .modal .popUp  .title{
 	text-align: center;

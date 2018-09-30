@@ -371,7 +371,15 @@ class Ikan{
 
 			let saya = this;
 			let onclick = function(){
+
+					
 				saya.levelUp(game);
+
+				if(game.uang<lvlUpCost){
+					f.sa(button,"disabled","");
+				}else{
+					f.ra(button,"disabled");
+				}
 
 				// console.log(game.ikan.indexOf(saya));
 				if(game.ikan.indexOf(saya)!=-1){
@@ -396,19 +404,7 @@ class Ikan{
 			}
 			button.onclick = onclick;
 
-			// let update = ()=>{
-			// 	try{
-			// 		if(game.uang<lvlUpCost){
-			// 			f.sa(button,"disabled","");
-			// 		}else{
-			// 			f.ra(button,"disabled");
-			// 		}
-			// 		console.log(game.uang, button.outerHTML);
-			// 		window.setTimeout(update,3000);
-			// 	}catch(e){
-			// 		console.log(e);
-			// 	}
-			// };
+
 			let update = window.setInterval(()=>{
 				try{
 					if(game.uang<lvlUpCost){
@@ -416,14 +412,16 @@ class Ikan{
 					}else{
 						f.ra(button,"disabled");
 					}
-					console.log(game.uang);
 				}catch(e){
 					console.log(e);
 				}
-			}, 3000);
+			}, 1000);
 
 			game.onModalRemoved.push(()=>{window.clearInterval(update)});
-			// update();
+
+			if(game.uang<lvlUpCost){
+				f.sa(button,"disabled","");
+			}
 
 
 			f.ac(table, tr);
@@ -664,6 +662,12 @@ class Ikan2 extends Ikan{
 			let saya = this;
 			let onclick = function(){
 				saya.levelUp(game);
+				
+				if(game.uang<lvlUpCost){
+					f.sa(button,"disabled","");
+				}else{
+					f.ra(button,"disabled");
+				}
 
 				// console.log(game.ikan.indexOf(saya));
 				if(game.ikan.indexOf(saya)!=-1){
@@ -691,6 +695,27 @@ class Ikan2 extends Ikan{
 			if(game.uang<lvlUpCost){
 				f.sa(button,"disabled","");
 			}
+
+
+
+			let update = window.setInterval(()=>{
+				try{
+					if(game.uang<lvlUpCost){
+						f.sa(button,"disabled","");
+					}else{
+						f.ra(button,"disabled");
+					}
+				}catch(e){
+					console.log(e);
+				}
+			}, 1000);
+
+			game.onModalRemoved.push(()=>{window.clearInterval(update)});
+
+			if(game.uang<lvlUpCost){
+				f.sa(button,"disabled","");
+			}
+
 			f.ac(table, tr);
 		}
 		else{

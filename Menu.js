@@ -157,6 +157,21 @@ class Menu{
 			}
 			
 			buy.innerHTML = " <img src='"+IMG.icon.money+"' class='icon'>"+f.numFormat(fishShop[i].price);
+
+
+			let update = window.setInterval(()=>{
+				try{
+					if(this.game.uang<fishShop[i].price){
+						f.sa(buy,"disabled","");
+					}else{
+						f.ra(buy,"disabled");
+					}
+				}catch(e){
+					console.log(e);
+				}
+			}, 1000);
+			this.game.onModalRemoved.push(()=>{window.clearInterval(update)});
+
 			if(this.game.uang<fishShop[i].price){
 				f.sa(buy,"disabled","");
 			}

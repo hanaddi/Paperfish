@@ -1,51 +1,35 @@
-"use strict";
+(()=>{
+	
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+// addScript("PlayFabClientApi.js");
+// addScript("jsvar.js");
+// addScript("Game.js");
+// addScript("Menu.js");
+// addScript("Ikan.js");
+// addScript("Craft.js");
+// addScript("post.js");
 
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+var f={
+	ac		:(i,j)		=>i.appendChild(j),
+	ce		:(i)		=>document.createElement(i),
+	ct		:(i)		=>document.createTextNode(i),
+	qs		:(i)		=>document.querySelector(i),
+	ra		:(i,j)		=>i.removeAttribute(j),
+	rc		:(i,j)		=>i.removeChild(j),
+	sa		:(i,j,k)	=>i.setAttribute(j,k),
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	numFormat	:(i)	=>(i+"").split("").reverse().reduce((a,b)=>b+(a.split(".").join("").length%3?a:"."+a)),
+	timeFormat	:(i)	=>i>=24*60*60000?((i/24/60/60000|0)+"d "+((i%(24*60*60000))/60/60000|0)+"h"):
+		i>=60*60000?((i/60/60000|0)+"h "+((i%(60*60000))/60000|0 )+"m"):((i/60000|0 )+((i/60000|0 )>1?" minutes":" minute")),
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var f = {
-	ac: function ac(i, j) {
-		return i.appendChild(j);
-	},
-	ce: function ce(i) {
-		return document.createElement(i);
-	},
-	ct: function ct(i) {
-		return document.createTextNode(i);
-	},
-	qs: function qs(i) {
-		return document.querySelector(i);
-	},
-	rc: function rc(i, j) {
-		return i.removeChild(j);
-	},
-	sa: function sa(i, j, k) {
-		return i.setAttribute(j, k);
-	},
-
-	numFormat: function numFormat(i) {
-		return (i + "").split("").reverse().reduce(function (a, b) {
-			return b + (a.split(".").join("").length % 3 ? a : "." + a);
-		});
-	},
-	timeFormat: function timeFormat(i) {
-		return i >= 24 * 60 * 60000 ? (i / 24 / 60 / 60000 | 0) + "d " + (i % (24 * 60 * 60000) / 60 / 60000 | 0) + "h" : i >= 60 * 60000 ? (i / 60 / 60000 | 0) + "h " + (i % (60 * 60000) / 60000 | 0) + "m" : (i / 60000 | 0) + ((i / 60000 | 0) > 1 ? " minutes" : " minute");
-	},
-
-	null: null
+	null	:null
 };
 
-var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+/***************
+var audioCtx = new(window.AudioContext || window.webkitAudioContext)();
 function beep() {
-	var oscillator = audioCtx.createOscillator();
-	var gainNode = audioCtx.createGain();
+	let oscillator = audioCtx.createOscillator();
+	let gainNode = audioCtx.createGain();
 
 	oscillator.connect(gainNode);
 	gainNode.connect(audioCtx.destination);
@@ -56,381 +40,273 @@ function beep() {
 
 	oscillator.start();
 
-	setTimeout(function () {
-		oscillator.stop();
-	}, 50);
+	setTimeout(
+		function() {
+			oscillator.stop();
+		},
+		50
+	);
 };
+******************/
 
+//////////////////////////////////////////
+// addScript("https://download.playfab.com/PlayFabClientApi.js");
 var IMG = {
-	icon: {
-		shop: "data:image/svg+xml;utf8, %3Csvg%20version%3D%221.1%22%20viewBox%3D%220%200%208%208%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Acc%3D%22http%3A%2F%2Fcreativecommons.org%2Fns%23%22%20xmlns%3Adc%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Felements%2F1.1%2F%22%20xmlns%3Ardf%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%22%3E%20%3Cmetadata%3E%20%3Crdf%3ARDF%3E%20%3Ccc%3AWork%20rdf%3Aabout%3D%22%22%3E%20%3Cdc%3Aformat%3Eimage%2Fsvg%2Bxml%3C%2Fdc%3Aformat%3E%20%3Cdc%3Atype%20rdf%3Aresource%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Fdcmitype%2FStillImage%22%2F%3E%20%3Cdc%3Atitle%2F%3E%20%3C%2Fcc%3AWork%3E%20%3C%2Frdf%3ARDF%3E%20%3C%2Fmetadata%3E%20%3Cg%20transform%3D%22translate(-157.47%20-290.48)%22%3E%20%3Cpath%20d%3D%22m159.61%20293.9%201.1873%203.188h1.5642c1.4062%200%202.5475-1.3862%202.7289-3.188z%22%20fill%3D%22%233986c8%22%2F%3E%20%3Cpath%20d%3D%22m157.66%20292.79%200.26403%200.64795h1.1702l-0.26403-0.64795h-1.1702z%22%20fill%3D%22%233a5c79%22%2F%3E%20%3Cpath%20d%3D%22m160.63%20294.79c0.88494-1.0893%204.4198%200.93803%203.6792-2.9566-3.9612-0.30863-1.4123%203.0555-2.2597%204.1089%22%20fill%3D%22%237e414a%22%20fill-rule%3D%22evenodd%22%20stroke%3D%22%237e414a%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.31173%22%2F%3E%20%3Cpath%20d%3D%22m159.61%20293.9%201.1873%203.188h1.5642c1.4062%200%202.5475-1.3862%202.7289-3.188z%22%20fill%3D%22%233986c8%22%20fill-opacity%3D%22.50877%22%2F%3E%20%3Cpath%20d%3D%22m158.73%20292.79%201.7933%204.3845h3.1768l-0.27883-0.68637h-2.4861l-1.5103-3.6982z%22%20fill%3D%22%233a5c79%22%2F%3E%20%3Ccircle%20cx%3D%22161.27%22%20cy%3D%22297.3%22%20r%3D%22.59988%22%20fill%3D%22%233a5c79%22%2F%3E%20%3Ccircle%20cx%3D%22162.67%22%20cy%3D%22297.3%22%20r%3D%22.59988%22%20fill%3D%22%233a5c79%22%2F%3E%20%3C%2Fg%3E%20%3C%2Fsvg%3E%20",
-		tank: "data:image/svg+xml;utf8, %3Csvg%20version%3D%221.1%22%20viewBox%3D%220%200%208%208%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Acc%3D%22http%3A%2F%2Fcreativecommons.org%2Fns%23%22%20xmlns%3Adc%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Felements%2F1.1%2F%22%20xmlns%3Ardf%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%22%3E%3Cmetadata%3E%3Crdf%3ARDF%3E%3Ccc%3AWork%20rdf%3Aabout%3D%22%22%3E%3Cdc%3Aformat%3Eimage%2Fsvg%2Bxml%3C%2Fdc%3Aformat%3E%3Cdc%3Atype%20rdf%3Aresource%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Fdcmitype%2FStillImage%22%2F%3E%3Cdc%3Atitle%2F%3E%3C%2Fcc%3AWork%3E%3C%2Frdf%3ARDF%3E%3C%2Fmetadata%3E%3Cg%20transform%3D%22translate(-157.47%20-290.48)%22%3E%3Crect%20x%3D%22158.48%22%20y%3D%22292.13%22%20width%3D%225.9734%22%20height%3D%225.1246%22%20ry%3D%220%22%20fill%3D%22%233986c8%22%2F%3E%3Cpath%20d%3D%22m158.41%20291.57v5.8438h6.125v-5.8438h-0.0762v5.6856h-5.9727v-5.6856h-0.0762z%22%20fill%3D%22%23e6e6e6%22%20stroke%3D%22%233a5c79%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.8%22%2F%3E%3Cpath%20d%3D%22m159.34%20294.42c1.1448-0.38556%202.7842%202.7151%204.0366-0.45913-2.7401-2.0463-2.4328%201.5736-3.5338%201.9503%22%20fill%3D%22%237e414a%22%20fill-rule%3D%22evenodd%22%20stroke%3D%22%237e414a%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.26831%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E",
-		save: "data:image/svg+xml;utf8, %3Csvg%20version%3D%221.1%22%20viewBox%3D%220%200%208%208%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Acc%3D%22http%3A%2F%2Fcreativecommons.org%2Fns%23%22%20xmlns%3Adc%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Felements%2F1.1%2F%22%20xmlns%3Ardf%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%22%3E%20%3Cmetadata%3E%20%3Crdf%3ARDF%3E%20%3Ccc%3AWork%20rdf%3Aabout%3D%22%22%3E%20%3Cdc%3Aformat%3Eimage%2Fsvg%2Bxml%3C%2Fdc%3Aformat%3E%20%3Cdc%3Atype%20rdf%3Aresource%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Fdcmitype%2FStillImage%22%2F%3E%20%3Cdc%3Atitle%2F%3E%20%3C%2Fcc%3AWork%3E%20%3C%2Frdf%3ARDF%3E%20%3C%2Fmetadata%3E%20%3Cg%20transform%3D%22translate(-157.47%20-290.48)%22%3E%20%3Cpath%20d%3D%22m160.86%20291.03c-1.0988%200-1.9835%200.88463-1.9835%201.9835%200%200.0248%207e-3%200.0479%208e-3%200.0726-0.56107%200.045-1.0012%200.50625-1.0012%201.0793%200%200.60292%200.48539%201.0883%201.0883%201.0883h5.0507c0.60294%200%201.0883-0.48539%201.0883-1.0883%200-0.60294-0.48538-1.0883-1.0883-1.0883h-0.0844c2e-3%20-0.0215%207e-3%20-0.0417%207e-3%20-0.0634%200-0.57726-0.46481-1.0421-1.0421-1.0421-0.11526%200-0.22393%200.0229-0.3274%200.0572-0.34162-0.59508-0.97604-0.99854-1.7141-0.99854z%22%20fill%3D%22%233986c8%22%20stroke-width%3D%220%22%2F%3E%20%3Cpath%20d%3D%22m160.05%20291.21c-0.69069%200.30956-1.1714%200.99948-1.1714%201.8079%200%200.0248%206e-3%200.0478%207e-3%200.0725-0.56108%200.045-1.001%200.50594-1.001%201.079%200%200.60292%200.48508%201.088%201.088%201.088h5.0502c0.48441%200%200.87902-0.31852%201.0209-0.75436-0.2167%200.0638-0.44212%200.1088-0.68001%200.1088h-2.1289c-1.3327%200-2.4063-1.0718-2.4063-2.4045%200-0.35706%200.0828-0.69323%200.22122-0.99735z%22%20fill%3D%22%233a5c79%22%20stroke-width%3D%220%22%2F%3E%20%3Cg%20transform%3D%22matrix(1.8143%200%200%201.8143%20-131.54%20-239.21)%22%20fill%3D%22%23ba3a4e%22%3E%20%3Crect%20transform%3D%22matrix(.71572%20-.69839%20.69839%20.71572%200%200)%22%20x%3D%22-90.055%22%20y%3D%22322.53%22%20width%3D%22.96859%22%20height%3D%221.8921%22%20rx%3D%22.4843%22%20ry%3D%220%22%2F%3E%20%3Crect%20transform%3D%22matrix(.71572%20-.69839%20.69839%20.71572%200%200)%22%20x%3D%22-91.009%22%20y%3D%22322.53%22%20width%3D%221.9222%22%20height%3D%22.96859%22%20rx%3D%220%22%20ry%3D%22.4843%22%2F%3E%20%3Crect%20x%3D%22161%22%20y%3D%22293.28%22%20width%3D%22.96859%22%20height%3D%222.7658%22%20rx%3D%22.4843%22%20ry%3D%220%22%2F%3E%20%3C%2Fg%3E%20%3Cpath%20d%3D%22m161.45%20293.37c-0.0945-9.2e-4%20-0.18783%200.032-0.26294%200.10519l-1.2385%201.2077c-0.15162%200.14783-0.15379%200.3684-6e-3%200.52043%200.11475%200.11754%200.26852%200.13771%200.41164%200.0725a0.51069%200.51069%200%200%201%200.72172%200.46422v1.2984c0%200.21217%200.15468%200.36629%200.36811%200.36629%200.21344%200%200.36811-0.15285%200.36811-0.36629v-1.2802a0.51069%200.51069%200%200%201%200.68002-0.48054c0.13497%200.0478%200.27369%200.0248%200.37898-0.078%200.15296-0.14908%200.15557-0.36662%208e-3%20-0.51863l-1.1714-1.2004c-0.0746-0.0765-0.16182-0.1097-0.25749-0.11063z%22%20fill%3D%22%23e3951d%22%2F%3E%20%3C%2Fg%3E%20%3C%2Fsvg%3E",
-		craft: "data:image/svg+xml;utf8, %3Csvg%20version%3D%221.1%22%20viewBox%3D%220%200%208%208%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Acc%3D%22http%3A%2F%2Fcreativecommons.org%2Fns%23%22%20xmlns%3Adc%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Felements%2F1.1%2F%22%20xmlns%3Ardf%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%22%3E%3Cmetadata%3E%3Crdf%3ARDF%3E%3Ccc%3AWork%20rdf%3Aabout%3D%22%22%3E%3Cdc%3Aformat%3Eimage%2Fsvg%2Bxml%3C%2Fdc%3Aformat%3E%3Cdc%3Atype%20rdf%3Aresource%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Fdcmitype%2FStillImage%22%2F%3E%3Cdc%3Atitle%2F%3E%3C%2Fcc%3AWork%3E%3C%2Frdf%3ARDF%3E%3C%2Fmetadata%3E%3Cg%20transform%3D%22translate(-147.47%20-300.48)%22%3E%3Cpath%20d%3D%22m148.51%20302.15c1.8042%200.0189%202.5926%205.1981%205.9191%201.3365-2.859-4.2331-4.2048%201.0237-5.9428%201.0139%22%20fill%3D%22%233a5c79%22%20fill-rule%3D%22evenodd%22%20stroke%3D%22%233a5c79%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.40077%22%2F%3E%3Ccircle%20cx%3D%22153.2%22%20cy%3D%22302.83%22%20r%3D%22.39062%22%20fill%3D%22%23fff%22%2F%3E%3Cpath%20transform%3D%22translate(157.47%20290.48)%22%20d%3D%22m-6.8496%2012.779c-0.042242-0.0058-0.086963-4e-3%20-0.13086%200.0078-0.17559%200.04719-0.27961%200.22676-0.23242%200.40234l0.72461%202.6934c0.033422%200.12437%200.13422%200.20836%200.25195%200.23242%200.024925%200.0051%200.050092%200.0048%200.076172%200.0039%200.025526%207.41e-4%200.049814%200.0011%200.074219-0.0039%200.11759-0.02416%200.21856-0.10816%200.25195-0.23242l0.72266-2.6934c0.047185-0.17558-0.054883-0.35516-0.23047-0.40234-0.17559-0.04718-0.35516%200.05684-0.40234%200.23242l-0.41602%201.5508-0.41797-1.5508c-0.035389-0.13169-0.14476-0.22284-0.27148-0.24023zm-0.5957%202.7227c-0.36769%200.05173-0.68913%200.31619-0.79102%200.69531-0.13585%200.50551%200.16832%201.0321%200.67383%201.168%200.50549%200.13584%201.0321-0.16636%201.168-0.67188%200.13584-0.5055-0.16832-1.0321-0.67383-1.168-0.12638-0.03396-0.25439-0.04068-0.37695-0.02344zm2.5664%200c-0.12256-0.01724-0.24862-0.01052-0.375%200.02344-0.50551%200.13584-0.80967%200.66247-0.67383%201.168%200.13585%200.50551%200.66248%200.80772%201.168%200.67188%200.50551-0.13585%200.80772-0.66246%200.67188-1.168-0.10189-0.37912-0.42332-0.64358-0.79102-0.69531zm-2.4961%200.52344c0.054518-0.0071%200.11228-0.0038%200.16992%200.01172%200.23057%200.062%200.36079%200.28701%200.29883%200.51758-0.062%200.23057-0.28896%200.3608-0.51953%200.29883-0.23058-0.062-0.35882-0.28701-0.29688-0.51758%200.0465-0.17293%200.1841-0.28935%200.34766-0.31055zm2.4277%200c0.16355%200.0212%200.30116%200.13762%200.34766%200.31055%200.06195%200.23057-0.068248%200.45558-0.29883%200.51758-0.23057%200.06197-0.45558-0.06826-0.51758-0.29883-0.06196-0.23057%200.068258-0.45558%200.29883-0.51758%200.057645-0.01549%200.1154-0.01879%200.16992-0.01172z%22%20fill-opacity%3D%22.6%22%20stroke%3D%22%23e3951d%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.3%22%2F%3E%3Cg%20transform%3D%22matrix(1.0172%20-.3013%20.3013%201.0172%20-112.67%2045.599)%22%20fill%3D%22%237e414a%22%3E%3Crect%20transform%3D%22matrix(.85226%20.52312%20-.52312%20.85226%200%200)%22%20x%3D%22303.78%22%20y%3D%22169.78%22%20width%3D%22.61872%22%20height%3D%223.2483%22%20rx%3D%22.30936%22%20ry%3D%220%22%2F%3E%3Cpath%20d%3D%22m168.05%20305.79c-0.42051-0.25811-0.97757-0.12481-1.2357%200.2957-0.25812%200.42052-0.1248%200.97758%200.29571%201.2357%200.42051%200.25811%200.97757%200.1248%201.2357-0.29572%200.25811-0.42051%200.12481-0.97757-0.29571-1.2357zm-0.26156%200.42613c0.1918%200.11773%200.24887%200.35619%200.13114%200.54799-0.11773%200.19181-0.3562%200.24888-0.548%200.13115-0.19181-0.11774-0.24887-0.3562-0.13114-0.54801%200.11773-0.1918%200.35619-0.24887%200.548-0.13113z%22%20color%3D%22%23000000%22%20color-rendering%3D%22auto%22%20image-rendering%3D%22auto%22%20shape-rendering%3D%22auto%22%20solid-color%3D%22%23000000%22%20style%3D%22block-progression%3Atb%3Bisolation%3Aauto%3Bmix-blend-mode%3Anormal%3Btext-decoration-color%3A%23000000%3Btext-decoration-line%3Anone%3Btext-decoration-style%3Asolid%3Btext-indent%3A0%3Btext-transform%3Anone%3Bwhite-space%3Anormal%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22matrix(-1.0172%20-.3013%20-.3013%201.0172%20415.29%2045.599)%22%20fill%3D%22%237e414a%22%3E%3Crect%20transform%3D%22matrix(.85226%20.52312%20-.52312%20.85226%200%200)%22%20x%3D%22303.78%22%20y%3D%22169.78%22%20width%3D%22.61872%22%20height%3D%223.2483%22%20rx%3D%22.30936%22%20ry%3D%220%22%2F%3E%3Cpath%20d%3D%22m168.05%20305.79c-0.42051-0.25811-0.97757-0.12481-1.2357%200.2957-0.25812%200.42052-0.1248%200.97758%200.29571%201.2357%200.42051%200.25811%200.97757%200.1248%201.2357-0.29572%200.25811-0.42051%200.12481-0.97757-0.29571-1.2357zm-0.26156%200.42613c0.1918%200.11773%200.24887%200.35619%200.13114%200.54799-0.11773%200.19181-0.3562%200.24888-0.548%200.13115-0.19181-0.11774-0.24887-0.3562-0.13114-0.54801%200.11773-0.1918%200.35619-0.24887%200.548-0.13113z%22%20color%3D%22%23000000%22%20color-rendering%3D%22auto%22%20image-rendering%3D%22auto%22%20shape-rendering%3D%22auto%22%20solid-color%3D%22%23000000%22%20style%3D%22block-progression%3Atb%3Bisolation%3Aauto%3Bmix-blend-mode%3Anormal%3Btext-decoration-color%3A%23000000%3Btext-decoration-line%3Anone%3Btext-decoration-style%3Asolid%3Btext-indent%3A0%3Btext-transform%3Anone%3Bwhite-space%3Anormal%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E",
-		help: "data:image/svg+xml;utf8, %3Csvg%20version%3D%221.1%22%20viewBox%3D%220%200%208%208%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Acc%3D%22http%3A%2F%2Fcreativecommons.org%2Fns%23%22%20xmlns%3Adc%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Felements%2F1.1%2F%22%20xmlns%3Ardf%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%22%3E%3Cmetadata%3E%3Crdf%3ARDF%3E%3Ccc%3AWork%20rdf%3Aabout%3D%22%22%3E%3Cdc%3Aformat%3Eimage%2Fsvg%2Bxml%3C%2Fdc%3Aformat%3E%3Cdc%3Atype%20rdf%3Aresource%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Fdcmitype%2FStillImage%22%2F%3E%3Cdc%3Atitle%2F%3E%3C%2Fcc%3AWork%3E%3C%2Frdf%3ARDF%3E%3C%2Fmetadata%3E%3Cg%20transform%3D%22translate(-157.47%20-290.48)%22%3E%3Cpath%20d%3D%22m160.93%20290.73c-1.0013%200-1.808%200.8067-1.808%201.808%200%200.0226%207e-3%200.0438%208e-3%200.0663-0.025%202e-3%20-0.0459%200.0149-0.0704%200.0187-0.099%200.0155-0.19485%200.0344-0.28166%200.0767-0.0191%209e-3%20-0.0334%200.0249-0.0517%200.0352-0.0862%200.049-0.16861%200.10228-0.23609%200.17396-0.0369%200.0386-0.0589%200.0884-0.089%200.13255-0.0379%200.0562-0.0818%200.10627-0.10769%200.16983-0.04%200.0965-0.0569%200.20321-0.0642%200.31273-1e-3%200.0211-0.0125%200.0387-0.0125%200.0601v2e-3%202e-3c5.6e-4%200.13581%200.0291%200.26564%200.0787%200.38314%202.6e-4%206.2e-4%20-2.6e-4%201e-3%200%202e-3%200.05%200.11809%200.12203%200.22351%200.21125%200.31274%200.17935%200.17997%200.42675%200.29201%200.70209%200.29201h0.0767c-2e-3%200.0189-6e-3%200.0368-6e-3%200.056%200%200.52602%200.42254%200.95061%200.94854%200.95061%200.10498%200%200.20396-0.0206%200.29824-0.0517%200.3113%200.54226%200.89107%200.9092%201.5636%200.9092%201.0013%200%201.808-0.80671%201.808-1.808%200-0.0226-7e-3%20-0.0438-8e-3%20-0.0663%200.0251-2e-3%200.0459-0.0149%200.0704-0.0187%200.099-0.0155%200.19485-0.0344%200.28167-0.0767%200.0192-9e-3%200.0334-0.0249%200.0517-0.0352%200.0862-0.049%200.16862-0.10229%200.2361-0.17398%200.0369-0.0386%200.0589-0.0884%200.089-0.13255%200.0379-0.0562%200.0818-0.10625%200.1077-0.16982%200.04-0.0964%200.0569-0.20321%200.0642-0.31273%201e-3%20-0.0216%200.0124-0.0401%200.0125-0.0621-2.8e-4%20-0.1372-0.0284-0.26874-0.0787-0.38729-0.0498-0.11818-0.12218-0.22335-0.21125-0.31272-0.17935-0.17998-0.42675-0.29202-0.70208-0.29202h-0.0767c2e-3%20-0.0189%206e-3%20-0.0368%206e-3%20-0.056%200-0.52601-0.42253-0.95061-0.94854-0.95061-0.10497%200-0.20395%200.0206-0.29823%200.0517-0.3113-0.54225-0.89107-0.90918-1.5636-0.90918z%22%20fill%3D%22%233986c8%22%20stroke-width%3D%220%22%2F%3E%3Ccircle%20cx%3D%22159.02%22%20cy%3D%22296.02%22%20r%3D%22.79528%22%20fill%3D%22%233986c8%22%2F%3E%3Ccircle%20cx%3D%22159.75%22%20cy%3D%22297.57%22%20r%3D%22.6296%22%20fill%3D%22%233986c8%22%2F%3E%3Cg%20fill%3D%22%237e414a%22%20stroke%3D%22%23e3951d%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.21208%22%3E%3Cpath%20d%3D%22m160.58%20293.72q0-0.24851%200.0388-0.51254%200.0466-0.26403%200.15532-0.48147%200.11648-0.21744%200.31062-0.35723%200.19415-0.14755%200.51254-0.14755h1.0872q0.25627%200%200.45041%200.10872%200.20191%200.10096%200.32616%200.26404%200.13202%200.16308%200.20191%200.37275%200.0777%200.20968%200.0932%200.41935%200.0233%200.20967-0.0155%200.40382-0.0311%200.19414-0.10872%200.34169l-0.86976%201.592v0.69891h-0.89306v-0.7921l0.82317-1.4367q0.0699-0.11648%200.0932-0.30286%200.0311-0.18638%200-0.35722-0.0233-0.17861-0.11648-0.30286-0.0854-0.12425-0.2485-0.12425h-0.50477q-0.13202%200-0.21744%200.0466-0.0854%200.0388-0.13979%200.12425-0.0466%200.0777-0.0621%200.19414-0.0155%200.10872-0.0155%200.24851h-0.90083zm2.2055%204.1314h-0.91635v-0.90858h0.91635v0.90858z%22%20fill%3D%22%237e414a%22%20stroke%3D%22%23e3951d%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.21208%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E",
-		book: "data:image/svg+xml;utf8,%3Csvg%20version%3D%221.1%22%20viewBox%3D%220%200%208%208%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Acc%3D%22http%3A%2F%2Fcreativecommons.org%2Fns%23%22%20xmlns%3Adc%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Felements%2F1.1%2F%22%20xmlns%3Ardf%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%22%3E%3Cmetadata%3E%3Crdf%3ARDF%3E%3Ccc%3AWork%20rdf%3Aabout%3D%22%22%3E%3Cdc%3Aformat%3Eimage%2Fsvg%2Bxml%3C%2Fdc%3Aformat%3E%3Cdc%3Atype%20rdf%3Aresource%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Fdcmitype%2FStillImage%22%2F%3E%3Cdc%3Atitle%2F%3E%3C%2Fcc%3AWork%3E%3C%2Frdf%3ARDF%3E%3C%2Fmetadata%3E%3Cg%20transform%3D%22translate(-157.47%20-290.48)%22%3E%3Cpath%20d%3D%22m158.97%20293.1c-0.22121-1.9e-4%20-0.40058%200.17918-0.40039%200.40039l-0.41984%204.0273c-1.9e-4%200.22121%200.17918%200.40058%200.40039%200.40039h5.8438c0.22121%201.9e-4%200.40058-0.17918%200.40039-0.40039v-0.0762l-0.44194-3.875v-0.0762c-6.2e-4%20-0.067-0.0181-0.13287-0.0508-0.19141-0.0133-0.0237-0.029-0.0459-0.0469-0.0664-9e-3%20-0.01-0.0178-0.0187-0.0273-0.0274-0.01-0.01-0.0203-0.0188-0.0312-0.0273-0.0531-0.0408-0.11551-0.0677-0.18164-0.0781-0.013-2e-3%20-0.026-3e-3%20-0.0391-4e-3%20-0.01-3.6e-4%20-0.0195-3.6e-4%20-0.0293%200l6e-3%20-6e-3h-4.982z%22%20color%3D%22%23000000%22%20color-rendering%3D%22auto%22%20fill%3D%22%23e3951d%22%20image-rendering%3D%22auto%22%20shape-rendering%3D%22auto%22%20solid-color%3D%22%23000000%22%20style%3D%22block-progression%3Atb%3Bisolation%3Aauto%3Bmix-blend-mode%3Anormal%3Btext-decoration-color%3A%23000000%3Btext-decoration-line%3Anone%3Btext-decoration-style%3Asolid%3Btext-indent%3A0%3Btext-transform%3Anone%3Bwhite-space%3Anormal%22%2F%3E%3Cpath%20d%3D%22m164.03%20295.71v1.9734h-5.1246v-1.9734z%22%20fill%3D%22%233986c8%22%2F%3E%3Cpath%20d%3D%22m158.97%20293.1c-0.22121-1.9e-4%20-0.40058%200.17918-0.40039%200.40039l-0.41985%204.0274c-1.9e-4%200.22121%200.17918%200.40058%200.40039%200.40039h0.0215l0.41984-4.8281zm4.9761%200v6e-3l6e-3%20-6e-3zm0%206e-3%200.44195%204.8223h6e-3c0.22121%201.9e-4%200.40058-0.17918%200.40039-0.40039v-0.0762l-0.44195-3.875v-0.0762c-6.2e-4%20-0.067-0.0181-0.13287-0.0508-0.19141-0.0133-0.0237-0.029-0.0459-0.0469-0.0664-9e-3%20-0.01-0.0178-0.0186-0.0273-0.0273-0.01-0.01-0.0204-0.0188-0.0312-0.0273-0.0531-0.0408-0.11551-0.0677-0.18164-0.0781-0.013-2e-3%20-0.026-3e-3%20-0.0391-4e-3%20-0.01-3.6e-4%20-0.0195-3.6e-4%20-0.0293%200z%22%20color%3D%22%23000000%22%20color-rendering%3D%22auto%22%20fill%3D%22%23795620%22%20image-rendering%3D%22auto%22%20shape-rendering%3D%22auto%22%20solid-color%3D%22%23000000%22%20style%3D%22block-progression%3Atb%3Bisolation%3Aauto%3Bmix-blend-mode%3Anormal%3Btext-decoration-color%3A%23000000%3Btext-decoration-line%3Anone%3Btext-decoration-style%3Asolid%3Btext-indent%3A0%3Btext-transform%3Anone%3Bwhite-space%3Anormal%22%2F%3E%3Cpath%20d%3D%22m158.97%20291.03c-0.22121-1.9e-4%20-0.40058%200.17918-0.40039%200.40039l-0.41984%204.0273c-1.9e-4%200.22121%200.17918%200.40058%200.40039%200.40039h5.8438c0.22121%201.9e-4%200.40058-0.17918%200.40039-0.40039v-0.0762l-0.44194-3.875v-0.0762c-6.2e-4%20-0.067-0.0181-0.13287-0.0508-0.19141-0.0133-0.0237-0.029-0.0459-0.0469-0.0664-9e-3%20-0.01-0.0178-0.0187-0.0273-0.0274-0.01-0.01-0.0203-0.0188-0.0312-0.0273-0.0531-0.0408-0.11551-0.0677-0.18164-0.0781-0.013-2e-3%20-0.026-3e-3%20-0.0391-4e-3%20-0.01-3.6e-4%20-0.0195-3.6e-4%20-0.0293%200l6e-3%20-6e-3h-4.982z%22%20color%3D%22%23000000%22%20color-rendering%3D%22auto%22%20fill%3D%22%23e3951d%22%20image-rendering%3D%22auto%22%20shape-rendering%3D%22auto%22%20solid-color%3D%22%23000000%22%20style%3D%22block-progression%3Atb%3Bisolation%3Aauto%3Bmix-blend-mode%3Anormal%3Btext-decoration-color%3A%23000000%3Btext-decoration-line%3Anone%3Btext-decoration-style%3Asolid%3Btext-indent%3A0%3Btext-transform%3Anone%3Bwhite-space%3Anormal%22%2F%3E%3Cpath%20d%3D%22m158.97%20291.03c-0.22121-1.9e-4%20-0.40058%200.17918-0.40039%200.40039l-0.41985%204.0274c-1.9e-4%200.22121%200.17918%200.40058%200.40039%200.40039h0.0215l0.41984-4.8281zm4.9761%200v6e-3l6e-3%20-6e-3zm0%206e-3%200.44195%204.8223h6e-3c0.22121%201.9e-4%200.40058-0.17918%200.40039-0.40039v-0.0762l-0.44195-3.875v-0.0762c-6.2e-4%20-0.067-0.0181-0.13287-0.0508-0.19141-0.0133-0.0237-0.029-0.0459-0.0469-0.0664-9e-3%20-0.01-0.0178-0.0186-0.0273-0.0273-0.01-0.01-0.0204-0.0188-0.0312-0.0273-0.0531-0.0408-0.11551-0.0677-0.18164-0.0781-0.013-2e-3%20-0.026-3e-3%20-0.0391-4e-3%20-0.01-3.6e-4%20-0.0195-3.6e-4%20-0.0293%200z%22%20color%3D%22%23000000%22%20color-rendering%3D%22auto%22%20fill%3D%22%23795620%22%20image-rendering%3D%22auto%22%20shape-rendering%3D%22auto%22%20solid-color%3D%22%23000000%22%20style%3D%22block-progression%3Atb%3Bisolation%3Aauto%3Bmix-blend-mode%3Anormal%3Btext-decoration-color%3A%23000000%3Btext-decoration-line%3Anone%3Btext-decoration-style%3Asolid%3Btext-indent%3A0%3Btext-transform%3Anone%3Bwhite-space%3Anormal%22%2F%3E%3Cpath%20d%3D%22m164.39%20295.43h-5.8438v2.125h5.8438v-0.0762h-5.6856v-1.9727h5.6856v-0.0762z%22%20fill%3D%22%23e6e6e6%22%20stroke%3D%22%233a5c79%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.8%22%2F%3E%3Cpath%20d%3D%22m160%20291.47c-0.1301-1.2e-4%20-0.2356%200.10538-0.23548%200.23547l-0.24692%202.3686c-1.1e-4%200.13009%200.10538%200.23558%200.23548%200.23547h3.4368c0.1301%201.1e-4%200.23559-0.10538%200.23548-0.23547v-0.0448l-0.25991-2.279v-0.0448c-3.7e-4%20-0.0394-0.0106-0.0781-0.0299-0.11257-8e-3%20-0.0139-0.017-0.027-0.0276-0.039-5e-3%20-6e-3%20-0.0105-0.011-0.0161-0.0161-6e-3%20-6e-3%20-0.0119-0.0111-0.0183-0.016-0.0312-0.024-0.0679-0.0398-0.10683-0.046-8e-3%20-8.7e-4%20-0.0153-2e-3%20-0.023-3e-3%20-6e-3%20-2.1e-4%20-0.0114-2.1e-4%20-0.0172%200l3e-3%20-3e-3h-2.93z%22%20color%3D%22%23000000%22%20color-rendering%3D%22auto%22%20fill%3D%22%23ba3a4e%22%20image-rendering%3D%22auto%22%20shape-rendering%3D%22auto%22%20solid-color%3D%22%23000000%22%20style%3D%22block-progression%3Atb%3Bisolation%3Aauto%3Bmix-blend-mode%3Anormal%3Btext-decoration-color%3A%23000000%3Btext-decoration-line%3Anone%3Btext-decoration-style%3Asolid%3Btext-indent%3A0%3Btext-transform%3Anone%3Bwhite-space%3Anormal%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E",
-		paper: "data:image/svg+xml;utf8, %3Csvg%20width%3D%222.3183mm%22%20height%3D%222.3183mm%22%20version%3D%221.1%22%20viewBox%3D%220%200%208.2143%208.2143%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Acc%3D%22http%3A%2F%2Fcreativecommons.org%2Fns%23%22%20xmlns%3Adc%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Felements%2F1.1%2F%22%20xmlns%3Ardf%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%22%3E%3Cmetadata%3E%3Crdf%3ARDF%3E%3Ccc%3AWork%20rdf%3Aabout%3D%22%22%3E%3Cdc%3Aformat%3Eimage%2Fsvg%2Bxml%3C%2Fdc%3Aformat%3E%3Cdc%3Atype%20rdf%3Aresource%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Fdcmitype%2FStillImage%22%2F%3E%3Cdc%3Atitle%2F%3E%3C%2Fcc%3AWork%3E%3C%2Frdf%3ARDF%3E%3C%2Fmetadata%3E%3Cg%20transform%3D%22translate(-157.47%20-290.26)%22%3E%3Cpath%20transform%3D%22translate(157.47%20290.26)%22%20d%3D%22m4.1074%200.25781c-2.1322%200-3.8496%201.7174-3.8496%203.8496%200%202.1322%201.7174%203.8477%203.8496%203.8477%202.1322%200%203.8477-1.7155%203.8477-3.8477%200-2.1322-1.7155-3.8496-3.8477-3.8496zm-0.64453%202.1465h3.5l-1.1582%202.2344-2.5371%201.3809h-1.6797l1.875-3.6152z%22%20fill%3D%22%23fff%22%20fill-opacity%3D%22.76023%22%20stroke%3D%22%23000%22%20stroke-linecap%3D%22square%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.1%22%2F%3E%3Cpath%20transform%3D%22translate(157.47%20290.26)%22%20d%3D%22m4.1074%200c-2.2754%200-4.1074%201.8321-4.1074%204.1074s1.8321%204.1074%204.1074%204.1074%204.1074-1.8321%204.1074-4.1074-1.8321-4.1074-4.1074-4.1074zm0%200.25781c2.1322%200%203.8477%201.7174%203.8477%203.8496%200%202.1322-1.7155%203.8477-3.8477%203.8477-2.1322%200-3.8496-1.7155-3.8496-3.8477%200-2.1322%201.7174-3.8496%203.8496-3.8496z%22%20fill%3D%22%231b1b1b%22%20fill-opacity%3D%22.5614%22%2F%3E%3Cpath%20d%3D%22m160.74%20296.28%202.5373-1.381-1.2382-0.18464z%22%20fill%3D%22%23fff%22%20fill-opacity%3D%22.64327%22%20stroke%3D%22%23000%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.1%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E",
-		money: "data:image/svg+xml;utf8, %3Csvg%20width%3D%222.3183mm%22%20height%3D%222.3183mm%22%20version%3D%221.1%22%20viewBox%3D%220%200%208.2143%208.2143%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Acc%3D%22http%3A%2F%2Fcreativecommons.org%2Fns%23%22%20xmlns%3Adc%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Felements%2F1.1%2F%22%20xmlns%3Ardf%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%22%3E%20%3Cmetadata%3E%20%3Crdf%3ARDF%3E%20%3Ccc%3AWork%20rdf%3Aabout%3D%22%22%3E%20%3Cdc%3Aformat%3Eimage%2Fsvg%2Bxml%3C%2Fdc%3Aformat%3E%20%3Cdc%3Atype%20rdf%3Aresource%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Fdcmitype%2FStillImage%22%2F%3E%20%3Cdc%3Atitle%2F%3E%20%3C%2Fcc%3AWork%3E%20%3C%2Frdf%3ARDF%3E%20%3C%2Fmetadata%3E%20%3Cg%20transform%3D%22translate(-157.47%20-290.26)%22%3E%20%3Crect%20x%3D%22157.47%22%20y%3D%22290.26%22%20width%3D%228.2143%22%20height%3D%228.2143%22%20rx%3D%224.1071%22%20ry%3D%224.1071%22%20fill%3D%22%23f9961e%22%2F%3E%20%3Crect%20x%3D%22157.73%22%20y%3D%22290.52%22%20width%3D%227.6974%22%20height%3D%227.6974%22%20rx%3D%223.8487%22%20ry%3D%223.8487%22%20fill%3D%22%23eda600%22%20stroke%3D%22%23662c00%22%20stroke-linecap%3D%22square%22%20stroke-width%3D%22.28112%22%2F%3E%20%3Cg%20transform%3D%22matrix(.60967%200%200%20.60967%2075.493%20111.25)%22%20fill%3D%22%237b3800%22%20stroke%3D%22%23662c00%22%20stroke-width%3D%22.18043%22%3E%20%3Cpath%20d%3D%22m140.21%20297.6v2.6348h1.193q0.66223%200%201.0239-0.34286%200.36164-0.34285%200.36164-0.9769%200-0.62935-0.36164-0.97221t-1.0239-0.34286h-1.193zm-0.94873-0.77964h2.1417q1.1789%200%201.78%200.53542%200.60587%200.53072%200.60587%201.5593%200%201.038-0.60587%201.5687-0.60117%200.53072-1.78%200.53072h-1.193v2.818h-0.94873v-7.0121z%22%20fill%3D%22%237b3800%22%20stroke%3D%22%23662c00%22%20stroke-width%3D%22.18043%22%2F%3E%20%3C%2Fg%3E%20%3C%2Fg%3E%20%3C%2Fsvg%3E%20",
-		heart: "data:image/svg+xml;utf8, %3Csvg%20version%3D%221.1%22%20viewBox%3D%220%200%208%208%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Acc%3D%22http%3A%2F%2Fcreativecommons.org%2Fns%23%22%20xmlns%3Adc%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Felements%2F1.1%2F%22%20xmlns%3Ardf%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%22%3E%3Cmetadata%3E%3Crdf%3ARDF%3E%3Ccc%3AWork%20rdf%3Aabout%3D%22%22%3E%3Cdc%3Aformat%3Eimage%2Fsvg%2Bxml%3C%2Fdc%3Aformat%3E%3Cdc%3Atype%20rdf%3Aresource%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Fdcmitype%2FStillImage%22%2F%3E%3Cdc%3Atitle%2F%3E%3C%2Fcc%3AWork%3E%3C%2Frdf%3ARDF%3E%3C%2Fmetadata%3E%3Cg%20transform%3D%22translate(-117.47%20-290.48)%22%3E%3Cpath%20d%3D%22m119.97%20291.13c-0.56974%204e-3%20-1.1375%200.22829-1.5705%200.66838-0.82724%200.84069-0.84487%202.1559-0.0786%203.0273l0.0117-0.0117c0.0371%200.0424%200.0516%200.0959%200.0924%200.13601l3.0624%203.0135%203.0624-3.0135c0.0408-0.0401%200.0554-0.0936%200.0924-0.13601%200.76252-0.87147%200.75898-2.1763-0.0669-3.0156-0.84751-0.8613-2.205-0.87764-3.0879-0.0669-0.0194%200.0178%200.0444-0.0388%200.0255-0.0202%200.0199-0.0195-0.0459%200.0293-0.0255%200.0107-0.4313-0.39463-0.97334-0.59626-1.5174-0.59187z%22%20fill%3D%22%23ba3a4e%22%20stroke%3D%22%23800000%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.339%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E",
-		_plus: function _plus(t) {
-			return t.split(encodeURIComponent("</svg>")).join(encodeURIComponent('<g transform="translate(-157.47 -290.48)"><path d="m163.39 293.53v1.981h1.9734v0.89219h-1.9734v1.981h-0.89975v-1.981h-1.9734v-0.89219h1.9734v-1.981h0.89975z" fill="#00ee00" stroke="#008000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".2"/></g></svg>'));
-		}
+	icon :{
+		shop  : "data:image/svg+xml;utf8, %3Csvg%20version%3D%221.1%22%20viewBox%3D%220%200%208%208%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Acc%3D%22http%3A%2F%2Fcreativecommons.org%2Fns%23%22%20xmlns%3Adc%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Felements%2F1.1%2F%22%20xmlns%3Ardf%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%22%3E%20%3Cmetadata%3E%20%3Crdf%3ARDF%3E%20%3Ccc%3AWork%20rdf%3Aabout%3D%22%22%3E%20%3Cdc%3Aformat%3Eimage%2Fsvg%2Bxml%3C%2Fdc%3Aformat%3E%20%3Cdc%3Atype%20rdf%3Aresource%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Fdcmitype%2FStillImage%22%2F%3E%20%3Cdc%3Atitle%2F%3E%20%3C%2Fcc%3AWork%3E%20%3C%2Frdf%3ARDF%3E%20%3C%2Fmetadata%3E%20%3Cg%20transform%3D%22translate(-157.47%20-290.48)%22%3E%20%3Cpath%20d%3D%22m159.61%20293.9%201.1873%203.188h1.5642c1.4062%200%202.5475-1.3862%202.7289-3.188z%22%20fill%3D%22%233986c8%22%2F%3E%20%3Cpath%20d%3D%22m157.66%20292.79%200.26403%200.64795h1.1702l-0.26403-0.64795h-1.1702z%22%20fill%3D%22%233a5c79%22%2F%3E%20%3Cpath%20d%3D%22m160.63%20294.79c0.88494-1.0893%204.4198%200.93803%203.6792-2.9566-3.9612-0.30863-1.4123%203.0555-2.2597%204.1089%22%20fill%3D%22%237e414a%22%20fill-rule%3D%22evenodd%22%20stroke%3D%22%237e414a%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.31173%22%2F%3E%20%3Cpath%20d%3D%22m159.61%20293.9%201.1873%203.188h1.5642c1.4062%200%202.5475-1.3862%202.7289-3.188z%22%20fill%3D%22%233986c8%22%20fill-opacity%3D%22.50877%22%2F%3E%20%3Cpath%20d%3D%22m158.73%20292.79%201.7933%204.3845h3.1768l-0.27883-0.68637h-2.4861l-1.5103-3.6982z%22%20fill%3D%22%233a5c79%22%2F%3E%20%3Ccircle%20cx%3D%22161.27%22%20cy%3D%22297.3%22%20r%3D%22.59988%22%20fill%3D%22%233a5c79%22%2F%3E%20%3Ccircle%20cx%3D%22162.67%22%20cy%3D%22297.3%22%20r%3D%22.59988%22%20fill%3D%22%233a5c79%22%2F%3E%20%3C%2Fg%3E%20%3C%2Fsvg%3E%20",
+		tank  : "data:image/svg+xml;utf8, %3Csvg%20version%3D%221.1%22%20viewBox%3D%220%200%208%208%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Acc%3D%22http%3A%2F%2Fcreativecommons.org%2Fns%23%22%20xmlns%3Adc%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Felements%2F1.1%2F%22%20xmlns%3Ardf%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%22%3E%3Cmetadata%3E%3Crdf%3ARDF%3E%3Ccc%3AWork%20rdf%3Aabout%3D%22%22%3E%3Cdc%3Aformat%3Eimage%2Fsvg%2Bxml%3C%2Fdc%3Aformat%3E%3Cdc%3Atype%20rdf%3Aresource%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Fdcmitype%2FStillImage%22%2F%3E%3Cdc%3Atitle%2F%3E%3C%2Fcc%3AWork%3E%3C%2Frdf%3ARDF%3E%3C%2Fmetadata%3E%3Cg%20transform%3D%22translate(-157.47%20-290.48)%22%3E%3Crect%20x%3D%22158.48%22%20y%3D%22292.13%22%20width%3D%225.9734%22%20height%3D%225.1246%22%20ry%3D%220%22%20fill%3D%22%233986c8%22%2F%3E%3Cpath%20d%3D%22m158.41%20291.57v5.8438h6.125v-5.8438h-0.0762v5.6856h-5.9727v-5.6856h-0.0762z%22%20fill%3D%22%23e6e6e6%22%20stroke%3D%22%233a5c79%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.8%22%2F%3E%3Cpath%20d%3D%22m159.34%20294.42c1.1448-0.38556%202.7842%202.7151%204.0366-0.45913-2.7401-2.0463-2.4328%201.5736-3.5338%201.9503%22%20fill%3D%22%237e414a%22%20fill-rule%3D%22evenodd%22%20stroke%3D%22%237e414a%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.26831%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E",
+		save  : "data:image/svg+xml;utf8, %3Csvg%20version%3D%221.1%22%20viewBox%3D%220%200%208%208%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Acc%3D%22http%3A%2F%2Fcreativecommons.org%2Fns%23%22%20xmlns%3Adc%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Felements%2F1.1%2F%22%20xmlns%3Ardf%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%22%3E%20%3Cmetadata%3E%20%3Crdf%3ARDF%3E%20%3Ccc%3AWork%20rdf%3Aabout%3D%22%22%3E%20%3Cdc%3Aformat%3Eimage%2Fsvg%2Bxml%3C%2Fdc%3Aformat%3E%20%3Cdc%3Atype%20rdf%3Aresource%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Fdcmitype%2FStillImage%22%2F%3E%20%3Cdc%3Atitle%2F%3E%20%3C%2Fcc%3AWork%3E%20%3C%2Frdf%3ARDF%3E%20%3C%2Fmetadata%3E%20%3Cg%20transform%3D%22translate(-157.47%20-290.48)%22%3E%20%3Cpath%20d%3D%22m160.86%20291.03c-1.0988%200-1.9835%200.88463-1.9835%201.9835%200%200.0248%207e-3%200.0479%208e-3%200.0726-0.56107%200.045-1.0012%200.50625-1.0012%201.0793%200%200.60292%200.48539%201.0883%201.0883%201.0883h5.0507c0.60294%200%201.0883-0.48539%201.0883-1.0883%200-0.60294-0.48538-1.0883-1.0883-1.0883h-0.0844c2e-3%20-0.0215%207e-3%20-0.0417%207e-3%20-0.0634%200-0.57726-0.46481-1.0421-1.0421-1.0421-0.11526%200-0.22393%200.0229-0.3274%200.0572-0.34162-0.59508-0.97604-0.99854-1.7141-0.99854z%22%20fill%3D%22%233986c8%22%20stroke-width%3D%220%22%2F%3E%20%3Cpath%20d%3D%22m160.05%20291.21c-0.69069%200.30956-1.1714%200.99948-1.1714%201.8079%200%200.0248%206e-3%200.0478%207e-3%200.0725-0.56108%200.045-1.001%200.50594-1.001%201.079%200%200.60292%200.48508%201.088%201.088%201.088h5.0502c0.48441%200%200.87902-0.31852%201.0209-0.75436-0.2167%200.0638-0.44212%200.1088-0.68001%200.1088h-2.1289c-1.3327%200-2.4063-1.0718-2.4063-2.4045%200-0.35706%200.0828-0.69323%200.22122-0.99735z%22%20fill%3D%22%233a5c79%22%20stroke-width%3D%220%22%2F%3E%20%3Cg%20transform%3D%22matrix(1.8143%200%200%201.8143%20-131.54%20-239.21)%22%20fill%3D%22%23ba3a4e%22%3E%20%3Crect%20transform%3D%22matrix(.71572%20-.69839%20.69839%20.71572%200%200)%22%20x%3D%22-90.055%22%20y%3D%22322.53%22%20width%3D%22.96859%22%20height%3D%221.8921%22%20rx%3D%22.4843%22%20ry%3D%220%22%2F%3E%20%3Crect%20transform%3D%22matrix(.71572%20-.69839%20.69839%20.71572%200%200)%22%20x%3D%22-91.009%22%20y%3D%22322.53%22%20width%3D%221.9222%22%20height%3D%22.96859%22%20rx%3D%220%22%20ry%3D%22.4843%22%2F%3E%20%3Crect%20x%3D%22161%22%20y%3D%22293.28%22%20width%3D%22.96859%22%20height%3D%222.7658%22%20rx%3D%22.4843%22%20ry%3D%220%22%2F%3E%20%3C%2Fg%3E%20%3Cpath%20d%3D%22m161.45%20293.37c-0.0945-9.2e-4%20-0.18783%200.032-0.26294%200.10519l-1.2385%201.2077c-0.15162%200.14783-0.15379%200.3684-6e-3%200.52043%200.11475%200.11754%200.26852%200.13771%200.41164%200.0725a0.51069%200.51069%200%200%201%200.72172%200.46422v1.2984c0%200.21217%200.15468%200.36629%200.36811%200.36629%200.21344%200%200.36811-0.15285%200.36811-0.36629v-1.2802a0.51069%200.51069%200%200%201%200.68002-0.48054c0.13497%200.0478%200.27369%200.0248%200.37898-0.078%200.15296-0.14908%200.15557-0.36662%208e-3%20-0.51863l-1.1714-1.2004c-0.0746-0.0765-0.16182-0.1097-0.25749-0.11063z%22%20fill%3D%22%23e3951d%22%2F%3E%20%3C%2Fg%3E%20%3C%2Fsvg%3E",
+		craft : "data:image/svg+xml;utf8, %3Csvg%20version%3D%221.1%22%20viewBox%3D%220%200%208%208%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Acc%3D%22http%3A%2F%2Fcreativecommons.org%2Fns%23%22%20xmlns%3Adc%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Felements%2F1.1%2F%22%20xmlns%3Ardf%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%22%3E%3Cmetadata%3E%3Crdf%3ARDF%3E%3Ccc%3AWork%20rdf%3Aabout%3D%22%22%3E%3Cdc%3Aformat%3Eimage%2Fsvg%2Bxml%3C%2Fdc%3Aformat%3E%3Cdc%3Atype%20rdf%3Aresource%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Fdcmitype%2FStillImage%22%2F%3E%3Cdc%3Atitle%2F%3E%3C%2Fcc%3AWork%3E%3C%2Frdf%3ARDF%3E%3C%2Fmetadata%3E%3Cg%20transform%3D%22translate(-147.47%20-300.48)%22%3E%3Cpath%20d%3D%22m148.51%20302.15c1.8042%200.0189%202.5926%205.1981%205.9191%201.3365-2.859-4.2331-4.2048%201.0237-5.9428%201.0139%22%20fill%3D%22%233a5c79%22%20fill-rule%3D%22evenodd%22%20stroke%3D%22%233a5c79%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.40077%22%2F%3E%3Ccircle%20cx%3D%22153.2%22%20cy%3D%22302.83%22%20r%3D%22.39062%22%20fill%3D%22%23fff%22%2F%3E%3Cpath%20transform%3D%22translate(157.47%20290.48)%22%20d%3D%22m-6.8496%2012.779c-0.042242-0.0058-0.086963-4e-3%20-0.13086%200.0078-0.17559%200.04719-0.27961%200.22676-0.23242%200.40234l0.72461%202.6934c0.033422%200.12437%200.13422%200.20836%200.25195%200.23242%200.024925%200.0051%200.050092%200.0048%200.076172%200.0039%200.025526%207.41e-4%200.049814%200.0011%200.074219-0.0039%200.11759-0.02416%200.21856-0.10816%200.25195-0.23242l0.72266-2.6934c0.047185-0.17558-0.054883-0.35516-0.23047-0.40234-0.17559-0.04718-0.35516%200.05684-0.40234%200.23242l-0.41602%201.5508-0.41797-1.5508c-0.035389-0.13169-0.14476-0.22284-0.27148-0.24023zm-0.5957%202.7227c-0.36769%200.05173-0.68913%200.31619-0.79102%200.69531-0.13585%200.50551%200.16832%201.0321%200.67383%201.168%200.50549%200.13584%201.0321-0.16636%201.168-0.67188%200.13584-0.5055-0.16832-1.0321-0.67383-1.168-0.12638-0.03396-0.25439-0.04068-0.37695-0.02344zm2.5664%200c-0.12256-0.01724-0.24862-0.01052-0.375%200.02344-0.50551%200.13584-0.80967%200.66247-0.67383%201.168%200.13585%200.50551%200.66248%200.80772%201.168%200.67188%200.50551-0.13585%200.80772-0.66246%200.67188-1.168-0.10189-0.37912-0.42332-0.64358-0.79102-0.69531zm-2.4961%200.52344c0.054518-0.0071%200.11228-0.0038%200.16992%200.01172%200.23057%200.062%200.36079%200.28701%200.29883%200.51758-0.062%200.23057-0.28896%200.3608-0.51953%200.29883-0.23058-0.062-0.35882-0.28701-0.29688-0.51758%200.0465-0.17293%200.1841-0.28935%200.34766-0.31055zm2.4277%200c0.16355%200.0212%200.30116%200.13762%200.34766%200.31055%200.06195%200.23057-0.068248%200.45558-0.29883%200.51758-0.23057%200.06197-0.45558-0.06826-0.51758-0.29883-0.06196-0.23057%200.068258-0.45558%200.29883-0.51758%200.057645-0.01549%200.1154-0.01879%200.16992-0.01172z%22%20fill-opacity%3D%22.6%22%20stroke%3D%22%23e3951d%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.3%22%2F%3E%3Cg%20transform%3D%22matrix(1.0172%20-.3013%20.3013%201.0172%20-112.67%2045.599)%22%20fill%3D%22%237e414a%22%3E%3Crect%20transform%3D%22matrix(.85226%20.52312%20-.52312%20.85226%200%200)%22%20x%3D%22303.78%22%20y%3D%22169.78%22%20width%3D%22.61872%22%20height%3D%223.2483%22%20rx%3D%22.30936%22%20ry%3D%220%22%2F%3E%3Cpath%20d%3D%22m168.05%20305.79c-0.42051-0.25811-0.97757-0.12481-1.2357%200.2957-0.25812%200.42052-0.1248%200.97758%200.29571%201.2357%200.42051%200.25811%200.97757%200.1248%201.2357-0.29572%200.25811-0.42051%200.12481-0.97757-0.29571-1.2357zm-0.26156%200.42613c0.1918%200.11773%200.24887%200.35619%200.13114%200.54799-0.11773%200.19181-0.3562%200.24888-0.548%200.13115-0.19181-0.11774-0.24887-0.3562-0.13114-0.54801%200.11773-0.1918%200.35619-0.24887%200.548-0.13113z%22%20color%3D%22%23000000%22%20color-rendering%3D%22auto%22%20image-rendering%3D%22auto%22%20shape-rendering%3D%22auto%22%20solid-color%3D%22%23000000%22%20style%3D%22block-progression%3Atb%3Bisolation%3Aauto%3Bmix-blend-mode%3Anormal%3Btext-decoration-color%3A%23000000%3Btext-decoration-line%3Anone%3Btext-decoration-style%3Asolid%3Btext-indent%3A0%3Btext-transform%3Anone%3Bwhite-space%3Anormal%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22matrix(-1.0172%20-.3013%20-.3013%201.0172%20415.29%2045.599)%22%20fill%3D%22%237e414a%22%3E%3Crect%20transform%3D%22matrix(.85226%20.52312%20-.52312%20.85226%200%200)%22%20x%3D%22303.78%22%20y%3D%22169.78%22%20width%3D%22.61872%22%20height%3D%223.2483%22%20rx%3D%22.30936%22%20ry%3D%220%22%2F%3E%3Cpath%20d%3D%22m168.05%20305.79c-0.42051-0.25811-0.97757-0.12481-1.2357%200.2957-0.25812%200.42052-0.1248%200.97758%200.29571%201.2357%200.42051%200.25811%200.97757%200.1248%201.2357-0.29572%200.25811-0.42051%200.12481-0.97757-0.29571-1.2357zm-0.26156%200.42613c0.1918%200.11773%200.24887%200.35619%200.13114%200.54799-0.11773%200.19181-0.3562%200.24888-0.548%200.13115-0.19181-0.11774-0.24887-0.3562-0.13114-0.54801%200.11773-0.1918%200.35619-0.24887%200.548-0.13113z%22%20color%3D%22%23000000%22%20color-rendering%3D%22auto%22%20image-rendering%3D%22auto%22%20shape-rendering%3D%22auto%22%20solid-color%3D%22%23000000%22%20style%3D%22block-progression%3Atb%3Bisolation%3Aauto%3Bmix-blend-mode%3Anormal%3Btext-decoration-color%3A%23000000%3Btext-decoration-line%3Anone%3Btext-decoration-style%3Asolid%3Btext-indent%3A0%3Btext-transform%3Anone%3Bwhite-space%3Anormal%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E",
+		help  : "data:image/svg+xml;utf8, %3Csvg%20version%3D%221.1%22%20viewBox%3D%220%200%208%208%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Acc%3D%22http%3A%2F%2Fcreativecommons.org%2Fns%23%22%20xmlns%3Adc%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Felements%2F1.1%2F%22%20xmlns%3Ardf%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%22%3E%3Cmetadata%3E%3Crdf%3ARDF%3E%3Ccc%3AWork%20rdf%3Aabout%3D%22%22%3E%3Cdc%3Aformat%3Eimage%2Fsvg%2Bxml%3C%2Fdc%3Aformat%3E%3Cdc%3Atype%20rdf%3Aresource%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Fdcmitype%2FStillImage%22%2F%3E%3Cdc%3Atitle%2F%3E%3C%2Fcc%3AWork%3E%3C%2Frdf%3ARDF%3E%3C%2Fmetadata%3E%3Cg%20transform%3D%22translate(-157.47%20-290.48)%22%3E%3Cpath%20d%3D%22m160.93%20290.73c-1.0013%200-1.808%200.8067-1.808%201.808%200%200.0226%207e-3%200.0438%208e-3%200.0663-0.025%202e-3%20-0.0459%200.0149-0.0704%200.0187-0.099%200.0155-0.19485%200.0344-0.28166%200.0767-0.0191%209e-3%20-0.0334%200.0249-0.0517%200.0352-0.0862%200.049-0.16861%200.10228-0.23609%200.17396-0.0369%200.0386-0.0589%200.0884-0.089%200.13255-0.0379%200.0562-0.0818%200.10627-0.10769%200.16983-0.04%200.0965-0.0569%200.20321-0.0642%200.31273-1e-3%200.0211-0.0125%200.0387-0.0125%200.0601v2e-3%202e-3c5.6e-4%200.13581%200.0291%200.26564%200.0787%200.38314%202.6e-4%206.2e-4%20-2.6e-4%201e-3%200%202e-3%200.05%200.11809%200.12203%200.22351%200.21125%200.31274%200.17935%200.17997%200.42675%200.29201%200.70209%200.29201h0.0767c-2e-3%200.0189-6e-3%200.0368-6e-3%200.056%200%200.52602%200.42254%200.95061%200.94854%200.95061%200.10498%200%200.20396-0.0206%200.29824-0.0517%200.3113%200.54226%200.89107%200.9092%201.5636%200.9092%201.0013%200%201.808-0.80671%201.808-1.808%200-0.0226-7e-3%20-0.0438-8e-3%20-0.0663%200.0251-2e-3%200.0459-0.0149%200.0704-0.0187%200.099-0.0155%200.19485-0.0344%200.28167-0.0767%200.0192-9e-3%200.0334-0.0249%200.0517-0.0352%200.0862-0.049%200.16862-0.10229%200.2361-0.17398%200.0369-0.0386%200.0589-0.0884%200.089-0.13255%200.0379-0.0562%200.0818-0.10625%200.1077-0.16982%200.04-0.0964%200.0569-0.20321%200.0642-0.31273%201e-3%20-0.0216%200.0124-0.0401%200.0125-0.0621-2.8e-4%20-0.1372-0.0284-0.26874-0.0787-0.38729-0.0498-0.11818-0.12218-0.22335-0.21125-0.31272-0.17935-0.17998-0.42675-0.29202-0.70208-0.29202h-0.0767c2e-3%20-0.0189%206e-3%20-0.0368%206e-3%20-0.056%200-0.52601-0.42253-0.95061-0.94854-0.95061-0.10497%200-0.20395%200.0206-0.29823%200.0517-0.3113-0.54225-0.89107-0.90918-1.5636-0.90918z%22%20fill%3D%22%233986c8%22%20stroke-width%3D%220%22%2F%3E%3Ccircle%20cx%3D%22159.02%22%20cy%3D%22296.02%22%20r%3D%22.79528%22%20fill%3D%22%233986c8%22%2F%3E%3Ccircle%20cx%3D%22159.75%22%20cy%3D%22297.57%22%20r%3D%22.6296%22%20fill%3D%22%233986c8%22%2F%3E%3Cg%20fill%3D%22%237e414a%22%20stroke%3D%22%23e3951d%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.21208%22%3E%3Cpath%20d%3D%22m160.58%20293.72q0-0.24851%200.0388-0.51254%200.0466-0.26403%200.15532-0.48147%200.11648-0.21744%200.31062-0.35723%200.19415-0.14755%200.51254-0.14755h1.0872q0.25627%200%200.45041%200.10872%200.20191%200.10096%200.32616%200.26404%200.13202%200.16308%200.20191%200.37275%200.0777%200.20968%200.0932%200.41935%200.0233%200.20967-0.0155%200.40382-0.0311%200.19414-0.10872%200.34169l-0.86976%201.592v0.69891h-0.89306v-0.7921l0.82317-1.4367q0.0699-0.11648%200.0932-0.30286%200.0311-0.18638%200-0.35722-0.0233-0.17861-0.11648-0.30286-0.0854-0.12425-0.2485-0.12425h-0.50477q-0.13202%200-0.21744%200.0466-0.0854%200.0388-0.13979%200.12425-0.0466%200.0777-0.0621%200.19414-0.0155%200.10872-0.0155%200.24851h-0.90083zm2.2055%204.1314h-0.91635v-0.90858h0.91635v0.90858z%22%20fill%3D%22%237e414a%22%20stroke%3D%22%23e3951d%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.21208%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E",
+		book  : "data:image/svg+xml;utf8,%3Csvg%20version%3D%221.1%22%20viewBox%3D%220%200%208%208%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Acc%3D%22http%3A%2F%2Fcreativecommons.org%2Fns%23%22%20xmlns%3Adc%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Felements%2F1.1%2F%22%20xmlns%3Ardf%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%22%3E%3Cmetadata%3E%3Crdf%3ARDF%3E%3Ccc%3AWork%20rdf%3Aabout%3D%22%22%3E%3Cdc%3Aformat%3Eimage%2Fsvg%2Bxml%3C%2Fdc%3Aformat%3E%3Cdc%3Atype%20rdf%3Aresource%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Fdcmitype%2FStillImage%22%2F%3E%3Cdc%3Atitle%2F%3E%3C%2Fcc%3AWork%3E%3C%2Frdf%3ARDF%3E%3C%2Fmetadata%3E%3Cg%20transform%3D%22translate(-157.47%20-290.48)%22%3E%3Cpath%20d%3D%22m158.97%20293.1c-0.22121-1.9e-4%20-0.40058%200.17918-0.40039%200.40039l-0.41984%204.0273c-1.9e-4%200.22121%200.17918%200.40058%200.40039%200.40039h5.8438c0.22121%201.9e-4%200.40058-0.17918%200.40039-0.40039v-0.0762l-0.44194-3.875v-0.0762c-6.2e-4%20-0.067-0.0181-0.13287-0.0508-0.19141-0.0133-0.0237-0.029-0.0459-0.0469-0.0664-9e-3%20-0.01-0.0178-0.0187-0.0273-0.0274-0.01-0.01-0.0203-0.0188-0.0312-0.0273-0.0531-0.0408-0.11551-0.0677-0.18164-0.0781-0.013-2e-3%20-0.026-3e-3%20-0.0391-4e-3%20-0.01-3.6e-4%20-0.0195-3.6e-4%20-0.0293%200l6e-3%20-6e-3h-4.982z%22%20color%3D%22%23000000%22%20color-rendering%3D%22auto%22%20fill%3D%22%23e3951d%22%20image-rendering%3D%22auto%22%20shape-rendering%3D%22auto%22%20solid-color%3D%22%23000000%22%20style%3D%22block-progression%3Atb%3Bisolation%3Aauto%3Bmix-blend-mode%3Anormal%3Btext-decoration-color%3A%23000000%3Btext-decoration-line%3Anone%3Btext-decoration-style%3Asolid%3Btext-indent%3A0%3Btext-transform%3Anone%3Bwhite-space%3Anormal%22%2F%3E%3Cpath%20d%3D%22m164.03%20295.71v1.9734h-5.1246v-1.9734z%22%20fill%3D%22%233986c8%22%2F%3E%3Cpath%20d%3D%22m158.97%20293.1c-0.22121-1.9e-4%20-0.40058%200.17918-0.40039%200.40039l-0.41985%204.0274c-1.9e-4%200.22121%200.17918%200.40058%200.40039%200.40039h0.0215l0.41984-4.8281zm4.9761%200v6e-3l6e-3%20-6e-3zm0%206e-3%200.44195%204.8223h6e-3c0.22121%201.9e-4%200.40058-0.17918%200.40039-0.40039v-0.0762l-0.44195-3.875v-0.0762c-6.2e-4%20-0.067-0.0181-0.13287-0.0508-0.19141-0.0133-0.0237-0.029-0.0459-0.0469-0.0664-9e-3%20-0.01-0.0178-0.0186-0.0273-0.0273-0.01-0.01-0.0204-0.0188-0.0312-0.0273-0.0531-0.0408-0.11551-0.0677-0.18164-0.0781-0.013-2e-3%20-0.026-3e-3%20-0.0391-4e-3%20-0.01-3.6e-4%20-0.0195-3.6e-4%20-0.0293%200z%22%20color%3D%22%23000000%22%20color-rendering%3D%22auto%22%20fill%3D%22%23795620%22%20image-rendering%3D%22auto%22%20shape-rendering%3D%22auto%22%20solid-color%3D%22%23000000%22%20style%3D%22block-progression%3Atb%3Bisolation%3Aauto%3Bmix-blend-mode%3Anormal%3Btext-decoration-color%3A%23000000%3Btext-decoration-line%3Anone%3Btext-decoration-style%3Asolid%3Btext-indent%3A0%3Btext-transform%3Anone%3Bwhite-space%3Anormal%22%2F%3E%3Cpath%20d%3D%22m158.97%20291.03c-0.22121-1.9e-4%20-0.40058%200.17918-0.40039%200.40039l-0.41984%204.0273c-1.9e-4%200.22121%200.17918%200.40058%200.40039%200.40039h5.8438c0.22121%201.9e-4%200.40058-0.17918%200.40039-0.40039v-0.0762l-0.44194-3.875v-0.0762c-6.2e-4%20-0.067-0.0181-0.13287-0.0508-0.19141-0.0133-0.0237-0.029-0.0459-0.0469-0.0664-9e-3%20-0.01-0.0178-0.0187-0.0273-0.0274-0.01-0.01-0.0203-0.0188-0.0312-0.0273-0.0531-0.0408-0.11551-0.0677-0.18164-0.0781-0.013-2e-3%20-0.026-3e-3%20-0.0391-4e-3%20-0.01-3.6e-4%20-0.0195-3.6e-4%20-0.0293%200l6e-3%20-6e-3h-4.982z%22%20color%3D%22%23000000%22%20color-rendering%3D%22auto%22%20fill%3D%22%23e3951d%22%20image-rendering%3D%22auto%22%20shape-rendering%3D%22auto%22%20solid-color%3D%22%23000000%22%20style%3D%22block-progression%3Atb%3Bisolation%3Aauto%3Bmix-blend-mode%3Anormal%3Btext-decoration-color%3A%23000000%3Btext-decoration-line%3Anone%3Btext-decoration-style%3Asolid%3Btext-indent%3A0%3Btext-transform%3Anone%3Bwhite-space%3Anormal%22%2F%3E%3Cpath%20d%3D%22m158.97%20291.03c-0.22121-1.9e-4%20-0.40058%200.17918-0.40039%200.40039l-0.41985%204.0274c-1.9e-4%200.22121%200.17918%200.40058%200.40039%200.40039h0.0215l0.41984-4.8281zm4.9761%200v6e-3l6e-3%20-6e-3zm0%206e-3%200.44195%204.8223h6e-3c0.22121%201.9e-4%200.40058-0.17918%200.40039-0.40039v-0.0762l-0.44195-3.875v-0.0762c-6.2e-4%20-0.067-0.0181-0.13287-0.0508-0.19141-0.0133-0.0237-0.029-0.0459-0.0469-0.0664-9e-3%20-0.01-0.0178-0.0186-0.0273-0.0273-0.01-0.01-0.0204-0.0188-0.0312-0.0273-0.0531-0.0408-0.11551-0.0677-0.18164-0.0781-0.013-2e-3%20-0.026-3e-3%20-0.0391-4e-3%20-0.01-3.6e-4%20-0.0195-3.6e-4%20-0.0293%200z%22%20color%3D%22%23000000%22%20color-rendering%3D%22auto%22%20fill%3D%22%23795620%22%20image-rendering%3D%22auto%22%20shape-rendering%3D%22auto%22%20solid-color%3D%22%23000000%22%20style%3D%22block-progression%3Atb%3Bisolation%3Aauto%3Bmix-blend-mode%3Anormal%3Btext-decoration-color%3A%23000000%3Btext-decoration-line%3Anone%3Btext-decoration-style%3Asolid%3Btext-indent%3A0%3Btext-transform%3Anone%3Bwhite-space%3Anormal%22%2F%3E%3Cpath%20d%3D%22m164.39%20295.43h-5.8438v2.125h5.8438v-0.0762h-5.6856v-1.9727h5.6856v-0.0762z%22%20fill%3D%22%23e6e6e6%22%20stroke%3D%22%233a5c79%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.8%22%2F%3E%3Cpath%20d%3D%22m160%20291.47c-0.1301-1.2e-4%20-0.2356%200.10538-0.23548%200.23547l-0.24692%202.3686c-1.1e-4%200.13009%200.10538%200.23558%200.23548%200.23547h3.4368c0.1301%201.1e-4%200.23559-0.10538%200.23548-0.23547v-0.0448l-0.25991-2.279v-0.0448c-3.7e-4%20-0.0394-0.0106-0.0781-0.0299-0.11257-8e-3%20-0.0139-0.017-0.027-0.0276-0.039-5e-3%20-6e-3%20-0.0105-0.011-0.0161-0.0161-6e-3%20-6e-3%20-0.0119-0.0111-0.0183-0.016-0.0312-0.024-0.0679-0.0398-0.10683-0.046-8e-3%20-8.7e-4%20-0.0153-2e-3%20-0.023-3e-3%20-6e-3%20-2.1e-4%20-0.0114-2.1e-4%20-0.0172%200l3e-3%20-3e-3h-2.93z%22%20color%3D%22%23000000%22%20color-rendering%3D%22auto%22%20fill%3D%22%23ba3a4e%22%20image-rendering%3D%22auto%22%20shape-rendering%3D%22auto%22%20solid-color%3D%22%23000000%22%20style%3D%22block-progression%3Atb%3Bisolation%3Aauto%3Bmix-blend-mode%3Anormal%3Btext-decoration-color%3A%23000000%3Btext-decoration-line%3Anone%3Btext-decoration-style%3Asolid%3Btext-indent%3A0%3Btext-transform%3Anone%3Bwhite-space%3Anormal%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E",
+		paper : "data:image/svg+xml;utf8, %3Csvg%20width%3D%222.3183mm%22%20height%3D%222.3183mm%22%20version%3D%221.1%22%20viewBox%3D%220%200%208.2143%208.2143%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Acc%3D%22http%3A%2F%2Fcreativecommons.org%2Fns%23%22%20xmlns%3Adc%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Felements%2F1.1%2F%22%20xmlns%3Ardf%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%22%3E%3Cmetadata%3E%3Crdf%3ARDF%3E%3Ccc%3AWork%20rdf%3Aabout%3D%22%22%3E%3Cdc%3Aformat%3Eimage%2Fsvg%2Bxml%3C%2Fdc%3Aformat%3E%3Cdc%3Atype%20rdf%3Aresource%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Fdcmitype%2FStillImage%22%2F%3E%3Cdc%3Atitle%2F%3E%3C%2Fcc%3AWork%3E%3C%2Frdf%3ARDF%3E%3C%2Fmetadata%3E%3Cg%20transform%3D%22translate(-157.47%20-290.26)%22%3E%3Cpath%20transform%3D%22translate(157.47%20290.26)%22%20d%3D%22m4.1074%200.25781c-2.1322%200-3.8496%201.7174-3.8496%203.8496%200%202.1322%201.7174%203.8477%203.8496%203.8477%202.1322%200%203.8477-1.7155%203.8477-3.8477%200-2.1322-1.7155-3.8496-3.8477-3.8496zm-0.64453%202.1465h3.5l-1.1582%202.2344-2.5371%201.3809h-1.6797l1.875-3.6152z%22%20fill%3D%22%23fff%22%20fill-opacity%3D%22.76023%22%20stroke%3D%22%23000%22%20stroke-linecap%3D%22square%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.1%22%2F%3E%3Cpath%20transform%3D%22translate(157.47%20290.26)%22%20d%3D%22m4.1074%200c-2.2754%200-4.1074%201.8321-4.1074%204.1074s1.8321%204.1074%204.1074%204.1074%204.1074-1.8321%204.1074-4.1074-1.8321-4.1074-4.1074-4.1074zm0%200.25781c2.1322%200%203.8477%201.7174%203.8477%203.8496%200%202.1322-1.7155%203.8477-3.8477%203.8477-2.1322%200-3.8496-1.7155-3.8496-3.8477%200-2.1322%201.7174-3.8496%203.8496-3.8496z%22%20fill%3D%22%231b1b1b%22%20fill-opacity%3D%22.5614%22%2F%3E%3Cpath%20d%3D%22m160.74%20296.28%202.5373-1.381-1.2382-0.18464z%22%20fill%3D%22%23fff%22%20fill-opacity%3D%22.64327%22%20stroke%3D%22%23000%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.1%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E",
+		money : "data:image/svg+xml;utf8, %3Csvg%20width%3D%222.3183mm%22%20height%3D%222.3183mm%22%20version%3D%221.1%22%20viewBox%3D%220%200%208.2143%208.2143%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Acc%3D%22http%3A%2F%2Fcreativecommons.org%2Fns%23%22%20xmlns%3Adc%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Felements%2F1.1%2F%22%20xmlns%3Ardf%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%22%3E%20%3Cmetadata%3E%20%3Crdf%3ARDF%3E%20%3Ccc%3AWork%20rdf%3Aabout%3D%22%22%3E%20%3Cdc%3Aformat%3Eimage%2Fsvg%2Bxml%3C%2Fdc%3Aformat%3E%20%3Cdc%3Atype%20rdf%3Aresource%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Fdcmitype%2FStillImage%22%2F%3E%20%3Cdc%3Atitle%2F%3E%20%3C%2Fcc%3AWork%3E%20%3C%2Frdf%3ARDF%3E%20%3C%2Fmetadata%3E%20%3Cg%20transform%3D%22translate(-157.47%20-290.26)%22%3E%20%3Crect%20x%3D%22157.47%22%20y%3D%22290.26%22%20width%3D%228.2143%22%20height%3D%228.2143%22%20rx%3D%224.1071%22%20ry%3D%224.1071%22%20fill%3D%22%23f9961e%22%2F%3E%20%3Crect%20x%3D%22157.73%22%20y%3D%22290.52%22%20width%3D%227.6974%22%20height%3D%227.6974%22%20rx%3D%223.8487%22%20ry%3D%223.8487%22%20fill%3D%22%23eda600%22%20stroke%3D%22%23662c00%22%20stroke-linecap%3D%22square%22%20stroke-width%3D%22.28112%22%2F%3E%20%3Cg%20transform%3D%22matrix(.60967%200%200%20.60967%2075.493%20111.25)%22%20fill%3D%22%237b3800%22%20stroke%3D%22%23662c00%22%20stroke-width%3D%22.18043%22%3E%20%3Cpath%20d%3D%22m140.21%20297.6v2.6348h1.193q0.66223%200%201.0239-0.34286%200.36164-0.34285%200.36164-0.9769%200-0.62935-0.36164-0.97221t-1.0239-0.34286h-1.193zm-0.94873-0.77964h2.1417q1.1789%200%201.78%200.53542%200.60587%200.53072%200.60587%201.5593%200%201.038-0.60587%201.5687-0.60117%200.53072-1.78%200.53072h-1.193v2.818h-0.94873v-7.0121z%22%20fill%3D%22%237b3800%22%20stroke%3D%22%23662c00%22%20stroke-width%3D%22.18043%22%2F%3E%20%3C%2Fg%3E%20%3C%2Fg%3E%20%3C%2Fsvg%3E%20",
+		heart : "data:image/svg+xml;utf8, %3Csvg%20version%3D%221.1%22%20viewBox%3D%220%200%208%208%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Acc%3D%22http%3A%2F%2Fcreativecommons.org%2Fns%23%22%20xmlns%3Adc%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Felements%2F1.1%2F%22%20xmlns%3Ardf%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%22%3E%3Cmetadata%3E%3Crdf%3ARDF%3E%3Ccc%3AWork%20rdf%3Aabout%3D%22%22%3E%3Cdc%3Aformat%3Eimage%2Fsvg%2Bxml%3C%2Fdc%3Aformat%3E%3Cdc%3Atype%20rdf%3Aresource%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Fdcmitype%2FStillImage%22%2F%3E%3Cdc%3Atitle%2F%3E%3C%2Fcc%3AWork%3E%3C%2Frdf%3ARDF%3E%3C%2Fmetadata%3E%3Cg%20transform%3D%22translate(-117.47%20-290.48)%22%3E%3Cpath%20d%3D%22m119.97%20291.13c-0.56974%204e-3%20-1.1375%200.22829-1.5705%200.66838-0.82724%200.84069-0.84487%202.1559-0.0786%203.0273l0.0117-0.0117c0.0371%200.0424%200.0516%200.0959%200.0924%200.13601l3.0624%203.0135%203.0624-3.0135c0.0408-0.0401%200.0554-0.0936%200.0924-0.13601%200.76252-0.87147%200.75898-2.1763-0.0669-3.0156-0.84751-0.8613-2.205-0.87764-3.0879-0.0669-0.0194%200.0178%200.0444-0.0388%200.0255-0.0202%200.0199-0.0195-0.0459%200.0293-0.0255%200.0107-0.4313-0.39463-0.97334-0.59626-1.5174-0.59187z%22%20fill%3D%22%23ba3a4e%22%20stroke%3D%22%23800000%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.339%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E",
+		_plus :(t)=>t.split(encodeURIComponent("</svg>")).join(encodeURIComponent('<g transform="translate(-157.47 -290.48)"><path d="m163.39 293.53v1.981h1.9734v0.89219h-1.9734v1.981h-0.89975v-1.981h-1.9734v-0.89219h1.9734v-1.981h0.89975z" fill="#00ee00" stroke="#008000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".2"/></g></svg>'))
 	},
-	fishs: {
-		A: "%3Csvg%20width%3D%2270.556mm%22%20height%3D%2228.222mm%22%20version%3D%221.1%22%20viewBox%3D%220%200%20250%20100%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Acc%3D%22http%3A%2F%2Fcreativecommons.org%2Fns%23%22%20xmlns%3Adc%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Felements%2F1.1%2F%22%20xmlns%3Ardf%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%22%3E%3Cmetadata%3E%3Crdf%3ARDF%3E%3Ccc%3AWork%20rdf%3Aabout%3D%22%22%3E%3Cdc%3Aformat%3Eimage%2Fsvg%2Bxml%3C%2Fdc%3Aformat%3E%3Cdc%3Atype%20rdf%3Aresource%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Fdcmitype%2FStillImage%22%2F%3E%3Cdc%3Atitle%2F%3E%3C%2Fcc%3AWork%3E%3C%2Frdf%3ARDF%3E%3C%2Fmetadata%3E%3Cg%20transform%3D%22translate(-144.43%20-293.55)%22%3E%3Cpath%20d%3D%22m311.44%20333.24-27.873%2018.81%2013.315%2028.44-11.304-4.7358-11.936-29.237%2026.452-15.29z%22%20fill%3D%22%23315b86%22%2F%3E%3Cpath%20d%3D%22m280.22%20293.55-11.442%2015.158-10.68%2015.679-24.472-5.2192%207.8671-14.314%2015.382-7.2996z%22%20fill%3D%22%23315b86%22%2F%3E%3Cpath%20d%3D%22m343.47%20328.39-24.001%2028.393-2.5911%2010.378%2025.262%2018.167%2015.386%202.9293-13.794-17.388-5.5875-11.142%2014.281-18.046%2042-36.93z%22%20fill%3D%22%23315b86%22%2F%3E%3Cpath%20d%3D%22m212.54%20312.89-16.549%2035.853-21.701%2021.21%2010.481%203.9547%2025.672-4.4985%207.8034-34.532z%22%20fill%3D%22%23ccc%22%2F%3E%3Cpath%20d%3D%22m244.64%20379.19%2077.906-13.92-6.4818-8.6959-48.627-11.954-70.288-30.9-1.4505%2045.635%2017.569%2013.577z%22%20fill%3D%22%23b3b3b3%22%2F%3E%3Cpath%20d%3D%22m343.47%20328.39-24.001%2028.393-2.5911%2010.378%2025.262%2018.167%2015.386%202.9293-12.759-6.3692-12.888-20.992%2013.546-27.016%2049-29.129z%22%20fill-opacity%3D%22.087719%22%2F%3E%3Cpath%20d%3D%22m262.78%20314.44%2061.827%2036.055%200.33591%2020.346-52.104-12.885-72.604-0.0871%207.7066-51.813z%22%20fill%3D%22%233a5c79%22%2F%3E%3Cpath%20d%3D%22m242.87%20318.79%2024.101%209.8637%2057.988%2042.16-52.116-12.858-41.214%200.0771-7.5452-11.506-23.845%2011.342%207.7066-51.813z%22%20fill%3D%22%23b1e9fb%22%20fill-opacity%3D%22.093567%22%2F%3E%3Cpath%20d%3D%22m246.91%20393.55-15.307-35.348-7.6753-11.584-19.491%209.526%207.1715%2020.9%2014.022%2010.658z%22%20fill%3D%22%233a5c79%22%2F%3E%3Cpath%20d%3D%22m212.15%20305.2-30.615%200.95793-37.112%2018.246%203.1257%2013.955%2017.635%2019.979%2019.198%203.5262%2022.305-2.8304%208.0675-20.536z%22%20fill%3D%22%2349769c%22%2F%3E%3Cellipse%20transform%3D%22matrix(.93642%20-.35089%20.14595%20.98929%200%200)%22%20cx%3D%22138.35%22%20cy%3D%22387.92%22%20rx%3D%222.8196%22%20ry%3D%224.2535%22%20stroke%3D%22%23fff%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%221.1709%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E",
-		B: "%3Csvg%20width%3D%2245.156mm%22%20height%3D%2228.222mm%22%20version%3D%221.1%22%20viewBox%3D%220%200%20160%20100%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Acc%3D%22http%3A%2F%2Fcreativecommons.org%2Fns%23%22%20xmlns%3Adc%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Felements%2F1.1%2F%22%20xmlns%3Ardf%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%22%3E%20%3Cmetadata%3E%20%3Crdf%3ARDF%3E%20%3Ccc%3AWork%20rdf%3Aabout%3D%22%22%3E%20%3Cdc%3Aformat%3Eimage%2Fsvg%2Bxml%3C%2Fdc%3Aformat%3E%20%3Cdc%3Atype%20rdf%3Aresource%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Fdcmitype%2FStillImage%22%2F%3E%20%3Cdc%3Atitle%2F%3E%20%3C%2Fcc%3AWork%3E%20%3C%2Frdf%3ARDF%3E%20%3C%2Fmetadata%3E%20%3Cg%20transform%3D%22translate(-148.54%20-282.05)%22%3E%20%3Cpath%20d%3D%22m197.14%20366.88%2030.732%205.6132-13.402-28.122-19.919%202.5897z%22%20fill%3D%22%23294a66%22%2F%3E%20%3Cpath%20d%3D%22m195.14%20301.98%2030.732-5.6132-13.402%2028.122-19.919-2.5897z%22%20fill%3D%22%23294a66%22%2F%3E%20%3Cpath%20d%3D%22m280.02%20296.8-34.926%2035.426%2035.424%2034.924-7.5664-33.496c0.12206%200.17745%207.0684-36.854%207.0684-36.854z%22%20fill%3D%22%234c565e%22%2F%3E%20%3Cpath%20transform%3D%22matrix(.7121%20.70207%20-.70207%20.7121%200%200)%22%20d%3D%22m346.57%2075.209%2078.917-25.275-25.636%2078.556h-53.281z%22%20fill%3D%22%233c76a8%22%2F%3E%20%3Cpath%20transform%3D%22translate(148.54%20282.05)%22%20d%3D%22m45.447%2014.826-37.408%2037.941%2037.943%2037.406%2028.232-14.592%2017.162-27.866-18.09-18.806z%22%20fill%3D%22%233a7fba%22%2F%3E%20%3Cpath%20d%3D%22m193.99%20296.87%2023.662%2040.169-23.128%2035.18-37.942-37.407z%22%20fill%3D%22%23336590%22%2F%3E%20%3Cpath%20d%3D%22m193.99%20296.87%2019.942%2037.407-19.407%2037.942-37.942-37.407z%22%20fill%3D%22%233986c8%22%2F%3E%20%3Cpath%20d%3D%22m178.18%20322.08%203.7042%203.8552-3.6491%203.9103-3.9103-3.8552z%22%20fill%3D%22%23fff%22%2F%3E%20%3Cpath%20d%3D%22m178.16%20323.47%202.7405%202.8523-2.6998%202.893-2.893-2.8522z%22%2F%3E%20%3C%2Fg%3E%20%3C%2Fsvg%3E%20",
-		C: "%3Csvg%20width%3D%2242.333mm%22%20height%3D%2233.867mm%22%20version%3D%221.1%22%20viewBox%3D%220%200%20150%20120%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Acc%3D%22http%3A%2F%2Fcreativecommons.org%2Fns%23%22%20xmlns%3Adc%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Felements%2F1.1%2F%22%20xmlns%3Ardf%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%22%3E%3Cmetadata%3E%3Crdf%3ARDF%3E%3Ccc%3AWork%20rdf%3Aabout%3D%22%22%3E%3Cdc%3Aformat%3Eimage%2Fsvg%2Bxml%3C%2Fdc%3Aformat%3E%3Cdc%3Atype%20rdf%3Aresource%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Fdcmitype%2FStillImage%22%2F%3E%3Cdc%3Atitle%2F%3E%3C%2Fcc%3AWork%3E%3C%2Frdf%3ARDF%3E%3C%2Fmetadata%3E%3Cg%20transform%3D%22translate(-163.57%20-279.34)%22%3E%3Cg%20transform%3D%22matrix(.9738%20-.22741%20.22741%20.9738%20-86.325%2041.1)%22%3E%3Cpath%20d%3D%22m265.15%20323.53%2022.52-3.1266%2034.874%2010.264-33.355-18.485-19.134%200.1098-8.6854%201.8216z%22%20fill%3D%22%23d82e3e%22%2F%3E%3Cpath%20d%3D%22m266.02%20331.27-26.669%2083.052%2043.981%203.3924%2015.354%2019.91%200.19954-32.212%2022.843-24.656-34.805%2014.065%201.6137-31.943z%22%20fill%3D%22%23ead200%22%2F%3E%3Cpath%20d%3D%22m262.74%20314.38-1.3662-0.26526%203.782%209.416%201.5737-0.29279z%22%20fill-opacity%3D%22.070175%22%2F%3E%3Cpath%20d%3D%22m199.59%20360.62%2020.556-38.523%2041.233-7.9558%207.4318%2019.272%2014.019%2073.943-54.537%209.1198-32.535-13.961z%22%20fill-opacity%3D%22.1462%22%2F%3E%3Cpath%20d%3D%22m199.59%20360.62%2020.556-38.523%2041.233-7.9558%209.0704%2016.694%209.6274%2080.321-51.784%205.3204-32.535-13.961z%22%20fill%3D%22%23d87f2e%22%2F%3E%3Cpath%20d%3D%22m256.72%20315.04-16.269%203.138%206.4821%2048.811-28.454%2045.276%209.8103%204.2102%204.859-0.49834%2034.771-40.945z%22%20fill%3D%22%23d82e3e%22%2F%3E%3Cpath%20d%3D%22m240.45%20318.18%206.4816%2048.811-28.453%2045.276%2030.431-39.929-8.4589-54.158zm25.865%2058.741-33.168%2039.057%2033.983-33.801-0.81498-5.2569z%22%20fill-opacity%3D%22.11111%22%2F%3E%3Cpath%20d%3D%22m216.34%20377.38%2019.117-6.6926%206.3081%2016.373-12.39%207.8452-15.691-10.138z%22%20fill-opacity%3D%22.1345%22%2F%3E%3Cpath%20d%3D%22m216.3%20377.37%2017.43-3.4217%205.9636%2016.293-12.031%207.929-13.988-13.405z%22%20fill%3D%22%23ead200%22%2F%3E%3Cpath%20d%3D%22m219.93%20321.43-21.329%2015.393-15.471%2015.86-9.3305%201.9486%202.9123%2014.243%205.1632%2010.491%2013.926%2025.282%2040.414-37.347z%22%20fill-opacity%3D%22.11696%22%2F%3E%3Cpath%20d%3D%22m219.93%20321.43-21.329%2015.393-15.471%2015.86-9.3305%201.9486%202.9123%2014.243%205.1632%2010.491%2013.926%2025.282%2038.657-40.473z%22%20fill%3D%22%23d82e3e%22%2F%3E%3Cpath%20d%3D%22m287.67%20320.4%201.8538%200.10528-0.33541-8.326z%22%20fill-opacity%3D%22.099415%22%2F%3E%3Cpath%20d%3D%22m283.33%20417.72%203.9154-3.0966-0.32335-19.796z%22%20fill-opacity%3D%22.081871%22%2F%3E%3Cpath%20d%3D%22m283.33%20417.72%2015.528-8.181%200.0255-4.1206z%22%20fill-opacity%3D%22.11696%22%2F%3E%3C%2Fg%3E%3Cpath%20d%3D%22m181.15%20335.1%203.5532%204.8078-3.5004%204.8765-3.7509-4.8078z%22%20fill-opacity%3D%22.23977%22%2F%3E%3Cpath%20d%3D%22m181.14%20335.62%203.1209%204.2229-3.0745%204.2832-3.2946-4.2229z%22%20fill%3D%22%23fff%22%2F%3E%3Cpath%20d%3D%22m181.12%20337.14%202.309%203.1243-2.2746%203.1689-2.4374-3.1242z%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E",
-		D: "%3Csvg%20width%3D%2267.733mm%22%20height%3D%2225.4mm%22%20version%3D%221.1%22%20viewBox%3D%220%200%20240%2090%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Acc%3D%22http%3A%2F%2Fcreativecommons.org%2Fns%23%22%20xmlns%3Adc%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Felements%2F1.1%2F%22%20xmlns%3Ardf%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%22%3E%3Cmetadata%3E%3Crdf%3ARDF%3E%3Ccc%3AWork%20rdf%3Aabout%3D%22%22%3E%3Cdc%3Aformat%3Eimage%2Fsvg%2Bxml%3C%2Fdc%3Aformat%3E%3Cdc%3Atype%20rdf%3Aresource%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Fdcmitype%2FStillImage%22%2F%3E%3Cdc%3Atitle%2F%3E%3C%2Fcc%3AWork%3E%3C%2Frdf%3ARDF%3E%3C%2Fmetadata%3E%3Cg%20transform%3D%22translate(-158.65%20-290.34)%22%3E%3Cpath%20d%3D%22m185.21%20335.42%2015.469-32.523%2027.116-6.1455%2059.983%207.8997%2051.451%2032.472%2017.08-22.352%2042.34-24.429-32.373%2052.308%2025.48%2037.691-37.952-13.583-16.005-18.866-30.671%2021.357-51.125%208.3752-28.379-1.068-31.579-6.521z%22%20fill%3D%22%23ea7f00%22%2F%3E%3Cpath%20d%3D%22m185.21%20335.42%2015.469-32.523%2027.116-6.1455%2026.477%208.3396%2037.501%2012.268%2047.711%2025.033-40.774%2023.886-46.476%205.6293-24.61%204.6501-31.579-6.521z%22%20fill-opacity%3D%22.11696%22%2F%3E%3Cpath%20d%3D%22m185.21%20335.42%2015.469-32.523%2027.116-6.1455%2026.477%208.3396%2085.212%2037.301-44.92%2022.019-42.33%207.4955-24.61%204.6501-31.579-6.521z%22%20fill%3D%22%23456985%22%2F%3E%3Cpath%20d%3D%22m231.94%20349.18%204.5672%207.4264-5.2004%2010.141-10.506-2.6618-2.6806-14.183z%22%20fill-opacity%3D%22.1345%22%2F%3E%3Cpath%20d%3D%22m231.93%20349.15%202.2022%206.067-5.5655%2012.09-10.366-2.4172-3.5724-7.2707%203.4946-7.7245z%22%20fill%3D%22%23ea7f00%22%2F%3E%3Cpath%20d%3D%22m201.14%20301.7-19.379%207.817-14.1%2018.747-7.9396%208.1864%2011.019%206.6427%204.3938%2014.026%2020.831%2012.935%2029.446-38.306z%22%20fill-opacity%3D%22.11696%22%2F%3E%3Cpath%20d%3D%22m201.14%20301.7-19.379%207.817-14.1%2018.747-8.661%208.1887%200.60526%201.9942%209.4144%204.5432-6.5712%207.4899%2012.686%206.6394%2020.831%2012.935%2027.019-41.088z%22%20fill%3D%22%232e91d8%22%2F%3E%3Cpath%20d%3D%22m179.24%20321.26%203.5606%205.0598-3.5077%205.1321-3.7588-5.0598z%22%20fill-opacity%3D%22.23977%22%2F%3E%3Cpath%20d%3D%22m179.23%20321.81%203.1274%204.4442-3.081%204.5077-3.3014-4.4442z%22%20fill%3D%22%23fff%22%2F%3E%3Cpath%20d%3D%22m179.21%20323.41%202.3138%203.288-2.2794%203.335-2.4425-3.288z%22%2F%3E%3Cpath%20d%3D%22m160.45%20336.69-1.5671%202.1152%200.91904%202.5248%202.354-0.24147%206.1569%202.2512-6.3812%201.2629-2.3523-0.63483-0.92565%202.3705%203.7289%204.3921%205.5796-3.5014%204.9496-2.8171-3.6216-4.2553-4.2447-4.8598z%22%20fill%3D%22%23ea7f00%22%2F%3E%3Cpath%20d%3D%22m398.65%20290.34-38.983%2052.373%2032.09%2037.627-25.479-37.692z%22%20fill-opacity%3D%22.18129%22%2F%3E%3Cpath%20d%3D%22m398.65%20290.34-38.983%2052.373%203.7357%204.3919%202.8749-4.4564z%22%20fill-opacity%3D%22.18129%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E",
-		R: "%3Csvg%20width%3D%2245.156mm%22%20height%3D%2228.222mm%22%20version%3D%221.1%22%20viewBox%3D%220%200%20160%20100%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Acc%3D%22http%3A%2F%2Fcreativecommons.org%2Fns%23%22%20xmlns%3Adc%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Felements%2F1.1%2F%22%20xmlns%3Ardf%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%22%3E%20%3Cmetadata%3E%20%3Crdf%3ARDF%3E%20%3Ccc%3AWork%20rdf%3Aabout%3D%22%22%3E%20%3Cdc%3Aformat%3Eimage%2Fsvg%2Bxml%3C%2Fdc%3Aformat%3E%20%3Cdc%3Atype%20rdf%3Aresource%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Fdcmitype%2FStillImage%22%2F%3E%20%3Cdc%3Atitle%2F%3E%20%3C%2Fcc%3AWork%3E%20%3C%2Frdf%3ARDF%3E%20%3C%2Fmetadata%3E%20%3Cg%20transform%3D%22translate(-148.54%20-282.05)%22%3E%20%3Cpath%20d%3D%22m198.63%20368.99%2040.675%205.9786-17.739-29.953-26.364%202.7583z%22%20fill%3D%22%23662929%22%2F%3E%20%3Cpath%20d%3D%22m195.98%20299.87%2040.675-5.9786-17.739%2029.953-26.364-2.7583z%22%20fill%3D%22%23662929%22%2F%3E%20%3Cpath%20d%3D%22m280.02%20294.8-50.583%2035.173%2051.081%2035.176-7.5664-33.496c0.12206%200.17745%207.0684-36.854%207.0684-36.854z%22%20fill%3D%22%235e4c4c%22%2F%3E%20%3Cpath%20transform%3D%22matrix(.7121%20.70207%20-.70207%20.7121%200%200)%22%20d%3D%22m346.57%2075.209%2067.268-19.464-13.987%2072.745-36.212-14.701z%22%20fill%3D%22%23a83c40%22%2F%3E%20%3Cpath%20transform%3D%22translate(148.54%20282.05)%22%20d%3D%22m45.447%2014.826-10.387%2036.931%2010.922%2038.416%2036.232-14.592%2017.162-27.866-18.09-18.806z%22%20fill%3D%22%23ba3a4e%22%2F%3E%20%3Cpath%20d%3D%22m193.99%20296.87%2023.662%2040.169-23.128%2035.18-32.133-31.346z%22%20fill%3D%22%23903338%22%2F%3E%20%3Cpath%20d%3D%22m193.99%20296.87%2019.942%2037.407-19.407%2037.942-34.406-36.65z%22%20fill%3D%22%23c8393c%22%2F%3E%20%3Cpath%20d%3D%22m178.18%20322.08%203.7042%203.8552-3.6491%203.9103-3.9103-3.8552z%22%20fill%3D%22%23fff%22%2F%3E%20%3Cpath%20d%3D%22m178.16%20323.47%202.7405%202.8523-2.6998%202.893-2.893-2.8522z%22%2F%3E%20%3C%2Fg%3E%20%3C%2Fsvg%3E",
-		Y: "%3Csvg%20width%3D%2245.156mm%22%20height%3D%2228.222mm%22%20version%3D%221.1%22%20viewBox%3D%220%200%20160%20100%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Acc%3D%22http%3A%2F%2Fcreativecommons.org%2Fns%23%22%20xmlns%3Adc%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Felements%2F1.1%2F%22%20xmlns%3Ardf%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%22%3E%20%3Cmetadata%3E%20%3Crdf%3ARDF%3E%20%3Ccc%3AWork%20rdf%3Aabout%3D%22%22%3E%20%3Cdc%3Aformat%3Eimage%2Fsvg%2Bxml%3C%2Fdc%3Aformat%3E%20%3Cdc%3Atype%20rdf%3Aresource%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Fdcmitype%2FStillImage%22%2F%3E%20%3Cdc%3Atitle%2F%3E%20%3C%2Fcc%3AWork%3E%20%3C%2Frdf%3ARDF%3E%20%3C%2Fmetadata%3E%20%3Cg%20transform%3D%22translate(-148.54%20-282.05)%22%3E%20%3Cpath%20d%3D%22m281.16%20294.8-72.59%2035.173%2073.305%2035.176-10.858-33.496c0.17517%200.17745%2010.144-36.854%2010.144-36.854z%22%20fill%3D%22%236b4206%22%2F%3E%20%3Cpath%20d%3D%22m286.02%20309.68-56.585%2020.3%2057.142%2020.302-8.4642-19.332c0.13655%200.10242%207.907-21.27%207.907-21.27z%22%20fill%3D%22%239d630f%22%2F%3E%20%3Cpath%20d%3D%22m198.63%20368.99%2040.675%205.9786-17.739-29.953-26.364%202.7583z%22%20fill%3D%22%23815b2b%22%2F%3E%20%3Cpath%20d%3D%22m195.98%20299.87%2040.675-5.9786-17.739%2029.953-26.364-2.7583z%22%20fill%3D%22%23815b2b%22%2F%3E%20%3Cpath%20transform%3D%22matrix(.7121%20.70207%20-.70207%20.7121%200%200)%22%20d%3D%22m346.57%2075.209%2068.717-22.311-15.436%2075.592-36.212-14.701z%22%20fill%3D%22%23b44f0f%22%2F%3E%20%3Cpath%20transform%3D%22translate(148.54%20282.05)%22%20d%3D%22m45.447%2014.826-10.387%2036.931%2010.922%2038.416%2018.232-14.592%2017.162-27.866-18.09-18.806z%22%20fill%3D%22%23e3951d%22%2F%3E%20%3Cpath%20d%3D%22m193.99%20296.87%2023.662%2040.169-23.128%2035.18-30.744-25.475z%22%20fill%3D%22%23b44f0f%22%2F%3E%20%3Cpath%20d%3D%22m193.99%20296.87%2019.942%2037.407-19.407%2037.942-20.165-14.442-14.241-22.208%2014.552-25.176z%22%20fill%3D%22%23e3951d%22%2F%3E%20%3Cpath%20d%3D%22m178.18%20322.08%203.7042%203.8552-3.6491%203.9103-3.9103-3.8552z%22%20fill%3D%22%23fff%22%2F%3E%20%3Cpath%20d%3D%22m178.16%20323.47%202.7405%202.8523-2.6998%202.893-2.893-2.8522z%22%2F%3E%20%3C%2Fg%3E%20%3C%2Fsvg%3E",
-		G: "%3Csvg%20width%3D%2242.333mm%22%20height%3D%2225.4mm%22%20version%3D%221.1%22%20viewBox%3D%220%200%20150%2090%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Acc%3D%22http%3A%2F%2Fcreativecommons.org%2Fns%23%22%20xmlns%3Adc%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Felements%2F1.1%2F%22%20xmlns%3Ardf%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%22%3E%3Cmetadata%3E%3Crdf%3ARDF%3E%3Ccc%3AWork%20rdf%3Aabout%3D%22%22%3E%3Cdc%3Aformat%3Eimage%2Fsvg%2Bxml%3C%2Fdc%3Aformat%3E%3Cdc%3Atype%20rdf%3Aresource%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Fdcmitype%2FStillImage%22%2F%3E%3Cdc%3Atitle%2F%3E%3C%2Fcc%3AWork%3E%3C%2Frdf%3ARDF%3E%3C%2Fmetadata%3E%3Cg%20transform%3D%22translate(-156.33%20-290.46)%22%3E%3Cpath%20d%3D%22m233.63%20343.02%207.7049%2029.376%204.3692-5.9208%2016.025%201.5603-28.349-41.926-12.78%2012.981z%22%20fill%3D%22%23e3951d%22%2F%3E%3Cpath%20d%3D%22m165.42%20343.04-7.4778%202.9284-0.46952%202.5506%2017.283%2011.725z%22%20fill%3D%22%23e3951d%22%2F%3E%3Cpath%20d%3D%22m207.13%20371.8%2026.506%203.2266-10.097-14.13-2.0887-10.176-17.03%2014.511z%22%20fill%3D%22%23e3951d%22%2F%3E%3Cpath%20d%3D%22m207.13%20371.8%2026.506%203.2266-10.097-14.13-2.0887-10.176-0.44696%2011.211%203.2927%207.6769-11.971%200.41463-7.9046-4.7914z%22%20fill%3D%22%23fff%22%20fill-opacity%3D%22.16374%22%2F%3E%3Cpath%20d%3D%22m250.12%20337.18%2027.382-4.7018%2023.542-36.434-45.326%2014.318-26.579%2023.085%204.2267%204.0154z%22%20fill%3D%22%23f7bf1a%22%2F%3E%3Cpath%20d%3D%22m240.02%20343.89%2018.057%2030.602%2048.254%205.9596-36.657-38.784-36.295-15.557-1.9725%206.234z%22%20fill%3D%22%23f7bf1a%22%2F%3E%3Cpath%20d%3D%22m250.6%20323.02%2031.318-5.5994%2019.12-21.381-45.326%2014.318-26.579%2023.085%204.2267%204.0154z%22%20fill%3D%22%23e3951d%22%2F%3E%3Cpath%20d%3D%22m178.96%20316.4%2013.635-17.812%2026.446-8.1317%204.8008%2020.615%2018.195%2020.632-65.41-6.2571z%22%20fill%3D%22%23e3951d%22%2F%3E%3Cpath%20d%3D%22m254.41%20342.7%2021.002%2028.898%2030.92%208.8561-36.657-38.784-36.295-15.557-1.9725%206.234z%22%20fill%3D%22%23795620%22%20fill-opacity%3D%22.33918%22%2F%3E%3Cpath%20d%3D%22m178.96%20316.4%2013.635-17.812%2026.446-8.1317%204.8008%2020.615%2018.195%2020.632-26.548-18.322-8.5859-10.111-12.733%201.1709-17.544%2021.005z%22%20fill%3D%22%23e6e6e6%22%20fill-opacity%3D%22.15789%22%2F%3E%3Cpath%20d%3D%22m192.74%20314.41%2011.996-0.90416%2039.817%2016.84-20.34%2015.388-3.3161%2014.367-13.279%209.587-16.605-1.7695-8.4465-4.4745-15.021-22.566%205.0461-7.9284z%22%20fill%3D%22%23f7bf1a%22%2F%3E%3Cpath%20d%3D%22m178.37%20318.67%203.5014%205.486%2010.006%2010.468-10.95%2026.824-6.1787-1.2058-18.423-19.118%205.0461-7.295z%22%20fill-opacity%3D%22.17544%22%2F%3E%3Cpath%20d%3D%22m192.74%20314.41%2011.996-0.90416%2039.817%2016.84-20.34%2015.388-9.7304%2010.281-17.377-4.8097-6.6268%203.6779-7.912%208.5603-15.021-22.566%205.0461-7.9284z%22%20fill%3D%22%23795620%22%20fill-opacity%3D%22.17544%22%2F%3E%3Cpath%20d%3D%22m178.37%20318.67%208.2161%2018.292-5.6587%2024.486-6.1787-1.2058-18.423-19.118%205.0461-7.295z%22%20fill%3D%22%23ffe644%22%2F%3E%3Cpath%20d%3D%22m172.72%20328.99%203.1435%203.5724-3.0968%203.6234-3.3185-3.5724z%22%20fill-opacity%3D%22.23977%22%2F%3E%3Cpath%20d%3D%22m172.71%20329.38%202.7611%203.1378-2.72%203.1826-2.9147-3.1378z%22%20fill%3D%22%23fff%22%2F%3E%3Cpath%20d%3D%22m172.69%20330.51%202.0428%202.3215-2.0124%202.3546-2.1564-2.3214z%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E",
-		M: "%3Csvg%20width%3D%2245.156mm%22%20height%3D%2225.4mm%22%20version%3D%221.1%22%20viewBox%3D%220%200%20160%2090%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Acc%3D%22http%3A%2F%2Fcreativecommons.org%2Fns%23%22%20xmlns%3Adc%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Felements%2F1.1%2F%22%20xmlns%3Ardf%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%22%3E%3Cmetadata%3E%3Crdf%3ARDF%3E%3Ccc%3AWork%20rdf%3Aabout%3D%22%22%3E%3Cdc%3Aformat%3Eimage%2Fsvg%2Bxml%3C%2Fdc%3Aformat%3E%3Cdc%3Atype%20rdf%3Aresource%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Fdcmitype%2FStillImage%22%2F%3E%3Cdc%3Atitle%2F%3E%3C%2Fcc%3AWork%3E%3C%2Frdf%3ARDF%3E%3C%2Fmetadata%3E%3Cg%20transform%3D%22translate(-165.82%20-329.23)%22%3E%3Cpath%20d%3D%22m253.2%20381.43%2026.409%2010.947%2046.203-46.905-41.701%2011.752z%22%20fill%3D%22%234dadff%22%2F%3E%3Cpath%20d%3D%22m253.72%20379.39%2026.895%209.5934%2011.709%2030.242-22.774-11.173z%22%20fill%3D%22%234dadff%22%2F%3E%3Cpath%20d%3D%22m215.16%20340.45%2028.399-1.6996%2021.919%2023.374-25.165-1.3817z%22%20fill%3D%22%234dadff%22%2F%3E%3Cpath%20d%3D%22m209.14%20367.53%2017.328%2023.363%2031.409%201.8905-17.464-18.814z%22%20fill%3D%22%234dadff%22%2F%3E%3Cpath%20d%3D%22m170.39%20375.28%2018.466-16.141%205.8926-29.75%2029.01%201.846%2024.627%2024.187%2027.015%2032.319-79.079-2.0245-20.737-7.9184-4.5619%200.55708z%22%20fill%3D%22%233986c8%22%2F%3E%3Cpath%20d%3D%22m195.05%20329.23-20.028%2016.074-7.4112%2024.277%2029.022%2016.431%2012.028-35.036z%22%20fill-opacity%3D%22.081871%22%2F%3E%3Cpath%20d%3D%22m195.05%20329.23-20.028%2016.074-7.4112%2024.277%2015.357%207.4987%2011.548-0.77502%2010.517-23.993z%22%20fill%3D%22%234dadff%22%2F%3E%3Cpath%20d%3D%22m167.83%20366.89-2.0173%201.7123%200.40234%202.4917%202.4235%200.15484%2011.844%206.3592%208.0722-0.98339-6.3451-2.2642z%22%20fill%3D%22%233a5c79%22%2F%3E%3Cellipse%20transform%3D%22matrix(.97161%20-.23658%20.2214%20.97518%200%200)%22%20cx%3D%2299.878%22%20cy%3D%22393.56%22%20rx%3D%223.3864%22%20ry%3D%223.4942%22%20stroke%3D%22%23fff%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%221.1631%22%2F%3E%3Cpath%20d%3D%22m201.51%20371.02-3.6701%2011.288%2019.779%2018.382-1.4292-30.137z%22%20fill%3D%22%234dadff%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E",
-		N: "%3Csvg%20width%3D%2236.689mm%22%20height%3D%2222.578mm%22%20version%3D%221.1%22%20viewBox%3D%220%200%20130%2080%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Acc%3D%22http%3A%2F%2Fcreativecommons.org%2Fns%23%22%20xmlns%3Adc%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Felements%2F1.1%2F%22%20xmlns%3Ardf%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%22%3E%3Cmetadata%3E%3Crdf%3ARDF%3E%3Ccc%3AWork%20rdf%3Aabout%3D%22%22%3E%3Cdc%3Aformat%3Eimage%2Fsvg%2Bxml%3C%2Fdc%3Aformat%3E%3Cdc%3Atype%20rdf%3Aresource%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Fdcmitype%2FStillImage%22%2F%3E%3Cdc%3Atitle%2F%3E%3C%2Fcc%3AWork%3E%3C%2Frdf%3ARDF%3E%3C%2Fmetadata%3E%3Cg%20transform%3D%22translate(-167.38%20-298.71)%22%3E%3Cg%20transform%3D%22matrix(.9512%20-.22858%20.22213%20.97882%20-102.14%2038.344)%22%3E%3Cg%3E%3Cpath%20d%3D%22m254.29%20388.98%2018.43%202.4926%204.6394%2010.503-10.426%205.8522-14.715-1.2012-9.1626-9.1951z%22%20fill%3D%22%237248bf%22%2F%3E%3Cpath%20d%3D%22m256.25%20388.71%2013.876%201.8767%203.4931%207.9077-7.8499%204.4062-11.079-0.90438-6.8987-6.9232z%22%20fill-opacity%3D%22.11696%22%2F%3E%3Cpath%20d%3D%22m283.79%20363.38-6.5244%2033.695%2024.116%2019.712%2023.986-16.593%208.0844-29.505-17.973-23.807z%22%20fill%3D%22%237248bf%22%2F%3E%3Cpath%20d%3D%22m271.5%20348.56%2012.858%209.8999%2011.146-4.8689-1.4578-11.014-9.6344-8.4924-12.764%201.0084z%22%20fill%3D%22%237248bf%22%2F%3E%3Cpath%20d%3D%22m280.83%20368.97-4.2723%2021.955%2015.458%2012.005%2015.252-10.551%205.1407-18.762-11.429-15.139z%22%20fill-opacity%3D%22.11696%22%2F%3E%3Cpath%20d%3D%22m273.03%20350.62%208.1763%206.2951%207.0874-3.096-0.92698-7.0035-6.1263-5.4002-8.1167%200.64122z%22%20fill-opacity%3D%22.11696%22%2F%3E%3Cpath%20d%3D%22m229.12%20356.2%2019.647-28.121%2022.851%201.3468%2024.941%2045.051-17.182%2025.083-49.226-4.0028-14.277-11.174z%22%20fill%3D%22%23c83990%22%2F%3E%3Cpath%20d%3D%22m253.69%20326.7-27.436%205.8789-18.023%2015.035%205.4129%2010.912%2013.718%2010.931%2023.643-17.255z%22%20fill%3D%22%23ff4dc0%22%2F%3E%3Ccircle%20transform%3D%22matrix(.9982%20-.059979%20.059979%20.9982%200%200)%22%20cx%3D%22211.01%22%20cy%3D%22365.83%22%20r%3D%223.0908%22%20stroke%3D%22%23fff%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%221.0451%22%2F%3E%3Cpath%20d%3D%22m247.18%20364.02%209.8566%203.2798%2010.283%2010.392-11.491%208.8239-16.951-5.8289z%22%20fill-opacity%3D%22.16374%22%2F%3E%3Cpath%20d%3D%22m209.64%20371.84-9.7362-9.5176%201.1348-9.8683%202.5127-1.0808%2015.83%2010.679%208.0116%206.1028%2024.128-16.385-10.959%2034.457-17.887%201.224z%22%20fill-opacity%3D%22.21637%22%2F%3E%3Cpath%20d%3D%22m245.76%20364.05%207.3391%205.4829%205.7435%2012.413-8.2782%207.9909-11.722-9.1039z%22%20fill%3D%22%237248bf%22%2F%3E%3Cpath%20d%3D%22m209.64%20371.84-9.7362-9.5176%201.1348-9.8683%202.5127-1.0808%2015.83%2010.679%208.0116%206.1028%2024.128-16.385-14.071%2032.08-20.484%201.351z%22%20fill%3D%22%23d73da1%22%2F%3E%3Cpath%20transform%3D%22matrix(.48384%20.87515%20.87515%20-.48384%200%200)%22%20d%3D%22m415.93%2036.702%203.7829%201.7303%207.7018-0.61135-9.873%203.6486z%22%20fill%3D%22%23666%22%2F%3E%3Cpath%20d%3D%22m209.12%20344.75-2.4904%200.53193-0.84202%202.4264%201.9456%201.3362%203.326%205.5913-5.6462-3.1798-1.4084-1.9724-2.1566%201.1295%200.16222%205.589%206.4028%201.0369%205.5032%201.13-0.16394-5.4206-0.27016-6.2605z%22%20fill%3D%22%238f0c0a%22%2F%3E%3Cpath%20transform%3D%22matrix(.9738%20.22741%20-.22741%20.9738%20179.59%20298)%22%20d%3D%22m82.273%2036.006-19.77%2021.441-9.1895-4.1211%2011.51%206.4434z%22%20fill-opacity%3D%22.12281%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E",
-		G1: "%3Csvg%20width%3D%2242.333mm%22%20height%3D%2225.4mm%22%20version%3D%221.1%22%20viewBox%3D%220%200%20150%2090%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Acc%3D%22http%3A%2F%2Fcreativecommons.org%2Fns%23%22%20xmlns%3Adc%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Felements%2F1.1%2F%22%20xmlns%3Ardf%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%22%3E%3Cmetadata%3E%3Crdf%3ARDF%3E%3Ccc%3AWork%20rdf%3Aabout%3D%22%22%3E%3Cdc%3Aformat%3Eimage%2Fsvg%2Bxml%3C%2Fdc%3Aformat%3E%3Cdc%3Atype%20rdf%3Aresource%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Fdcmitype%2FStillImage%22%2F%3E%3Cdc%3Atitle%2F%3E%3C%2Fcc%3AWork%3E%3C%2Frdf%3ARDF%3E%3C%2Fmetadata%3E%3Cg%20transform%3D%22translate(-156.33%20-290.46)%22%3E%3Cpath%20d%3D%22m233.63%20343.02%207.7049%2029.376%204.3692-5.9208%2016.025%201.5603-28.349-41.926-12.78%2012.981z%22%20fill%3D%22%23e3951d%22%2F%3E%3Cpath%20d%3D%22m165.42%20343.04-7.4778%202.9284-0.46952%202.5506%2017.283%2011.725z%22%20fill%3D%22%23e3951d%22%2F%3E%3Cpath%20d%3D%22m207.13%20371.8%2026.506%203.2266-10.097-14.13-2.0887-10.176-17.03%2014.511z%22%20fill%3D%22%23e3951d%22%2F%3E%3Cpath%20d%3D%22m207.13%20371.8%2026.506%203.2266-10.097-14.13-2.0887-10.176-0.44696%2011.211%203.2927%207.6769-11.971%200.41463-7.9046-4.7914z%22%20fill%3D%22%23fff%22%20fill-opacity%3D%22.16374%22%2F%3E%3Cpath%20d%3D%22m247.67%20340.95%2026.387%203.0286%2031.219-28.533-45.402%201.2685-30.492%2014.864%202.8244%205.025z%22%20fill%3D%22%23f7bf1a%22%2F%3E%3Cpath%20d%3D%22m240.02%20343.89%2018.057%2030.602%2048.254%205.9596-36.657-38.784-36.295-15.557-1.9725%206.234z%22%20fill%3D%22%23f7bf1a%22%2F%3E%3Cpath%20d%3D%22m251.85%20327.48%2030.239%203.251%2023.193-15.282-45.402%201.2685-30.492%2014.864%202.8244%205.025z%22%20fill%3D%22%23e3951d%22%2F%3E%3Cpath%20d%3D%22m178.96%20316.4%2013.635-17.812%2026.446-8.1317%204.8008%2020.615%2018.195%2020.632-65.41-6.2571z%22%20fill%3D%22%23e3951d%22%2F%3E%3Cpath%20d%3D%22m254.41%20342.7%2021.002%2028.898%2030.92%208.8561-36.657-38.784-36.295-15.557-1.9725%206.234z%22%20fill%3D%22%23795620%22%20fill-opacity%3D%22.33918%22%2F%3E%3Cpath%20d%3D%22m178.96%20316.4%2013.635-17.812%2026.446-8.1317%204.8008%2020.615%2018.195%2020.632-26.548-18.322-8.5859-10.111-12.733%201.1709-17.544%2021.005z%22%20fill%3D%22%23e6e6e6%22%20fill-opacity%3D%22.15789%22%2F%3E%3Cpath%20d%3D%22m192.74%20314.41%2011.996-0.90416%2039.817%2016.84-20.34%2015.388-3.3161%2014.367-13.279%209.587-16.605-1.7695-8.4465-4.4745-15.021-22.566%205.0461-7.9284z%22%20fill%3D%22%23f7bf1a%22%2F%3E%3Cpath%20d%3D%22m178.37%20318.67%203.5014%205.486%2010.006%2010.468-10.95%2026.824-6.1787-1.2058-18.423-19.118%205.0461-7.295z%22%20fill-opacity%3D%22.17544%22%2F%3E%3Cpath%20d%3D%22m192.74%20314.41%2011.996-0.90416%2039.817%2016.84-20.34%2015.388-9.7304%2010.281-17.377-4.8097-6.6268%203.6779-7.912%208.5603-15.021-22.566%205.0461-7.9284z%22%20fill%3D%22%23795620%22%20fill-opacity%3D%22.17544%22%2F%3E%3Cpath%20d%3D%22m192.74%20314.41-1.5471%2010.86%206.8505%2014.5%2012.922%206.3597%2013.248-0.39532-9.7304%2010.281-17.377-4.8097-6.6268%203.6779-7.912%208.5603-15.021-22.566%205.0461-7.9284z%22%20fill%3D%22%23795620%22%20fill-opacity%3D%22.17544%22%2F%3E%3Cpath%20d%3D%22m178.37%20318.67%208.2161%2018.292-5.6587%2024.486-6.1787-1.2058-18.423-19.118%205.0461-7.295z%22%20fill%3D%22%23f7bf1a%22%2F%3E%3Cpath%20d%3D%22m172.72%20328.99%203.1435%203.5724-3.0968%203.6234-3.3185-3.5724z%22%20fill-opacity%3D%22.23977%22%2F%3E%3Cpath%20d%3D%22m172.71%20329.38%202.7611%203.1378-2.72%203.1826-2.9147-3.1378z%22%20fill%3D%22%23fff%22%2F%3E%3Cpath%20d%3D%22m172.69%20330.51%202.0428%202.3215-2.0124%202.3546-2.1564-2.3214z%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E",
-		B1: "%3Csvg%20width%3D%2242.333mm%22%20height%3D%2228.222mm%22%20version%3D%221.1%22%20viewBox%3D%220%200%20150%20100%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Acc%3D%22http%3A%2F%2Fcreativecommons.org%2Fns%23%22%20xmlns%3Adc%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Felements%2F1.1%2F%22%20xmlns%3Ardf%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%22%3E%3Cmetadata%3E%3Crdf%3ARDF%3E%3Ccc%3AWork%20rdf%3Aabout%3D%22%22%3E%3Cdc%3Aformat%3Eimage%2Fsvg%2Bxml%3C%2Fdc%3Aformat%3E%3Cdc%3Atype%20rdf%3Aresource%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Fdcmitype%2FStillImage%22%2F%3E%3Cdc%3Atitle%2F%3E%3C%2Fcc%3AWork%3E%3C%2Frdf%3ARDF%3E%3C%2Fmetadata%3E%3Cg%20transform%3D%22translate(-154.25%20-299.15)%22%3E%3Cg%20transform%3D%22matrix(.9738%20-.22741%20.22741%20.9738%20-86.325%2041.1)%22%3E%3Cg%20transform%3D%22matrix(1.0215%20.0053362%20.0053362%20.99988%20-5.4366%20-.76793)%22%3E%3Cpath%20d%3D%22m194.59%20391.61%2032.693%2029.158%2020.535-2.8997%209.2349-14.891-11.882-18.914z%22%20fill%3D%22%23ffc74d%22%2F%3E%3Cpath%20transform%3D%22matrix(.9738%20.22741%20-.22741%20.9738%20179.59%20298)%22%20d%3D%22m144.59%2021.011-35.131%2019.795-26.019%2014.617%2011.479%2016.573%2030.66%2015.693-22.673-27.301z%22%20fill%3D%22%23ffc74d%22%2F%3E%3Cpath%20d%3D%22m201.8%20333.83%2037.009-13.205%2025.991%2011.528%203.1613%2025.481-19.4%2010.142z%22%20fill%3D%22%23ffc74d%22%2F%3E%3Cpath%20d%3D%22m164.58%20367.94%2025.429-9.6371%206.1873-30.164%2039.689%204.7601%2016.324%2013.414%205.0694%2019.235%209.3902%2013.767-12.833%205.3518-11.564%2015.907-18.984%206.1199-32.786-13.01-11.691-18.51-8.7762-4.6812-4.7901%200.56483z%22%20fill%3D%22%23c83a39%22%2F%3E%3Cpath%20d%3D%22m164.58%20367.94%2025.429-9.6371%206.1873-30.164%2061.082%2037.409%209.3902%2013.767-12.833%205.3518-75.024-9.4928-8.7762-4.6812-4.7901%200.56483z%22%20fill-opacity%3D%22.1345%22%2F%3E%3Cpath%20d%3D%22m200.05%20325.72-23.496%2012.483-11.855%2022.932%2027.365%2018.521%2018.319-29.779z%22%20fill-opacity%3D%22.081871%22%2F%3E%3Cpath%20d%3D%22m200.05%20325.72-23.496%2012.483-11.855%2022.932%2014.597%2010.235%2012.083%201.2881%2015.02-22.094z%22%20fill%3D%22%23ff4d52%22%2F%3E%3Cpath%20d%3D%22m165.4%20358.49-2.3827%201.3506-0.0134%202.5614%202.4809%200.58751%2011.159%208.4689%208.522%200.45905-6.175-3.3955z%22%20fill%3D%22%23793b3a%22%2F%3E%3Ccircle%20transform%3D%22matrix(.9982%20-.059979%20.059979%20.9982%200%200)%22%20cx%3D%22161.87%22%20cy%3D%22365.05%22%20r%3D%223.5491%22%20stroke%3D%22%23fff%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%221.2%22%2F%3E%3Cpath%20d%3D%22m200.6%20377.45-1.4557%2010.06%205.9807%209.3618%2010.753-3.9847%202.5416-12.885z%22%20fill-opacity%3D%22.19883%22%2F%3E%3Cpath%20d%3D%22m200.6%20377.45%202.4754%208.7737%209.8499%2010.006%2010.159-4.7718-4.6645-11.456z%22%20fill%3D%22%23ff784d%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E",
-
-		_: "%3Csvg%20width%3D%2236.689mm%22%20height%3D%2222.578mm%22%20version%3D%221.1%22%20viewBox%3D%220%200%20130%2080%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Acc%3D%22http%3A%2F%2Fcreativecommons.org%2Fns%23%22%20xmlns%3Adc%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Felements%2F1.1%2F%22%20xmlns%3Ardf%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%22%3E%3Cmetadata%3E%3Crdf%3ARDF%3E%3Ccc%3AWork%20rdf%3Aabout%3D%22%22%3E%3Cdc%3Aformat%3Eimage%2Fsvg%2Bxml%3C%2Fdc%3Aformat%3E%3Cdc%3Atype%20rdf%3Aresource%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Fdcmitype%2FStillImage%22%2F%3E%3Cdc%3Atitle%2F%3E%3C%2Fcc%3AWork%3E%3C%2Frdf%3ARDF%3E%3C%2Fmetadata%3E%3Cg%20transform%3D%22translate(-167.38%20-298.71)%22%3E%3Cpath%20d%3D%22m214.8%20298.71a43.051%2040%200%200%200-43.052%2040.001%2043.051%2040%200%200%200%200.0854%202.2131%2015.178%2014.103%200%200%200-4.4565%209.971%2015.178%2014.103%200%200%200%2015.036%2014.096%2043.051%2040%200%200%200%2032.386%2013.719%2043.051%2040%200%200%200%2040.14-25.663%2032.215%2029.932%200%200%200%2028.278%2015.595%2032.215%2029.932%200%200%200%2014.159-3.0659%2051.072%2047.453%200%200%201-9.0389-26.865%2051.072%2047.453%200%200%201%208.9834-26.869%2032.215%2029.932%200%200%200-14.104-3.0639%2032.215%2029.932%200%200%200-28.239%2015.589%2043.051%2040%200%200%200-40.179-25.657z%22%2F%3E%3Cpath%20d%3D%22m210.36%20311.27c-2.8488%200.16406-6.2178%201.7576-7.5221%205.1046-0.45895%201.1777-0.55328%202.1189-0.31012%203.4672%200.12164%200.67416%200.35762%201.4736%201.0245%202.2756%200.66687%200.80194%201.9047%201.4518%203.0454%201.5027%200.56681%200.0253%200.4095-6e-3%200.48115-0.0123%200.0716-8e-3%200.13412-0.0169%200.20346-0.0274%200.13858-0.0208%200.29726-0.0465%200.53531-0.11441%200.23804-0.0679%200.53951-0.0986%201.1723-0.58476%200.31641-0.2431%200.77334-0.65699%201.0638-1.4358%200.29044-0.77887%200.19921-1.85-0.10579-2.4949a3.157%203.157%200%200%200-0.69313-0.96908c0.3082-0.22975%200.71875-0.3647%201.4681-0.40785%201.2725-0.0733%203.0684%200.45212%203.942%201.0078%203.5194%202.2388%204.7818%205.6732%204.6647%209.7977-0.11718%204.1246-1.9192%208.6929-4.3772%2011.687-0.31381%200.38225-0.64127%200.75625-0.98121%201.1182a3.157%203.157%200%201%200%204.6022%204.3211c0.43464-0.46278%200.85442-0.94122%201.2585-1.4335%203.4258-4.1731%205.6468-9.7946%205.8091-15.512%200.16234-5.7173-2.037-11.773-7.5888-15.305-2.1646-1.377-4.8433-2.1489-7.6921-1.9848z%22%20color%3D%22%23000000%22%20color-rendering%3D%22auto%22%20fill%3D%22%23fff%22%20fill-rule%3D%22evenodd%22%20image-rendering%3D%22auto%22%20shape-rendering%3D%22auto%22%20solid-color%3D%22%23000000%22%20style%3D%22block-progression%3Atb%3Bisolation%3Aauto%3Bmix-blend-mode%3Anormal%3Btext-decoration-color%3A%23000000%3Btext-decoration-line%3Anone%3Btext-decoration-style%3Asolid%3Btext-indent%3A0%3Btext-transform%3Anone%3Bwhite-space%3Anormal%22%2F%3E%3Ccircle%20cx%3D%22214.47%22%20cy%3D%22354.08%22%20r%3D%223.4093%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E",
-		_hint: function _hint(t) {
-			return t.replace(/\%23([0-9a-f]{3})*/gi, "%23441111");
-		}
+	fishs : {
+		A:"%3Csvg%20width%3D%2270.556mm%22%20height%3D%2228.222mm%22%20version%3D%221.1%22%20viewBox%3D%220%200%20250%20100%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Acc%3D%22http%3A%2F%2Fcreativecommons.org%2Fns%23%22%20xmlns%3Adc%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Felements%2F1.1%2F%22%20xmlns%3Ardf%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%22%3E%3Cmetadata%3E%3Crdf%3ARDF%3E%3Ccc%3AWork%20rdf%3Aabout%3D%22%22%3E%3Cdc%3Aformat%3Eimage%2Fsvg%2Bxml%3C%2Fdc%3Aformat%3E%3Cdc%3Atype%20rdf%3Aresource%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Fdcmitype%2FStillImage%22%2F%3E%3Cdc%3Atitle%2F%3E%3C%2Fcc%3AWork%3E%3C%2Frdf%3ARDF%3E%3C%2Fmetadata%3E%3Cg%20transform%3D%22translate(-144.43%20-293.55)%22%3E%3Cpath%20d%3D%22m311.44%20333.24-27.873%2018.81%2013.315%2028.44-11.304-4.7358-11.936-29.237%2026.452-15.29z%22%20fill%3D%22%23315b86%22%2F%3E%3Cpath%20d%3D%22m280.22%20293.55-11.442%2015.158-10.68%2015.679-24.472-5.2192%207.8671-14.314%2015.382-7.2996z%22%20fill%3D%22%23315b86%22%2F%3E%3Cpath%20d%3D%22m343.47%20328.39-24.001%2028.393-2.5911%2010.378%2025.262%2018.167%2015.386%202.9293-13.794-17.388-5.5875-11.142%2014.281-18.046%2042-36.93z%22%20fill%3D%22%23315b86%22%2F%3E%3Cpath%20d%3D%22m212.54%20312.89-16.549%2035.853-21.701%2021.21%2010.481%203.9547%2025.672-4.4985%207.8034-34.532z%22%20fill%3D%22%23ccc%22%2F%3E%3Cpath%20d%3D%22m244.64%20379.19%2077.906-13.92-6.4818-8.6959-48.627-11.954-70.288-30.9-1.4505%2045.635%2017.569%2013.577z%22%20fill%3D%22%23b3b3b3%22%2F%3E%3Cpath%20d%3D%22m343.47%20328.39-24.001%2028.393-2.5911%2010.378%2025.262%2018.167%2015.386%202.9293-12.759-6.3692-12.888-20.992%2013.546-27.016%2049-29.129z%22%20fill-opacity%3D%22.087719%22%2F%3E%3Cpath%20d%3D%22m262.78%20314.44%2061.827%2036.055%200.33591%2020.346-52.104-12.885-72.604-0.0871%207.7066-51.813z%22%20fill%3D%22%233a5c79%22%2F%3E%3Cpath%20d%3D%22m242.87%20318.79%2024.101%209.8637%2057.988%2042.16-52.116-12.858-41.214%200.0771-7.5452-11.506-23.845%2011.342%207.7066-51.813z%22%20fill%3D%22%23b1e9fb%22%20fill-opacity%3D%22.093567%22%2F%3E%3Cpath%20d%3D%22m246.91%20393.55-15.307-35.348-7.6753-11.584-19.491%209.526%207.1715%2020.9%2014.022%2010.658z%22%20fill%3D%22%233a5c79%22%2F%3E%3Cpath%20d%3D%22m212.15%20305.2-30.615%200.95793-37.112%2018.246%203.1257%2013.955%2017.635%2019.979%2019.198%203.5262%2022.305-2.8304%208.0675-20.536z%22%20fill%3D%22%2349769c%22%2F%3E%3Cellipse%20transform%3D%22matrix(.93642%20-.35089%20.14595%20.98929%200%200)%22%20cx%3D%22138.35%22%20cy%3D%22387.92%22%20rx%3D%222.8196%22%20ry%3D%224.2535%22%20stroke%3D%22%23fff%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%221.1709%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E",
+		B:"%3Csvg%20width%3D%2245.156mm%22%20height%3D%2228.222mm%22%20version%3D%221.1%22%20viewBox%3D%220%200%20160%20100%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Acc%3D%22http%3A%2F%2Fcreativecommons.org%2Fns%23%22%20xmlns%3Adc%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Felements%2F1.1%2F%22%20xmlns%3Ardf%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%22%3E%20%3Cmetadata%3E%20%3Crdf%3ARDF%3E%20%3Ccc%3AWork%20rdf%3Aabout%3D%22%22%3E%20%3Cdc%3Aformat%3Eimage%2Fsvg%2Bxml%3C%2Fdc%3Aformat%3E%20%3Cdc%3Atype%20rdf%3Aresource%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Fdcmitype%2FStillImage%22%2F%3E%20%3Cdc%3Atitle%2F%3E%20%3C%2Fcc%3AWork%3E%20%3C%2Frdf%3ARDF%3E%20%3C%2Fmetadata%3E%20%3Cg%20transform%3D%22translate(-148.54%20-282.05)%22%3E%20%3Cpath%20d%3D%22m197.14%20366.88%2030.732%205.6132-13.402-28.122-19.919%202.5897z%22%20fill%3D%22%23294a66%22%2F%3E%20%3Cpath%20d%3D%22m195.14%20301.98%2030.732-5.6132-13.402%2028.122-19.919-2.5897z%22%20fill%3D%22%23294a66%22%2F%3E%20%3Cpath%20d%3D%22m280.02%20296.8-34.926%2035.426%2035.424%2034.924-7.5664-33.496c0.12206%200.17745%207.0684-36.854%207.0684-36.854z%22%20fill%3D%22%234c565e%22%2F%3E%20%3Cpath%20transform%3D%22matrix(.7121%20.70207%20-.70207%20.7121%200%200)%22%20d%3D%22m346.57%2075.209%2078.917-25.275-25.636%2078.556h-53.281z%22%20fill%3D%22%233c76a8%22%2F%3E%20%3Cpath%20transform%3D%22translate(148.54%20282.05)%22%20d%3D%22m45.447%2014.826-37.408%2037.941%2037.943%2037.406%2028.232-14.592%2017.162-27.866-18.09-18.806z%22%20fill%3D%22%233a7fba%22%2F%3E%20%3Cpath%20d%3D%22m193.99%20296.87%2023.662%2040.169-23.128%2035.18-37.942-37.407z%22%20fill%3D%22%23336590%22%2F%3E%20%3Cpath%20d%3D%22m193.99%20296.87%2019.942%2037.407-19.407%2037.942-37.942-37.407z%22%20fill%3D%22%233986c8%22%2F%3E%20%3Cpath%20d%3D%22m178.18%20322.08%203.7042%203.8552-3.6491%203.9103-3.9103-3.8552z%22%20fill%3D%22%23fff%22%2F%3E%20%3Cpath%20d%3D%22m178.16%20323.47%202.7405%202.8523-2.6998%202.893-2.893-2.8522z%22%2F%3E%20%3C%2Fg%3E%20%3C%2Fsvg%3E%20",
+		C:"%3Csvg%20width%3D%2242.333mm%22%20height%3D%2233.867mm%22%20version%3D%221.1%22%20viewBox%3D%220%200%20150%20120%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Acc%3D%22http%3A%2F%2Fcreativecommons.org%2Fns%23%22%20xmlns%3Adc%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Felements%2F1.1%2F%22%20xmlns%3Ardf%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%22%3E%3Cmetadata%3E%3Crdf%3ARDF%3E%3Ccc%3AWork%20rdf%3Aabout%3D%22%22%3E%3Cdc%3Aformat%3Eimage%2Fsvg%2Bxml%3C%2Fdc%3Aformat%3E%3Cdc%3Atype%20rdf%3Aresource%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Fdcmitype%2FStillImage%22%2F%3E%3Cdc%3Atitle%2F%3E%3C%2Fcc%3AWork%3E%3C%2Frdf%3ARDF%3E%3C%2Fmetadata%3E%3Cg%20transform%3D%22translate(-163.57%20-279.34)%22%3E%3Cg%20transform%3D%22matrix(.9738%20-.22741%20.22741%20.9738%20-86.325%2041.1)%22%3E%3Cpath%20d%3D%22m265.15%20323.53%2022.52-3.1266%2034.874%2010.264-33.355-18.485-19.134%200.1098-8.6854%201.8216z%22%20fill%3D%22%23d82e3e%22%2F%3E%3Cpath%20d%3D%22m266.02%20331.27-26.669%2083.052%2043.981%203.3924%2015.354%2019.91%200.19954-32.212%2022.843-24.656-34.805%2014.065%201.6137-31.943z%22%20fill%3D%22%23ead200%22%2F%3E%3Cpath%20d%3D%22m262.74%20314.38-1.3662-0.26526%203.782%209.416%201.5737-0.29279z%22%20fill-opacity%3D%22.070175%22%2F%3E%3Cpath%20d%3D%22m199.59%20360.62%2020.556-38.523%2041.233-7.9558%207.4318%2019.272%2014.019%2073.943-54.537%209.1198-32.535-13.961z%22%20fill-opacity%3D%22.1462%22%2F%3E%3Cpath%20d%3D%22m199.59%20360.62%2020.556-38.523%2041.233-7.9558%209.0704%2016.694%209.6274%2080.321-51.784%205.3204-32.535-13.961z%22%20fill%3D%22%23d87f2e%22%2F%3E%3Cpath%20d%3D%22m256.72%20315.04-16.269%203.138%206.4821%2048.811-28.454%2045.276%209.8103%204.2102%204.859-0.49834%2034.771-40.945z%22%20fill%3D%22%23d82e3e%22%2F%3E%3Cpath%20d%3D%22m240.45%20318.18%206.4816%2048.811-28.453%2045.276%2030.431-39.929-8.4589-54.158zm25.865%2058.741-33.168%2039.057%2033.983-33.801-0.81498-5.2569z%22%20fill-opacity%3D%22.11111%22%2F%3E%3Cpath%20d%3D%22m216.34%20377.38%2019.117-6.6926%206.3081%2016.373-12.39%207.8452-15.691-10.138z%22%20fill-opacity%3D%22.1345%22%2F%3E%3Cpath%20d%3D%22m216.3%20377.37%2017.43-3.4217%205.9636%2016.293-12.031%207.929-13.988-13.405z%22%20fill%3D%22%23ead200%22%2F%3E%3Cpath%20d%3D%22m219.93%20321.43-21.329%2015.393-15.471%2015.86-9.3305%201.9486%202.9123%2014.243%205.1632%2010.491%2013.926%2025.282%2040.414-37.347z%22%20fill-opacity%3D%22.11696%22%2F%3E%3Cpath%20d%3D%22m219.93%20321.43-21.329%2015.393-15.471%2015.86-9.3305%201.9486%202.9123%2014.243%205.1632%2010.491%2013.926%2025.282%2038.657-40.473z%22%20fill%3D%22%23d82e3e%22%2F%3E%3Cpath%20d%3D%22m287.67%20320.4%201.8538%200.10528-0.33541-8.326z%22%20fill-opacity%3D%22.099415%22%2F%3E%3Cpath%20d%3D%22m283.33%20417.72%203.9154-3.0966-0.32335-19.796z%22%20fill-opacity%3D%22.081871%22%2F%3E%3Cpath%20d%3D%22m283.33%20417.72%2015.528-8.181%200.0255-4.1206z%22%20fill-opacity%3D%22.11696%22%2F%3E%3C%2Fg%3E%3Cpath%20d%3D%22m181.15%20335.1%203.5532%204.8078-3.5004%204.8765-3.7509-4.8078z%22%20fill-opacity%3D%22.23977%22%2F%3E%3Cpath%20d%3D%22m181.14%20335.62%203.1209%204.2229-3.0745%204.2832-3.2946-4.2229z%22%20fill%3D%22%23fff%22%2F%3E%3Cpath%20d%3D%22m181.12%20337.14%202.309%203.1243-2.2746%203.1689-2.4374-3.1242z%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E",
+		D:"%3Csvg%20width%3D%2267.733mm%22%20height%3D%2225.4mm%22%20version%3D%221.1%22%20viewBox%3D%220%200%20240%2090%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Acc%3D%22http%3A%2F%2Fcreativecommons.org%2Fns%23%22%20xmlns%3Adc%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Felements%2F1.1%2F%22%20xmlns%3Ardf%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%22%3E%3Cmetadata%3E%3Crdf%3ARDF%3E%3Ccc%3AWork%20rdf%3Aabout%3D%22%22%3E%3Cdc%3Aformat%3Eimage%2Fsvg%2Bxml%3C%2Fdc%3Aformat%3E%3Cdc%3Atype%20rdf%3Aresource%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Fdcmitype%2FStillImage%22%2F%3E%3Cdc%3Atitle%2F%3E%3C%2Fcc%3AWork%3E%3C%2Frdf%3ARDF%3E%3C%2Fmetadata%3E%3Cg%20transform%3D%22translate(-158.65%20-290.34)%22%3E%3Cpath%20d%3D%22m185.21%20335.42%2015.469-32.523%2027.116-6.1455%2059.983%207.8997%2051.451%2032.472%2017.08-22.352%2042.34-24.429-32.373%2052.308%2025.48%2037.691-37.952-13.583-16.005-18.866-30.671%2021.357-51.125%208.3752-28.379-1.068-31.579-6.521z%22%20fill%3D%22%23ea7f00%22%2F%3E%3Cpath%20d%3D%22m185.21%20335.42%2015.469-32.523%2027.116-6.1455%2026.477%208.3396%2037.501%2012.268%2047.711%2025.033-40.774%2023.886-46.476%205.6293-24.61%204.6501-31.579-6.521z%22%20fill-opacity%3D%22.11696%22%2F%3E%3Cpath%20d%3D%22m185.21%20335.42%2015.469-32.523%2027.116-6.1455%2026.477%208.3396%2085.212%2037.301-44.92%2022.019-42.33%207.4955-24.61%204.6501-31.579-6.521z%22%20fill%3D%22%23456985%22%2F%3E%3Cpath%20d%3D%22m231.94%20349.18%204.5672%207.4264-5.2004%2010.141-10.506-2.6618-2.6806-14.183z%22%20fill-opacity%3D%22.1345%22%2F%3E%3Cpath%20d%3D%22m231.93%20349.15%202.2022%206.067-5.5655%2012.09-10.366-2.4172-3.5724-7.2707%203.4946-7.7245z%22%20fill%3D%22%23ea7f00%22%2F%3E%3Cpath%20d%3D%22m201.14%20301.7-19.379%207.817-14.1%2018.747-7.9396%208.1864%2011.019%206.6427%204.3938%2014.026%2020.831%2012.935%2029.446-38.306z%22%20fill-opacity%3D%22.11696%22%2F%3E%3Cpath%20d%3D%22m201.14%20301.7-19.379%207.817-14.1%2018.747-8.661%208.1887%200.60526%201.9942%209.4144%204.5432-6.5712%207.4899%2012.686%206.6394%2020.831%2012.935%2027.019-41.088z%22%20fill%3D%22%232e91d8%22%2F%3E%3Cpath%20d%3D%22m179.24%20321.26%203.5606%205.0598-3.5077%205.1321-3.7588-5.0598z%22%20fill-opacity%3D%22.23977%22%2F%3E%3Cpath%20d%3D%22m179.23%20321.81%203.1274%204.4442-3.081%204.5077-3.3014-4.4442z%22%20fill%3D%22%23fff%22%2F%3E%3Cpath%20d%3D%22m179.21%20323.41%202.3138%203.288-2.2794%203.335-2.4425-3.288z%22%2F%3E%3Cpath%20d%3D%22m160.45%20336.69-1.5671%202.1152%200.91904%202.5248%202.354-0.24147%206.1569%202.2512-6.3812%201.2629-2.3523-0.63483-0.92565%202.3705%203.7289%204.3921%205.5796-3.5014%204.9496-2.8171-3.6216-4.2553-4.2447-4.8598z%22%20fill%3D%22%23ea7f00%22%2F%3E%3Cpath%20d%3D%22m398.65%20290.34-38.983%2052.373%2032.09%2037.627-25.479-37.692z%22%20fill-opacity%3D%22.18129%22%2F%3E%3Cpath%20d%3D%22m398.65%20290.34-38.983%2052.373%203.7357%204.3919%202.8749-4.4564z%22%20fill-opacity%3D%22.18129%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E",
+		R:"%3Csvg%20width%3D%2245.156mm%22%20height%3D%2228.222mm%22%20version%3D%221.1%22%20viewBox%3D%220%200%20160%20100%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Acc%3D%22http%3A%2F%2Fcreativecommons.org%2Fns%23%22%20xmlns%3Adc%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Felements%2F1.1%2F%22%20xmlns%3Ardf%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%22%3E%20%3Cmetadata%3E%20%3Crdf%3ARDF%3E%20%3Ccc%3AWork%20rdf%3Aabout%3D%22%22%3E%20%3Cdc%3Aformat%3Eimage%2Fsvg%2Bxml%3C%2Fdc%3Aformat%3E%20%3Cdc%3Atype%20rdf%3Aresource%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Fdcmitype%2FStillImage%22%2F%3E%20%3Cdc%3Atitle%2F%3E%20%3C%2Fcc%3AWork%3E%20%3C%2Frdf%3ARDF%3E%20%3C%2Fmetadata%3E%20%3Cg%20transform%3D%22translate(-148.54%20-282.05)%22%3E%20%3Cpath%20d%3D%22m198.63%20368.99%2040.675%205.9786-17.739-29.953-26.364%202.7583z%22%20fill%3D%22%23662929%22%2F%3E%20%3Cpath%20d%3D%22m195.98%20299.87%2040.675-5.9786-17.739%2029.953-26.364-2.7583z%22%20fill%3D%22%23662929%22%2F%3E%20%3Cpath%20d%3D%22m280.02%20294.8-50.583%2035.173%2051.081%2035.176-7.5664-33.496c0.12206%200.17745%207.0684-36.854%207.0684-36.854z%22%20fill%3D%22%235e4c4c%22%2F%3E%20%3Cpath%20transform%3D%22matrix(.7121%20.70207%20-.70207%20.7121%200%200)%22%20d%3D%22m346.57%2075.209%2067.268-19.464-13.987%2072.745-36.212-14.701z%22%20fill%3D%22%23a83c40%22%2F%3E%20%3Cpath%20transform%3D%22translate(148.54%20282.05)%22%20d%3D%22m45.447%2014.826-10.387%2036.931%2010.922%2038.416%2036.232-14.592%2017.162-27.866-18.09-18.806z%22%20fill%3D%22%23ba3a4e%22%2F%3E%20%3Cpath%20d%3D%22m193.99%20296.87%2023.662%2040.169-23.128%2035.18-32.133-31.346z%22%20fill%3D%22%23903338%22%2F%3E%20%3Cpath%20d%3D%22m193.99%20296.87%2019.942%2037.407-19.407%2037.942-34.406-36.65z%22%20fill%3D%22%23c8393c%22%2F%3E%20%3Cpath%20d%3D%22m178.18%20322.08%203.7042%203.8552-3.6491%203.9103-3.9103-3.8552z%22%20fill%3D%22%23fff%22%2F%3E%20%3Cpath%20d%3D%22m178.16%20323.47%202.7405%202.8523-2.6998%202.893-2.893-2.8522z%22%2F%3E%20%3C%2Fg%3E%20%3C%2Fsvg%3E",
+		Y:"%3Csvg%20width%3D%2245.156mm%22%20height%3D%2228.222mm%22%20version%3D%221.1%22%20viewBox%3D%220%200%20160%20100%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Acc%3D%22http%3A%2F%2Fcreativecommons.org%2Fns%23%22%20xmlns%3Adc%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Felements%2F1.1%2F%22%20xmlns%3Ardf%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%22%3E%20%3Cmetadata%3E%20%3Crdf%3ARDF%3E%20%3Ccc%3AWork%20rdf%3Aabout%3D%22%22%3E%20%3Cdc%3Aformat%3Eimage%2Fsvg%2Bxml%3C%2Fdc%3Aformat%3E%20%3Cdc%3Atype%20rdf%3Aresource%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Fdcmitype%2FStillImage%22%2F%3E%20%3Cdc%3Atitle%2F%3E%20%3C%2Fcc%3AWork%3E%20%3C%2Frdf%3ARDF%3E%20%3C%2Fmetadata%3E%20%3Cg%20transform%3D%22translate(-148.54%20-282.05)%22%3E%20%3Cpath%20d%3D%22m281.16%20294.8-72.59%2035.173%2073.305%2035.176-10.858-33.496c0.17517%200.17745%2010.144-36.854%2010.144-36.854z%22%20fill%3D%22%236b4206%22%2F%3E%20%3Cpath%20d%3D%22m286.02%20309.68-56.585%2020.3%2057.142%2020.302-8.4642-19.332c0.13655%200.10242%207.907-21.27%207.907-21.27z%22%20fill%3D%22%239d630f%22%2F%3E%20%3Cpath%20d%3D%22m198.63%20368.99%2040.675%205.9786-17.739-29.953-26.364%202.7583z%22%20fill%3D%22%23815b2b%22%2F%3E%20%3Cpath%20d%3D%22m195.98%20299.87%2040.675-5.9786-17.739%2029.953-26.364-2.7583z%22%20fill%3D%22%23815b2b%22%2F%3E%20%3Cpath%20transform%3D%22matrix(.7121%20.70207%20-.70207%20.7121%200%200)%22%20d%3D%22m346.57%2075.209%2068.717-22.311-15.436%2075.592-36.212-14.701z%22%20fill%3D%22%23b44f0f%22%2F%3E%20%3Cpath%20transform%3D%22translate(148.54%20282.05)%22%20d%3D%22m45.447%2014.826-10.387%2036.931%2010.922%2038.416%2018.232-14.592%2017.162-27.866-18.09-18.806z%22%20fill%3D%22%23e3951d%22%2F%3E%20%3Cpath%20d%3D%22m193.99%20296.87%2023.662%2040.169-23.128%2035.18-30.744-25.475z%22%20fill%3D%22%23b44f0f%22%2F%3E%20%3Cpath%20d%3D%22m193.99%20296.87%2019.942%2037.407-19.407%2037.942-20.165-14.442-14.241-22.208%2014.552-25.176z%22%20fill%3D%22%23e3951d%22%2F%3E%20%3Cpath%20d%3D%22m178.18%20322.08%203.7042%203.8552-3.6491%203.9103-3.9103-3.8552z%22%20fill%3D%22%23fff%22%2F%3E%20%3Cpath%20d%3D%22m178.16%20323.47%202.7405%202.8523-2.6998%202.893-2.893-2.8522z%22%2F%3E%20%3C%2Fg%3E%20%3C%2Fsvg%3E",
+		G:"%3Csvg%20width%3D%2242.333mm%22%20height%3D%2225.4mm%22%20version%3D%221.1%22%20viewBox%3D%220%200%20150%2090%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Acc%3D%22http%3A%2F%2Fcreativecommons.org%2Fns%23%22%20xmlns%3Adc%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Felements%2F1.1%2F%22%20xmlns%3Ardf%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%22%3E%3Cmetadata%3E%3Crdf%3ARDF%3E%3Ccc%3AWork%20rdf%3Aabout%3D%22%22%3E%3Cdc%3Aformat%3Eimage%2Fsvg%2Bxml%3C%2Fdc%3Aformat%3E%3Cdc%3Atype%20rdf%3Aresource%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Fdcmitype%2FStillImage%22%2F%3E%3Cdc%3Atitle%2F%3E%3C%2Fcc%3AWork%3E%3C%2Frdf%3ARDF%3E%3C%2Fmetadata%3E%3Cg%20transform%3D%22translate(-156.33%20-290.46)%22%3E%3Cpath%20d%3D%22m233.63%20343.02%207.7049%2029.376%204.3692-5.9208%2016.025%201.5603-28.349-41.926-12.78%2012.981z%22%20fill%3D%22%23e3951d%22%2F%3E%3Cpath%20d%3D%22m165.42%20343.04-7.4778%202.9284-0.46952%202.5506%2017.283%2011.725z%22%20fill%3D%22%23e3951d%22%2F%3E%3Cpath%20d%3D%22m207.13%20371.8%2026.506%203.2266-10.097-14.13-2.0887-10.176-17.03%2014.511z%22%20fill%3D%22%23e3951d%22%2F%3E%3Cpath%20d%3D%22m207.13%20371.8%2026.506%203.2266-10.097-14.13-2.0887-10.176-0.44696%2011.211%203.2927%207.6769-11.971%200.41463-7.9046-4.7914z%22%20fill%3D%22%23fff%22%20fill-opacity%3D%22.16374%22%2F%3E%3Cpath%20d%3D%22m250.12%20337.18%2027.382-4.7018%2023.542-36.434-45.326%2014.318-26.579%2023.085%204.2267%204.0154z%22%20fill%3D%22%23f7bf1a%22%2F%3E%3Cpath%20d%3D%22m240.02%20343.89%2018.057%2030.602%2048.254%205.9596-36.657-38.784-36.295-15.557-1.9725%206.234z%22%20fill%3D%22%23f7bf1a%22%2F%3E%3Cpath%20d%3D%22m250.6%20323.02%2031.318-5.5994%2019.12-21.381-45.326%2014.318-26.579%2023.085%204.2267%204.0154z%22%20fill%3D%22%23e3951d%22%2F%3E%3Cpath%20d%3D%22m178.96%20316.4%2013.635-17.812%2026.446-8.1317%204.8008%2020.615%2018.195%2020.632-65.41-6.2571z%22%20fill%3D%22%23e3951d%22%2F%3E%3Cpath%20d%3D%22m254.41%20342.7%2021.002%2028.898%2030.92%208.8561-36.657-38.784-36.295-15.557-1.9725%206.234z%22%20fill%3D%22%23795620%22%20fill-opacity%3D%22.33918%22%2F%3E%3Cpath%20d%3D%22m178.96%20316.4%2013.635-17.812%2026.446-8.1317%204.8008%2020.615%2018.195%2020.632-26.548-18.322-8.5859-10.111-12.733%201.1709-17.544%2021.005z%22%20fill%3D%22%23e6e6e6%22%20fill-opacity%3D%22.15789%22%2F%3E%3Cpath%20d%3D%22m192.74%20314.41%2011.996-0.90416%2039.817%2016.84-20.34%2015.388-3.3161%2014.367-13.279%209.587-16.605-1.7695-8.4465-4.4745-15.021-22.566%205.0461-7.9284z%22%20fill%3D%22%23f7bf1a%22%2F%3E%3Cpath%20d%3D%22m178.37%20318.67%203.5014%205.486%2010.006%2010.468-10.95%2026.824-6.1787-1.2058-18.423-19.118%205.0461-7.295z%22%20fill-opacity%3D%22.17544%22%2F%3E%3Cpath%20d%3D%22m192.74%20314.41%2011.996-0.90416%2039.817%2016.84-20.34%2015.388-9.7304%2010.281-17.377-4.8097-6.6268%203.6779-7.912%208.5603-15.021-22.566%205.0461-7.9284z%22%20fill%3D%22%23795620%22%20fill-opacity%3D%22.17544%22%2F%3E%3Cpath%20d%3D%22m178.37%20318.67%208.2161%2018.292-5.6587%2024.486-6.1787-1.2058-18.423-19.118%205.0461-7.295z%22%20fill%3D%22%23ffe644%22%2F%3E%3Cpath%20d%3D%22m172.72%20328.99%203.1435%203.5724-3.0968%203.6234-3.3185-3.5724z%22%20fill-opacity%3D%22.23977%22%2F%3E%3Cpath%20d%3D%22m172.71%20329.38%202.7611%203.1378-2.72%203.1826-2.9147-3.1378z%22%20fill%3D%22%23fff%22%2F%3E%3Cpath%20d%3D%22m172.69%20330.51%202.0428%202.3215-2.0124%202.3546-2.1564-2.3214z%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E",
+		M:"%3Csvg%20width%3D%2245.156mm%22%20height%3D%2225.4mm%22%20version%3D%221.1%22%20viewBox%3D%220%200%20160%2090%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Acc%3D%22http%3A%2F%2Fcreativecommons.org%2Fns%23%22%20xmlns%3Adc%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Felements%2F1.1%2F%22%20xmlns%3Ardf%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%22%3E%3Cmetadata%3E%3Crdf%3ARDF%3E%3Ccc%3AWork%20rdf%3Aabout%3D%22%22%3E%3Cdc%3Aformat%3Eimage%2Fsvg%2Bxml%3C%2Fdc%3Aformat%3E%3Cdc%3Atype%20rdf%3Aresource%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Fdcmitype%2FStillImage%22%2F%3E%3Cdc%3Atitle%2F%3E%3C%2Fcc%3AWork%3E%3C%2Frdf%3ARDF%3E%3C%2Fmetadata%3E%3Cg%20transform%3D%22translate(-165.82%20-329.23)%22%3E%3Cpath%20d%3D%22m253.2%20381.43%2026.409%2010.947%2046.203-46.905-41.701%2011.752z%22%20fill%3D%22%234dadff%22%2F%3E%3Cpath%20d%3D%22m253.72%20379.39%2026.895%209.5934%2011.709%2030.242-22.774-11.173z%22%20fill%3D%22%234dadff%22%2F%3E%3Cpath%20d%3D%22m215.16%20340.45%2028.399-1.6996%2021.919%2023.374-25.165-1.3817z%22%20fill%3D%22%234dadff%22%2F%3E%3Cpath%20d%3D%22m209.14%20367.53%2017.328%2023.363%2031.409%201.8905-17.464-18.814z%22%20fill%3D%22%234dadff%22%2F%3E%3Cpath%20d%3D%22m170.39%20375.28%2018.466-16.141%205.8926-29.75%2029.01%201.846%2024.627%2024.187%2027.015%2032.319-79.079-2.0245-20.737-7.9184-4.5619%200.55708z%22%20fill%3D%22%233986c8%22%2F%3E%3Cpath%20d%3D%22m195.05%20329.23-20.028%2016.074-7.4112%2024.277%2029.022%2016.431%2012.028-35.036z%22%20fill-opacity%3D%22.081871%22%2F%3E%3Cpath%20d%3D%22m195.05%20329.23-20.028%2016.074-7.4112%2024.277%2015.357%207.4987%2011.548-0.77502%2010.517-23.993z%22%20fill%3D%22%234dadff%22%2F%3E%3Cpath%20d%3D%22m167.83%20366.89-2.0173%201.7123%200.40234%202.4917%202.4235%200.15484%2011.844%206.3592%208.0722-0.98339-6.3451-2.2642z%22%20fill%3D%22%233a5c79%22%2F%3E%3Cellipse%20transform%3D%22matrix(.97161%20-.23658%20.2214%20.97518%200%200)%22%20cx%3D%2299.878%22%20cy%3D%22393.56%22%20rx%3D%223.3864%22%20ry%3D%223.4942%22%20stroke%3D%22%23fff%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%221.1631%22%2F%3E%3Cpath%20d%3D%22m201.51%20371.02-3.6701%2011.288%2019.779%2018.382-1.4292-30.137z%22%20fill%3D%22%234dadff%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E",
+		N:"%3Csvg%20width%3D%2236.689mm%22%20height%3D%2222.578mm%22%20version%3D%221.1%22%20viewBox%3D%220%200%20130%2080%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Acc%3D%22http%3A%2F%2Fcreativecommons.org%2Fns%23%22%20xmlns%3Adc%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Felements%2F1.1%2F%22%20xmlns%3Ardf%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%22%3E%3Cmetadata%3E%3Crdf%3ARDF%3E%3Ccc%3AWork%20rdf%3Aabout%3D%22%22%3E%3Cdc%3Aformat%3Eimage%2Fsvg%2Bxml%3C%2Fdc%3Aformat%3E%3Cdc%3Atype%20rdf%3Aresource%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Fdcmitype%2FStillImage%22%2F%3E%3Cdc%3Atitle%2F%3E%3C%2Fcc%3AWork%3E%3C%2Frdf%3ARDF%3E%3C%2Fmetadata%3E%3Cg%20transform%3D%22translate(-167.38%20-298.71)%22%3E%3Cg%20transform%3D%22matrix(.9512%20-.22858%20.22213%20.97882%20-102.14%2038.344)%22%3E%3Cg%3E%3Cpath%20d%3D%22m254.29%20388.98%2018.43%202.4926%204.6394%2010.503-10.426%205.8522-14.715-1.2012-9.1626-9.1951z%22%20fill%3D%22%237248bf%22%2F%3E%3Cpath%20d%3D%22m256.25%20388.71%2013.876%201.8767%203.4931%207.9077-7.8499%204.4062-11.079-0.90438-6.8987-6.9232z%22%20fill-opacity%3D%22.11696%22%2F%3E%3Cpath%20d%3D%22m283.79%20363.38-6.5244%2033.695%2024.116%2019.712%2023.986-16.593%208.0844-29.505-17.973-23.807z%22%20fill%3D%22%237248bf%22%2F%3E%3Cpath%20d%3D%22m271.5%20348.56%2012.858%209.8999%2011.146-4.8689-1.4578-11.014-9.6344-8.4924-12.764%201.0084z%22%20fill%3D%22%237248bf%22%2F%3E%3Cpath%20d%3D%22m280.83%20368.97-4.2723%2021.955%2015.458%2012.005%2015.252-10.551%205.1407-18.762-11.429-15.139z%22%20fill-opacity%3D%22.11696%22%2F%3E%3Cpath%20d%3D%22m273.03%20350.62%208.1763%206.2951%207.0874-3.096-0.92698-7.0035-6.1263-5.4002-8.1167%200.64122z%22%20fill-opacity%3D%22.11696%22%2F%3E%3Cpath%20d%3D%22m229.12%20356.2%2019.647-28.121%2022.851%201.3468%2024.941%2045.051-17.182%2025.083-49.226-4.0028-14.277-11.174z%22%20fill%3D%22%23c83990%22%2F%3E%3Cpath%20d%3D%22m253.69%20326.7-27.436%205.8789-18.023%2015.035%205.4129%2010.912%2013.718%2010.931%2023.643-17.255z%22%20fill%3D%22%23ff4dc0%22%2F%3E%3Ccircle%20transform%3D%22matrix(.9982%20-.059979%20.059979%20.9982%200%200)%22%20cx%3D%22211.01%22%20cy%3D%22365.83%22%20r%3D%223.0908%22%20stroke%3D%22%23fff%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%221.0451%22%2F%3E%3Cpath%20d%3D%22m247.18%20364.02%209.8566%203.2798%2010.283%2010.392-11.491%208.8239-16.951-5.8289z%22%20fill-opacity%3D%22.16374%22%2F%3E%3Cpath%20d%3D%22m209.64%20371.84-9.7362-9.5176%201.1348-9.8683%202.5127-1.0808%2015.83%2010.679%208.0116%206.1028%2024.128-16.385-10.959%2034.457-17.887%201.224z%22%20fill-opacity%3D%22.21637%22%2F%3E%3Cpath%20d%3D%22m245.76%20364.05%207.3391%205.4829%205.7435%2012.413-8.2782%207.9909-11.722-9.1039z%22%20fill%3D%22%237248bf%22%2F%3E%3Cpath%20d%3D%22m209.64%20371.84-9.7362-9.5176%201.1348-9.8683%202.5127-1.0808%2015.83%2010.679%208.0116%206.1028%2024.128-16.385-14.071%2032.08-20.484%201.351z%22%20fill%3D%22%23d73da1%22%2F%3E%3Cpath%20transform%3D%22matrix(.48384%20.87515%20.87515%20-.48384%200%200)%22%20d%3D%22m415.93%2036.702%203.7829%201.7303%207.7018-0.61135-9.873%203.6486z%22%20fill%3D%22%23666%22%2F%3E%3Cpath%20d%3D%22m209.12%20344.75-2.4904%200.53193-0.84202%202.4264%201.9456%201.3362%203.326%205.5913-5.6462-3.1798-1.4084-1.9724-2.1566%201.1295%200.16222%205.589%206.4028%201.0369%205.5032%201.13-0.16394-5.4206-0.27016-6.2605z%22%20fill%3D%22%238f0c0a%22%2F%3E%3Cpath%20transform%3D%22matrix(.9738%20.22741%20-.22741%20.9738%20179.59%20298)%22%20d%3D%22m82.273%2036.006-19.77%2021.441-9.1895-4.1211%2011.51%206.4434z%22%20fill-opacity%3D%22.12281%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E",
+		G1:"%3Csvg%20width%3D%2242.333mm%22%20height%3D%2225.4mm%22%20version%3D%221.1%22%20viewBox%3D%220%200%20150%2090%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Acc%3D%22http%3A%2F%2Fcreativecommons.org%2Fns%23%22%20xmlns%3Adc%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Felements%2F1.1%2F%22%20xmlns%3Ardf%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%22%3E%3Cmetadata%3E%3Crdf%3ARDF%3E%3Ccc%3AWork%20rdf%3Aabout%3D%22%22%3E%3Cdc%3Aformat%3Eimage%2Fsvg%2Bxml%3C%2Fdc%3Aformat%3E%3Cdc%3Atype%20rdf%3Aresource%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Fdcmitype%2FStillImage%22%2F%3E%3Cdc%3Atitle%2F%3E%3C%2Fcc%3AWork%3E%3C%2Frdf%3ARDF%3E%3C%2Fmetadata%3E%3Cg%20transform%3D%22translate(-156.33%20-290.46)%22%3E%3Cpath%20d%3D%22m233.63%20343.02%207.7049%2029.376%204.3692-5.9208%2016.025%201.5603-28.349-41.926-12.78%2012.981z%22%20fill%3D%22%23e3951d%22%2F%3E%3Cpath%20d%3D%22m165.42%20343.04-7.4778%202.9284-0.46952%202.5506%2017.283%2011.725z%22%20fill%3D%22%23e3951d%22%2F%3E%3Cpath%20d%3D%22m207.13%20371.8%2026.506%203.2266-10.097-14.13-2.0887-10.176-17.03%2014.511z%22%20fill%3D%22%23e3951d%22%2F%3E%3Cpath%20d%3D%22m207.13%20371.8%2026.506%203.2266-10.097-14.13-2.0887-10.176-0.44696%2011.211%203.2927%207.6769-11.971%200.41463-7.9046-4.7914z%22%20fill%3D%22%23fff%22%20fill-opacity%3D%22.16374%22%2F%3E%3Cpath%20d%3D%22m247.67%20340.95%2026.387%203.0286%2031.219-28.533-45.402%201.2685-30.492%2014.864%202.8244%205.025z%22%20fill%3D%22%23f7bf1a%22%2F%3E%3Cpath%20d%3D%22m240.02%20343.89%2018.057%2030.602%2048.254%205.9596-36.657-38.784-36.295-15.557-1.9725%206.234z%22%20fill%3D%22%23f7bf1a%22%2F%3E%3Cpath%20d%3D%22m251.85%20327.48%2030.239%203.251%2023.193-15.282-45.402%201.2685-30.492%2014.864%202.8244%205.025z%22%20fill%3D%22%23e3951d%22%2F%3E%3Cpath%20d%3D%22m178.96%20316.4%2013.635-17.812%2026.446-8.1317%204.8008%2020.615%2018.195%2020.632-65.41-6.2571z%22%20fill%3D%22%23e3951d%22%2F%3E%3Cpath%20d%3D%22m254.41%20342.7%2021.002%2028.898%2030.92%208.8561-36.657-38.784-36.295-15.557-1.9725%206.234z%22%20fill%3D%22%23795620%22%20fill-opacity%3D%22.33918%22%2F%3E%3Cpath%20d%3D%22m178.96%20316.4%2013.635-17.812%2026.446-8.1317%204.8008%2020.615%2018.195%2020.632-26.548-18.322-8.5859-10.111-12.733%201.1709-17.544%2021.005z%22%20fill%3D%22%23e6e6e6%22%20fill-opacity%3D%22.15789%22%2F%3E%3Cpath%20d%3D%22m192.74%20314.41%2011.996-0.90416%2039.817%2016.84-20.34%2015.388-3.3161%2014.367-13.279%209.587-16.605-1.7695-8.4465-4.4745-15.021-22.566%205.0461-7.9284z%22%20fill%3D%22%23f7bf1a%22%2F%3E%3Cpath%20d%3D%22m178.37%20318.67%203.5014%205.486%2010.006%2010.468-10.95%2026.824-6.1787-1.2058-18.423-19.118%205.0461-7.295z%22%20fill-opacity%3D%22.17544%22%2F%3E%3Cpath%20d%3D%22m192.74%20314.41%2011.996-0.90416%2039.817%2016.84-20.34%2015.388-9.7304%2010.281-17.377-4.8097-6.6268%203.6779-7.912%208.5603-15.021-22.566%205.0461-7.9284z%22%20fill%3D%22%23795620%22%20fill-opacity%3D%22.17544%22%2F%3E%3Cpath%20d%3D%22m192.74%20314.41-1.5471%2010.86%206.8505%2014.5%2012.922%206.3597%2013.248-0.39532-9.7304%2010.281-17.377-4.8097-6.6268%203.6779-7.912%208.5603-15.021-22.566%205.0461-7.9284z%22%20fill%3D%22%23795620%22%20fill-opacity%3D%22.17544%22%2F%3E%3Cpath%20d%3D%22m178.37%20318.67%208.2161%2018.292-5.6587%2024.486-6.1787-1.2058-18.423-19.118%205.0461-7.295z%22%20fill%3D%22%23f7bf1a%22%2F%3E%3Cpath%20d%3D%22m172.72%20328.99%203.1435%203.5724-3.0968%203.6234-3.3185-3.5724z%22%20fill-opacity%3D%22.23977%22%2F%3E%3Cpath%20d%3D%22m172.71%20329.38%202.7611%203.1378-2.72%203.1826-2.9147-3.1378z%22%20fill%3D%22%23fff%22%2F%3E%3Cpath%20d%3D%22m172.69%20330.51%202.0428%202.3215-2.0124%202.3546-2.1564-2.3214z%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E",
+		B1:"%3Csvg%20width%3D%2242.333mm%22%20height%3D%2228.222mm%22%20version%3D%221.1%22%20viewBox%3D%220%200%20150%20100%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Acc%3D%22http%3A%2F%2Fcreativecommons.org%2Fns%23%22%20xmlns%3Adc%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Felements%2F1.1%2F%22%20xmlns%3Ardf%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%22%3E%3Cmetadata%3E%3Crdf%3ARDF%3E%3Ccc%3AWork%20rdf%3Aabout%3D%22%22%3E%3Cdc%3Aformat%3Eimage%2Fsvg%2Bxml%3C%2Fdc%3Aformat%3E%3Cdc%3Atype%20rdf%3Aresource%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Fdcmitype%2FStillImage%22%2F%3E%3Cdc%3Atitle%2F%3E%3C%2Fcc%3AWork%3E%3C%2Frdf%3ARDF%3E%3C%2Fmetadata%3E%3Cg%20transform%3D%22translate(-154.25%20-299.15)%22%3E%3Cg%20transform%3D%22matrix(.9738%20-.22741%20.22741%20.9738%20-86.325%2041.1)%22%3E%3Cg%20transform%3D%22matrix(1.0215%20.0053362%20.0053362%20.99988%20-5.4366%20-.76793)%22%3E%3Cpath%20d%3D%22m194.59%20391.61%2032.693%2029.158%2020.535-2.8997%209.2349-14.891-11.882-18.914z%22%20fill%3D%22%23ffc74d%22%2F%3E%3Cpath%20transform%3D%22matrix(.9738%20.22741%20-.22741%20.9738%20179.59%20298)%22%20d%3D%22m144.59%2021.011-35.131%2019.795-26.019%2014.617%2011.479%2016.573%2030.66%2015.693-22.673-27.301z%22%20fill%3D%22%23ffc74d%22%2F%3E%3Cpath%20d%3D%22m201.8%20333.83%2037.009-13.205%2025.991%2011.528%203.1613%2025.481-19.4%2010.142z%22%20fill%3D%22%23ffc74d%22%2F%3E%3Cpath%20d%3D%22m164.58%20367.94%2025.429-9.6371%206.1873-30.164%2039.689%204.7601%2016.324%2013.414%205.0694%2019.235%209.3902%2013.767-12.833%205.3518-11.564%2015.907-18.984%206.1199-32.786-13.01-11.691-18.51-8.7762-4.6812-4.7901%200.56483z%22%20fill%3D%22%23c83a39%22%2F%3E%3Cpath%20d%3D%22m164.58%20367.94%2025.429-9.6371%206.1873-30.164%2061.082%2037.409%209.3902%2013.767-12.833%205.3518-75.024-9.4928-8.7762-4.6812-4.7901%200.56483z%22%20fill-opacity%3D%22.1345%22%2F%3E%3Cpath%20d%3D%22m200.05%20325.72-23.496%2012.483-11.855%2022.932%2027.365%2018.521%2018.319-29.779z%22%20fill-opacity%3D%22.081871%22%2F%3E%3Cpath%20d%3D%22m200.05%20325.72-23.496%2012.483-11.855%2022.932%2014.597%2010.235%2012.083%201.2881%2015.02-22.094z%22%20fill%3D%22%23ff4d52%22%2F%3E%3Cpath%20d%3D%22m165.4%20358.49-2.3827%201.3506-0.0134%202.5614%202.4809%200.58751%2011.159%208.4689%208.522%200.45905-6.175-3.3955z%22%20fill%3D%22%23793b3a%22%2F%3E%3Ccircle%20transform%3D%22matrix(.9982%20-.059979%20.059979%20.9982%200%200)%22%20cx%3D%22161.87%22%20cy%3D%22365.05%22%20r%3D%223.5491%22%20stroke%3D%22%23fff%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%221.2%22%2F%3E%3Cpath%20d%3D%22m200.6%20377.45-1.4557%2010.06%205.9807%209.3618%2010.753-3.9847%202.5416-12.885z%22%20fill-opacity%3D%22.19883%22%2F%3E%3Cpath%20d%3D%22m200.6%20377.45%202.4754%208.7737%209.8499%2010.006%2010.159-4.7718-4.6645-11.456z%22%20fill%3D%22%23ff784d%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E",
+		
+		_:"%3Csvg%20width%3D%2236.689mm%22%20height%3D%2222.578mm%22%20version%3D%221.1%22%20viewBox%3D%220%200%20130%2080%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Acc%3D%22http%3A%2F%2Fcreativecommons.org%2Fns%23%22%20xmlns%3Adc%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Felements%2F1.1%2F%22%20xmlns%3Ardf%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%22%3E%3Cmetadata%3E%3Crdf%3ARDF%3E%3Ccc%3AWork%20rdf%3Aabout%3D%22%22%3E%3Cdc%3Aformat%3Eimage%2Fsvg%2Bxml%3C%2Fdc%3Aformat%3E%3Cdc%3Atype%20rdf%3Aresource%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Fdcmitype%2FStillImage%22%2F%3E%3Cdc%3Atitle%2F%3E%3C%2Fcc%3AWork%3E%3C%2Frdf%3ARDF%3E%3C%2Fmetadata%3E%3Cg%20transform%3D%22translate(-167.38%20-298.71)%22%3E%3Cpath%20d%3D%22m214.8%20298.71a43.051%2040%200%200%200-43.052%2040.001%2043.051%2040%200%200%200%200.0854%202.2131%2015.178%2014.103%200%200%200-4.4565%209.971%2015.178%2014.103%200%200%200%2015.036%2014.096%2043.051%2040%200%200%200%2032.386%2013.719%2043.051%2040%200%200%200%2040.14-25.663%2032.215%2029.932%200%200%200%2028.278%2015.595%2032.215%2029.932%200%200%200%2014.159-3.0659%2051.072%2047.453%200%200%201-9.0389-26.865%2051.072%2047.453%200%200%201%208.9834-26.869%2032.215%2029.932%200%200%200-14.104-3.0639%2032.215%2029.932%200%200%200-28.239%2015.589%2043.051%2040%200%200%200-40.179-25.657z%22%2F%3E%3Cpath%20d%3D%22m210.36%20311.27c-2.8488%200.16406-6.2178%201.7576-7.5221%205.1046-0.45895%201.1777-0.55328%202.1189-0.31012%203.4672%200.12164%200.67416%200.35762%201.4736%201.0245%202.2756%200.66687%200.80194%201.9047%201.4518%203.0454%201.5027%200.56681%200.0253%200.4095-6e-3%200.48115-0.0123%200.0716-8e-3%200.13412-0.0169%200.20346-0.0274%200.13858-0.0208%200.29726-0.0465%200.53531-0.11441%200.23804-0.0679%200.53951-0.0986%201.1723-0.58476%200.31641-0.2431%200.77334-0.65699%201.0638-1.4358%200.29044-0.77887%200.19921-1.85-0.10579-2.4949a3.157%203.157%200%200%200-0.69313-0.96908c0.3082-0.22975%200.71875-0.3647%201.4681-0.40785%201.2725-0.0733%203.0684%200.45212%203.942%201.0078%203.5194%202.2388%204.7818%205.6732%204.6647%209.7977-0.11718%204.1246-1.9192%208.6929-4.3772%2011.687-0.31381%200.38225-0.64127%200.75625-0.98121%201.1182a3.157%203.157%200%201%200%204.6022%204.3211c0.43464-0.46278%200.85442-0.94122%201.2585-1.4335%203.4258-4.1731%205.6468-9.7946%205.8091-15.512%200.16234-5.7173-2.037-11.773-7.5888-15.305-2.1646-1.377-4.8433-2.1489-7.6921-1.9848z%22%20color%3D%22%23000000%22%20color-rendering%3D%22auto%22%20fill%3D%22%23fff%22%20fill-rule%3D%22evenodd%22%20image-rendering%3D%22auto%22%20shape-rendering%3D%22auto%22%20solid-color%3D%22%23000000%22%20style%3D%22block-progression%3Atb%3Bisolation%3Aauto%3Bmix-blend-mode%3Anormal%3Btext-decoration-color%3A%23000000%3Btext-decoration-line%3Anone%3Btext-decoration-style%3Asolid%3Btext-indent%3A0%3Btext-transform%3Anone%3Bwhite-space%3Anormal%22%2F%3E%3Ccircle%20cx%3D%22214.47%22%20cy%3D%22354.08%22%20r%3D%223.4093%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E",
+		_hint :t=>t.replace(/\%23([0-9a-f]{3})*/gi,"%23441111")
 	},
-	logo: "data:image/svg+xml;utf8, %3Csvg%20version%3D%221.1%22%20viewBox%3D%220%200%2040%2010%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Acc%3D%22http%3A%2F%2Fcreativecommons.org%2Fns%23%22%20xmlns%3Adc%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Felements%2F1.1%2F%22%20xmlns%3Ardf%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%22%3E%3Cmetadata%3E%3Crdf%3ARDF%3E%3Ccc%3AWork%20rdf%3Aabout%3D%22%22%3E%3Cdc%3Aformat%3Eimage%2Fsvg%2Bxml%3C%2Fdc%3Aformat%3E%3Cdc%3Atype%20rdf%3Aresource%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Fdcmitype%2FStillImage%22%2F%3E%3Cdc%3Atitle%2F%3E%3C%2Fcc%3AWork%3E%3C%2Frdf%3ARDF%3E%3C%2Fmetadata%3E%3Cg%20transform%3D%22translate(-121.35%20-283.6)%22%3E%3Cpath%20transform%3D%22translate(121.35%20283.6)%22%20d%3D%22m0.37305%203.1562v5.7812h1.0273v-2.3633h1.4727c0.22271%200%200.43279-0.041146%200.62695-0.12109s0.35904-0.19122%200.49609-0.33398c0.14276-0.14847%200.25404-0.31741%200.33398-0.50586%200.085658-0.19416%200.12891-0.39823%200.12891-0.61523v-0.25781c0-0.217-0.043248-0.42303-0.12891-0.61719-0.079948-0.19416-0.19122-0.36114-0.33398-0.50391-0.13705-0.14276-0.30194-0.25599-0.49609-0.33594-0.19416-0.085658-0.40424-0.12695-0.62695-0.12695h-2.5zm6.0723%200-1.4844%205.7812h1.0332l0.20312-0.83984h1.5684l0.19336%200.83984h1.0273l-1.4277-5.7812h-1.1133zm3.1465%200v5.7812h1.0273v-2.3633h1.4727c0.22271%200%200.43084-0.041146%200.625-0.12109s0.36099-0.19122%200.49805-0.33398c0.14276-0.14847%200.25404-0.31741%200.33398-0.50586%200.085658-0.19416%200.12891-0.39823%200.12891-0.61523v-0.25781c0-0.217-0.043248-0.42303-0.12891-0.61719-0.079947-0.19416-0.19122-0.36114-0.33398-0.50391-0.13705-0.14276-0.30389-0.25599-0.49805-0.33594-0.19416-0.085658-0.40229-0.12695-0.625-0.12695h-2.5zm4.7871%200v5.7812h4.0098v-0.93359h-2.9043v-1.4473h2.9043v-0.97656h-2.9043v-1.4395h2.9043v-0.98438h-4.0098zm4.8848%200v5.7812h1.0879v-2.3047l1.8184%202.3047h1.2422l-1.9375-2.3633h0.29102c0.22271%200%200.43084-0.041146%200.625-0.12109s0.35904-0.19122%200.49609-0.33398c0.14276-0.14847%200.25404-0.31741%200.33398-0.50586%200.085658-0.19416%200.12891-0.39823%200.12891-0.61523v-0.25781c0-0.217-0.043248-0.42303-0.12891-0.61719-0.079947-0.19416-0.19122-0.36114-0.33398-0.50391-0.13705-0.14276-0.30194-0.25599-0.49609-0.33594-0.19416-0.085658-0.40229-0.12695-0.625-0.12695h-2.502zm4.8516%200v5.7812h0.98633v-2.3809h3.0312v-0.97656h-3.0566v-1.4395h3.0488v-0.98438h-4.0098zm4.7344%200v5.7812h1.0879v-5.7812h-1.0879zm3.3203%200c-0.22842%200-0.43655%200.04535-0.625%200.13672-0.18845%200.091369-0.34913%200.213-0.48047%200.36719-0.13134%200.14847-0.23436%200.32357-0.30859%200.52344-0.074237%200.19987-0.11133%200.4059-0.11133%200.61719%200%200.30266%200.04535%200.5623%200.13672%200.7793s0.22111%200.3942%200.38672%200.53125c0.1656%200.13705%200.36758%200.23601%200.60742%200.29883%200.23984%200.062816%200.50564%200.09375%200.79688%200.09375h0.69336c0.217%200%200.39825%200.063821%200.54102%200.18945%200.14847%200.12563%200.22266%200.29877%200.22266%200.52148%200%200.11992-0.022675%200.22294-0.068359%200.30859-0.045685%200.085658-0.1074%200.15774-0.18164%200.21484-0.074237%200.057105-0.16494%200.10035-0.27344%200.12891-0.10279%200.028553-0.21196%200.042969-0.32617%200.042969h-2.3457v1.0273h3.0508c0.088353-0.022176%200.17536-0.048055%200.25586-0.085938%200.19416-0.091369%200.36114-0.213%200.50391-0.36719%200.14276-0.1599%200.25194-0.34941%200.32617-0.56641%200.079948-0.217%200.11914-0.45186%200.11914-0.70312%200-0.2684-0.041295-0.51362-0.12695-0.73633-0.079948-0.22842-0.19738-0.42214-0.35156-0.58203-0.14847-0.16561-0.32777-0.2934-0.53906-0.38477-0.20558-0.091369-0.42813-0.13672-0.66797-0.13672h-1.0547c-0.1656%200-0.29745-0.049405-0.39453-0.14648-0.097079-0.10279-0.14453-0.22638-0.14453-0.36914%200-0.12563%200.01862-0.22459%200.058594-0.29883%200.039973-0.074237%200.097638-0.12785%200.17188-0.16211%200.074237-0.039974%200.16073-0.066704%200.25781-0.078125%200.097079-0.017132%200.2022-0.025391%200.31641-0.025391h1.9609v-1.1387h-2.4062zm3.6055%200v5.7812h1.0879v-2.3809h1.877v2.3809h1.0781v-5.7812h-1.0781v2.4238h-1.877v-2.4238h-1.0879zm-34.375%201.0195h1.3027c0.24555%200%200.42485%200.06397%200.53906%200.19531%200.11421%200.12563%200.17188%200.29247%200.17188%200.49805%200%200.217-0.057664%200.38594-0.17188%200.50586s-0.29351%200.17969-0.53906%200.17969h-1.3027v-1.3789zm9.2188%200h1.3008c0.24555%200%200.4268%200.06397%200.54102%200.19531%200.11421%200.12563%200.16992%200.29247%200.16992%200.49805%200%200.217-0.055711%200.38594-0.16992%200.50586-0.11421%200.11992-0.29546%200.17969-0.54102%200.17969h-1.3008v-1.3789zm9.7324%200h1.2422c0.24555%200%200.42485%200.06397%200.53906%200.19531%200.11421%200.12563%200.17188%200.29247%200.17188%200.49805%200%200.217-0.057665%200.38594-0.17188%200.50586-0.11421%200.11992-0.29351%200.17969-0.53906%200.17969h-1.2422v-1.3789zm-13.383%200.67578h0.058594l0.54102%202.3809h-1.166l0.56641-2.3809z%22%20fill%3D%22%233a5c79%22%2F%3E%3Cpath%20d%3D%22m121.55%20286.93v5.6133h1.0274v-2.1953h1.4746c0.22271%200%200.43084-0.0392%200.625-0.11914%200.19416-0.08%200.35904-0.19122%200.49609-0.33399%200.14277-0.14847%200.25404-0.31741%200.33399-0.50586%200.0857-0.19416%200.1289-0.40018%200.1289-0.61718v-0.25586c0-0.217-0.0433-0.42303-0.1289-0.61719-0.0799-0.19416-0.19122-0.3631-0.33399-0.50586-0.13705-0.14276-0.30193-0.25404-0.49609-0.33399-0.19416-0.0856-0.40229-0.1289-0.625-0.1289h-2.502zm6.0723%200-1.4414%205.6133h1.0332l0.16015-0.66992h1.5684l0.1543%200.66992h1.0234l-1.3828-5.6133h-1.1152zm3.1465%200v5.6133h1.0274v-2.1953h1.4746c0.22271%200%200.43084-0.0392%200.625-0.11914%200.19416-0.08%200.35904-0.19122%200.49609-0.33399%200.14276-0.14847%200.25404-0.31741%200.33399-0.50586%200.0856-0.19416%200.1289-0.40018%200.1289-0.61718v-0.25586c0-0.217-0.0433-0.42303-0.1289-0.61719-0.08-0.19416-0.19123-0.3631-0.33399-0.50586-0.13705-0.14276-0.30193-0.25404-0.49609-0.33399-0.19416-0.0856-0.40229-0.1289-0.625-0.1289h-2.502zm4.7871%200v5.6133h4.0098v-0.76367h-2.9043v-1.4492h2.9043v-0.97656h-2.9043v-1.4375h2.9043v-0.98633h-4.0098zm4.8867%200v5.6133h1.0879v-2.1348l1.6836%202.1348h1.2344l-1.7969-2.1953h0.29101c0.22271%200%200.43084-0.0392%200.625-0.11914%200.19416-0.08%200.361-0.19122%200.49805-0.33399%200.14276-0.14847%200.25404-0.31741%200.33398-0.50586%200.0857-0.19416%200.12891-0.40018%200.12891-0.61718v-0.25586c0-0.217-0.0433-0.42303-0.12891-0.61719-0.0799-0.19416-0.19122-0.3631-0.33398-0.50586-0.13705-0.14276-0.30389-0.25404-0.49805-0.33399-0.19416-0.0856-0.40229-0.1289-0.625-0.1289h-2.5zm4.8516%200v5.6133h0.98437v-2.2129h3.0332v-0.97656h-3.0586v-1.4375h3.0488v-0.98633h-4.0078zm4.7344%200v5.6133h1.0879v-5.6133h-1.0879zm3.3184%200c-0.22842%200-0.43655%200.0453-0.625%200.13672-0.18845%200.0914-0.34717%200.21495-0.47852%200.36914-0.13134%200.14847-0.23435%200.32357-0.30859%200.52344-0.0742%200.19986-0.11133%200.40394-0.11133%200.61523%200%200.30266%200.0454%200.5623%200.13672%200.7793%200.0914%200.217%200.21916%200.39419%200.38477%200.53125%200.1656%200.13705%200.36953%200.23796%200.60937%200.30078%200.23984%200.0628%200.50369%200.0937%200.79492%200.0937h0.69532c0.217%200%200.39629%200.0638%200.53906%200.18945%200.14847%200.12563%200.22265%200.29877%200.22265%200.52149%200%200.11992-0.0227%200.22293-0.0684%200.30859-0.0457%200.0857-0.10546%200.15774-0.17969%200.21484-0.0742%200.0571-0.16494%200.0984-0.27344%200.12696-0.10279%200.0285-0.21196%200.043-0.32617%200.043h-2.3477v0.85938h3.4492c0.13325-0.0795%200.25799-0.17144%200.36328-0.28516%200.14277-0.15989%200.24998-0.34745%200.32422-0.56445%200.0799-0.217%200.12109-0.45186%200.12109-0.70312%200-0.2684-0.0432-0.51362-0.1289-0.73633-0.0799-0.22842-0.19738-0.42214-0.35156-0.58203-0.14848-0.16561-0.32778-0.29535-0.53907-0.38672-0.20558-0.0914-0.42812-0.13672-0.66797-0.13672h-1.0547c-0.16561%200-0.2955-0.0475-0.39258-0.14453-0.0971-0.10279-0.14649-0.22638-0.14649-0.36914%200-0.12564%200.0206-0.22459%200.0606-0.29883%200.04-0.0742%200.0976-0.1298%200.17188-0.16406%200.0742-0.04%200.15878-0.0648%200.25586-0.0762%200.0971-0.0171%200.20219-0.0254%200.3164-0.0254h1.9629v-1.1406h-2.4082zm3.6074%200v5.6133h1.0879v-2.2129h1.875v2.2129h1.0801v-5.6133h-1.0801v2.4238h-1.875v-2.4238h-1.0879zm-34.377%201.0195h1.3027c0.24556%200%200.42485%200.0659%200.53907%200.19727%200.11421%200.12563%200.17187%200.29051%200.17187%200.49609%200%200.217-0.0577%200.38594-0.17187%200.50586-0.11422%200.11992-0.29351%200.17969-0.53907%200.17969h-1.3027v-1.3789zm9.2188%200h1.3027c0.24556%200%200.42485%200.0659%200.53907%200.19727%200.11421%200.12563%200.17187%200.29051%200.17187%200.49609%200%200.217-0.0577%200.38594-0.17187%200.50586-0.11422%200.11992-0.29351%200.17969-0.53907%200.17969h-1.3027v-1.3789zm9.7344%200h1.2422c0.24555%200%200.42485%200.0659%200.53906%200.19727%200.11421%200.12563%200.17188%200.29051%200.17188%200.49609%200%200.217-0.0577%200.38594-0.17188%200.50586-0.11421%200.11992-0.29351%200.17969-0.53906%200.17969h-1.2422v-1.3789zm-13.385%200.67773h0.0605l0.53907%202.3809h-1.1641l0.56446-2.3809z%22%20fill%3D%22%23eff3f8%22%2F%3E%3Crect%20x%3D%22119.97%22%20y%3D%22312.54%22%20width%3D%2242.75%22%20height%3D%2210.688%22%20fill%3D%22%23eff3f8%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E"
+	logo : "data:image/svg+xml;utf8, %3Csvg%20version%3D%221.1%22%20viewBox%3D%220%200%2040%2010%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Acc%3D%22http%3A%2F%2Fcreativecommons.org%2Fns%23%22%20xmlns%3Adc%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Felements%2F1.1%2F%22%20xmlns%3Ardf%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%22%3E%3Cmetadata%3E%3Crdf%3ARDF%3E%3Ccc%3AWork%20rdf%3Aabout%3D%22%22%3E%3Cdc%3Aformat%3Eimage%2Fsvg%2Bxml%3C%2Fdc%3Aformat%3E%3Cdc%3Atype%20rdf%3Aresource%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Fdcmitype%2FStillImage%22%2F%3E%3Cdc%3Atitle%2F%3E%3C%2Fcc%3AWork%3E%3C%2Frdf%3ARDF%3E%3C%2Fmetadata%3E%3Cg%20transform%3D%22translate(-121.35%20-283.6)%22%3E%3Cpath%20transform%3D%22translate(121.35%20283.6)%22%20d%3D%22m0.37305%203.1562v5.7812h1.0273v-2.3633h1.4727c0.22271%200%200.43279-0.041146%200.62695-0.12109s0.35904-0.19122%200.49609-0.33398c0.14276-0.14847%200.25404-0.31741%200.33398-0.50586%200.085658-0.19416%200.12891-0.39823%200.12891-0.61523v-0.25781c0-0.217-0.043248-0.42303-0.12891-0.61719-0.079948-0.19416-0.19122-0.36114-0.33398-0.50391-0.13705-0.14276-0.30194-0.25599-0.49609-0.33594-0.19416-0.085658-0.40424-0.12695-0.62695-0.12695h-2.5zm6.0723%200-1.4844%205.7812h1.0332l0.20312-0.83984h1.5684l0.19336%200.83984h1.0273l-1.4277-5.7812h-1.1133zm3.1465%200v5.7812h1.0273v-2.3633h1.4727c0.22271%200%200.43084-0.041146%200.625-0.12109s0.36099-0.19122%200.49805-0.33398c0.14276-0.14847%200.25404-0.31741%200.33398-0.50586%200.085658-0.19416%200.12891-0.39823%200.12891-0.61523v-0.25781c0-0.217-0.043248-0.42303-0.12891-0.61719-0.079947-0.19416-0.19122-0.36114-0.33398-0.50391-0.13705-0.14276-0.30389-0.25599-0.49805-0.33594-0.19416-0.085658-0.40229-0.12695-0.625-0.12695h-2.5zm4.7871%200v5.7812h4.0098v-0.93359h-2.9043v-1.4473h2.9043v-0.97656h-2.9043v-1.4395h2.9043v-0.98438h-4.0098zm4.8848%200v5.7812h1.0879v-2.3047l1.8184%202.3047h1.2422l-1.9375-2.3633h0.29102c0.22271%200%200.43084-0.041146%200.625-0.12109s0.35904-0.19122%200.49609-0.33398c0.14276-0.14847%200.25404-0.31741%200.33398-0.50586%200.085658-0.19416%200.12891-0.39823%200.12891-0.61523v-0.25781c0-0.217-0.043248-0.42303-0.12891-0.61719-0.079947-0.19416-0.19122-0.36114-0.33398-0.50391-0.13705-0.14276-0.30194-0.25599-0.49609-0.33594-0.19416-0.085658-0.40229-0.12695-0.625-0.12695h-2.502zm4.8516%200v5.7812h0.98633v-2.3809h3.0312v-0.97656h-3.0566v-1.4395h3.0488v-0.98438h-4.0098zm4.7344%200v5.7812h1.0879v-5.7812h-1.0879zm3.3203%200c-0.22842%200-0.43655%200.04535-0.625%200.13672-0.18845%200.091369-0.34913%200.213-0.48047%200.36719-0.13134%200.14847-0.23436%200.32357-0.30859%200.52344-0.074237%200.19987-0.11133%200.4059-0.11133%200.61719%200%200.30266%200.04535%200.5623%200.13672%200.7793s0.22111%200.3942%200.38672%200.53125c0.1656%200.13705%200.36758%200.23601%200.60742%200.29883%200.23984%200.062816%200.50564%200.09375%200.79688%200.09375h0.69336c0.217%200%200.39825%200.063821%200.54102%200.18945%200.14847%200.12563%200.22266%200.29877%200.22266%200.52148%200%200.11992-0.022675%200.22294-0.068359%200.30859-0.045685%200.085658-0.1074%200.15774-0.18164%200.21484-0.074237%200.057105-0.16494%200.10035-0.27344%200.12891-0.10279%200.028553-0.21196%200.042969-0.32617%200.042969h-2.3457v1.0273h3.0508c0.088353-0.022176%200.17536-0.048055%200.25586-0.085938%200.19416-0.091369%200.36114-0.213%200.50391-0.36719%200.14276-0.1599%200.25194-0.34941%200.32617-0.56641%200.079948-0.217%200.11914-0.45186%200.11914-0.70312%200-0.2684-0.041295-0.51362-0.12695-0.73633-0.079948-0.22842-0.19738-0.42214-0.35156-0.58203-0.14847-0.16561-0.32777-0.2934-0.53906-0.38477-0.20558-0.091369-0.42813-0.13672-0.66797-0.13672h-1.0547c-0.1656%200-0.29745-0.049405-0.39453-0.14648-0.097079-0.10279-0.14453-0.22638-0.14453-0.36914%200-0.12563%200.01862-0.22459%200.058594-0.29883%200.039973-0.074237%200.097638-0.12785%200.17188-0.16211%200.074237-0.039974%200.16073-0.066704%200.25781-0.078125%200.097079-0.017132%200.2022-0.025391%200.31641-0.025391h1.9609v-1.1387h-2.4062zm3.6055%200v5.7812h1.0879v-2.3809h1.877v2.3809h1.0781v-5.7812h-1.0781v2.4238h-1.877v-2.4238h-1.0879zm-34.375%201.0195h1.3027c0.24555%200%200.42485%200.06397%200.53906%200.19531%200.11421%200.12563%200.17188%200.29247%200.17188%200.49805%200%200.217-0.057664%200.38594-0.17188%200.50586s-0.29351%200.17969-0.53906%200.17969h-1.3027v-1.3789zm9.2188%200h1.3008c0.24555%200%200.4268%200.06397%200.54102%200.19531%200.11421%200.12563%200.16992%200.29247%200.16992%200.49805%200%200.217-0.055711%200.38594-0.16992%200.50586-0.11421%200.11992-0.29546%200.17969-0.54102%200.17969h-1.3008v-1.3789zm9.7324%200h1.2422c0.24555%200%200.42485%200.06397%200.53906%200.19531%200.11421%200.12563%200.17188%200.29247%200.17188%200.49805%200%200.217-0.057665%200.38594-0.17188%200.50586-0.11421%200.11992-0.29351%200.17969-0.53906%200.17969h-1.2422v-1.3789zm-13.383%200.67578h0.058594l0.54102%202.3809h-1.166l0.56641-2.3809z%22%20fill%3D%22%233a5c79%22%2F%3E%3Cpath%20d%3D%22m121.55%20286.93v5.6133h1.0274v-2.1953h1.4746c0.22271%200%200.43084-0.0392%200.625-0.11914%200.19416-0.08%200.35904-0.19122%200.49609-0.33399%200.14277-0.14847%200.25404-0.31741%200.33399-0.50586%200.0857-0.19416%200.1289-0.40018%200.1289-0.61718v-0.25586c0-0.217-0.0433-0.42303-0.1289-0.61719-0.0799-0.19416-0.19122-0.3631-0.33399-0.50586-0.13705-0.14276-0.30193-0.25404-0.49609-0.33399-0.19416-0.0856-0.40229-0.1289-0.625-0.1289h-2.502zm6.0723%200-1.4414%205.6133h1.0332l0.16015-0.66992h1.5684l0.1543%200.66992h1.0234l-1.3828-5.6133h-1.1152zm3.1465%200v5.6133h1.0274v-2.1953h1.4746c0.22271%200%200.43084-0.0392%200.625-0.11914%200.19416-0.08%200.35904-0.19122%200.49609-0.33399%200.14276-0.14847%200.25404-0.31741%200.33399-0.50586%200.0856-0.19416%200.1289-0.40018%200.1289-0.61718v-0.25586c0-0.217-0.0433-0.42303-0.1289-0.61719-0.08-0.19416-0.19123-0.3631-0.33399-0.50586-0.13705-0.14276-0.30193-0.25404-0.49609-0.33399-0.19416-0.0856-0.40229-0.1289-0.625-0.1289h-2.502zm4.7871%200v5.6133h4.0098v-0.76367h-2.9043v-1.4492h2.9043v-0.97656h-2.9043v-1.4375h2.9043v-0.98633h-4.0098zm4.8867%200v5.6133h1.0879v-2.1348l1.6836%202.1348h1.2344l-1.7969-2.1953h0.29101c0.22271%200%200.43084-0.0392%200.625-0.11914%200.19416-0.08%200.361-0.19122%200.49805-0.33399%200.14276-0.14847%200.25404-0.31741%200.33398-0.50586%200.0857-0.19416%200.12891-0.40018%200.12891-0.61718v-0.25586c0-0.217-0.0433-0.42303-0.12891-0.61719-0.0799-0.19416-0.19122-0.3631-0.33398-0.50586-0.13705-0.14276-0.30389-0.25404-0.49805-0.33399-0.19416-0.0856-0.40229-0.1289-0.625-0.1289h-2.5zm4.8516%200v5.6133h0.98437v-2.2129h3.0332v-0.97656h-3.0586v-1.4375h3.0488v-0.98633h-4.0078zm4.7344%200v5.6133h1.0879v-5.6133h-1.0879zm3.3184%200c-0.22842%200-0.43655%200.0453-0.625%200.13672-0.18845%200.0914-0.34717%200.21495-0.47852%200.36914-0.13134%200.14847-0.23435%200.32357-0.30859%200.52344-0.0742%200.19986-0.11133%200.40394-0.11133%200.61523%200%200.30266%200.0454%200.5623%200.13672%200.7793%200.0914%200.217%200.21916%200.39419%200.38477%200.53125%200.1656%200.13705%200.36953%200.23796%200.60937%200.30078%200.23984%200.0628%200.50369%200.0937%200.79492%200.0937h0.69532c0.217%200%200.39629%200.0638%200.53906%200.18945%200.14847%200.12563%200.22265%200.29877%200.22265%200.52149%200%200.11992-0.0227%200.22293-0.0684%200.30859-0.0457%200.0857-0.10546%200.15774-0.17969%200.21484-0.0742%200.0571-0.16494%200.0984-0.27344%200.12696-0.10279%200.0285-0.21196%200.043-0.32617%200.043h-2.3477v0.85938h3.4492c0.13325-0.0795%200.25799-0.17144%200.36328-0.28516%200.14277-0.15989%200.24998-0.34745%200.32422-0.56445%200.0799-0.217%200.12109-0.45186%200.12109-0.70312%200-0.2684-0.0432-0.51362-0.1289-0.73633-0.0799-0.22842-0.19738-0.42214-0.35156-0.58203-0.14848-0.16561-0.32778-0.29535-0.53907-0.38672-0.20558-0.0914-0.42812-0.13672-0.66797-0.13672h-1.0547c-0.16561%200-0.2955-0.0475-0.39258-0.14453-0.0971-0.10279-0.14649-0.22638-0.14649-0.36914%200-0.12564%200.0206-0.22459%200.0606-0.29883%200.04-0.0742%200.0976-0.1298%200.17188-0.16406%200.0742-0.04%200.15878-0.0648%200.25586-0.0762%200.0971-0.0171%200.20219-0.0254%200.3164-0.0254h1.9629v-1.1406h-2.4082zm3.6074%200v5.6133h1.0879v-2.2129h1.875v2.2129h1.0801v-5.6133h-1.0801v2.4238h-1.875v-2.4238h-1.0879zm-34.377%201.0195h1.3027c0.24556%200%200.42485%200.0659%200.53907%200.19727%200.11421%200.12563%200.17187%200.29051%200.17187%200.49609%200%200.217-0.0577%200.38594-0.17187%200.50586-0.11422%200.11992-0.29351%200.17969-0.53907%200.17969h-1.3027v-1.3789zm9.2188%200h1.3027c0.24556%200%200.42485%200.0659%200.53907%200.19727%200.11421%200.12563%200.17187%200.29051%200.17187%200.49609%200%200.217-0.0577%200.38594-0.17187%200.50586-0.11422%200.11992-0.29351%200.17969-0.53907%200.17969h-1.3027v-1.3789zm9.7344%200h1.2422c0.24555%200%200.42485%200.0659%200.53906%200.19727%200.11421%200.12563%200.17188%200.29051%200.17188%200.49609%200%200.217-0.0577%200.38594-0.17188%200.50586-0.11421%200.11992-0.29351%200.17969-0.53906%200.17969h-1.2422v-1.3789zm-13.385%200.67773h0.0605l0.53907%202.3809h-1.1641l0.56446-2.3809z%22%20fill%3D%22%23eff3f8%22%2F%3E%3Crect%20x%3D%22119.97%22%20y%3D%22312.54%22%20width%3D%2242.75%22%20height%3D%2210.688%22%20fill%3D%22%23eff3f8%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E"
 };
+
+
 
 var fishs = {
-	B: {
-		name: 'Blu',
-		type: "B",
-		lvlUpCost: 50,
-		lifeSpan: 20 * 60 * 1000,
-		claimBase: 3,
-		price: 100,
-		lvlUpVar: { base: [32, 20], inc: [10, 6] }
+	B:{
+		name : 'Blu',
+		type : "B",
+		lvlUpCost : 50,
+		lifeSpan : 20*60*1000,
+		claimBase : 3,
+		price : 100,
+		lvlUpVar : {base:[32,20],inc:[10,6]}
 	},
-	R: {
-		name: 'Red',
-		type: "R",
-		lvlUpCost: 100,
-		lifeSpan: 20 * 60 * 1000,
-		claimBase: 3,
-		price: 150,
-		lvlUpVar: { base: [37, 23], inc: [10, 6] }
+	R:{
+		name : 'Red',
+		type : "R",
+		lvlUpCost : 100,
+		lifeSpan : 20*60*1000,
+		claimBase : 3,
+		price : 150,
+		lvlUpVar : {base:[37,23],inc:[10,6]}
 	},
-	Y: {
-		name: 'Orang',
-		type: "Y",
-		lvlUpCost: 100,
-		lifeSpan: 20 * 60 * 1000,
-		claimBase: 3,
-		price: 150,
-		lvlUpVar: { base: [37, 23], inc: [10, 6] }
+	Y:{
+		name : 'Orang',
+		type : "Y",
+		lvlUpCost : 100,
+		lifeSpan : 20*60*1000,
+		claimBase : 3,
+		price : 150,
+		lvlUpVar : {base:[37,23],inc:[10,6]}
 	},
 
-	v2_A: {
-		v: 2,
-		name: 'Nilo',
-		img: "D",
-		type: "v2_A",
-		lvlUpCost: 100,
-		lifeSpan: 20 * 60 * 1000,
-		curr: ["B"],
-		claimBase: [6],
-		price: 250,
-		lvlUpVar: { base: [24, 9], inc: [8, 3] }
+
+
+	v2_A:{
+		v:2,
+		name : 'Nilo',
+		img : "D",
+		type : "v2_A",
+		lvlUpCost : 100,
+		lifeSpan : 20*60*1000,
+		curr : ["B"],
+		claimBase : [6],
+		price : 250,
+		lvlUpVar : {base:[24,9],inc:[8,3]}
 	},
-	v2_B: {
-		v: 2,
-		name: 'Lisa',
-		img: "B1",
-		type: "v2_B",
-		lvlUpCost: 100,
-		lifeSpan: 20 * 60 * 1000,
+	v2_B:{
+		v:2,
+		name : 'Lisa',
+		img : "B1",
+		type : "v2_B",
+		lvlUpCost : 100,
+		lifeSpan : 20*60*1000,
 		// lifeSpan : 10000,
-		curr: ["R", "Y"],
-		claimBase: [2, 2],
-		price: 300,
-		lvlUpVar: { base: [32, 20], inc: [5, 3] }
+		curr : ["R","Y"],
+		claimBase : [2,2],
+		price : 300,
+		lvlUpVar : {base:[32,20],inc:[5,3]}
 	},
-	v2_D: {
-		v: 2,
-		name: 'Fred',
-		img: "C",
-		type: "v2_D",
-		lvlUpCost: 200,
-		lifeSpan: 5 * 60 * 1000,
-		curr: ["R"],
-		claimBase: [12],
-		price: 950,
-		lvlUpVar: { base: [30, 24], inc: [5, 4] }
+	v2_D:{
+		v:2,
+		name : 'Fred',
+		img : "C",
+		type : "v2_D",
+		lvlUpCost : 200,
+		lifeSpan : 5*60*1000,
+		curr : ["R"],
+		claimBase : [12],
+		price : 950,
+		lvlUpVar : {base:[30,24],inc:[5,4]}
 	},
-	v2_C: {
-		v: 2,
-		name: 'Nani',
-		img: "N",
-		type: "v2_C",
-		lvlUpCost: 150,
-		lifeSpan: 86399999,
-		curr: ["B", "R", "Y"],
-		claimBase: [2, 2, 2],
-		price: 30000,
-		lvlUpVar: { base: [32, 20], inc: [5, 3] }
+	v2_C:{
+		v:2,
+		name : 'Nani',
+		img : "N",
+		type : "v2_C",
+		lvlUpCost : 150,
+		lifeSpan : 86399999,
+		curr : ["B","R","Y"],
+		claimBase : [2,2,2],
+		price : 30000,
+		lvlUpVar : {base:[32,20],inc:[5,3]}
 	}
 };
 
-var _fishShop = fishs;
+var fishShop = fishs;
 
-var _fishCraft = {
-	G: {
-		name: 'Mini Gold',
-		type: "G",
-		desc: "Generate 300<img src='" + IMG.icon.money + "' class='icon'>/min",
-		length: 37,
-		height: 22,
-		delay: 6000,
-		function0: function function0(g) {},
-		function1: function function1(g) {},
-		function: function _function(g) {
-			g.uang += 30;g.viewMoney();
-		},
-		price: { B: 10, R: 0, Y: 0 }
+
+var fishCraft = {
+	G:{
+		name : 'Mini Gold',
+		type : "G",
+		desc : "Generate 300<img src='"+IMG.icon.money+"' class='icon'>/min",
+		length : 37,
+		height:22,
+		delay : 6000,
+		function0 :g=>{},
+		function1 :g=>{},
+		function :g=>{g.uang+=30;g.viewMoney();},
+		price : {B:10,R:0,Y:0}
 	},
-	G1: {
-		name: 'Gold',
-		type: "G1",
-		desc: "Generate 600<img src='" + IMG.icon.money + "' class='icon'>/min",
-		length: 50,
-		height: 30,
-		delay: 6000,
-		function0: function function0(g) {},
-		function1: function function1(g) {},
-		function: function _function(g) {
-			g.uang += 60;g.viewMoney();
-		},
-		price: { B: 30, R: 10, Y: 0 }
+	G1:{
+		name : 'Gold',
+		type : "G1",
+		desc : "Generate 600<img src='"+IMG.icon.money+"' class='icon'>/min",
+		length : 50,
+		height:30,
+		delay : 6000,
+		function0 :g=>{},
+		function1 :g=>{},
+		function :g=>{g.uang+=60;g.viewMoney();},
+		price : {B:30,R:10,Y:0}
 	},
-	M: {
-		name: 'Blues Mom',
-		type: "M",
-		desc: "Produce <img src='data:image/svg+xml;utf8, " + IMG.fishs.B + "' class='icon coinY'>/ 5 minutes",
-		length: 80,
-		height: 45,
-		delay: 300000,
-		function0: function function0(g) {},
-		function1: function function1(g) {},
-		function: function _function(g, s) {
-			g.addIkan("B", true, s.elWrap.offsetLeft + s.dir * s.length / 2, s.elWrap.offsetTop + 20);
+	M:{
+		name : 'Blues Mom',
+		type : "M",
+		desc : "Produce <img src='data:image/svg+xml;utf8, "+IMG.fishs.B+"' class='icon coinY'>/ 5 minutes",
+		length : 80,
+		height:45,
+		delay : 300000,
+		function0 :(g)=>{},
+		function1 :(g)=>{},
+		function  :(g,s)=>{
+			g.addIkan("B",true,s.elWrap.offsetLeft+(s.dir*s.length/2),s.elWrap.offsetTop+20);
 		},
-		price: { B: 1000, R: 1000, Y: 1000 }
+		price : {B:1000,R:1000,Y:1000}
 	},
-	A: {
-		name: 'Sura',
-		type: "A",
-		desc: "For every minute :<br>- Generate 330<img src='" + IMG.icon.money + "' class='icon'><br>- Turn 20<img src='" + IMG.icon.paper + "' class='icon coinB'> to 10<img src='" + IMG.icon.paper + "' class='icon coinR'>",
-		length: 125,
-		height: 50,
-		delay: 60000,
-		function0: function function0(g) {},
-		function1: function function1(g) {},
-		function: function _function(g) {
-			g.uang += 300;
+	A:{
+		name : 'Sura',
+		type : "A",
+		desc : "For every minute :<br>- Generate 330<img src='"+IMG.icon.money+"' class='icon'><br>- Turn 20<img src='"+IMG.icon.paper+"' class='icon coinB'> to 10<img src='"+IMG.icon.paper+"' class='icon coinR'>",
+		length : 125,
+		height:50,
+		delay : 60000,
+		function0 :g=>{},
+		function1 :g=>{},
+		function :g=>{
+			g.uang+=300;
 			g.viewMoney();
-			if (g.paper.B >= 20) {
+			if(g.paper.B>=20){
 				g.paper.B -= 20;
 				g.paper.R += 11;
 				g.viewPaper();
 			}
 		},
-		price: { B: 2000, R: 2500, Y: 2000 }
+		price : {B:2000,R:2500,Y:2000}
 	},
-	N: {
-		name: 'Shadow',
-		type: "N",
-		desc: "Generate 400<img src='" + IMG.icon.money + "' class='icon'>/min.<br>Add shadow effect on tank.",
-		length: 100,
-		height: 60,
-		delay: 2000,
-		function0: function function0(g) {
+	N:{
+		name : 'Shadow',
+		type : "N",
+		desc : "Generate 400<img src='"+IMG.icon.money+"' class='icon'>/min.<br>Add shadow effect on tank.",
+		length : 100,
+		height:60,
+		delay : 2000,
+		function0 :g=>{
 			g.el.aqua.style.background = "radial-gradient(#eeeeee, #aaaaaa)";
-			var _iteratorNormalCompletion = true;
-			var _didIteratorError = false;
-			var _iteratorError = undefined;
-
-			try {
-				for (var _iterator = document.querySelectorAll(".ikan .ruas")[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-					var i = _step.value;
-
-					// i.style.animation="none";
-					var div = f.ce("div");
-					f.sa(div, "class", "shadow");
-					div.style.backgroundImage = i.style.backgroundImage.replace(/\%23([0-9a-f]{3})*/gi, "%23000000");
-					// div.style.backgroundImage = i.style.backgroundImage.replace(/\%23(([0-9a-f]{3})*)/gi, (d,e)=>"#"+e.split``.reverse().join``);
-					div.style.backgroundPosition = i.style.backgroundPosition;
-					f.ac(i, div);
-				}
-			} catch (err) {
-				_didIteratorError = true;
-				_iteratorError = err;
-			} finally {
-				try {
-					if (!_iteratorNormalCompletion && _iterator.return) {
-						_iterator.return();
-					}
-				} finally {
-					if (_didIteratorError) {
-						throw _iteratorError;
-					}
-				}
+			for(let i of document.querySelectorAll(".ikan .ruas")){
+				// i.style.animation="none";
+				let div = f.ce("div");
+				f.sa(div,"class","shadow");
+				div.style.backgroundImage = i.style.backgroundImage.replace(/\%23([0-9a-f]{3})*/gi,"%23000000");
+				// div.style.backgroundImage = i.style.backgroundImage.replace(/\%23(([0-9a-f]{3})*)/gi, (d,e)=>"#"+e.split``.reverse().join``);
+				div.style.backgroundPosition = i.style.backgroundPosition;
+				f.ac(i,div);
 			}
 		},
-		function1: function function1(g) {
+		function1 :g=>{
 			g.el.aqua.style.background = null;
-			var _iteratorNormalCompletion2 = true;
-			var _didIteratorError2 = false;
-			var _iteratorError2 = undefined;
-
-			try {
-				for (var _iterator2 = document.querySelectorAll(".aqua .ikan .ruas")[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-					var i = _step2.value;
-					i.style.animation = null;
-				}
-			} catch (err) {
-				_didIteratorError2 = true;
-				_iteratorError2 = err;
-			} finally {
-				try {
-					if (!_iteratorNormalCompletion2 && _iterator2.return) {
-						_iterator2.return();
-					}
-				} finally {
-					if (_didIteratorError2) {
-						throw _iteratorError2;
-					}
-				}
-			}
-
-			var _iteratorNormalCompletion3 = true;
-			var _didIteratorError3 = false;
-			var _iteratorError3 = undefined;
-
-			try {
-				for (var _iterator3 = document.querySelectorAll(".aqua .ikan .ruas .shadow")[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-					var _i = _step3.value;
-					_i.outerHTML = null;
-				}
-			} catch (err) {
-				_didIteratorError3 = true;
-				_iteratorError3 = err;
-			} finally {
-				try {
-					if (!_iteratorNormalCompletion3 && _iterator3.return) {
-						_iterator3.return();
-					}
-				} finally {
-					if (_didIteratorError3) {
-						throw _iteratorError3;
-					}
-				}
-			}
+			for(let i of document.querySelectorAll(".aqua .ikan .ruas"))i.style.animation=null;
+			for(let i of document.querySelectorAll(".aqua .ikan .ruas .shadow"))i.outerHTML=null;
 		},
-		function: function _function(g) {
-			var _iteratorNormalCompletion4 = true;
-			var _didIteratorError4 = false;
-			var _iteratorError4 = undefined;
+		function :g=>{
+			for(let i of document.querySelectorAll(".aqua .ikan .ruas .shadow"))i.outerHTML=null;
 
-			try {
-				for (var _iterator4 = document.querySelectorAll(".aqua .ikan .ruas .shadow")[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
-					var i = _step4.value;
-					i.outerHTML = null;
-				}
-			} catch (err) {
-				_didIteratorError4 = true;
-				_iteratorError4 = err;
-			} finally {
-				try {
-					if (!_iteratorNormalCompletion4 && _iterator4.return) {
-						_iterator4.return();
-					}
-				} finally {
-					if (_didIteratorError4) {
-						throw _iteratorError4;
-					}
-				}
+			for(let i of document.querySelectorAll(".aqua .ikan .ruas")){
+				let div = f.ce("div");
+				f.sa(div,"class","shadow");
+				div.style.backgroundImage = i.style.backgroundImage.replace(/\%23([0-9a-f]{3})*/gi,"%23000000");
+				div.style.backgroundPosition = i.style.backgroundPosition;
+				f.ac(i,div);
 			}
 
-			var _iteratorNormalCompletion5 = true;
-			var _didIteratorError5 = false;
-			var _iteratorError5 = undefined;
-
-			try {
-				for (var _iterator5 = document.querySelectorAll(".aqua .ikan .ruas")[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
-					var _i2 = _step5.value;
-
-					var div = f.ce("div");
-					f.sa(div, "class", "shadow");
-					div.style.backgroundImage = _i2.style.backgroundImage.replace(/\%23([0-9a-f]{3})*/gi, "%23000000");
-					// div.style.backgroundImage = i.style.backgroundImage.replace(/\%23(([0-9a-f]{3})*)/gi, (d,e)=>"#"+e.split``.reverse().join``);
-					div.style.backgroundPosition = _i2.style.backgroundPosition;
-					f.ac(_i2, div);
-				}
-			} catch (err) {
-				_didIteratorError5 = true;
-				_iteratorError5 = err;
-			} finally {
-				try {
-					if (!_iteratorNormalCompletion5 && _iterator5.return) {
-						_iterator5.return();
-					}
-				} finally {
-					if (_didIteratorError5) {
-						throw _iteratorError5;
-					}
-				}
-			}
-
-			g.uang += 40;g.viewMoney();
+			g.uang+=40;g.viewMoney();
 		},
-		price: { B: 100, R: 50, Y: 20 }
+		price : {B:100,R:50,Y:20}
 	}
 };
 
+
 var fishCraftShop = {
-	G: _fishCraft.G,
-	G1: _fishCraft.G1,
-	A: _fishCraft.A,
-	M: _fishCraft.M
+	G : fishCraft.G,
+	G1 : fishCraft.G1,
+	M : fishCraft.M,
+	A : fishCraft.A
 };
+
+
+
 
 var GUIDE = {
-	"Currencies": "There are two types of currencies: paper and coin.<br><br><strong>Paper</strong>. Mainly papers are used to unlock <b>Creatures</b>. There are are three types papers: <img src='" + IMG.icon.paper + "' class='icon coinB'>, <img src='" + IMG.icon.paper + "' class='icon coinR'>, and <img src='" + IMG.icon.paper + "' class='icon coinY'>. Each paper are produced by specific fish. The maximum ammount of each paper you can store is <strong>2.000.000</strong>.<br><br><strong>Coin</strong>. Coin ( <img src='" + IMG.icon.money + "' class='icon'>) used for buying and upgrading <b>Fishs</b>. Coins are produced by <b>Creatures</b>. The maximum ammount of Coin you can store is <strong>2.000.000.000</strong>.",
-	"Fish": "Fish can be bought from <b>Fish shop( <img src='" + IMG.icon.shop + "' class='icon'>)</b>. Fish are used to producing paper. Click on fish to show its stats. Upgrade it to earn more coin. Fish always producing paper even when you offline.<br><br>Tank have limited amount of fish. Each fish have their own lifespan ( <img src='" + IMG.icon.heart + "' class='icon'>). Fish will disappear when its lifespan is over. So, you can buy a new one.",
-	"Creatures": "Creatures can be crafted on <b>Creatures Craft ( <img src='" + IMG.icon.craft + "' class='icon'>)</b>. Most Creatures have special abilities. It also generating coin. Creatures have unlimited lifespan, but it works only when you online. You can place it on tank at most four Creatures.",
-	"Tank": "Tank level affects how many fish you can place in it. Upgrade the tank to increase the limit."
+	"Currencies":"There are two types of currencies: paper and coin.<br><br><strong>Paper</strong>. Mainly papers are used to unlock <b>Creatures</b>. There are are three types papers: <img src='"+IMG.icon.paper+"' class='icon coinB'>, <img src='"+IMG.icon.paper+"' class='icon coinR'>, and <img src='"+IMG.icon.paper+"' class='icon coinY'>. Each paper are produced by specific fish. The maximum ammount of each paper you can store is <strong>2.000.000</strong>.<br><br><strong>Coin</strong>. Coin ( <img src='"+IMG.icon.money+"' class='icon'>) used for buying and upgrading <b>Fishs</b>. Coins are produced by <b>Creatures</b>. The maximum ammount of Coin you can store is <strong>2.000.000.000</strong>.",
+	"Fish":"Fish can be bought from <b>Fish shop( <img src='"+IMG.icon.shop+"' class='icon'>)</b>. Fish are used to producing paper. Click on fish to show its stats. Upgrade it to earn more coin. Fish always producing paper even when you offline.<br><br>Tank have limited amount of fish. Each fish have their own lifespan ( <img src='"+IMG.icon.heart+"' class='icon'>). Fish will disappear when its lifespan is over. So, you can buy a new one.",
+	"Creatures":"Creatures can be crafted on <b>Creatures Craft ( <img src='"+IMG.icon.craft+"' class='icon'>)</b>. Most Creatures have special abilities. It also generating coin. Creatures have unlimited lifespan, but it works only when you online. You can place it on tank at most four Creatures.",
+	"Tank":"Tank level affects how many fish you can place in it. Upgrade the tank to increase the limit."
 };
-
-var Game = function () {
-	function Game(parentEl) {
-		var _this = this;
-
-		_classCallCheck(this, Game);
-
+class Game{
+	constructor(parentEl){
 		this.parentEl = parentEl;
 		this.el = {};
 
 		// setting aquarioum view
 		this.el.glass = f.ce("div");
-		f.sa(this.el.glass, "class", "glass");
-		f.ac(this.parentEl, this.el.glass);
+		f.sa(this.el.glass,"class","glass");
+		f.ac(this.parentEl,this.el.glass);
 		this.el.aqua = f.ce("div");
-		f.sa(this.el.aqua, "class", "aqua");
-		f.ac(this.el.glass, this.el.aqua);
+		f.sa(this.el.aqua,"class","aqua");
+		f.ac(this.el.glass,this.el.aqua);
 		this.el.amb = f.ce("div");
-		f.sa(this.el.amb, "class", "amb");
-		f.ac(this.el.aqua, this.el.amb);
+		f.sa(this.el.amb,"class","amb");
+		f.ac(this.el.aqua,this.el.amb);
 
 		// bottomBar
 		this.el.bottomBar = f.ce("div");
-		f.sa(this.el.bottomBar, "class", "bottomBar");
-		f.ac(this.parentEl, this.el.bottomBar);
+		f.sa(this.el.bottomBar,"class","bottomBar");
+		f.ac(this.parentEl,this.el.bottomBar);
 
 		// tutup
 		this.el.tutup = document.querySelector(".tutup");
@@ -448,33 +324,34 @@ var Game = function () {
 		this.craftUnlocked = [];
 		this.craftObj = [];
 		this.craft = [];
-		this.craftMaxItem = 4;
+		this.craftMaxItem = 10;
 		this.glassLvlUpCost = 1000;
 		this.glassLvl = 1;
+		this.onModalRemoved = [];
 		this.fishVars = {};
 		this.uang = 0;
 		this.paper = {
-			B: 0,
-			R: 0,
-			Y: 0
+			B:0,
+			R:0,
+			Y:0
 		};
 
 		// setting modal popup
 		this.el.modal = f.ce("div");
-		f.sa(this.el.modal, "class", "modal");
+		f.sa(this.el.modal,"class","modal");
 		this.el.popUp = f.ce("div");
-		f.sa(this.el.popUp, "class", "popUp");
-		var uBar = f.ce("div");
+		f.sa(this.el.popUp,"class","popUp");
+		let uBar = f.ce("div");
 		f.ac(this.el.popUp, uBar);
-		var title = f.ce("div");
-		f.sa(title, "class", "title");
+		let title = f.ce("div");
+		f.sa(title,"class","title");
 		this.el.title = title;
 		f.ac(uBar, title);
-		var btnClose = f.ce("div");
-		f.sa(btnClose, "class", "btnClose");
-		var hideModal = function hideModal() {
-			_this.hideModal();
-		};
+		let btnClose = f.ce("div");
+		f.sa(btnClose,"class","btnClose");
+		let hideModal = ()=>{
+			this.hideModal();
+		}
 		btnClose.onclick = hideModal;
 		f.ac(uBar, btnClose);
 		this.el.content = f.ce("div");
@@ -483,635 +360,505 @@ var Game = function () {
 
 		// setting top bar
 		this.el.topBar = f.ce("div");
-		f.sa(this.el.topBar, "class", "topBar");
-		f.ac(this.parentEl, this.el.topBar);
+		f.sa(this.el.topBar,"class","topBar");
+		f.ac(this.parentEl,this.el.topBar);
 
 		// this.viewLogo();
 		this.viewPaper();
 		this.viewMoney();
 
+
 		this.glassLvl--;
 		this.glassLvlUp(true);
+
+
 	}
 
-	_createClass(Game, [{
-		key: "glassLvlUp",
-		value: function glassLvlUp() {
-			var free = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+	glassLvlUp(free=false){
+		if(this.glassLvl>=10){
+			this.glassLvl = 10;
+			return;
+		}
+		let cost = Math.pow(2,this.glassLvl-1)*this.glassLvlUpCost;
+		if(cost>this.paper.B && !free)return;
+		this.paper.B -= free?0:cost;
+		this.glassLvl++;
+		this.el.glass.style.width = Math.min(600,400+20*this.glassLvl) + "px";
+		this.el.glass.style.height = Math.min(400,200+20*this.glassLvl) + "px";
+		this.viewMoney();
+	}
 
-			if (this.glassLvl >= 10) {
-				this.glassLvl = 10;
-				return;
+	newGame(type){
+		this.transisiTutup();
+		this.hideModal();
+		let saya = this;
+
+		window.setTimeout(()=>{
+			try{
+				window.clearInteval(saya.saveInterval);
+			}catch(e){}
+			saya.el.aqua.innerHTML=null;
+
+			saya.uang = 500;
+			saya.viewMoney();
+
+			saya.ikan.map(e=>{
+				e.kill(saya);
+			});
+
+			saya.ikan = [];
+			saya.glassLvl=0;
+			saya.glassLvlUp(true);
+			saya.paper={};
+			saya.viewPaper();
+
+			saya.craftObj.map(e=>{
+				e.kill(saya);
+			});			
+			saya.craft=[];
+			saya.craftUnlocked=[];
+			saya.craftObj=[];
+			saya.fishVars = {};
+		},1000);
+
+		window.setTimeout(()=>{
+			saya.addIkan("B");
+			saya.transisiBuka();
+			if(type=="kongGuest"){
+				saya.showModalInfo("Hello Guest","You are playing in guest mode. Your progress will not be saved. To keep your progress save, please login.");
 			}
-			var cost = Math.pow(2, this.glassLvl - 1) * this.glassLvlUpCost;
-			if (cost > this.paper.B && !free) return;
-			this.paper.B -= free ? 0 : cost;
-			this.glassLvl++;
-			this.el.glass.style.width = Math.min(600, 400 + 20 * this.glassLvl) + "px";
-			this.el.glass.style.height = Math.min(400, 200 + 20 * this.glassLvl) + "px";
+		},2000);
+	}
+
+	addIkan(type,free = false,x=null,y=null){
+		if(!type)return;
+
+
+		let totalIkan = 0;
+		this.ikan.map(e=>e && (totalIkan++) );
+		if(this.glassLvl*2+1 <= totalIkan)return;
+
+		if(!free){
+			if(fishs[type].price > this.uang)return;
+			this.uang -= fishs[type].price;
 			this.viewMoney();
 		}
-	}, {
-		key: "newGame",
-		value: function newGame(type) {
-			this.transisiTutup();
-			this.hideModal();
-			var saya = this;
 
-			window.setTimeout(function () {
-				try {
-					window.clearInteval(saya.saveInterval);
-				} catch (e) {}
-				saya.el.aqua.innerHTML = null;
+		let ikan = new Ikan(x||this.el.aqua.offsetWidth*Math.random(),y||this.el.aqua.offsetHeight*Math.random(),this.el.aqua, 74, 46, type,!(x&&y));
+		ikan.move(0,0);
+		ikan.elWrap.style.animation = "birthIkan .5s";
+		this.ikan.push(ikan);
+		this.afterAddIkan(ikan);
+	}
 
-				saya.uang = 500;
-				saya.viewMoney();
+	addIkan2(type,free = false,x=null,y=null){
+		if(!type)return;
 
-				saya.ikan.map(function (e) {
-					e.kill(saya);
-				});
 
-				saya.ikan = [];
-				saya.glassLvl = 0;
-				saya.glassLvlUp(true);
-				saya.paper = {};
-				saya.viewPaper();
+		let totalIkan = 0;
+		this.ikan.map(e=>e && (totalIkan++) );
+		if(this.glassLvl*2+1 <= totalIkan)return;
 
-				saya.craftObj.map(function (e) {
-					e.kill(saya);
-				});
-				saya.craft = [];
-				saya.craftUnlocked = [];
-				saya.craftObj = [];
-				saya.fishVars = {};
-			}, 1000);
-
-			window.setTimeout(function () {
-				saya.addIkan("B");
-				saya.transisiBuka();
-				if (type == "kongGuest") {
-					saya.showModalInfo("Hello Guest", "You are playing in guest mode. Your progress will not be saved. To keep your progress save, please login.");
-				}
-			}, 2000);
+		if(!free){
+			if(fishs[type].price > this.uang)return;
+			this.uang -= fishs[type].price;
+			this.viewMoney();
 		}
-	}, {
-		key: "addIkan",
-		value: function addIkan(type) {
-			var free = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-			var x = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-			var y = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
 
-			if (!type) return;
+		let ikan = new Ikan2(x||this.el.aqua.offsetWidth*Math.random(),y||this.el.aqua.offsetHeight*Math.random(),this.el.aqua, 74, 46, type,!(x&&y));
+		ikan.move(0,0);
+		ikan.elWrap.style.animation = "birthIkan .5s";
+		this.ikan.push(ikan);
+		this.afterAddIkan(ikan);
+	}
 
-			var totalIkan = 0;
-			this.ikan.map(function (e) {
-				return e && totalIkan++;
-			});
-			if (this.glassLvl * 2 + 1 <= totalIkan) return;
+	loadIkan(arr){
+		if(!fishs[arr[1]]){
+			console.log("Game::loadIkan() ERROR");
+			return;
+		}
 
-			if (!free) {
-				if (fishs[type].price > this.uang) return;
-				this.uang -= fishs[type].price;
-				this.viewMoney();
-			}
-
-			var ikan = new Ikan(x || this.el.aqua.offsetWidth * Math.random(), y || this.el.aqua.offsetHeight * Math.random(), this.el.aqua, 74, 46, type, !(x && y));
-			ikan.move(0, 0);
-			ikan.elWrap.style.animation = "birthIkan .5s";
+		if(arr[4] && arr[4]==2){
+			let type = arr[1];
+			let level = arr[2] || 1;
+			let ikan = new Ikan2(this.el.aqua.offsetWidth*Math.random(),this.el.aqua.offsetHeight*Math.random(),this.el.aqua, 74, 46, type,true,true,level);
+			
+			// console.log(ikan.save());
+			ikan.timeCreated = arr[0]?arr[0]:ikan.timeCreated;
+			ikan.lastClaim = arr[3];
+			this.ikan.push(ikan);
+			this.afterAddIkan(ikan);
+			
+		}else{
+			let type = arr[1];
+			let level = arr[2] || 1;
+			let ikan = new Ikan(this.el.aqua.offsetWidth*Math.random(),this.el.aqua.offsetHeight*Math.random(),this.el.aqua, 74, 46, type,true,true,level);
+			ikan.timeCreated = arr[0]?arr[0]:ikan.timeCreated;
+			ikan.lastClaim = arr[3];
 			this.ikan.push(ikan);
 			this.afterAddIkan(ikan);
 		}
-	}, {
-		key: "addIkan2",
-		value: function addIkan2(type) {
-			var free = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-			var x = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-			var y = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
+	}
 
-			if (!type) return;
-
-			var totalIkan = 0;
-			this.ikan.map(function (e) {
-				return e && totalIkan++;
-			});
-			if (this.glassLvl * 2 + 1 <= totalIkan) return;
-
-			if (!free) {
-				if (fishs[type].price > this.uang) return;
-				this.uang -= fishs[type].price;
-				this.viewMoney();
-			}
-
-			var ikan = new Ikan2(x || this.el.aqua.offsetWidth * Math.random(), y || this.el.aqua.offsetHeight * Math.random(), this.el.aqua, 74, 46, type, !(x && y));
-			ikan.move(0, 0);
-			ikan.elWrap.style.animation = "birthIkan .5s";
-			this.ikan.push(ikan);
-			this.afterAddIkan(ikan);
-		}
-	}, {
-		key: "loadIkan",
-		value: function loadIkan(arr) {
-			if (!fishs[arr[1]]) {
-				console.log("Game::loadIkan() ERROR");
-				return;
-			}
-
-			if (arr[4] && arr[4] == 2) {
-				var type = arr[1];
-				var level = arr[2] || 1;
-				var ikan = new Ikan2(this.el.aqua.offsetWidth * Math.random(), this.el.aqua.offsetHeight * Math.random(), this.el.aqua, 74, 46, type, true, true, level);
-
-				// console.log(ikan.save());
-				ikan.timeCreated = arr[0] ? arr[0] : ikan.timeCreated;
-				ikan.lastClaim = arr[3];
-				this.ikan.push(ikan);
-				this.afterAddIkan(ikan);
-			} else {
-				var _type = arr[1];
-				var _level = arr[2] || 1;
-				var _ikan = new Ikan(this.el.aqua.offsetWidth * Math.random(), this.el.aqua.offsetHeight * Math.random(), this.el.aqua, 74, 46, _type, true, true, _level);
-				_ikan.timeCreated = arr[0] ? arr[0] : _ikan.timeCreated;
-				_ikan.lastClaim = arr[3];
-				this.ikan.push(_ikan);
-				this.afterAddIkan(_ikan);
-			}
-		}
-	}, {
-		key: "afterAddIkan",
-		value: function afterAddIkan(ikan) {
-			var _this2 = this;
-
-			// console.log("after add ikan");
-			ikan.onclick = function (e) {
-				ikan.nextPos = {
-					x: _this2.parentEl.offsetWidth / 2 | 0,
-					y: _this2.parentEl.offsetHeight / 2 | 0
-				};
-				_this2.el.content.innerHTML = "";
-				f.ac(_this2.el.content, ikan.viewStats(_this2));
-
-				_this2.showModal(ikan.name + " Fish");
+	afterAddIkan(ikan){
+		// console.log("after add ikan");
+		ikan.onclick = e=>{
+			ikan.nextPos = {
+				x:this.parentEl.offsetWidth/2|0,
+				y:this.parentEl.offsetHeight/2|0
 			};
-			ikan.paperIntervalClaim(this);
-			var now = new Date();
-			var saya = this;
-			window.setTimeout(function () {
-				ikan.kill(saya);
-			}, ikan.timeCreated + ikan.lifeSpan - now.getTime());
-		}
-	}, {
-		key: "addCraft",
-		value: function addCraft(type) {
-			if (!type) return;
-
-			var totalIkan = 0;
-			this.craft.map(function (e) {
-				return e && totalIkan++;
-			});
-			if (this.craftMaxItem <= totalIkan) return;
-			if (this.craft.indexOf(type) != -1) return;
-
-			// let ikan = new CraftV(this.el.aqua.offsetWidth*Math.random(),this.el.aqua.offsetHeight*Math.random(),this.el.aqua, 74, 46, type);
-			var ikan = new Craft(this.el.aqua.offsetWidth * Math.random(), this.el.aqua.offsetHeight * Math.random(), this.el.aqua, 74, 46, type);
-			ikan.intervalFunction(this);
-			this.craft.push(type);
-			this.craftObj.push(ikan);
-			ikan.function0(this);
-		}
-	}, {
-		key: "removeCraft",
-		value: function removeCraft(type) {
-			if (type == null) return;
-
-			var idx = this.craft.indexOf(type);
-			if (idx != -1) {
-
-				// for(let i in this.craftObj ){
-				// 	if(this.craftObj[i] && this.craftObj[i].type==type){
-
-				// 		this.craftObj[i].function1(this);
-				// 		this.craftObj[i].kill(this);
-				// 		// this.craftObj[i] = null;
-				// 		// this.craft[idx]=null;
-				// 		console.log(idx, this.craft);
-				// 		break;
-				// 	}
-				// }
-
-				this.craftObj[idx].function1(this);
-				this.craftObj[idx].kill(this);
-
-				// this.craft.splice(idx,1);
-				// this.craftObj.splice(idx,1);
-
-				// let craft =[];
-				// this.craft.map((e,i)=>i!=idx && craft.push(e) );
-				// this.craft = craft;
-				// let craftObj =[];
-				// this.craftObj.map((e,i)=>i!=idx && craftObj.push(e) );
-				// this.craftObj = craftObj;
-			}
-		}
-	}, {
-		key: "unlockCraft",
-		value: function unlockCraft(type) {
-			var _iteratorNormalCompletion6 = true;
-			var _didIteratorError6 = false;
-			var _iteratorError6 = undefined;
-
-			try {
-				for (var _iterator6 = Object.keys(_fishCraft[type].price)[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
-					var i = _step6.value;
-
-					if (_fishCraft[type].price[i] > this.paper[i]) return;
-				}
-			} catch (err) {
-				_didIteratorError6 = true;
-				_iteratorError6 = err;
-			} finally {
-				try {
-					if (!_iteratorNormalCompletion6 && _iterator6.return) {
-						_iterator6.return();
-					}
-				} finally {
-					if (_didIteratorError6) {
-						throw _iteratorError6;
-					}
-				}
-			}
-
-			this.craftUnlocked.push(_fishCraft[type].type);
-			var _iteratorNormalCompletion7 = true;
-			var _didIteratorError7 = false;
-			var _iteratorError7 = undefined;
-
-			try {
-				for (var _iterator7 = Object.keys(_fishCraft[type].price)[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
-					var _i3 = _step7.value;
-
-					this.paper[_i3] -= _fishCraft[type].price[_i3];
-				}
-			} catch (err) {
-				_didIteratorError7 = true;
-				_iteratorError7 = err;
-			} finally {
-				try {
-					if (!_iteratorNormalCompletion7 && _iterator7.return) {
-						_iterator7.return();
-					}
-				} finally {
-					if (_didIteratorError7) {
-						throw _iteratorError7;
-					}
-				}
-			}
-
-			this.viewPaper();
-		}
-	}, {
-		key: "showModalInfo",
-		value: function showModalInfo() {
-			var title = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
-			var info = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
-
-			var saya = this;
 			this.el.content.innerHTML = "";
-			var div1 = f.ce("div");
-			f.sa(div1, "style", "text-align:center;padding:10px;");
-			div1.innerHTML = info;
-			f.ac(this.el.content, div1);
+			f.ac(this.el.content, ikan.viewStats(this));
 
-			div1 = f.ce("div");
-			f.sa(div1, "style", "text-align:center;");
-			var button = f.ce("button");
-			button.innerHTML = " OK ";
-			button.onclick = function () {
-				saya.hideModal();
-			};
-			f.ac(div1, button);
-			f.ac(this.el.content, div1);
-
-			this.showModal(title);
+			this.showModal(ikan.name+" Fish");
 		}
-	}, {
-		key: "showModalWide",
-		value: function showModalWide() {
-			var _this3 = this;
+		ikan.paperIntervalClaim(this);
+		let now = new Date();
+		let saya = this;
+		window.setTimeout(()=>{
+			ikan.kill(saya);
+		}, ikan.timeCreated + ikan.lifeSpan - now.getTime());
 
-			var title = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+	}
 
-			if (this.parentEl.contains(this.el.modal)) {} else {
-				this.el.title.innerText = title;
-				this.el.popUp.style.width = "95%";
-				this.el.popUp.style.height = "400px";
-				this.el.popUp.style.opacity = 0;
-				f.ac(this.parentEl, this.el.modal);
-				var zoomin = function zoomin() {
-					_this3.el.popUp.style.opacity = 1;
-				};
-				setTimeout(zoomin, 50);
+
+
+	addCraft(type){
+		if(!type)return;
+
+		let totalIkan = 0;
+		this.craft.map(e=>e && (totalIkan++) );
+		if(this.craftMaxItem <= totalIkan)return;
+		if(this.craft.indexOf(type)!=-1)return;
+		if(this.craftUnlocked.indexOf(type)==-1)return;
+
+		// let ikan = new CraftV(this.el.aqua.offsetWidth*Math.random(),this.el.aqua.offsetHeight*Math.random(),this.el.aqua, 74, 46, type);
+		let ikan = new Craft(this.el.aqua.offsetWidth*Math.random(),this.el.aqua.offsetHeight*Math.random(),this.el.aqua, 74, 46, type);
+		ikan.intervalFunction(this);
+		this.craft.push(type);
+		this.craftObj.push(ikan);
+		ikan.function0(this);
+	}
+
+	removeCraft(type){
+		if(type==null)return;
+
+		let idx = this.craft.indexOf(type);
+		if(idx!=-1){
+
+			// for(let i in this.craftObj ){
+			// 	if(this.craftObj[i] && this.craftObj[i].type==type){
+
+			// 		this.craftObj[i].function1(this);
+			// 		this.craftObj[i].kill(this);
+			// 		// this.craftObj[i] = null;
+			// 		// this.craft[idx]=null;
+			// 		console.log(idx, this.craft);
+			// 		break;
+			// 	}
+			// }
+
+			this.craftObj[idx].function1(this);
+			this.craftObj[idx].kill(this);
+
+			// this.craft.splice(idx,1);
+			// this.craftObj.splice(idx,1);
+
+			// let craft =[];
+			// this.craft.map((e,i)=>i!=idx && craft.push(e) );
+			// this.craft = craft;
+			// let craftObj =[];
+			// this.craftObj.map((e,i)=>i!=idx && craftObj.push(e) );
+			// this.craftObj = craftObj;
+		}
+	}
+
+	unlockCraft(type){
+		for(let i of Object.keys(fishCraft[type].price)){
+			if(fishCraft[type].price[i]>this.paper[i])return;
+		}
+		this.craftUnlocked.push(fishCraft[type].type);
+		for(let i of Object.keys(fishCraft[type].price)){
+			this.paper[i] -= fishCraft[type].price[i];
+		}
+		this.viewPaper();
+	}
+
+	showModalInfo(title="",info=""){
+		let saya = this;
+		this.el.content.innerHTML = "";
+		let div1 = f.ce("div");
+		f.sa(div1,"style","text-align:center;padding:10px;");
+		div1.innerHTML = info;
+		f.ac(this.el.content, div1);
+
+		div1 = f.ce("div");
+		f.sa(div1,"style","text-align:center;");
+		let button = f.ce("button");
+		button.innerHTML = " OK ";
+		button.onclick = function(){
+			saya.hideModal();
+		};
+		f.ac(div1, button);
+		f.ac(this.el.content, div1);
+
+		this.showModal(title);
+
+	}
+
+	showModalWide(title=null){
+		if(this.parentEl.contains(this.el.modal)){
+
+		}else{
+			this.el.title.innerText = title;
+			this.el.popUp.style.width = "95%";
+			this.el.popUp.style.height = "400px";
+			this.el.popUp.style.opacity = 0;
+			f.ac(this.parentEl,this.el.modal);
+			let zoomin = ()=>{
+				this.el.popUp.style.opacity = 1;
 			}
+			setTimeout(zoomin,50);
 		}
-	}, {
-		key: "showModal",
-		value: function showModal() {
-			var _this4 = this;
+	}
 
-			var title = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+	showModal(title=null){
+		if(this.parentEl.contains(this.el.modal)){
 
-			if (this.parentEl.contains(this.el.modal)) {} else {
-				this.el.title.innerText = title;
-				this.el.popUp.style.width = "400px";
-				this.el.popUp.style.height = "auto";
-				this.el.popUp.style.opacity = 0;
-				f.ac(this.parentEl, this.el.modal);
-				var zoomin = function zoomin() {
-					_this4.el.popUp.style.opacity = 1;
-				};
-				setTimeout(zoomin, 50);
+		}else{
+			this.el.title.innerText = title;
+			this.el.popUp.style.width = "400px";
+			this.el.popUp.style.height = "auto";
+			this.el.popUp.style.opacity = 0;
+			f.ac(this.parentEl,this.el.modal);
+			let zoomin = ()=>{
+				this.el.popUp.style.opacity = 1;
 			}
+			setTimeout(zoomin,50);
 		}
-	}, {
-		key: "hideModal",
-		value: function hideModal() {
-			var _this5 = this;
+	}
 
-			this.el.content.innerHTML = "";
-			if (this.parentEl.contains(this.el.modal)) {
-				this.el.popUp.style.opacity = 0;
-				var zoomin = function zoomin() {
-					f.rc(_this5.parentEl, _this5.el.modal);
-				};
-				setTimeout(zoomin, 100);
-			} else {}
-		}
-
-		// visual
-
-	}, {
-		key: "viewLogo",
-		value: function viewLogo() {
-			var logo = f.ce("div");
-			f.sa(logo, "class", "logo");
-			logo.innerHTML = "&nbsp;";
-			logo.style.backgroundImage = "url('" + IMG.logo + "')";
-			f.ac(this.el.topBar, logo);
-		}
-	}, {
-		key: "viewMoney",
-		value: function viewMoney() {
-			if (!this.el.moneyBar) {
-				this.el.moneyBar = f.ce("div");
-				f.sa(this.el.moneyBar, "class", "moneyBar");
+	hideModal(){
+		this.el.content.innerHTML = "";
+		this.onModalRemoved.map(e=>{e()});
+		this.onModalRemoved = [];
+		if(this.parentEl.contains(this.el.modal)){
+			this.el.popUp.style.opacity = 0;
+			let zoomin = ()=>{
+				f.rc(this.parentEl,this.el.modal);
 			}
-			if (!this.el.topBar.contains(this.el.moneyBar)) {
-				f.ac(this.el.topBar, this.el.moneyBar);
-			}
-			this.uang = Math.min(this.uang || 0, 2000000000);
-			this.el.moneyBar.innerText = f.numFormat(this.uang);
+			setTimeout(zoomin,100);
+		}else{
 		}
-	}, {
-		key: "viewPaper",
-		value: function viewPaper() {
-			this.viewPaperChild("B");
-			this.viewPaperChild("R");
-			this.viewPaperChild("Y");
+	}
+
+
+	// visual
+	viewLogo(){
+		let logo = f.ce("div");
+		f.sa(logo,"class","logo");
+		logo.innerHTML = "&nbsp;";
+		logo.style.backgroundImage = "url('"+IMG.logo+"')";
+		f.ac(this.el.topBar,logo);
+	}
+
+	viewMoney(){
+		if(!this.el.moneyBar){
+			this.el.moneyBar = f.ce("div");
+			f.sa(this.el.moneyBar,"class","moneyBar");
 		}
-	}, {
-		key: "viewPaperChild",
-		value: function viewPaperChild(id) {
-			if (!this.el.paperBar) {
-				this.el.paperBar = {};
-			}
-			if (!this.el.paperBar[id]) {
-				this.el.paperBar[id] = f.ce("div");
-				f.sa(this.el.paperBar[id], "class", "paperBar paper" + id);
-			}
-			this.paper[id] = Math.min(parseInt(this.paper[id]) || 0, 2000000);
-			this.el.paperBar[id].innerText = f.numFormat(this.paper[id]);
-			if (!this.el.topBar.contains(this.el.paperBar[id])) {
-				f.ac(this.el.topBar, this.el.paperBar[id]);
-			}
+		if(!this.el.topBar.contains(this.el.moneyBar)){
+			f.ac(this.el.topBar,this.el.moneyBar);
 		}
-	}, {
-		key: "viewStatus",
-		value: function viewStatus(text) {
-			var _this6 = this;
+		this.uang = Math.min(this.uang||0,2000000000);
+		this.el.moneyBar.innerText = f.numFormat(this.uang);
+	}
 
-			var div = f.ce("div");
-			// f.sa(div,"class","bottomBar");
-			div.innerText = text;
-			f.ac(this.el.bottomBar, div);
+	viewPaper(){
+		this.viewPaperChild("B");
+		this.viewPaperChild("R");
+		this.viewPaperChild("Y");
+	}
 
-			window.setTimeout(function () {
-				div.style.transitionDuration = "1s";
-				div.style.opacity = "0";
-				div.style.height = "0px";
-				div.style.padding = "0px";
-			}, 2000);
-			window.setTimeout(function () {
-				f.rc(_this6.el.bottomBar, div);
-			}, 4000);
+	viewPaperChild(id){
+		if(!this.el.paperBar){
+			this.el.paperBar = {};
 		}
-	}, {
-		key: "transisiBuka",
-		value: function transisiBuka() {
-			try {
-				this.el.tutup.style.left = (Math.random() > .5 ? 100 : -100) + "%";
-			} catch (e) {}
+		if(!this.el.paperBar[id]){
+			this.el.paperBar[id] = f.ce("div");
+			f.sa(this.el.paperBar[id],"class","paperBar paper"+id);
 		}
-	}, {
-		key: "transisiTutup",
-		value: function transisiTutup() {
-			try {
-				this.el.tutup.style.left = "0%";
-			} catch (e) {}
+		this.paper[id] = Math.min(parseInt(this.paper[id])||0,2000000);
+		this.el.paperBar[id].innerText = f.numFormat(this.paper[id]);
+		if(!this.el.topBar.contains(this.el.paperBar[id])){
+			f.ac(this.el.topBar,this.el.paperBar[id]);
 		}
+	}
 
-		// PLAYFAB RELATED
 
-	}, {
-		key: "kongLogin",
-		value: function kongLogin() {
-			var _this7 = this;
+	viewStatus(text){
+		let div = f.ce("div");
+		// f.sa(div,"class","bottomBar");
+		div.innerText = text;
+		f.ac(this.el.bottomBar,div);
 
-			var param = {
-				"KongregateId": window.kongVars.userId,
-				"AuthTicket": window.kongVars.token,
-				"CreateAccount": true,
-				"TitleId": PlayFab.settings.titleId
-			};
-			PlayFabClientSDK.LoginWithKongregate(param, function (r, e) {
-				try {
-					// console.log(r);
-					if (!r.data.NewlyCreated && 1) {
-						_this7.loadData();
-					} else {
-						// this.newGame();
-						_this7.saveData();
-						_this7.transisiBuka();
-					}
+		window.setTimeout(()=>{
+			div.style.transitionDuration = "1s";
+			div.style.opacity = "0";
+			div.style.height = "0px";
+			div.style.padding = "0px";
+		},2000);
+		window.setTimeout(()=>{
+			f.rc(this.el.bottomBar,div);
+		},4000);
 
-					var saya = _this7;
-					saya.loggedIn = true;
-					_this7.saveInterval = window.setInterval(function () {
-						saya.saveData();
-					}, 60000);
-				} catch (e) {
-					_this7.newGame();
-				}
-			});
-		}
-	}, {
-		key: "loadData",
-		value: function loadData() {
-			var saya = this;
-			saya.transisiTutup();
+	}
 
-			var param = {
-				Keys: []
-			};
-			PlayFabClientSDK.GetUserData(param, function (r, e) {
+	transisiBuka(){
+		try{
+			this.el.tutup.style.left=(Math.random()>.5?100:-100)+"%";
+		}catch(e){}
+	}
+	transisiTutup(){
+		try{
+			this.el.tutup.style.left="0%";
+		}catch(e){}
+	}
+
+	// PLAYFAB RELATED
+
+	kongLogin(){
+		let param = {
+			"KongregateId": window.kongVars.userId,
+			"AuthTicket": window.kongVars.token,
+			"CreateAccount": true,
+			"TitleId": PlayFab.settings.titleId
+		};
+		PlayFabClientSDK.LoginWithKongregate(param, (r,e)=>{
+			try{
 				// console.log(r);
-				try {
-					// throw 123;
-
-					if (r.data.Data.glassLvl) {
-						saya.glassLvl = 1;
-						while (saya.glassLvl < parseInt(r.data.Data.glassLvl.Value)) {
-							saya.glassLvlUp(true);
-						}
-					}
-
-					if (r.data.Data.curr) {
-						var data = JSON.parse(r.data.Data.curr.Value);
-						saya.uang = parseInt(data[0]);
-						saya.viewMoney();
-						saya.paper = data[1];
-						saya.viewPaper();
-					}
-
-					if (r.data.Data.craftUnlocked) {
-						saya.craftUnlocked = JSON.parse(r.data.Data.craftUnlocked.Value);
-					}
-
-					if (r.data.Data.ikan1) {
-						var _iteratorNormalCompletion8 = true;
-						var _didIteratorError8 = false;
-						var _iteratorError8 = undefined;
-
-						try {
-
-							for (var _iterator8 = saya.ikan[Symbol.iterator](), _step8; !(_iteratorNormalCompletion8 = (_step8 = _iterator8.next()).done); _iteratorNormalCompletion8 = true) {
-								var i = _step8.value;
-
-								i.kill(saya);
-							}
-						} catch (err) {
-							_didIteratorError8 = true;
-							_iteratorError8 = err;
-						} finally {
-							try {
-								if (!_iteratorNormalCompletion8 && _iterator8.return) {
-									_iterator8.return();
-								}
-							} finally {
-								if (_didIteratorError8) {
-									throw _iteratorError8;
-								}
-							}
-						}
-
-						JSON.parse(r.data.Data.ikan1.Value).sort(function (i, j) {
-							return Math.random() > .5 ? 1 : -1;
-						}).map(function (e) {
-							try {
-								saya.loadIkan(e);
-							} catch (e) {}
-						});
-					}
-
-					if (r.data.Data.craft) {
-						var _iteratorNormalCompletion9 = true;
-						var _didIteratorError9 = false;
-						var _iteratorError9 = undefined;
-
-						try {
-							for (var _iterator9 = saya.craft[Symbol.iterator](), _step9; !(_iteratorNormalCompletion9 = (_step9 = _iterator9.next()).done); _iteratorNormalCompletion9 = true) {
-								var _i4 = _step9.value;
-
-								saya.removeCraft(_i4);
-							}
-						} catch (err) {
-							_didIteratorError9 = true;
-							_iteratorError9 = err;
-						} finally {
-							try {
-								if (!_iteratorNormalCompletion9 && _iterator9.return) {
-									_iterator9.return();
-								}
-							} finally {
-								if (_didIteratorError9) {
-									throw _iteratorError9;
-								}
-							}
-						}
-
-						JSON.parse(r.data.Data.craft.Value).map(function (e) {
-							try {
-								saya.addCraft(e);
-							} catch (e) {}
-						});
-					}
-
-					window.setTimeout(function () {
-						saya.transisiBuka();
-					}, 2001);
-				} catch (e) {
-					console.error(e);
-					saya.newGame();
+				if(!r.data.NewlyCreated && 1){
+					this.loadData();
+				}else{
+					// this.newGame();
+					this.saveData();
+					this.transisiBuka();
 				}
-			});
-		}
-	}, {
-		key: "saveData",
-		value: function saveData() {
-			var param = {
-				Data: {
-					glassLvl: this.glassLvl,
-					ikan1: JSON.stringify(this.ikan.map(function (e) {
-						try {
-							// console.log("Game::saveData()");
-							// console.log(e.save());
-							return e.save();
-						} catch (e) {}
-					})),
 
-					// money:this.uang,
-					// paper:JSON.stringify(this.paper),
-					curr: JSON.stringify([this.uang, this.paper]),
+				let saya = this;
+				saya.loggedIn = true;
+				this.saveInterval = window.setInterval(()=>{
+					saya.saveData();
+				},60000);
+			}catch(e){
+				this.newGame();
+			}
+		});
+	}
 
-					craft: JSON.stringify(this.craft),
-					craftUnlocked: JSON.stringify(this.craftUnlocked)
+	loadData(){
+		let saya = this;
+		saya.transisiTutup();
+
+		let param = {
+			Keys :[]
+		};
+		PlayFabClientSDK.GetUserData(param, (r,e)=>{
+			// console.log(r);
+			try{
+				// throw 123;
+
+				if(r.data.Data.glassLvl){
+					saya.glassLvl=1;
+					while(saya.glassLvl<parseInt(r.data.Data.glassLvl.Value)){
+						saya.glassLvlUp(true);
+					}
 				}
-			};
-			var saya = this;
-			var saving = function saving(r, e) {
-				if (r !== null) {
-					saya.viewStatus("Game saved.");
+
+				if(r.data.Data.curr){
+					let data = JSON.parse(r.data.Data.curr.Value);
+					saya.uang = parseInt(data[0]);
+					saya.viewMoney();
+					saya.paper = data[1];
+					saya.viewPaper();
 				}
-			};
-			PlayFabClientSDK.UpdateUserData(param, saving);
-		}
-	}]);
+				
+				if(r.data.Data.craftUnlocked){
+					saya.craftUnlocked = JSON.parse(r.data.Data.craftUnlocked.Value);
+				}
 
-	return Game;
-}();
+				if(r.data.Data.ikan1){
 
-var Menu = function () {
-	function Menu(game) {
-		_classCallCheck(this, Menu);
+					for(let i of saya.ikan){
+						i.kill(saya);
+					}
 
+					JSON.parse(r.data.Data.ikan1.Value).sort((i,j)=>Math.random()>.5?1:-1).map(e=>{
+						try{
+							saya.loadIkan(e);
+						}catch(e){}
+					});
+				}
+				
+				if(r.data.Data.craft){
+					for(let i of saya.craft){
+						saya.removeCraft(i);
+					}
+					JSON.parse(r.data.Data.craft.Value).map(e=>{
+						try{
+							saya.addCraft(e);
+						}catch(e){}
+					});
+				}
+
+
+				window.setTimeout(()=>{
+					saya.transisiBuka();
+				},2001);
+			}catch(e){
+				console.error(e);
+				saya.newGame();
+			}
+		});
+
+	}
+
+	saveData(){
+		let param = {
+			Data:{
+				glassLvl: this.glassLvl,
+				ikan1:JSON.stringify(this.ikan.map(e=>{
+					try{
+						// console.log("Game::saveData()");
+						// console.log(e.save());
+						return e.save();
+					}catch(e){}
+				})),
+
+				// money:this.uang,
+				// paper:JSON.stringify(this.paper),
+				curr:JSON.stringify([this.uang, this.paper]),
+
+				craft:JSON.stringify(this.craft),
+				craftUnlocked:JSON.stringify(this.craftUnlocked)
+			}
+		};
+		let saya = this;
+		let saving = function(r,e){
+			if(r!==null){
+				saya.viewStatus("Game saved.");
+			}
+		};
+		PlayFabClientSDK.UpdateUserData(param,saving);
+
+	}
+
+
+
+}
+
+class Menu{
+	constructor(game){
 		this.game = game;
 		this.el = {};
 
@@ -1124,635 +871,486 @@ var Menu = function () {
 		this.addMenuGuide();
 	}
 
-	_createClass(Menu, [{
-		key: "addMenu",
-		value: function addMenu(menu) {
-			var y = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-			var text = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "";
-			var img = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : "";
-			var click = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : function () {};
 
-			this.el[menu] = f.ce("div");
-			f.sa(this.el[menu], "class", "sideMenu");
-			this.el[menu].style.top = 60 + y * 80 + "px";
-			this.el[menu].style.backgroundImage = "url('" + img + "')";
-			this.el[menu].onclick = click;
-			f.ac(this.el[menu], f.ce("br"));
-			f.ac(this.el[menu], f.ce("br"));
-			f.ac(this.el[menu], f.ct(text));
-			f.ac(this.game.parentEl, this.el[menu]);
-		}
-	}, {
-		key: "addMenuSave",
-		value: function addMenuSave() {
-			var saya = this;
-			var click = function click() {
-				saya.game.viewStatus("Saving...");
-				if (saya.game.loggedIn) {
-					saya.game.saveData();
-				} else {
-					// saya.game.showModalInfo("Error","You playing as guest.");
-					kongregate.services.showRegistrationBox();
+	addMenu(menu,y=0,text="", img="",click=()=>{}){
+		this.el[menu] = f.ce("div");
+		f.sa(this.el[menu],"class","sideMenu");
+		this.el[menu].style.top = (60+y*80)+"px";
+		this.el[menu].style.backgroundImage = "url('"+img+"')";
+		this.el[menu].onclick = click;
+		f.ac(this.el[menu], f.ce("br"));
+		f.ac(this.el[menu], f.ce("br"));
+		f.ac(this.el[menu], f.ct(text));
+		f.ac(this.game.parentEl,this.el[menu]);
+	}
+
+	addMenuSave(){
+		let saya = this;
+		let click = function(){
+			saya.game.viewStatus("Saving...");
+			if(saya.game.loggedIn){
+				saya.game.saveData();
+			}else{
+				// saya.game.showModalInfo("Error","You playing as guest.");
+				kongregate.services.showRegistrationBox();
+
+			}
+		};
+		this.addMenu("menuSave",4,"Save",IMG.icon.save,click);
+	}
+
+	addMenuGuide(){
+		let saya = this;
+		let click = function(){
+			saya.game.el.content.innerHTML = "";
+			f.ac(saya.game.el.content, saya.guide());
+			saya.game.showModalWide("Gude Book");
+		};
+		this.addMenu("menuGuide",3,"Guide",IMG.icon.book,click);
+	}
+
+	addMenuTank(){
+		let saya = this;
+		let click = function(){
+			saya.game.el.content.innerHTML = "";
+			f.ac(saya.game.el.content, saya.tank());
+			saya.game.showModalWide("Tank");
+		};
+		this.addMenu("menuTank",2,"Tank",IMG.icon.tank,click);
+	}
+
+	addMenuCraft(){
+		let saya = this;
+		let click = function(){
+			saya.game.el.content.innerHTML = "";
+			let div = saya.fishCraft();
+			f.ac(saya.game.el.content, div );
+			saya.game.showModalWide("Creatures Craft ("+saya.game.craft.length+"/"+saya.game.craftMaxItem+")");
+			// window.setTimeout(()=>{
+			// 	div.scrollTop = saya.vars.scrollTop;
+			// },5000);
+		};
+		this.addMenu("menuCraft",1,"Craft",IMG.icon.craft,click);
+	}
+
+	addMenuBuyIkan1(){
+		let saya = this;
+		let click = function(){
+			let totalIkan = 0;
+			saya.game.ikan.map(e=>e && (totalIkan++) );
+			saya.game.el.content.innerHTML = "";
+			if(saya.game.glassLvl*2+1 > totalIkan){
+				f.ac(saya.game.el.content, saya.fishShop());
+				saya.game.showModalWide("Fish Shop");
+			}else{
+				// alert("penuh");
+				saya.game.showModalInfo("Insufficient Space","Tank is full ("
+					+totalIkan+"/"+(saya.game.glassLvl*2+1)+"). Upgrade your tank to place more fish.");
+			}
+		};
+		this.addMenu("menuSave",0,"Shop",IMG.icon.shop,click);
+	}
+
+
+
+	fishShop(){
+		let saya = this;
+		let div = f.ce("div");
+		f.sa(div,"style","overflow-y:scroll;max-height:350px;margin:10px 0px;position:relative;");
+
+		// for(let j=9;--j;)
+		for(let i of Object.keys(fishShop)){
+			let menu = f.ce("div");
+			f.sa(menu,"class","shopMenu");
+
+			let aquaMini = f.ce("div");
+			f.sa(aquaMini,"class","aquaMini");
+			f.ac(menu,aquaMini);
+			
+			let div1 = f.ce("div");
+			f.sa(div1,"class","title1");
+			div1.innerHTML = fishShop[i].name;
+			f.ac(menu, div1);
+
+			let buy = f.ce("button");
+			div1 = f.ce("div");
+
+			if(!fishShop[i].v){
+				let ikan = new Ikan((160-fishShop[i].lvlUpVar.base[0])/2 ,(100-fishShop[i].lvlUpVar.base[1])/2,aquaMini, 200, 200, fishShop[i].type,false,false,1);
+
+
+				div1.innerHTML = "<img src='"+IMG.icon._plus(IMG.icon.paper)+"' class='icon coin"+fishShop[i].type+"'>"+(fishShop[i].claimBase*6)+"/min";
+				// f.ac(menu, div1);
+
+				// div1 = f.ce("div");
+				div1.innerHTML += "<br><img src='"+IMG.icon.heart+"' class='icon'>"+f.timeFormat(fishShop[i].lifeSpan);
+				f.ac(menu, div1);
+
+
+				div1 = f.ce("div");
+				buy.onclick = function(){
+					saya.game.addIkan(fishShop[i].type);
+					saya.game.hideModal();
 				}
-			};
-			this.addMenu("menuSave", 4, "Save", IMG.icon.save, click);
-		}
-	}, {
-		key: "addMenuGuide",
-		value: function addMenuGuide() {
-			var saya = this;
-			var click = function click() {
-				saya.game.el.content.innerHTML = "";
-				f.ac(saya.game.el.content, saya.guide());
-				saya.game.showModalWide("Gude Book");
-			};
-			this.addMenu("menuGuide", 3, "Guide", IMG.icon.book, click);
-		}
-	}, {
-		key: "addMenuTank",
-		value: function addMenuTank() {
-			var saya = this;
-			var click = function click() {
-				saya.game.el.content.innerHTML = "";
-				f.ac(saya.game.el.content, saya.tank());
-				saya.game.showModalWide("Tank");
-			};
-			this.addMenu("menuTank", 2, "Tank", IMG.icon.tank, click);
-		}
-	}, {
-		key: "addMenuCraft",
-		value: function addMenuCraft() {
-			var saya = this;
-			var click = function click() {
-				saya.game.el.content.innerHTML = "";
-				var div = saya.fishCraft();
-				f.ac(saya.game.el.content, div);
-				saya.game.showModalWide("Creatures Craft (" + saya.game.craft.length + "/" + saya.game.craftMaxItem + ")");
-				// window.setTimeout(()=>{
-				// 	div.scrollTop = saya.vars.scrollTop;
-				// },5000);
-			};
-			this.addMenu("menuCraft", 1, "Craft", IMG.icon.craft, click);
-		}
-	}, {
-		key: "addMenuBuyIkan1",
-		value: function addMenuBuyIkan1() {
-			var saya = this;
-			var click = function click() {
-				var totalIkan = 0;
-				saya.game.ikan.map(function (e) {
-					return e && totalIkan++;
-				});
-				saya.game.el.content.innerHTML = "";
-				if (saya.game.glassLvl * 2 + 1 > totalIkan) {
-					f.ac(saya.game.el.content, saya.fishShop());
-					saya.game.showModalWide("Fish Shop");
-				} else {
-					// alert("penuh");
-					saya.game.showModalInfo("Insufficient Space", "Tank is full (" + totalIkan + "/" + (saya.game.glassLvl * 2 + 1) + "). Upgrade your tank to place more fish.");
+
+			}else
+			if(fishShop[i].v==2){
+
+				let ikan = new Ikan2((160-fishShop[i].lvlUpVar.base[0])/2 ,(100-fishShop[i].lvlUpVar.base[1])/2,aquaMini, 200, 200, i ,false,false,1);
+
+				div1 = f.ce("div");
+				for(let j in fishShop[i].claimBase){
+					div1.innerHTML += "<img src='"+IMG.icon._plus(IMG.icon.paper)+"' class='icon coin"+fishShop[i].curr[j]+"'>"+(fishShop[i].claimBase[j]*6)+"/min<br>";
 				}
-			};
-			this.addMenu("menuSave", 0, "Shop", IMG.icon.shop, click);
-		}
-	}, {
-		key: "fishShop",
-		value: function fishShop() {
-			var _this8 = this;
+				// f.ac(menu, div1);
 
-			var saya = this;
-			var div = f.ce("div");
-			f.sa(div, "style", "overflow-y:scroll;max-height:350px;margin:10px 0px;position:relative;");
+				// div1 = f.ce("div");
+				div1.innerHTML += "<img src='"+IMG.icon.heart+"' class='icon'>"+f.timeFormat(fishShop[i].lifeSpan);
+				f.ac(menu, div1);
 
-			// for(let j=9;--j;)
-			var _iteratorNormalCompletion10 = true;
-			var _didIteratorError10 = false;
-			var _iteratorError10 = undefined;
-
-			try {
-				var _loop = function _loop() {
-					var i = _step10.value;
-
-					var menu = f.ce("div");
-					f.sa(menu, "class", "shopMenu");
-
-					var aquaMini = f.ce("div");
-					f.sa(aquaMini, "class", "aquaMini");
-					f.ac(menu, aquaMini);
-
-					var div1 = f.ce("div");
-					f.sa(div1, "class", "title1");
-					div1.innerHTML = _fishShop[i].name;
-					f.ac(menu, div1);
-
-					var buy = f.ce("button");
-					div1 = f.ce("div");
-
-					if (!_fishShop[i].v) {
-						var ikan = new Ikan((160 - _fishShop[i].lvlUpVar.base[0]) / 2, (100 - _fishShop[i].lvlUpVar.base[1]) / 2, aquaMini, 200, 200, _fishShop[i].type, false, false, 1);
-
-						div1.innerHTML = "<img src='" + IMG.icon._plus(IMG.icon.paper) + "' class='icon coin" + _fishShop[i].type + "'>" + _fishShop[i].claimBase * 6 + "/min";
-						// f.ac(menu, div1);
-
-						// div1 = f.ce("div");
-						div1.innerHTML += "<br><img src='" + IMG.icon.heart + "' class='icon'>" + f.timeFormat(_fishShop[i].lifeSpan);
-						f.ac(menu, div1);
-
-						div1 = f.ce("div");
-						buy.onclick = function () {
-							saya.game.addIkan(_fishShop[i].type);
-							saya.game.hideModal();
-						};
-					} else if (_fishShop[i].v == 2) {
-
-						var _ikan2 = new Ikan2((160 - _fishShop[i].lvlUpVar.base[0]) / 2, (100 - _fishShop[i].lvlUpVar.base[1]) / 2, aquaMini, 200, 200, i, false, false, 1);
-
-						div1 = f.ce("div");
-						for (var j in _fishShop[i].claimBase) {
-							div1.innerHTML += "<img src='" + IMG.icon._plus(IMG.icon.paper) + "' class='icon coin" + _fishShop[i].curr[j] + "'>" + _fishShop[i].claimBase[j] * 6 + "/min<br>";
-						}
-						// f.ac(menu, div1);
-
-						// div1 = f.ce("div");
-						div1.innerHTML += "<img src='" + IMG.icon.heart + "' class='icon'>" + f.timeFormat(_fishShop[i].lifeSpan);
-						f.ac(menu, div1);
-
-						div1 = f.ce("div");
-						buy.onclick = function () {
-							saya.game.addIkan2(i);
-							saya.game.hideModal();
-						};
-					}
-
-					buy.innerHTML = " <img src='" + IMG.icon.money + "' class='icon'>" + f.numFormat(_fishShop[i].price);
-					if (_this8.game.uang < _fishShop[i].price) {
-						f.sa(buy, "disabled", "");
-					}
-					f.sa(div1, "style", "text-align:center;position: absolute;bottom: 0;width:100%;");
-					f.ac(div1, buy);
-					f.ac(menu, div1);
-					f.ac(div, menu);
-				};
-
-				for (var _iterator10 = Object.keys(_fishShop)[Symbol.iterator](), _step10; !(_iteratorNormalCompletion10 = (_step10 = _iterator10.next()).done); _iteratorNormalCompletion10 = true) {
-					_loop();
-				}
-			} catch (err) {
-				_didIteratorError10 = true;
-				_iteratorError10 = err;
-			} finally {
-				try {
-					if (!_iteratorNormalCompletion10 && _iterator10.return) {
-						_iterator10.return();
-					}
-				} finally {
-					if (_didIteratorError10) {
-						throw _iteratorError10;
-					}
+				div1 = f.ce("div");
+				buy.onclick = function(){
+					saya.game.addIkan2(i);
+					saya.game.hideModal();
 				}
 			}
-
-			return div;
-		}
-	}, {
-		key: "fishCraft",
-		value: function fishCraft() {
-			var _this9 = this;
-
-			var scrollTop = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-
-			var saya = this;
-			var fishShop = JSON.parse(JSON.stringify(fishCraftShop));
-			var div = f.ce("div");
-			f.sa(div, "style", "overflow-y:scroll;max-height:350px;margin:10px 0px;position:relative;");
-			div.onscroll = function (e) {
-				scrollTop = div.scrollTop;
-			};
-
-			var _iteratorNormalCompletion11 = true;
-			var _didIteratorError11 = false;
-			var _iteratorError11 = undefined;
-
-			try {
-				for (var _iterator11 = this.game.craftUnlocked[Symbol.iterator](), _step11; !(_iteratorNormalCompletion11 = (_step11 = _iterator11.next()).done); _iteratorNormalCompletion11 = true) {
-					var _i5 = _step11.value;
-
-					if (!fishShop[_i5]) {
-						fishShop[_i5] = _fishCraft[_i5];
-					}
-				}
-
-				// for(let jjjj=9;--jjjj;)
-			} catch (err) {
-				_didIteratorError11 = true;
-				_iteratorError11 = err;
-			} finally {
-				try {
-					if (!_iteratorNormalCompletion11 && _iterator11.return) {
-						_iterator11.return();
-					}
-				} finally {
-					if (_didIteratorError11) {
-						throw _iteratorError11;
-					}
-				}
+			
+			buy.innerHTML = " <img src='"+IMG.icon.money+"' class='icon'>"+f.numFormat(fishShop[i].price);
+			if(this.game.uang<fishShop[i].price){
+				f.sa(buy,"disabled","");
 			}
+			f.sa(div1,"style","text-align:center;position: absolute;bottom: 0;width:100%;");
+			f.ac(div1, buy);
+			f.ac(menu, div1);
+			f.ac(div, menu);
+		}
 
-			var _iteratorNormalCompletion12 = true;
-			var _didIteratorError12 = false;
-			var _iteratorError12 = undefined;
+		return div;
+	}
 
-			try {
-				var _loop2 = function _loop2() {
-					var i = _step12.value;
+	fishCraft(scrollTop=0){
+		let saya = this;
+		let fishShop = JSON.parse(JSON.stringify(fishCraftShop));
+		let div = f.ce("div");
+		f.sa(div,"style","overflow-y:scroll;max-height:350px;margin:10px 0px;position:relative;");
+		div.onscroll =e=>{scrollTop=div.scrollTop;};
 
-					var menu = f.ce("div");
-					f.sa(menu, "class", "shopMenu");
 
-					var aquaMini = f.ce("div");
-					f.sa(aquaMini, "class", "aquaMini");
-					f.ac(menu, aquaMini);
-					var ikan = new Craft((160 - fishShop[i].length) / 2, (100 - fishShop[i].height) / 2, aquaMini, 200, 200, fishShop[i].type, false, false, 1);
+		for(let i of this.game.craftUnlocked){
+			if(!fishShop[i]){
+				fishShop[i] = fishCraft[i];
+			}
+		}
 
-					var div1 = f.ce("div");
-					f.sa(div1, "class", "title1");
-					div1.innerHTML = fishShop[i].name;
-					f.ac(menu, div1);
+		// for(let jjjj=9;--jjjj;)
+		for(let i of Object.keys(fishShop)){
+			let menu = f.ce("div");
+			f.sa(menu,"class","shopMenu");
 
-					div1 = f.ce("div");
-					f.sa(div1, "style", "height:100px;overflow-y:hidden");
-					div1.innerHTML = fishShop[i].desc;
-					f.ac(menu, div1);
+			let aquaMini = f.ce("div");
+			f.sa(aquaMini,"class","aquaMini");
+			f.ac(menu,aquaMini);
+			let ikan = new Craft((160-fishShop[i].length)/2 ,(100-fishShop[i].height)/2,aquaMini, 200, 200, fishShop[i].type,false,false,1);
 
-					// BUY
-					div1 = f.ce("div");
-					f.sa(div1, "style", "text-align:center;height:80px;display:grid;place-items:center");
-					if (_this9.game.craftUnlocked.indexOf(i) == -1) {
-						menu.style.backgroundColor = "#777777";
-						ikan.hint();
-						var _buy = f.ce("button");
-						_buy.onclick = function () {
-							saya.game.unlockCraft(i);
+			let div1 = f.ce("div");
+			f.sa(div1,"class","title1");
+			div1.innerHTML = fishShop[i].name;
+			f.ac(menu, div1);
+
+			div1 = f.ce("div");
+			f.sa(div1,"style","height:100px;overflow-y:hidden");
+			div1.innerHTML = fishShop[i].desc;
+			f.ac(menu, div1);
+
+
+
+			// BUY
+			div1 = f.ce("div");
+			f.sa(div1,"style","text-align:center;height:80px;display:grid;place-items:center");
+			if(this.game.craftUnlocked.indexOf(i)==-1){
+				menu.style.backgroundColor = "#777777";
+				ikan.hint();
+				let buy = f.ce("button");
+				buy.onclick = function(){
+					saya.game.unlockCraft(i);
+					saya.game.el.content.innerHTML = "";
+					saya.game.el.title.innerHTML="Creatures Craft ("+saya.game.craft.length+"/"+saya.game.craftMaxItem+")";
+					let div = saya.fishCraft(scrollTop);
+					f.ac(saya.game.el.content, div);
+					div.scrollTop = scrollTop;
+				}
+				buy.innerHTML = " Unlock ";
+
+				let div2 = f.ce("div");
+				f.sa(div2,"style","text-align:left;");
+				div2.innerHTML = "";
+				let idx=-1;
+				for(let j of Object.keys(fishShop[i].price)){
+					div2.innerHTML += fishShop[i].price[j]?" <img src='"+IMG.icon.paper+"' class='icon coin"+j+"'>"+fishShop[i].price[j]+(++idx%2?"<br>":""):"";
+					if(this.game.paper[j]<fishShop[i].price[j]){
+						f.sa(buy,"disabled","");
+					}
+				}
+				f.ac(div1, div2);
+				f.ac(div1, buy);
+			}else
+			if(this.game.craft.indexOf(i)==-1){
+
+				let totalIkan = 0;
+				saya.game.craft.map(e=>e && (totalIkan++) );
+
+				let buy = f.ce("button");
+				f.sa(buy,"class","green");
+
+				buy.onclick = function(){
+					saya.game.addCraft(fishShop[i].type);
+					if(1){
+						saya.game.el.content.innerHTML = "";
+						saya.game.el.title.innerHTML="Creatures Craft ("+saya.game.craft.length+"/"+saya.game.craftMaxItem+")";
+						let div = saya.fishCraft(scrollTop);
+						f.ac(saya.game.el.content, div);
+						div.scrollTop = scrollTop;
+
+					}else{
+						saya.game.hideModal();
+					}
+				}
+
+
+				buy.innerHTML = " Insert to tank ";
+				if(totalIkan>=this.game.craftMaxItem){
+					buy.innerHTML = " Remove others first ";
+					f.sa(buy,"disabled","");
+				}
+
+				f.ac(div1, buy);
+
+			}else{
+				let buy = f.ce("button");
+				f.sa(buy,"class","red");
+				// buy.onclick = function(){
+				// 	saya.game.removeCraft(i);
+				// 	if(1){
+				// 		saya.game.el.content.innerHTML = "";
+				// 		f.ac(saya.game.el.content, saya.fishCraft(scrollTop));
+				// 	}else{
+				// 		saya.game.hideModal();
+				// 	}
+				// }
+
+				((buy,saya,i)=>{
+					buy.onclick = function(){
+						saya.game.removeCraft(i);
+						// console.log("NOOO ",i);
+						if(1){
 							saya.game.el.content.innerHTML = "";
-							saya.game.el.title.innerHTML = "Creatures Craft (" + saya.game.craft.length + "/" + saya.game.craftMaxItem + ")";
-							var div = saya.fishCraft(scrollTop);
+							saya.game.el.title.innerHTML="Creatures Craft ("+saya.game.craft.length+"/"+saya.game.craftMaxItem+")";
+							let div = saya.fishCraft(scrollTop);
 							f.ac(saya.game.el.content, div);
 							div.scrollTop = scrollTop;
-						};
-						_buy.innerHTML = " Unlock ";
-
-						var div2 = f.ce("div");
-						f.sa(div2, "style", "text-align:left;");
-						div2.innerHTML = "";
-						var idx = -1;
-						var _iteratorNormalCompletion13 = true;
-						var _didIteratorError13 = false;
-						var _iteratorError13 = undefined;
-
-						try {
-							for (var _iterator13 = Object.keys(fishShop[i].price)[Symbol.iterator](), _step13; !(_iteratorNormalCompletion13 = (_step13 = _iterator13.next()).done); _iteratorNormalCompletion13 = true) {
-								var j = _step13.value;
-
-								div2.innerHTML += fishShop[i].price[j] ? " <img src='" + IMG.icon.paper + "' class='icon coin" + j + "'>" + fishShop[i].price[j] + (++idx % 2 ? "<br>" : "") : "";
-								if (_this9.game.paper[j] < fishShop[i].price[j]) {
-									f.sa(_buy, "disabled", "");
-								}
-							}
-						} catch (err) {
-							_didIteratorError13 = true;
-							_iteratorError13 = err;
-						} finally {
-							try {
-								if (!_iteratorNormalCompletion13 && _iterator13.return) {
-									_iterator13.return();
-								}
-							} finally {
-								if (_didIteratorError13) {
-									throw _iteratorError13;
-								}
-							}
+						}else{
+							saya.game.hideModal();
 						}
-
-						f.ac(div1, div2);
-						f.ac(div1, _buy);
-					} else if (_this9.game.craft.indexOf(i) == -1) {
-
-						var totalIkan = 0;
-						saya.game.craft.map(function (e) {
-							return e && totalIkan++;
-						});
-
-						var _buy2 = f.ce("button");
-						f.sa(_buy2, "class", "green");
-
-						_buy2.onclick = function () {
-							saya.game.addCraft(fishShop[i].type);
-							if (1) {
-								saya.game.el.content.innerHTML = "";
-								saya.game.el.title.innerHTML = "Creatures Craft (" + saya.game.craft.length + "/" + saya.game.craftMaxItem + ")";
-								var _div = saya.fishCraft(scrollTop);
-								f.ac(saya.game.el.content, _div);
-								_div.scrollTop = scrollTop;
-							} else {
-								saya.game.hideModal();
-							}
-						};
-
-						_buy2.innerHTML = " Insert to tank ";
-						if (totalIkan >= _this9.game.craftMaxItem) {
-							_buy2.innerHTML = " Remove others first ";
-							f.sa(_buy2, "disabled", "");
-						}
-
-						f.ac(div1, _buy2);
-					} else {
-						var _buy3 = f.ce("button");
-						f.sa(_buy3, "class", "red");
-						// buy.onclick = function(){
-						// 	saya.game.removeCraft(i);
-						// 	if(1){
-						// 		saya.game.el.content.innerHTML = "";
-						// 		f.ac(saya.game.el.content, saya.fishCraft(scrollTop));
-						// 	}else{
-						// 		saya.game.hideModal();
-						// 	}
-						// }
-
-						(function (buy, saya, i) {
-							buy.onclick = function () {
-								saya.game.removeCraft(i);
-								// console.log("NOOO ",i);
-								if (1) {
-									saya.game.el.content.innerHTML = "";
-									saya.game.el.title.innerHTML = "Creatures Craft (" + saya.game.craft.length + "/" + saya.game.craftMaxItem + ")";
-									var _div2 = saya.fishCraft(scrollTop);
-									f.ac(saya.game.el.content, _div2);
-									_div2.scrollTop = scrollTop;
-								} else {
-									saya.game.hideModal();
-								}
-							};
-						})(_buy3, saya, fishShop[i].type);
-
-						_buy3.innerHTML = " Remove from tank ";
-
-						f.ac(div1, _buy3);
 					}
+				})(buy,saya,fishShop[i].type);
 
-					f.ac(menu, div1);
-					f.ac(div, menu);
+
+				buy.innerHTML = " Remove from tank ";
+
+				f.ac(div1, buy);
+
+			}
+
+
+			f.ac(menu, div1);
+			f.ac(div, menu);
+		}
+
+		return div;
+	}
+
+	tank(){
+		let saya = this;
+		let div = f.ce("div");
+		f.sa(div,"class",'tank');
+
+
+
+		// LEFT PANEL
+		let div1 = f.ce("div");
+		f.sa(div1,"class",'left');
+		// div1.innerHTML = "asdsdsad asds";
+
+		let div11 = f.ce("div");
+		f.sa(div11,"class",'title1');
+		div11.innerHTML = "Tank Properties";
+		f.ac(div1, div11);
+
+		let icon = f.ce("img");
+		f.sa(icon,"class","iconBig");
+		f.sa(icon,"src",IMG.icon.tank);
+		f.ac(div1, icon);
+
+		let table = f.ce("table");
+		let tr = f.ce("tr");
+		let td = f.ce("td");
+		td.innerHTML = "Level";
+		f.ac(tr,td);
+		td = f.ce("td");
+		td.innerHTML = this.game.glassLvl+"/10";
+		f.ac(tr,td);
+		f.ac(table,tr);
+
+
+		tr = f.ce("tr");
+		td = f.ce("td");
+		td.innerHTML = "Paperfish";
+		f.ac(tr,td);
+		td = f.ce("td");
+		let totalIkan = 0;
+		this.game.ikan.map(e=>e && (totalIkan++) );
+		td.innerHTML = totalIkan+"/"+(this.game.glassLvl*2+1);
+		f.ac(tr,td);
+		f.ac(table,tr);
+
+
+
+
+		tr = f.ce("tr");
+		td = f.ce("td");
+		td.innerHTML = "Upgrade";
+		f.ac(tr,td);
+		td = f.ce("td");
+		let button = f.ce("button");
+		if(this.game.glassLvl>=10){
+			button.innerHTML = "Maxed";
+			f.sa(button,"disabled","");
+		}else{
+			let cost = Math.pow(2,this.game.glassLvl-1)*this.game.glassLvlUpCost;
+			button.innerHTML = " <img src='"+IMG.icon.paper+"' class='icon coinB'> "+f.numFormat(cost);
+			if(cost>this.game.paper.B){
+				f.sa(button,"disabled","");
+			}
+
+			button.onclick = function(){
+				saya.game.glassLvlUp();
+				saya.game.el.content.innerHTML = "";
+				f.ac(saya.game.el.content, saya.tank());
+			}
+
+		}
+		f.ac(td,button);
+		f.ac(tr,td);
+		f.ac(table,tr);
+
+		f.ac(div1, table);
+
+
+		// RIGHT PANEL
+		let div2 = f.ce("div");
+		f.sa(div2,"class",'right');
+
+		let div21 = f.ce("div");
+		f.sa(div21,"class",'title1');
+		div21.innerHTML = "Tank Shop";
+		f.ac(div2, div21);
+
+		f.ac(div2,f.ct("Coming soon"));
+
+		f.ac(div, div1);
+		f.ac(div, div2);
+
+		return div;
+	}
+
+
+	guide(){
+		let saya = this;
+		let div = f.ce("div");
+		f.sa(div,"class",'tank');
+
+
+
+		// LEFT PANEL
+		let div1 = f.ce("div");
+		f.sa(div1,"class",'left');
+
+		let div11 = f.ce("div");
+		f.sa(div11,"class",'title1');
+		div11.innerHTML = "Contents";
+		f.ac(div1, div11);
+
+
+
+
+		// RIGHT PANEL
+		let div2 = f.ce("div");
+		f.sa(div2,"class",'right');
+
+		let div21 = f.ce("div");
+		f.sa(div21,"class",'title1');
+		f.ac(div2, div21);
+
+		let div22 = f.ce("div");
+		f.ac(div2, div22);
+
+		f.ac(div, div1);
+		f.ac(div, div2);
+
+		for(let i of Object.keys(GUIDE)){
+			let button = f.ce("button");
+			f.ac(button,f.ct(i));
+			f.ac(div1,button);
+			f.ac(div1,f.ce("br"));
+
+			((button,i)=>{
+				button.onclick = function(){
+					div21.innerHTML = i;
+					div22.innerHTML = GUIDE[i];
 				};
-
-				for (var _iterator12 = Object.keys(fishShop)[Symbol.iterator](), _step12; !(_iteratorNormalCompletion12 = (_step12 = _iterator12.next()).done); _iteratorNormalCompletion12 = true) {
-					_loop2();
-				}
-			} catch (err) {
-				_didIteratorError12 = true;
-				_iteratorError12 = err;
-			} finally {
-				try {
-					if (!_iteratorNormalCompletion12 && _iterator12.return) {
-						_iterator12.return();
-					}
-				} finally {
-					if (_didIteratorError12) {
-						throw _iteratorError12;
-					}
-				}
-			}
-
-			return div;
-		}
-	}, {
-		key: "tank",
-		value: function tank() {
-			var saya = this;
-			var div = f.ce("div");
-			f.sa(div, "class", 'tank');
-
-			// LEFT PANEL
-			var div1 = f.ce("div");
-			f.sa(div1, "class", 'left');
-			// div1.innerHTML = "asdsdsad asds";
-
-			var div11 = f.ce("div");
-			f.sa(div11, "class", 'title1');
-			div11.innerHTML = "Tank Properties";
-			f.ac(div1, div11);
-
-			var icon = f.ce("img");
-			f.sa(icon, "class", "iconBig");
-			f.sa(icon, "src", IMG.icon.tank);
-			f.ac(div1, icon);
-
-			var table = f.ce("table");
-			var tr = f.ce("tr");
-			var td = f.ce("td");
-			td.innerHTML = "Level";
-			f.ac(tr, td);
-			td = f.ce("td");
-			td.innerHTML = this.game.glassLvl + "/10";
-			f.ac(tr, td);
-			f.ac(table, tr);
-
-			tr = f.ce("tr");
-			td = f.ce("td");
-			td.innerHTML = "Paperfish";
-			f.ac(tr, td);
-			td = f.ce("td");
-			var totalIkan = 0;
-			this.game.ikan.map(function (e) {
-				return e && totalIkan++;
-			});
-			td.innerHTML = totalIkan + "/" + (this.game.glassLvl * 2 + 1);
-			f.ac(tr, td);
-			f.ac(table, tr);
-
-			tr = f.ce("tr");
-			td = f.ce("td");
-			td.innerHTML = "Upgrade";
-			f.ac(tr, td);
-			td = f.ce("td");
-			var button = f.ce("button");
-			if (this.game.glassLvl >= 10) {
-				button.innerHTML = "Maxed";
-				f.sa(button, "disabled", "");
-			} else {
-				var cost = Math.pow(2, this.game.glassLvl - 1) * this.game.glassLvlUpCost;
-				button.innerHTML = " <img src='" + IMG.icon.paper + "' class='icon coinB'> " + f.numFormat(cost);
-				if (cost > this.game.paper.B) {
-					f.sa(button, "disabled", "");
-				}
-
-				button.onclick = function () {
-					saya.game.glassLvlUp();
-					saya.game.el.content.innerHTML = "";
-					f.ac(saya.game.el.content, saya.tank());
-				};
-			}
-			f.ac(td, button);
-			f.ac(tr, td);
-			f.ac(table, tr);
-
-			f.ac(div1, table);
-
-			// RIGHT PANEL
-			var div2 = f.ce("div");
-			f.sa(div2, "class", 'right');
-
-			var div21 = f.ce("div");
-			f.sa(div21, "class", 'title1');
-			div21.innerHTML = "Tank Shop";
-			f.ac(div2, div21);
-
-			f.ac(div2, f.ct("Coming soon"));
-
-			f.ac(div, div1);
-			f.ac(div, div2);
-
-			return div;
-		}
-	}, {
-		key: "guide",
-		value: function guide() {
-			var saya = this;
-			var div = f.ce("div");
-			f.sa(div, "class", 'tank');
-
-			// LEFT PANEL
-			var div1 = f.ce("div");
-			f.sa(div1, "class", 'left');
-
-			var div11 = f.ce("div");
-			f.sa(div11, "class", 'title1');
-			div11.innerHTML = "Contents";
-			f.ac(div1, div11);
-
-			// RIGHT PANEL
-			var div2 = f.ce("div");
-			f.sa(div2, "class", 'right');
-
-			var div21 = f.ce("div");
-			f.sa(div21, "class", 'title1');
-			f.ac(div2, div21);
-
-			var div22 = f.ce("div");
-			f.ac(div2, div22);
-
-			f.ac(div, div1);
-			f.ac(div, div2);
-
-			var _iteratorNormalCompletion14 = true;
-			var _didIteratorError14 = false;
-			var _iteratorError14 = undefined;
-
-			try {
-				for (var _iterator14 = Object.keys(GUIDE)[Symbol.iterator](), _step14; !(_iteratorNormalCompletion14 = (_step14 = _iterator14.next()).done); _iteratorNormalCompletion14 = true) {
-					var _i6 = _step14.value;
-
-					var button = f.ce("button");
-					f.ac(button, f.ct(_i6));
-					f.ac(div1, button);
-					f.ac(div1, f.ce("br"));
-
-					(function (button, i) {
-						button.onclick = function () {
-							div21.innerHTML = i;
-							div22.innerHTML = GUIDE[i];
-						};
-					})(button, _i6);
-				}
-			} catch (err) {
-				_didIteratorError14 = true;
-				_iteratorError14 = err;
-			} finally {
-				try {
-					if (!_iteratorNormalCompletion14 && _iterator14.return) {
-						_iterator14.return();
-					}
-				} finally {
-					if (_didIteratorError14) {
-						throw _iteratorError14;
-					}
-				}
-			}
-
-			return div;
-		}
-	}]);
-
-	return Menu;
-}();
-
-var Ikan = function () {
-	function Ikan(x, y, parentEl) {
-		var length = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 200;
-		var height = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 100;
-		var type = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : "N";
-		var moveable = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : true;
-		var enableNotif = arguments.length > 7 && arguments[7] !== undefined ? arguments[7] : true;
-
-		var _this10 = this;
-
-		var level = arguments.length > 8 && arguments[8] !== undefined ? arguments[8] : 1;
-		var dir = arguments.length > 9 && arguments[9] !== undefined ? arguments[9] : null;
-
-		_classCallCheck(this, Ikan);
-
-		if (moveable) {
-			x = Math.max(0, Math.min((parentEl.offsetWidth || 0) - length, x));
-			y = Math.max(100, Math.min((parentEl.offsetHeight || 0) - height, y));
+			})(button,i);
 		}
 
-		var now = new Date();
+		return div;
+	}
+}
+class Ikan{
+	constructor(x,y,parentEl,length=200,height=100,type="N",moveable=true,enableNotif=true,level=1,dir=null){
+		if(moveable){
+			x = Math.max(  0, Math.min((parentEl.offsetWidth||0)-length, x));
+			y = Math.max(100, Math.min((parentEl.offsetHeight||0)-height, y));
+		}
+
+		let now = new Date();
 		this.lastClaim = now.getTime();
 		this.timeCreated = now.getTime();
 
 		// console.log(parentEl.offsetWidth, parentEl.offsetHeight);
 		// console.log(x,y);
 
-		if (!moveable) {
-			this.x = x | 0;
-			this.y = y | 0;
-			this.dir = dir || 0;
-		} else {
-			this.x = parentEl.offsetWidth / 2 | 0 || 0;
+		if(!moveable){
+			this.x = x|0;
+			this.y = y|0;
+			this.dir=dir || 0;
+		}else{
+			this.x = (parentEl.offsetWidth/2|0||0);
 			this.y = -200;
-			this.dir = x < this.x ? 0 : 1;
+			this.dir=(x<this.x?0:1);
 		}
 
-		if (!fishs[type]) throw "Undefined ikan";
+		if(!fishs[type])throw "Undefined ikan";
 
-		var fishVar = fishs[type] || fishs["B"];
+		let fishVar = fishs[type]||fishs["B"];
 		// console.log(fishVar);
-		var _iteratorNormalCompletion15 = true;
-		var _didIteratorError15 = false;
-		var _iteratorError15 = undefined;
-
-		try {
-			for (var _iterator15 = Object.keys(fishVar)[Symbol.iterator](), _step15; !(_iteratorNormalCompletion15 = (_step15 = _iterator15.next()).done); _iteratorNormalCompletion15 = true) {
-				var _i7 = _step15.value;
-
-				this[_i7] = fishVar[_i7];
-			}
-		} catch (err) {
-			_didIteratorError15 = true;
-			_iteratorError15 = err;
-		} finally {
-			try {
-				if (!_iteratorNormalCompletion15 && _iterator15.return) {
-					_iterator15.return();
-				}
-			} finally {
-				if (_didIteratorError15) {
-					throw _iteratorError15;
-				}
-			}
+		for(let i of Object.keys(fishVar)){
+			this[i] = fishVar[i];
 		}
+
 
 		this.level = level;
 
-		length = this.lvlUpVar.base[0] + this.level * this.lvlUpVar.inc[0];
-		height = this.lvlUpVar.base[1] + this.level * this.lvlUpVar.inc[1];
+		length = this.lvlUpVar.base[0]+this.level*this.lvlUpVar.inc[0];
+		height = this.lvlUpVar.base[1]+this.level*this.lvlUpVar.inc[1];
 
 		this.maxLevel = 10;
 		this.parentEl = parentEl;
@@ -1760,6 +1358,7 @@ var Ikan = function () {
 		this.length = length;
 		this.height = height;
 		this.nextPos = null;
+
 
 		this.prepareAnim();
 		// this.elWrap = f.ce("div");
@@ -1792,17 +1391,17 @@ var Ikan = function () {
 
 		// f.ac(this.elWrap,this.el);
 		// f.ac(parentEl,this.elWrap);
-		var onclick = function onclick(e) {
-			_this10.onclick(e);
+		let onclick =e=>{
+			this.onclick(e);
 		};
 		this.elWrap.addEventListener("click", onclick);
 		// this.elWrap.onclick = this.onclick;
 
-		if (moveable) {
-			this.move(x - this.x, y - this.y, 10);
+		if(moveable){
+			this.move(x-this.x, y-this.y,10)
 		}
 
-		if (enableNotif) {
+		if(enableNotif){
 
 			// let saya = this;
 			// let addNotif = function(){
@@ -1812,667 +1411,665 @@ var Ikan = function () {
 		}
 	}
 
-	_createClass(Ikan, [{
-		key: "prepareAnim",
-		value: function prepareAnim() {
-			this.elWrap = f.ce("div");
-			f.sa(this.elWrap, "class", "ikan");
-			f.sa(this.elWrap, "style", "z-index:9;");
-			this.elWrap.style.height = this.height + "px";
-			this.elWrap.style.width = this.length + "px";
 
-			this.el = f.ce("div");
-			f.sa(this.el, "class", "ikan");
-			this.el.style.height = this.height + "px";
-			this.el.style.width = this.length + "px";
+	prepareAnim(){
+		this.elWrap = f.ce("div");
+		f.sa(this.elWrap,"class","ikan");
+		f.sa(this.elWrap,"style","z-index:9;");
+		this.elWrap.style.height = this.height+"px";
+		this.elWrap.style.width = this.length+"px";
 
-			this.el.style.transform = " perspective(400px) rotateY(" + (180 * this.dir | 0) + "deg)";
-			var el = this.el;
-			length = this.length / 5;
-			for (var _i8 = 0; _i8 < 5; _i8++) {
-				f.ac(el, f.ce("div"));
-				el = el.childNodes[0];
-				f.sa(el, "class", "ruas");
-				el.style.width = length + 1 + "px";
-				el.style.left = (_i8 ? length : 0) + "px";
-				el.style.height = this.height + "px";
-				el.style.backgroundImage = "url('data:image/svg+xml;utf8, " + IMG.fishs[this.type] + "')";
-				el.style.backgroundPosition = -length * _i8 + "px 0";
-				el.style.animationDuration = 1 + 3 * this.length / 200 + "s";
-			}
-			this.elWrap.style.left = this.x + "px";
-			this.elWrap.style.top = this.y + "px";
+		this.el = f.ce("div");
+		f.sa(this.el,"class","ikan");
+		this.el.style.height = this.height+"px";
+		this.el.style.width = this.length+"px";
 
-			f.ac(this.elWrap, this.el);
-			f.ac(this.parentEl, this.elWrap);
+		this.el.style.transform=" perspective(400px) rotateY("+(180*this.dir|0)+"deg)";
+		let el = this.el;
+		length = this.length / 5;
+		for(let i=0;i<5;i++){
+			f.ac(el,f.ce("div"));
+			el = el.childNodes[0];
+			f.sa(el,"class","ruas");
+			el.style.width = (length+1)+"px";
+			el.style.left = (i?length:0)+"px";
+			el.style.height = this.height+"px";
+			el.style.backgroundImage = "url('data:image/svg+xml;utf8, "+IMG.fishs[this.type]+"')";
+			el.style.backgroundPosition = (-length*i)+"px 0";
+			el.style.animationDuration = (1+3*this.length/200)+"s";
 		}
-	}, {
-		key: "paperIntervalClaim",
-		value: function paperIntervalClaim(game) {
-			if (this.claimingInterval) {
-				window.clearInterval(this.claimingInterval);
-			}
+		this.elWrap.style.left = this.x +"px";
+		this.elWrap.style.top = this.y +"px";
 
-			var saya = this;
-			var claim = function claim() {
-				saya.paperClaim(game);
+		f.ac(this.elWrap,this.el);
+		f.ac(this.parentEl,this.elWrap);
+
+	}
+
+	paperIntervalClaim(game){
+		if(this.claimingInterval){
+			window.clearInterval(this.claimingInterval);
+		}
+
+		let saya = this;
+		let claim = function(){
+			saya.paperClaim(game);
+		}
+		this.claimingInterval = window.setInterval(claim,3000);
+	}
+
+	paperClaim(game,force=false){
+		let now = new Date();
+		if(now.getTime() - this.lastClaim>=3000 || force){
+			let claimed = this.claimBase*this.level*(Math.min(now.getTime(),this.timeCreated+this.lifeSpan) - this.lastClaim)/10000|0;
+			if(claimed>0){
+				game.paper[this.type] = parseInt(game.paper[this.type])+claimed;
+				this.lastClaim = now.getTime();
+			}
+			game.viewPaper();
+		}
+	}
+
+	save(){
+		let param = [
+			this.timeCreated,
+			this.type,
+			this.level,
+			this.lastClaim
+		];
+
+		return param;
+	}
+
+	// load(arr){
+	// 	// this.kill();
+	// 	let ikan = new Ikan(
+	// 		this.x,
+	// 		this.y,
+	// 		this.parentEl,
+	// 		200,100,
+	// 		arr[1],
+	// 		true,
+	// 		true,
+	// 		arr[2]
+	// 	);
+
+	// 	ikan.timeCreated = arr[0];
+	// 	ikan.lastClaim = arr[3];
+	// 	// this.timeCreated = arr[0];
+	// 	// this.type = arr[1];
+	// 	// this.level = arr[2];
+
+	// 	return ikan;
+	// }
+
+	kill(game=null){
+		try{
+			window.clearInterval(this.claimingInterval);
+			this.paperClaim(game,true);
+		}catch(e){}
+		this.el.classList.add("death");
+
+		if(game){
+			let idx = game.ikan.indexOf(this);
+			if(idx!=-1){
+				game.ikan[idx] = null;
+			}
+		}
+
+		let saya = this;
+		window.setTimeout(function(){
+			try{
+				saya.elWrap.outerHTML = "";
+			}catch(e){}
+		},this.elWrap.style.transitionDuration.slice(0,-1)*1000);
+	}
+
+	levelUp(game){
+		let saya = this;
+		if(this.level>=this.maxLevel)return;
+		this.level++;
+		try{
+			paperClaim(game,true);
+		}catch(e){}
+
+
+		// test
+		if(0){
+			let ikan = null;
+			if(this.constructor.name=="Ikan"){
+				ikan = new Ikan(this.elWrap.offsetLeft,this.elWrap.offsetTop,this.parentEl,200,100,this.type,false,true,this.level,this.dir);
+			}else
+			if(this.constructor.name=="Ikan2"){
+				ikan = new Ikan2(this.elWrap.offsetLeft,this.elWrap.offsetTop,this.parentEl,200,100,this.type,false,true,this.level,this.dir);
+			}
+			this.elWrap.outerHTML = "";
+			this.elWrap = ikan.elWrap;
+			this.el = ikan.el;
+			this.length = ikan.length;
+			this.height = ikan.height;
+			ikan.onclick = this.onclick;
+
+
+			// window.clearTimeout(this.timeoutMove);
+			// this.timeoutMove = window.setTimeout(()=>{
+			// 	let X = this.nextPos && this.nextPos.x!=undefined?this.nextPos.x-this.x:this.parentEl.offsetWidth*(Math.random()-.5);
+			// 	let Y = this.nextPos && this.nextPos.y!=undefined?this.nextPos.y-this.y:this.parentEl.offsetHeight*(Math.random()-.5);
+			// 	this.move(X, Y);
+			// },4000);
+
+			this.dontMove = true;
+			this.onDontMove = function(){
+				this.dontMove = false;
+				this.move(0,0);
 			};
-			this.claimingInterval = window.setInterval(claim, 3000);
-		}
-	}, {
-		key: "paperClaim",
-		value: function paperClaim(game) {
-			var force = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
-			var now = new Date();
-			if (now.getTime() - this.lastClaim >= 3000 || force) {
-				var claimed = this.claimBase * this.level * (Math.min(now.getTime(), this.timeCreated + this.lifeSpan) - this.lastClaim) / 10000 | 0;
-				if (claimed > 0) {
-					game.paper[this.type] = parseInt(game.paper[this.type]) + claimed;
-					this.lastClaim = now.getTime();
-				}
-				game.viewPaper();
-			}
-		}
-	}, {
-		key: "save",
-		value: function save() {
-			var param = [this.timeCreated, this.type, this.level, this.lastClaim];
-
-			return param;
-		}
-
-		// load(arr){
-		// 	// this.kill();
-		// 	let ikan = new Ikan(
-		// 		this.x,
-		// 		this.y,
-		// 		this.parentEl,
-		// 		200,100,
-		// 		arr[1],
-		// 		true,
-		// 		true,
-		// 		arr[2]
-		// 	);
-
-		// 	ikan.timeCreated = arr[0];
-		// 	ikan.lastClaim = arr[3];
-		// 	// this.timeCreated = arr[0];
-		// 	// this.type = arr[1];
-		// 	// this.level = arr[2];
-
-		// 	return ikan;
-		// }
-
-	}, {
-		key: "kill",
-		value: function kill() {
-			var game = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-
-			try {
-				window.clearInterval(this.claimingInterval);
-				this.paperClaim(game, true);
-			} catch (e) {}
-			this.el.classList.add("death");
-
-			if (game) {
-				var idx = game.ikan.indexOf(this);
-				if (idx != -1) {
-					game.ikan[idx] = null;
-				}
-			}
-
-			var saya = this;
-			window.setTimeout(function () {
-				try {
-					saya.elWrap.outerHTML = "";
-				} catch (e) {}
-			}, this.elWrap.style.transitionDuration.slice(0, -1) * 1000);
-		}
-	}, {
-		key: "levelUp",
-		value: function levelUp(game) {
-			var _this11 = this;
-
-			var saya = this;
-			if (this.level >= this.maxLevel) return;
-			this.level++;
-			try {
-				paperClaim(game, true);
-			} catch (e) {}
-
-			// test
-			if (0) {
-				var _ikan3 = null;
-				if (this.constructor.name == "Ikan") {
-					_ikan3 = new Ikan(this.elWrap.offsetLeft, this.elWrap.offsetTop, this.parentEl, 200, 100, this.type, false, true, this.level, this.dir);
-				} else if (this.constructor.name == "Ikan2") {
-					_ikan3 = new Ikan2(this.elWrap.offsetLeft, this.elWrap.offsetTop, this.parentEl, 200, 100, this.type, false, true, this.level, this.dir);
-				}
-				this.elWrap.outerHTML = "";
-				this.elWrap = _ikan3.elWrap;
-				this.el = _ikan3.el;
-				this.length = _ikan3.length;
-				this.height = _ikan3.height;
-				_ikan3.onclick = this.onclick;
-
-				// window.clearTimeout(this.timeoutMove);
-				// this.timeoutMove = window.setTimeout(()=>{
-				// 	let X = this.nextPos && this.nextPos.x!=undefined?this.nextPos.x-this.x:this.parentEl.offsetWidth*(Math.random()-.5);
-				// 	let Y = this.nextPos && this.nextPos.y!=undefined?this.nextPos.y-this.y:this.parentEl.offsetHeight*(Math.random()-.5);
-				// 	this.move(X, Y);
-				// },4000);
-
-				this.dontMove = true;
-				this.onDontMove = function () {
-					this.dontMove = false;
-					this.move(0, 0);
-				};
-
-				this.el.style.animation = null;
-				var _shine = function _shine() {
-					_this11.el.style.animation = "shine 1s";
-				};
-				setTimeout(_shine, 100);
-
-				return;
-			}
-
-			var length = this.lvlUpVar.base[0] + this.level * this.lvlUpVar.inc[0];
-			var height = this.lvlUpVar.base[1] + this.level * this.lvlUpVar.inc[1];
-
-			// this.move((this.parentEl.offsetWidth - length)/2 - this.x, (this.parentEl.offsetHeight - height)/2 - this.y, false );
-
-			this.length = length;
-			this.height = height;
-
-			this.elWrap.style.height = height + "px";
-			this.elWrap.style.width = length + "px";
-
-			this.el.style.height = height + "px";
-			this.el.style.width = length + "px";
-
-			// let el = this.el;
-			length /= 5;
-			var els = this.el.querySelectorAll(".ikan .ikan .ruas");
-
-			// for(let i=0;i<5;i++){
-			for (var _i9 in els) {
-				if (!els[_i9].style) {
-					// console.log(els[i]);
-					continue;
-				}
-				els[_i9].style.width = length + 1 + "px";
-				els[_i9].style.left = (parseInt(_i9) ? length : 0) + "px";
-				els[_i9].style.height = height + "px";
-				els[_i9].style.backgroundPosition = -length * _i9 + "px 0";
-				els[_i9].style.animationDuration = 1 + 3 * this.length / 200 + "s";
-			}
 
 			this.el.style.animation = null;
-			var shine = function shine() {
-				_this11.el.style.animation = "shine 1s";
+			let shine =()=>{
+				this.el.style.animation = "shine 1s";
 			};
-			setTimeout(shine, 100);
+			setTimeout(shine,100);
+
+
+			return;
 		}
-	}, {
-		key: "lifeBar",
-		value: function lifeBar() {
-			var now = new Date();
-			var div = f.ce("div");
-			f.sa(div, "class", "lifeBar");
-			var bar = f.ce("div");
-			f.ac(div, bar);
-			bar.style.width = ((now.getTime() - this.timeCreated) / this.lifeSpan * 100 | 0) + "%";
-			bar.style.transitionDuration = ((-now.getTime() + this.timeCreated + this.lifeSpan) / 998 | 0) + "s";
-			// bar.style.transitionDuration = "2s";
-			window.setTimeout(function () {
-				bar.style.width = "100%";
-			}, 1000);
-			return div;
+
+
+
+
+		let length = this.lvlUpVar.base[0]+this.level*this.lvlUpVar.inc[0];
+		let height = this.lvlUpVar.base[1]+this.level*this.lvlUpVar.inc[1];
+
+		// this.move((this.parentEl.offsetWidth - length)/2 - this.x, (this.parentEl.offsetHeight - height)/2 - this.y, false );
+
+		this.length = length;
+		this.height = height;
+
+		this.elWrap.style.height = height+"px";
+		this.elWrap.style.width = (length)+"px";
+
+		this.el.style.height = height+"px";
+		this.el.style.width = (length)+"px";
+
+
+		// let el = this.el;
+		length /= 5;
+		let els = this.el.querySelectorAll(".ikan .ikan .ruas");
+
+
+		// for(let i=0;i<5;i++){
+		for(let i in els){
+			if(!els[i].style){
+				// console.log(els[i]);
+				continue;
+			}
+			els[i].style.width = (length+1)+"px";
+			els[i].style.left = (parseInt(i)?length:0)+"px";
+			els[i].style.height = height+"px";
+			els[i].style.backgroundPosition = (-length*i)+"px 0";
+			els[i].style.animationDuration = (1+3*this.length/200)+"s";
 		}
-	}, {
-		key: "viewStats",
-		value: function viewStats(game) {
-			var div = f.ce("div");
+		
+		this.el.style.animation = null;
+		let shine =()=>{
+			this.el.style.animation = "shine 1s";
+		};
+		setTimeout(shine,100);
 
-			var uBar = f.ce("div");
-			var aquaMini = f.ce("div");
-			f.sa(aquaMini, "class", "aquaMini");
-			f.ac(uBar, aquaMini);
-			var ikan = new Ikan((160 - this.length) / 2, (100 - this.height) / 2, aquaMini, this.length, this.height, this.type, false, false, this.level);
+	}
 
-			var table = f.ce("table"),
-			    tr = void 0,
-			    td = void 0;
+	lifeBar(){
+		let now = new Date();
+		let div = f.ce("div");
+		f.sa(div,"class","lifeBar");
+		let bar = f.ce("div");
+		f.ac(div, bar);
+		bar.style.width = ((now.getTime() - this.timeCreated)/this.lifeSpan*100|0)+"%";
+		bar.style.transitionDuration = ((-now.getTime() + this.timeCreated + this.lifeSpan)/998|0)+"s";
+		// bar.style.transitionDuration = "2s";
+		window.setTimeout(()=>{
+			bar.style.width = "100%";
+		},1000);
+		return div;
+	}
 
+	viewStats(game){
+		let div = f.ce("div");
+
+		let uBar = f.ce("div");
+		let aquaMini = f.ce("div");
+		f.sa(aquaMini,"class","aquaMini");
+		f.ac(uBar,aquaMini);
+		let ikan = new Ikan((160-this.length)/2,(100-this.height)/2,aquaMini, this.length, this.height, this.type,false,false,this.level);
+
+		let table = f.ce("table"),tr,td;
+
+
+		tr = f.ce("tr");
+		td = f.ce("td");
+		td.innerHTML = "Level &nbsp;&nbsp;&nbsp;&nbsp;";
+		f.ac(tr, td);
+		td = f.ce("td");
+		td.innerText = this.level+"/"+this.maxLevel;
+		f.ac(tr, td);
+		f.ac(table, tr);
+
+		tr = f.ce("tr");
+		td = f.ce("td");
+		td.innerText = "Life ";
+		f.ac(tr, td);
+		td = f.ce("td");
+		f.ac(td,this.lifeBar());
+		f.ac(tr, td);
+		f.ac(table, tr);
+
+		
+		tr = f.ce("tr");
+		td = f.ce("td");
+		td.innerHTML = "Paper";
+		f.ac(tr, td);
+		td = f.ce("td");
+		td.innerHTML = " <img src='"+IMG.icon._plus(IMG.icon.paper)+"' class='icon coin"+this.type+"'>"+(this.claimBase*this.level*6)+"/min";
+		f.ac(tr, td);
+		f.ac(table, tr);
+
+
+		if(this.level < this.maxLevel){
+			let lvlUpCost = Math.pow(2,this.level)*this.lvlUpCost;
 			tr = f.ce("tr");
 			td = f.ce("td");
-			td.innerHTML = "Level &nbsp;&nbsp;&nbsp;&nbsp;";
+			let button = f.ce("button");
+			button.innerHTML = "Lvl. Up<br><img src='"+IMG.icon.money+"' class='icon'>"+f.numFormat(lvlUpCost);
+			f.ac(td, button);
 			f.ac(tr, td);
-			td = f.ce("td");
-			td.innerText = this.level + "/" + this.maxLevel;
-			f.ac(tr, td);
-			f.ac(table, tr);
+			f.sa(td,"colspan",2);
 
-			tr = f.ce("tr");
-			td = f.ce("td");
-			td.innerText = "Life ";
-			f.ac(tr, td);
-			td = f.ce("td");
-			f.ac(td, this.lifeBar());
-			f.ac(tr, td);
-			f.ac(table, tr);
+			let saya = this;
+			let onclick = function(){
+				saya.levelUp(game);
 
-			tr = f.ce("tr");
-			td = f.ce("td");
-			td.innerHTML = "Paper";
-			f.ac(tr, td);
-			td = f.ce("td");
-			td.innerHTML = " <img src='" + IMG.icon._plus(IMG.icon.paper) + "' class='icon coin" + this.type + "'>" + this.claimBase * this.level * 6 + "/min";
-			f.ac(tr, td);
-			f.ac(table, tr);
+				// console.log(game.ikan.indexOf(saya));
+				if(game.ikan.indexOf(saya)!=-1){
+					game.uang -= lvlUpCost;
+				}else{
+					game.hideModal();
+				}
 
-			if (this.level < this.maxLevel) {
-				var lvlUpCost = Math.pow(2, this.level) * this.lvlUpCost;
-				tr = f.ce("tr");
-				td = f.ce("td");
-				var button = f.ce("button");
-				button.innerHTML = "Lvl. Up<br><img src='" + IMG.icon.money + "' class='icon'>" + f.numFormat(lvlUpCost);
-				f.ac(td, button);
-				f.ac(tr, td);
-				f.sa(td, "colspan", 2);
+				ikan.kill();
+				// game.hideModal();
+				game.el.content.innerHTML = "";
+				f.ac(game.el.content, saya.viewStats(game));
 
-				var saya = this;
-				var onclick = function onclick() {
-					saya.levelUp(game);
+				game.viewMoney();
 
-					// console.log(game.ikan.indexOf(saya));
-					if (game.ikan.indexOf(saya) != -1) {
-						game.uang -= lvlUpCost;
-					} else {
-						game.hideModal();
-					}
-
-					ikan.kill();
-					// game.hideModal();
+				if(0)
+				window.setTimeout(()=>{
 					game.el.content.innerHTML = "";
 					f.ac(game.el.content, saya.viewStats(game));
-
-					game.viewMoney();
-
-					if (0) window.setTimeout(function () {
-						game.el.content.innerHTML = "";
-						f.ac(game.el.content, saya.viewStats(game));
-						game.showModal(saya.name + " Fish");
-					}, 500);
-				};
-				button.onclick = onclick;
-
-				if (game.uang < lvlUpCost) {
-					f.sa(button, "disabled", "");
-				}
-				f.ac(table, tr);
-			} else {
-				tr = f.ce("tr");
-				td = f.ce("td");
-				var _button = f.ce("button");
-				_button.innerHTML = " Level <br> Maxed ";
-				f.ac(td, _button);
-				f.ac(tr, td);
-				f.sa(td, "colspan", 2);
-				f.sa(_button, "disabled", "");
-				f.ac(table, tr);
+					game.showModal(saya.name+" Fish");
+				},500);
 			}
+			button.onclick = onclick;
 
-			f.ac(uBar, table);
-
-			f.ac(div, uBar);
-			return div;
-		}
-	}, {
-		key: "move",
-		value: function move(x, y) {
-			var _this12 = this;
-
-			var speed = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-			var moveable = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
-
-			if (moveable) {
-				x = Math.min(this.parentEl.offsetWidth - this.length, Math.max(0, this.x + x));
-				y = Math.min(this.parentEl.offsetHeight - this.height - 10, Math.max(0, this.y + y));
-			}
-			var delay = 0;
-			if (x > this.x && this.dir == 0) {
-				delay = 2000;
-				this.dir = 1;
-				this.el.style.transitionDuration = "2s";
-				this.el.style.transform = " perspective(400px) rotateY(180deg)";
-			} else if (x < this.x && this.dir == 1) {
-				delay = 2000;
-				this.dir = 0;
-				this.el.style.transitionDuration = "2s";
-				this.el.style.transform = " perspective(400px) rotateY(0deg)";
-			}
-
-			var distance = speed ? 1000 / speed : Math.sqrt((this.x - x) * (this.x - x) + (this.y - y) * (this.y - y));
-			// let rotate = ( (this.x<=x)?Math.atan((y-this.y)/(x-this.x)):Math.atan((y-this.y)/(x-this.x))+Math.PI );
-			this.x = x | 0;
-			this.y = y | 0;
-			setTimeout(function () {
-				_this12.elWrap.style.transitionDuration = Math.max(distance / 40 | 0, 1) + "s";
-				_this12.elWrap.style.left = _this12.x + "px";
-				_this12.elWrap.style.top = _this12.y + "px";
-
-				try {
-					window.clearTimeout(_this12.timeoutMove);
-				} catch (e) {}
-				_this12.timeoutMove = window.setTimeout(function () {
-
-					var X = _this12.nextPos && _this12.nextPos.x != undefined ? _this12.nextPos.x - _this12.x : _this12.parentEl.offsetWidth * (Math.random() - .5);
-					var Y = _this12.nextPos && _this12.nextPos.y != undefined ? _this12.nextPos.y - _this12.y : _this12.parentEl.offsetHeight * (Math.random() - .5);
-					// console.log(X,Y);
-					_this12.nextPos = null;
-
-					if (moveable) {
-						if (_this12.dontMove) {
-							_this12.onDontMove();
-						} else {
-							_this12.move(X, Y);
-						}
+			// let update = ()=>{
+			// 	try{
+			// 		if(game.uang<lvlUpCost){
+			// 			f.sa(button,"disabled","");
+			// 		}else{
+			// 			f.ra(button,"disabled");
+			// 		}
+			// 		console.log(game.uang, button.outerHTML);
+			// 		window.setTimeout(update,3000);
+			// 	}catch(e){
+			// 		console.log(e);
+			// 	}
+			// };
+			let update = window.setInterval(()=>{
+				try{
+					if(game.uang<lvlUpCost){
+						f.sa(button,"disabled","");
+					}else{
+						f.ra(button,"disabled");
 					}
-				}, distance * 25 + 500 + 2500 * Math.random());
-			}, delay + 1);
-		}
-	}, {
-		key: "onDontMove",
-		value: function onDontMove() {}
-	}, {
-		key: "onclick",
-		value: function onclick(e) {}
-	}, {
-		key: "addNotif",
-		value: function addNotif() {
-			this.notif = this.notif || f.ce("div");
-			this.notif.innerText = "!";
-			f.sa(this.notif, "class", "notif");
-			if (!this.hasNotif()) {
-				f.ac(this.elWrap, this.notif);
-			}
-		}
-	}, {
-		key: "hasNotif",
-		value: function hasNotif() {
-			return this.elWrap.contains(this.notif);
-		}
-	}, {
-		key: "clearNotif",
-		value: function clearNotif() {
-			try {
-				f.rc(this.elWrap, this.notif);
-			} catch (e) {}
-		}
-	}]);
+					console.log(game.uang);
+				}catch(e){
+					console.log(e);
+				}
+			}, 3000);
 
-	return Ikan;
-}();
+			game.onModalRemoved.push(()=>{window.clearInterval(update)});
+			// update();
+
+
+			f.ac(table, tr);
+		}
+		else{
+			tr = f.ce("tr");
+			td = f.ce("td");
+			let button = f.ce("button");
+			button.innerHTML = " Level <br> Maxed ";
+			f.ac(td, button);
+			f.ac(tr, td);
+			f.sa(td,"colspan",2);
+			f.sa(button,"disabled","");
+			f.ac(table, tr);
+		}
+
+
+		f.ac(uBar,table);
+		
+
+		f.ac(div,uBar);
+		return div;
+	}
+
+	move(x,y,speed=null,moveable=true){
+		if(moveable){
+			x = Math.min(this.parentEl.offsetWidth-this.length, Math.max(  0,this.x + x));
+			y = Math.min(this.parentEl.offsetHeight-this.height-10,Math.max(  0,this.y + y));
+		}
+		let delay = 0;
+		if(x>this.x && this.dir==0){
+			delay = 2000;
+			this.dir = 1;
+			this.el.style.transitionDuration="2s";
+			this.el.style.transform=" perspective(400px) rotateY(180deg)";
+		}else
+		if(x<this.x && this.dir==1){
+			delay = 2000;
+			this.dir = 0;
+			this.el.style.transitionDuration="2s";
+			this.el.style.transform=" perspective(400px) rotateY(0deg)";
+		}
+
+		let distance = speed?1000/speed:Math.sqrt((this.x-x)*(this.x-x)+(this.y-y)*(this.y-y));
+		// let rotate = ( (this.x<=x)?Math.atan((y-this.y)/(x-this.x)):Math.atan((y-this.y)/(x-this.x))+Math.PI );
+		this.x = x|0;
+		this.y = y|0;
+		setTimeout(()=>{
+			this.elWrap.style.transitionDuration=Math.max(distance/40|0,1)+"s";
+			this.elWrap.style.left = this.x +"px";
+			this.elWrap.style.top = this.y +"px";
+
+			try{
+				window.clearTimeout(this.timeoutMove);
+			}catch(e){}
+			this.timeoutMove = window.setTimeout(()=>{
+
+				let X = this.nextPos && this.nextPos.x!=undefined?this.nextPos.x-this.x:this.parentEl.offsetWidth*(Math.random()-.5);
+				let Y = this.nextPos && this.nextPos.y!=undefined?this.nextPos.y-this.y:this.parentEl.offsetHeight*(Math.random()-.5);
+				// console.log(X,Y);
+				this.nextPos = null;
+
+				if(moveable){
+					if(this.dontMove){
+						this.onDontMove();
+					}else{
+						this.move(X, Y);
+					}
+				}
+			},distance*25+500+2500*Math.random());
+
+		},delay+1);
+
+	}
+	onDontMove(){
+
+	}
+
+	onclick(e){
+	}
+
+	addNotif(){
+		this.notif = this.notif || f.ce("div");
+		this.notif.innerText = "!";
+		f.sa(this.notif,"class","notif");
+		if(!this.hasNotif()){
+			f.ac(this.elWrap,this.notif);
+		}
+	}
+
+	hasNotif(){
+		return this.elWrap.contains(this.notif);
+	}
+
+	clearNotif(){
+		try{
+			f.rc(this.elWrap,this.notif);
+		}catch(e){}
+	}
+
+}
 
 /////////////////////////////////////////////////////////////////////////////////
 
 
-var Ikan2 = function (_Ikan) {
-	_inherits(Ikan2, _Ikan);
-
-	function Ikan2() {
-		var _ref;
-
-		_classCallCheck(this, Ikan2);
-
-		for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-			args[_key] = arguments[_key];
-		}
-
-		var _this13 = _possibleConstructorReturn(this, (_ref = Ikan2.__proto__ || Object.getPrototypeOf(Ikan2)).call.apply(_ref, [this].concat(args)));
-
-		var lastClaim = _this13.lastClaim;
-		_this13.lastClaim = [];
-		for (var _i10 in _this13.claimBase) {
-			_this13.lastClaim.push(lastClaim);
-		}return _this13;
+class Ikan2 extends Ikan{
+	constructor(...args){
+		super(...args);
+		let lastClaim = this.lastClaim;
+		this.lastClaim = [];
+		for(let i in this.claimBase)this.lastClaim.push(lastClaim);
 	}
 
-	_createClass(Ikan2, [{
-		key: "prepareAnim",
-		value: function prepareAnim() {
-			// console.log("anim ikan 2");
-			// console.log(this.img);
-			this.elWrap = f.ce("div");
-			f.sa(this.elWrap, "class", "ikan");
-			f.sa(this.elWrap, "style", "z-index:9;");
-			this.elWrap.style.height = this.height + "px";
-			this.elWrap.style.width = this.length + "px";
 
-			this.el = f.ce("div");
-			f.sa(this.el, "class", "ikan");
-			this.el.style.height = this.height + "px";
-			this.el.style.width = this.length + "px";
+	prepareAnim(){
+		// console.log("anim ikan 2");
+		// console.log(this.img);
+		this.elWrap = f.ce("div");
+		f.sa(this.elWrap,"class","ikan");
+		f.sa(this.elWrap,"style","z-index:9;");
+		this.elWrap.style.height = this.height+"px";
+		this.elWrap.style.width = this.length+"px";
 
-			this.el.style.transform = " perspective(400px) rotateY(" + (180 * this.dir | 0) + "deg)";
-			var el = this.el;
-			length = this.length / 5;
-			for (var _i11 = 0; _i11 < 5; _i11++) {
-				f.ac(el, f.ce("div"));
-				el = el.childNodes[0];
-				f.sa(el, "class", "ruas");
-				el.style.width = length + 1 + "px";
-				el.style.left = (_i11 ? length : 0) + "px";
-				el.style.height = this.height + "px";
-				el.style.backgroundImage = "url('data:image/svg+xml;utf8, " + IMG.fishs[this.img] + "')";
-				el.style.backgroundPosition = -length * _i11 + "px 0";
-				el.style.animationDuration = 1 + 3 * this.length / 200 + "s";
-			}
-			this.elWrap.style.left = this.x + "px";
-			this.elWrap.style.top = this.y + "px";
+		this.el = f.ce("div");
+		f.sa(this.el,"class","ikan");
+		this.el.style.height = this.height+"px";
+		this.el.style.width = this.length+"px";
 
-			f.ac(this.elWrap, this.el);
-			f.ac(this.parentEl, this.elWrap);
+		this.el.style.transform=" perspective(400px) rotateY("+(180*this.dir|0)+"deg)";
+		let el = this.el;
+		length = this.length / 5;
+		for(let i=0;i<5;i++){
+			f.ac(el,f.ce("div"));
+			el = el.childNodes[0];
+			f.sa(el,"class","ruas");
+			el.style.width = (length+1)+"px";
+			el.style.left = (i?length:0)+"px";
+			el.style.height = this.height+"px";
+			el.style.backgroundImage = "url('data:image/svg+xml;utf8, "+IMG.fishs[this.img]+"')";
+			el.style.backgroundPosition = (-length*i)+"px 0";
+			el.style.animationDuration = (1+3*this.length/200)+"s";
 		}
-	}, {
-		key: "paperClaim",
-		value: function paperClaim(game) {
-			var force = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+		this.elWrap.style.left = this.x +"px";
+		this.elWrap.style.top = this.y +"px";
 
-			var now = new Date();
-			// console.log("claim");
-			for (var _i12 in this.claimBase) {
-				if (now.getTime() - this.lastClaim[_i12] >= 3000 || force) {
-					// console.log("try to claim "+this.curr[i] );
-					var claimed = this.claimBase[_i12] * this.level * (Math.min(now.getTime(), this.timeCreated + this.lifeSpan) - this.lastClaim[_i12]) / 10000 | 0;
-					if (claimed > 0) {
-						// console.log("claimed "+this.curr[i] );
-						game.paper[this.curr[_i12]] += claimed;
-						this.lastClaim[_i12] = now.getTime();
-					}
+		f.ac(this.elWrap,this.el);
+		f.ac(this.parentEl,this.elWrap);
+
+	}
+
+	paperClaim(game,force=false){
+		let now = new Date();
+		// console.log("claim");
+		for(let i in this.claimBase){
+			if(now.getTime() - this.lastClaim[i]>=3000 || force){
+				// console.log("try to claim "+this.curr[i] );
+				let claimed = this.claimBase[i]*this.level*(Math.min(now.getTime(),this.timeCreated+this.lifeSpan) - this.lastClaim[i])/10000|0;
+				if(claimed>0){
+					// console.log("claimed "+this.curr[i] );
+					game.paper[this.curr[i]] += claimed;
+					this.lastClaim[i] = now.getTime();
 				}
-				game.viewPaper();
 			}
+			game.viewPaper();
 		}
-	}, {
-		key: "save",
-		value: function save() {
-			// console.log("save ikan 2");
-			var param = [this.timeCreated, this.type, this.level, [].concat(_toConsumableArray(this.lastClaim)), this.v];
+	}
 
-			return param;
+
+
+	save(){
+		// console.log("save ikan 2");
+		let param = [
+			this.timeCreated,
+			this.type,
+			this.level,
+			[...this.lastClaim],
+			this.v
+		];
+
+		return param;
+	}
+
+
+
+	viewStats(game){
+		let div = f.ce("div");
+
+		let uBar = f.ce("div");
+		let aquaMini = f.ce("div");
+		f.sa(aquaMini,"class","aquaMini");
+		f.ac(uBar,aquaMini);
+		let ikan = new Ikan2((160-this.length)/2,(100-this.height)/2,aquaMini, this.length, this.height, this.type,false,false,this.level);
+
+		let table = f.ce("table"),tr,td;
+
+
+		tr = f.ce("tr");
+		td = f.ce("td");
+		td.innerHTML = "Level &nbsp;&nbsp;&nbsp;&nbsp;";
+		f.ac(tr, td);
+		td = f.ce("td");
+		td.innerText = this.level+"/"+this.maxLevel;
+		f.ac(tr, td);
+		f.ac(table, tr);
+
+		tr = f.ce("tr");
+		td = f.ce("td");
+		td.innerText = "Life ";
+		f.ac(tr, td);
+		td = f.ce("td");
+		f.ac(td,this.lifeBar());
+		f.ac(tr, td);
+		f.ac(table, tr);
+
+		
+		tr = f.ce("tr");
+		td = f.ce("td");
+		td.innerHTML = "Paper";
+		f.ac(tr, td);
+		td = f.ce("td");
+		for(let i in this.claimBase){
+			td.innerHTML += " <img src='"+IMG.icon._plus(IMG.icon.paper)+"' class='icon coin"+this.curr[i]+"'>"+(this.claimBase[i]*this.level*6)+"/min<br>";
 		}
-	}, {
-		key: "viewStats",
-		value: function viewStats(game) {
-			var div = f.ce("div");
+		f.ac(tr, td);
+		f.ac(table, tr);
 
-			var uBar = f.ce("div");
-			var aquaMini = f.ce("div");
-			f.sa(aquaMini, "class", "aquaMini");
-			f.ac(uBar, aquaMini);
-			var ikan = new Ikan2((160 - this.length) / 2, (100 - this.height) / 2, aquaMini, this.length, this.height, this.type, false, false, this.level);
 
-			var table = f.ce("table"),
-			    tr = void 0,
-			    td = void 0;
-
+		if(this.level < this.maxLevel){
+			let lvlUpCost = Math.pow(2,this.level)*this.lvlUpCost;
 			tr = f.ce("tr");
 			td = f.ce("td");
-			td.innerHTML = "Level &nbsp;&nbsp;&nbsp;&nbsp;";
+			let button = f.ce("button");
+			button.innerHTML = "Lvl. Up<br><img src='"+IMG.icon.money+"' class='icon'>"+f.numFormat(lvlUpCost);
+			f.ac(td, button);
 			f.ac(tr, td);
-			td = f.ce("td");
-			td.innerText = this.level + "/" + this.maxLevel;
-			f.ac(tr, td);
-			f.ac(table, tr);
+			f.sa(td,"colspan",2);
 
-			tr = f.ce("tr");
-			td = f.ce("td");
-			td.innerText = "Life ";
-			f.ac(tr, td);
-			td = f.ce("td");
-			f.ac(td, this.lifeBar());
-			f.ac(tr, td);
-			f.ac(table, tr);
+			let saya = this;
+			let onclick = function(){
+				saya.levelUp(game);
 
-			tr = f.ce("tr");
-			td = f.ce("td");
-			td.innerHTML = "Paper";
-			f.ac(tr, td);
-			td = f.ce("td");
-			for (var _i13 in this.claimBase) {
-				td.innerHTML += " <img src='" + IMG.icon._plus(IMG.icon.paper) + "' class='icon coin" + this.curr[_i13] + "'>" + this.claimBase[_i13] * this.level * 6 + "/min<br>";
-			}
-			f.ac(tr, td);
-			f.ac(table, tr);
+				// console.log(game.ikan.indexOf(saya));
+				if(game.ikan.indexOf(saya)!=-1){
+					game.uang -= lvlUpCost;
+				}else{
+					game.hideModal();
+				}
 
-			if (this.level < this.maxLevel) {
-				var lvlUpCost = Math.pow(2, this.level) * this.lvlUpCost;
-				tr = f.ce("tr");
-				td = f.ce("td");
-				var button = f.ce("button");
-				button.innerHTML = "Lvl. Up<br><img src='" + IMG.icon.money + "' class='icon'>" + f.numFormat(lvlUpCost);
-				f.ac(td, button);
-				f.ac(tr, td);
-				f.sa(td, "colspan", 2);
+				ikan.kill();
+				// game.hideModal();
+				game.el.content.innerHTML = "";
+				f.ac(game.el.content, saya.viewStats(game));
 
-				var saya = this;
-				var onclick = function onclick() {
-					saya.levelUp(game);
+				game.viewMoney();
 
-					// console.log(game.ikan.indexOf(saya));
-					if (game.ikan.indexOf(saya) != -1) {
-						game.uang -= lvlUpCost;
-					} else {
-						game.hideModal();
-					}
-
-					ikan.kill();
-					// game.hideModal();
+				if(0)
+				window.setTimeout(()=>{
 					game.el.content.innerHTML = "";
 					f.ac(game.el.content, saya.viewStats(game));
-
-					game.viewMoney();
-
-					if (0) window.setTimeout(function () {
-						game.el.content.innerHTML = "";
-						f.ac(game.el.content, saya.viewStats(game));
-						game.showModal(saya.name + " Fish");
-					}, 500);
-				};
-				button.onclick = onclick;
-
-				if (game.uang < lvlUpCost) {
-					f.sa(button, "disabled", "");
-				}
-				f.ac(table, tr);
-			} else {
-				tr = f.ce("tr");
-				td = f.ce("td");
-				var _button2 = f.ce("button");
-				_button2.innerHTML = " Level <br> Maxed ";
-				f.ac(td, _button2);
-				f.ac(tr, td);
-				f.sa(td, "colspan", 2);
-				f.sa(_button2, "disabled", "");
-				f.ac(table, tr);
+					game.showModal(saya.name+" Fish");
+				},500);
 			}
+			button.onclick = onclick;
 
-			f.ac(uBar, table);
-
-			f.ac(div, uBar);
-			return div;
+			if(game.uang<lvlUpCost){
+				f.sa(button,"disabled","");
+			}
+			f.ac(table, tr);
 		}
-	}]);
-
-	return Ikan2;
-}(Ikan);
-
-var Craft = function () {
-	function Craft(x, y, parentEl) {
-		var length = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 200;
-		var height = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 100;
-		var type = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : "N";
-
-		var _this14 = this;
-
-		var moveable = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : true;
-		var enableNotif = arguments.length > 7 && arguments[7] !== undefined ? arguments[7] : true;
-
-		_classCallCheck(this, Craft);
-
-		var saya = this;
-		if (moveable) {
-			x = Math.max(0, Math.min((parentEl.offsetWidth || 0) - length, x));
-			y = Math.max(100, Math.min((parentEl.offsetHeight || 0) - height, y));
+		else{
+			tr = f.ce("tr");
+			td = f.ce("td");
+			let button = f.ce("button");
+			button.innerHTML = " Level <br> Maxed ";
+			f.ac(td, button);
+			f.ac(tr, td);
+			f.sa(td,"colspan",2);
+			f.sa(button,"disabled","");
+			f.ac(table, tr);
 		}
 
-		var now = new Date();
+
+		f.ac(uBar,table);
+		
+
+		f.ac(div,uBar);
+		return div;
+	}
+
+
+
+
+
+
+
+}
+class Craft {
+	constructor(x,y,parentEl,length=200,height=100,type="N",moveable=true,enableNotif=true){
+		let saya = this;
+		if(moveable){
+			x = Math.max(  0, Math.min((parentEl.offsetWidth||0)-length, x));
+			y = Math.max(100, Math.min((parentEl.offsetHeight||0)-height, y));
+		}
+
+		let now = new Date();
 		this.lastClaim = now.getTime();
 		this.timeCreated = now.getTime();
 
 		// console.log(parentEl.offsetWidth, parentEl.offsetHeight);
 		// console.log(x,y);
 
-		if (!moveable) {
-			this.x = x | 0;
-			this.y = y | 0;
-			this.dir = 0;
-		} else {
-			this.x = parentEl.offsetWidth / 2 | 0 || 0;
+		if(!moveable){
+			this.x = x|0;
+			this.y = y|0;
+			this.dir=0;
+		}else{
+			this.x = (parentEl.offsetWidth/2|0||0);
 			this.y = -200;
-			this.dir = x < this.x ? 0 : 1;
+			this.dir=x<this.x?0:1;
 		}
 
-		var fishVar = _fishCraft[type] || fishs["B"];
+
+		let fishVar = fishCraft[type]||fishs["B"];
 		// console.log(fishVar);
-		var _iteratorNormalCompletion16 = true;
-		var _didIteratorError16 = false;
-		var _iteratorError16 = undefined;
-
-		try {
-			for (var _iterator16 = Object.keys(fishVar)[Symbol.iterator](), _step16; !(_iteratorNormalCompletion16 = (_step16 = _iterator16.next()).done); _iteratorNormalCompletion16 = true) {
-				var _i14 = _step16.value;
-
-				this[_i14] = fishVar[_i14];
-			}
-		} catch (err) {
-			_didIteratorError16 = true;
-			_iteratorError16 = err;
-		} finally {
-			try {
-				if (!_iteratorNormalCompletion16 && _iterator16.return) {
-					_iterator16.return();
-				}
-			} finally {
-				if (_didIteratorError16) {
-					throw _iteratorError16;
-				}
-			}
+		for(let i of Object.keys(fishVar)){
+			this[i] = fishVar[i];
 		}
+
+
+
 
 		length = this.length;
 		height = this.height;
@@ -2510,284 +2107,286 @@ var Craft = function () {
 		// this.elWrap.style.left = this.x +"px";
 		// this.elWrap.style.top = this.y +"px";
 
-		f.ac(this.elWrap, this.el);
-		f.ac(parentEl, this.elWrap);
-		var onclick = function onclick(e) {
-			_this14.onclick(e);
+		f.ac(this.elWrap,this.el);
+		f.ac(parentEl,this.elWrap);
+		let onclick =e=>{
+			this.onclick(e);
 		};
 		this.elWrap.addEventListener("click", onclick);
 		// this.elWrap.onclick = this.onclick;
 
-		if (moveable) {
-			this.move(x - this.x, y - this.y, 10);
+		if(moveable){
+			this.move(x-this.x, y-this.y,10)
 		}
 
-		if (enableNotif) {}
+		if(enableNotif){
+		}
+
 	}
 
-	_createClass(Craft, [{
-		key: "prepareAnim",
-		value: function prepareAnim() {
-			this.elWrap = f.ce("div");
-			f.sa(this.elWrap, "class", "ikan");
-			f.sa(this.elWrap, "style", "z-index:6;");
-			this.elWrap.style.height = this.height + "px";
-			this.elWrap.style.width = this.length + "px";
+	prepareAnim(){
+		this.elWrap = f.ce("div");
+		f.sa(this.elWrap,"class","ikan");
+		f.sa(this.elWrap,"style","z-index:6;");
+		this.elWrap.style.height = this.height+"px";
+		this.elWrap.style.width = this.length+"px";
 
-			this.el = f.ce("div");
-			f.sa(this.el, "class", "ikan");
-			this.el.style.height = this.height + "px";
-			this.el.style.width = this.length + "px";
+		this.el = f.ce("div");
+		f.sa(this.el,"class","ikan");
+		this.el.style.height = this.height+"px";
+		this.el.style.width = this.length+"px";
 
-			this.el.style.transform = " perspective(400px) rotateY(" + (180 * this.dir | 0) + "deg)";
-			var el = this.el;
-			length = this.length / 5;
-			for (var _i15 = 0; _i15 < 5; _i15++) {
-				f.ac(el, f.ce("div"));
-				el = el.childNodes[0];
-				f.sa(el, "class", "ruas");
-				el.style.width = length + 1 + "px";
-				el.style.left = (_i15 ? length : 0) + "px";
-				el.style.height = this.height + "px";
-				el.style.backgroundImage = "url('data:image/svg+xml;utf8, " + IMG.fishs[this.type] + "')";
-				el.style.backgroundPosition = -length * _i15 + "px 0";
-				el.style.animationDuration = 1 + 3 * this.length / 200 + "s";
-			}
-			this.elWrap.style.left = this.x + "px";
-			this.elWrap.style.top = this.y + "px";
-
-			f.ac(this.elWrap, this.el);
-			f.ac(this.parentEl, this.elWrap);
+		this.el.style.transform=" perspective(400px) rotateY("+(180*this.dir|0)+"deg)";
+		let el = this.el;
+		length = this.length / 5;
+		for(let i=0;i<5;i++){
+			f.ac(el,f.ce("div"));
+			el = el.childNodes[0];
+			f.sa(el,"class","ruas");
+			el.style.width = (length+1)+"px";
+			el.style.left = (i?length:0)+"px";
+			el.style.height = this.height+"px";
+			el.style.backgroundImage = "url('data:image/svg+xml;utf8, "+IMG.fishs[this.type]+"')";
+			el.style.backgroundPosition = (-length*i)+"px 0";
+			el.style.animationDuration = (1+3*this.length/200)+"s";
 		}
-	}, {
-		key: "intervalFunction",
-		value: function intervalFunction(game) {
-			var saya = this;
+		this.elWrap.style.left = this.x +"px";
+		this.elWrap.style.top = this.y +"px";
 
-			this.functionInterval = window.setInterval(function () {
-				saya.function(game, saya);
+		f.ac(this.elWrap,this.el);
+		f.ac(this.parentEl,this.elWrap);
 
-				// saya.el.style.animation = null;
-				// let shine =()=>{
-				// 	saya.el.style.animation = "shine 1s";
-				// };
-				// setTimeout(shine,100);
-			}, this.delay);
-		}
-	}, {
-		key: "move",
-		value: function move(x, y) {
-			var _this15 = this;
-
-			var speed = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-			var moveable = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
-
-			if (moveable) {
-				x = Math.min(this.parentEl.offsetWidth - this.length, Math.max(0, this.x + x));
-				y = Math.min(this.parentEl.offsetHeight - this.height, Math.max(100, this.y + y));
-			}
-			var delay = 0;
-			if (x > this.x && this.dir == 0) {
-				delay = 2000;
-				this.dir = 1;
-				this.el.style.transitionDuration = "2s";
-				this.el.style.transform = " perspective(400px) rotateY(180deg)";
-			} else if (x < this.x && this.dir == 1) {
-				delay = 2000;
-				this.dir = 0;
-				this.el.style.transitionDuration = "2s";
-				this.el.style.transform = " perspective(400px) rotateY(0deg)";
-			}
-
-			var distance = speed ? 1000 / speed : Math.sqrt((this.x - x) * (this.x - x) + (this.y - y) * (this.y - y));
-			// let rotate = ( (this.x<=x)?Math.atan((y-this.y)/(x-this.x)):Math.atan((y-this.y)/(x-this.x))+Math.PI );
-			this.x = x | 0;
-			this.y = y | 0;
-			setTimeout(function () {
-				_this15.elWrap.style.transitionDuration = Math.max(distance / 40 | 0, 1) + "s";
-				_this15.elWrap.style.left = _this15.x + "px";
-				_this15.elWrap.style.top = _this15.y + "px";
-				setTimeout(function () {
-					if (moveable) {
-						_this15.move(_this15.parentEl.offsetWidth * (Math.random() - .5), _this15.parentEl.offsetHeight * (Math.random() - .5));
-					}
-				}, distance * 25 + 500 + 2500 * Math.random());
-			}, delay + 1);
-		}
-	}, {
-		key: "onclick",
-		value: function onclick(e) {}
-	}, {
-		key: "kill",
-		value: function kill() {
-			var game = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-
-			try {
-				window.clearInterval(this.functionInterval);
-			} catch (e) {}
-			this.el.classList.add("death");
-
-			if (game) {
-				var idx = game.craft.indexOf(this.type);
-				if (idx != -1) {
-					game.craft.splice(idx, 1);
-					game.craftObj.splice(idx, 1);
-				}
-			}
-
-			var saya = this;
-			window.setTimeout(function () {
-				saya.elWrap.outerHTML = "";
-			}, this.elWrap.style.transitionDuration.slice(0, -1) * 1000);
-		}
-	}, {
-		key: "hint",
-		value: function hint(game) {
-
-			var length = this.length;
-			var height = this.height;
-
-			this.elWrap.style.height = height + "px";
-			this.elWrap.style.width = length + "px";
-
-			this.el.style.height = height + "px";
-			this.el.style.width = length + "px";
-
-			length /= 5;
-			var els = this.el.querySelectorAll(".ikan .ikan .ruas");
-
-			for (var _i16 in els) {
-				if (!els[_i16].style) {
-					continue;
-				}
-				els[_i16].style.width = length + 1 + "px";
-				els[_i16].style.left = (parseInt(_i16) ? length : 0) + "px";
-				els[_i16].style.height = height + "px";
-				els[_i16].style.backgroundPosition = -length * _i16 + "px 0";
-				els[_i16].style.animationDuration = 1 + 3 * this.length / 200 + "s";
-				els[_i16].style.backgroundImage = "url('data:image/svg+xml;utf8, " + IMG.fishs._hint(IMG.fishs[this.type]) + "')";
-			}
-		}
-	}]);
-
-	return Craft;
-}();
-
-var CraftV = function (_Craft) {
-	_inherits(CraftV, _Craft);
-
-	function CraftV() {
-		var _ref2;
-
-		_classCallCheck(this, CraftV);
-
-		for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-			args[_key2] = arguments[_key2];
-		}
-
-		return _possibleConstructorReturn(this, (_ref2 = CraftV.__proto__ || Object.getPrototypeOf(CraftV)).call.apply(_ref2, [this].concat(args)));
 	}
 
-	_createClass(CraftV, [{
-		key: "prepareAnim",
-		value: function prepareAnim() {
-			this.elWrap = f.ce("div");
-			f.sa(this.elWrap, "class", "ikan");
-			f.sa(this.elWrap, "style", "z-index:6;border:solid 1px;");
-			this.elWrap.style.height = this.height + "px";
-			this.elWrap.style.width = this.length + "px";
 
-			this.el = f.ce("div");
-			f.sa(this.el, "class", "ikan");
-			this.el.style.height = this.height + "px";
-			this.el.style.width = this.length + "px";
+	intervalFunction(game){
+		let saya = this;
 
-			this.el.style.transform = " perspective(400px) rotateY(" + (180 * this.dir | 0) + "deg)";
-			var el = this.el;
-			length = this.length / 5;
-			for (var _i17 = 0; _i17 < 5; _i17++) {
-				f.ac(el, f.ce("div"));
-				el = el.childNodes[0];
-				f.sa(el, "class", "ruas");
-				el.style.width = length + 1 + "px";
-				el.style.left = (_i17 ? length : 0) + "px";
-				el.style.height = this.height + "px";
-				el.style.backgroundImage = "url('data:image/svg+xml;utf8, " + IMG.fishs[this.type] + "')";
-				el.style.backgroundPosition = -length * _i17 + "px 0";
-				el.style.animationDuration = 1 + 3 * this.length / 200 + "s";
-			}
-			this.elWrap.style.left = this.x + "px";
-			this.elWrap.style.top = this.y + "px";
+		this.functionInterval = window.setInterval(()=>{
+			saya.function(game,saya);
 
-			f.ac(this.elWrap, this.el);
-			f.ac(this.parentEl, this.elWrap);
+			// saya.el.style.animation = null;
+			// let shine =()=>{
+			// 	saya.el.style.animation = "shine 1s";
+			// };
+			// setTimeout(shine,100);
+
+		},this.delay);
+	}
+
+
+	move(x,y,speed=null,moveable=true){
+		if(moveable){
+			x = Math.min(this.parentEl.offsetWidth-this.length, Math.max(  0,this.x + x));
+			y = Math.min(this.parentEl.offsetHeight-this.height,Math.max(100,this.y + y));
 		}
-	}]);
+		let delay = 0;
+		if(x>this.x && this.dir==0){
+			delay = 2000;
+			this.dir = 1;
+			this.el.style.transitionDuration="2s";
+			this.el.style.transform=" perspective(400px) rotateY(180deg)";
+		}else
+		if(x<this.x && this.dir==1){
+			delay = 2000;
+			this.dir = 0;
+			this.el.style.transitionDuration="2s";
+			this.el.style.transform=" perspective(400px) rotateY(0deg)";
+		}
 
-	return CraftV;
-}(Craft);
+		let distance = speed?1000/speed:Math.sqrt((this.x-x)*(this.x-x)+(this.y-y)*(this.y-y));
+		// let rotate = ( (this.x<=x)?Math.atan((y-this.y)/(x-this.x)):Math.atan((y-this.y)/(x-this.x))+Math.PI );
+		this.x = x|0;
+		this.y = y|0;
+		setTimeout(()=>{
+			this.elWrap.style.transitionDuration=Math.max(distance/40|0,1)+"s";
+			this.elWrap.style.left = this.x +"px";
+			this.elWrap.style.top = this.y +"px";
+			setTimeout(()=>{
+				if(moveable){
+					this.move(this.parentEl.offsetWidth*(Math.random()-.5),	this.parentEl.offsetHeight*(Math.random()-.5))
+				}
+			},distance*25+500+2500*Math.random());
+		},delay+1);
+
+	}
+	
+	onclick(e){
+	}
+
+
+	kill(game=null){
+		try{
+			window.clearInterval(this.functionInterval);
+		}catch(e){}
+		this.el.classList.add("death");
+
+		if(game){
+			let idx = game.craft.indexOf(this.type);
+			if(idx!=-1){
+				game.craft.splice(idx,1);
+				game.craftObj.splice(idx,1);
+			}
+		}
+
+		let saya = this;
+		window.setTimeout(function(){
+			saya.elWrap.outerHTML = "";
+		},this.elWrap.style.transitionDuration.slice(0,-1)*1000);
+	}
+
+
+
+	hint(game){
+
+
+		let length = this.length
+		let height = this.height
+
+		this.elWrap.style.height = height+"px";
+		this.elWrap.style.width = (length)+"px";
+
+		this.el.style.height = height+"px";
+		this.el.style.width = (length)+"px";
+
+		length /= 5;
+		let els = this.el.querySelectorAll(".ikan .ikan .ruas");
+
+
+		for(let i in els){
+			if(!els[i].style){
+				continue;
+			}
+			els[i].style.width = (length+1)+"px";
+			els[i].style.left = (parseInt(i)?length:0)+"px";
+			els[i].style.height = height+"px";
+			els[i].style.backgroundPosition = (-length*i)+"px 0";
+			els[i].style.animationDuration = (1+3*this.length/200)+"s";
+			els[i].style.backgroundImage = "url('data:image/svg+xml;utf8, "+IMG.fishs._hint(IMG.fishs[this.type])+"')";
+		}
+		
+
+	}
+
+}
+
+
+
+class CraftV extends Craft{
+	constructor(...args){
+		super(...args);
+	}
+
+
+	prepareAnim(){
+		this.elWrap = f.ce("div");
+		f.sa(this.elWrap,"class","ikan");
+		f.sa(this.elWrap,"style","z-index:6;border:solid 1px;");
+		this.elWrap.style.height = this.height+"px";
+		this.elWrap.style.width = this.length+"px";
+
+		this.el = f.ce("div");
+		f.sa(this.el,"class","ikan");
+		this.el.style.height = this.height+"px";
+		this.el.style.width = this.length+"px";
+
+		this.el.style.transform=" perspective(400px) rotateY("+(180*this.dir|0)+"deg)";
+		let el = this.el;
+		length = this.length / 5;
+		for(let i=0;i<5;i++){
+			f.ac(el,f.ce("div"));
+			el = el.childNodes[0];
+			f.sa(el,"class","ruas");
+			el.style.width = (length+1)+"px";
+			el.style.left = (i?length:0)+"px";
+			el.style.height = this.height+"px";
+			el.style.backgroundImage = "url('data:image/svg+xml;utf8, "+IMG.fishs[this.type]+"')";
+			el.style.backgroundPosition = (-length*i)+"px 0";
+			el.style.animationDuration = (1+3*this.length/200)+"s";
+		}
+		this.elWrap.style.left = this.x +"px";
+		this.elWrap.style.top = this.y +"px";
+
+		f.ac(this.elWrap,this.el);
+		f.ac(this.parentEl,this.elWrap);
+
+	}
+}
+
 
 ////////////TEST//////////////
 
-window.onload = function () {
-	PlayFab.settings.titleId = "EAC6";
+window.onload = function(){
+    PlayFab.settings.titleId = "EAC6";
 	window.game = new Game(f.qs("#wadah"));
 
-	var kongUser = function kongUser() {
+	let kongUser = function(){
 		console.log("---------------------------");
 		window.kongVars = {
-			username: kongregate.services.getUsername(),
-			userId: kongregate.services.getUserId(),
-			isGuest: kongregate.services.isGuest(),
-			token: kongregate.services.getGameAuthToken()
+			username : kongregate.services.getUsername(),
+			userId : kongregate.services.getUserId(),
+			isGuest : kongregate.services.isGuest(),
+			token : kongregate.services.getGameAuthToken()
 		};
 
-		if (!window.isOnKong) {
-			if (window.kongVars.isGuest) {
+
+		if(!(window.isOnKong)){
+			if(window.kongVars.isGuest){
 				game.newGame("kongGuest");
 				kongregate.services.showRegistrationBox();
-			} else {
+			}else{
 				game.kongLogin();
 			}
 		}
 		window.isOnKong = true;
 		kongregate.stats.submit("initialized", 1);
-	};
+	}
 
-	var kongUserLoggedin = function kongUserLoggedin() {
+
+	let kongUserLoggedin = function(){
 		console.log("---------------------------");
 		window.kongVars = {
-			username: kongregate.services.getUsername(),
-			userId: kongregate.services.getUserId(),
-			isGuest: kongregate.services.isGuest(),
-			token: kongregate.services.getGameAuthToken()
+			username : kongregate.services.getUsername(),
+			userId : kongregate.services.getUserId(),
+			isGuest : kongregate.services.isGuest(),
+			token : kongregate.services.getGameAuthToken()
 		};
 
-		if (window.kongVars.isGuest) {
+
+		if(window.kongVars.isGuest){
 			game.newGame();
 			kongregate.services.showRegistrationBox();
-		} else {
+		}else{
 			game.hideModal();
 			game.kongLogin();
 		}
 		window.isOnKong = true;
 		kongregate.stats.submit("initialized", 1);
-	};
+	}
 
-	try {
-		kongregateAPI.loadAPI(function () {
+
+
+	try{
+		kongregateAPI.loadAPI(function(){
 			window.kongregate = kongregateAPI.getAPI();
 			kongUser();
 
-			kongregate.services.addEventListener('login', function () {
+			kongregate.services.addEventListener('login', function(){
 				kongUserLoggedin();
 			});
 		});
-	} catch (e) {
+	}
+	catch(e){
 		window.isOnKong = false;
 		game.newGame();
+
 	}
 
 	// document.body.addEventListener("click",beep);
 
-};
+	
+
+}
+
+
+})();

@@ -35,9 +35,10 @@ class Game{
 		this.craftUnlocked = [];
 		this.craftObj = [];
 		this.craft = [];
-		this.craftMaxItem = 4;
+		this.craftMaxItem = 10;
 		this.glassLvlUpCost = 1000;
 		this.glassLvl = 1;
+		this.onModalRemoved = [];
 		this.fishVars = {};
 		this.uang = 0;
 		this.paper = {
@@ -240,6 +241,7 @@ class Game{
 		this.craft.map(e=>e && (totalIkan++) );
 		if(this.craftMaxItem <= totalIkan)return;
 		if(this.craft.indexOf(type)!=-1)return;
+		if(this.craftUnlocked.indexOf(type)==-1)return;
 
 		// let ikan = new CraftV(this.el.aqua.offsetWidth*Math.random(),this.el.aqua.offsetHeight*Math.random(),this.el.aqua, 74, 46, type);
 		let ikan = new Craft(this.el.aqua.offsetWidth*Math.random(),this.el.aqua.offsetHeight*Math.random(),this.el.aqua, 74, 46, type);
@@ -349,6 +351,8 @@ class Game{
 
 	hideModal(){
 		this.el.content.innerHTML = "";
+		this.onModalRemoved.map(e=>{e()});
+		this.onModalRemoved = [];
 		if(this.parentEl.contains(this.el.modal)){
 			this.el.popUp.style.opacity = 0;
 			let zoomin = ()=>{

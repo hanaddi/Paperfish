@@ -396,9 +396,36 @@ class Ikan{
 			}
 			button.onclick = onclick;
 
-			if(game.uang<lvlUpCost){
-				f.sa(button,"disabled","");
-			}
+			// let update = ()=>{
+			// 	try{
+			// 		if(game.uang<lvlUpCost){
+			// 			f.sa(button,"disabled","");
+			// 		}else{
+			// 			f.ra(button,"disabled");
+			// 		}
+			// 		console.log(game.uang, button.outerHTML);
+			// 		window.setTimeout(update,3000);
+			// 	}catch(e){
+			// 		console.log(e);
+			// 	}
+			// };
+			let update = window.setInterval(()=>{
+				try{
+					if(game.uang<lvlUpCost){
+						f.sa(button,"disabled","");
+					}else{
+						f.ra(button,"disabled");
+					}
+					console.log(game.uang);
+				}catch(e){
+					console.log(e);
+				}
+			}, 3000);
+
+			game.onModalRemoved.push(()=>{window.clearInterval(update)});
+			// update();
+
+
 			f.ac(table, tr);
 		}
 		else{

@@ -1,16 +1,17 @@
 // addScript("PlayFabClientApi.js");
-addScript("jsvar.js");
-addScript("Game.js");
-addScript("Menu.js");
-addScript("Ikan.js");
-addScript("Craft.js");
-addScript("post.js");
+// addScript("jsvar.js");
+// addScript("Game.js");
+// addScript("Menu.js");
+// addScript("Ikan.js");
+// addScript("Craft.js");
+// addScript("post.js");
 
 var f={
 	ac		:(i,j)		=>i.appendChild(j),
 	ce		:(i)		=>document.createElement(i),
 	ct		:(i)		=>document.createTextNode(i),
 	qs		:(i)		=>document.querySelector(i),
+	ra		:(i,j)		=>i.removeAttribute(j),
 	rc		:(i,j)		=>i.removeChild(j),
 	sa		:(i,j,k)	=>i.setAttribute(j,k),
 
@@ -21,7 +22,7 @@ var f={
 	null	:null
 };
 
-
+/***************
 var audioCtx = new(window.AudioContext || window.webkitAudioContext)();
 function beep() {
 	let oscillator = audioCtx.createOscillator();
@@ -43,7 +44,7 @@ function beep() {
 		50
 	);
 };
-
+******************/
 
 //////////////////////////////////////////
 // addScript("https://download.playfab.com/PlayFabClientApi.js");

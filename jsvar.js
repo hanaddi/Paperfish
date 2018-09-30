@@ -207,7 +207,6 @@ var fishCraft = {
 				let div = f.ce("div");
 				f.sa(div,"class","shadow");
 				div.style.backgroundImage = i.style.backgroundImage.replace(/\%23([0-9a-f]{3})*/gi,"%23000000");
-				// div.style.backgroundImage = i.style.backgroundImage.replace(/\%23(([0-9a-f]{3})*)/gi, (d,e)=>"#"+e.split``.reverse().join``);
 				div.style.backgroundPosition = i.style.backgroundPosition;
 				f.ac(i,div);
 			}
@@ -222,8 +221,8 @@ var fishCraft = {
 var fishCraftShop = {
 	G : fishCraft.G,
 	G1 : fishCraft.G1,
-	A : fishCraft.A,
-	M : fishCraft.M
+	M : fishCraft.M,
+	A : fishCraft.A
 };
 
 

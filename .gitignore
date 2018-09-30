@@ -1,3 +1,5 @@
 *.zip
 other/
 img/
+test.html
+*.php

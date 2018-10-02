@@ -437,8 +437,10 @@ class Game{
 		}catch(e){}
 	}
 
-	// PLAYFAB RELATED
 
+
+
+	// PLAYFAB RELATED
 	kongLogin(){
 		let param = {
 			"KongregateId": window.kongVars.userId,
@@ -463,7 +465,12 @@ class Game{
 					saya.saveData();
 				},60000);
 			}catch(e){
-				this.newGame();
+				if(e!==null){
+					let saya = this;
+					window.setTimeout(()=>{saya.kongLogin()},2000);
+				}else{
+					this.newGame();
+				}
 			}
 		});
 	}
@@ -528,9 +535,14 @@ class Game{
 				window.setTimeout(()=>{
 					saya.transisiBuka();
 				},2001);
-			}catch(e){
-				console.error(e);
-				saya.newGame();
+			}catch(err){
+				if(e!==null){
+					let saya = this;
+					window.setTimeout(()=>{saya.loadData()},2000);
+				}else{
+					console.error(e);
+					saya.newGame();
+				}
 			}
 		});
 

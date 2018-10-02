@@ -206,7 +206,8 @@ var fishCraftShop = {
 	G : fishCraft.G,
 	G1 : fishCraft.G1,
 	M : fishCraft.M,
-	A : fishCraft.A
+	A : fishCraft.A,
+	N : fishCraft.N
 };
 
 
@@ -215,6 +216,6 @@ var fishCraftShop = {
 var GUIDE = {
 	"Currencies":"There are two types of currencies: paper and coin.<br><br><strong>Paper</strong>. Mainly papers are used to unlock <b>Creatures</b>. There are are three types papers: <img src='"+IMG.icon.paper+"' class='icon coinB'>, <img src='"+IMG.icon.paper+"' class='icon coinR'>, and <img src='"+IMG.icon.paper+"' class='icon coinY'>. Each paper are produced by specific fish. The maximum ammount of each paper you can store is <strong>2.000.000</strong>.<br><br><strong>Coin</strong>. Coin ( <img src='"+IMG.icon.money+"' class='icon'>) used for buying and upgrading <b>Fishs</b>. Coins are produced by <b>Creatures</b>. The maximum ammount of Coin you can store is <strong>2.000.000.000</strong>.",
 	"Fish":"Fish can be bought from <b>Fish shop( <img src='"+IMG.icon.shop+"' class='icon'>)</b>. Fish are used to producing paper. Click on fish to show its stats. Upgrade it to earn more coin. Fish always producing paper even when you offline.<br><br>Tank have limited amount of fish. Each fish have their own lifespan ( <img src='"+IMG.icon.heart+"' class='icon'>). Fish will disappear when its lifespan is over. So, you can buy a new one.",
-	"Creatures":"Creatures can be crafted on <b>Creatures Craft ( <img src='"+IMG.icon.craft+"' class='icon'>)</b>. Most Creatures have special abilities. It also generating coin. Creatures have unlimited lifespan, but it works only when you online. You can place it on tank at most four Creatures.",
+	"Creatures":"Creatures can be crafted on <b>Creatures Craft ( <img src='"+IMG.icon.craft+"' class='icon'>)</b>. Most Creatures have special abilities. It also generating coin. Creatures have unlimited lifespan, but it works only when you online. You can place it on tank at most 10 Creatures.",
 	"Tank":"Tank level affects how many fish you can place in it. Upgrade the tank to increase the limit."
 };

@@ -32,7 +32,7 @@ class Game{
 		this.menu = new Menu(this);
 
 		this.ikan = [];
-		this.craftUnlocked = [];
+		this.craftUnlocked = ["G"];
 		this.craftObj = [];
 		this.craft = [];
 		this.craftMaxItem = 10;
@@ -74,7 +74,7 @@ class Game{
 		f.sa(this.el.topBar,"class","topBar");
 		f.ac(this.parentEl,this.el.topBar);
 
-		// this.viewLogo();
+		this.viewLogo();
 		this.viewPaper();
 		this.viewMoney();
 
@@ -123,11 +123,12 @@ class Game{
 			saya.paper={};
 			saya.viewPaper();
 
+			saya.el.aqua.style.background = null;
 			saya.craftObj.map(e=>{
 				e.kill(saya);
 			});			
 			saya.craft=[];
-			saya.craftUnlocked=[];
+			saya.craftUnlocked=["G"];
 			saya.craftObj=[];
 			saya.fishVars = {};
 		},1000);
@@ -496,6 +497,7 @@ class Game{
 				
 				if(r.data.Data.craftUnlocked){
 					saya.craftUnlocked = JSON.parse(r.data.Data.craftUnlocked.Value);
+					saya.craftUnlocked = saya.craftUnlocked.length?saya.craftUnlocked:['G'];
 				}
 
 				if(r.data.Data.ikan1){

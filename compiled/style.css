@@ -182,13 +182,14 @@ button.green:disabled{
 	background: transparent;
 	/*background-image: url(img/f1.svg);*/
 	/*background-image: url(img/dumy1.png);*/
-	/*background-repeat: no-repeat;*/
+	background-repeat: no-repeat;
 	/*background-position: inherit;*/
 	background-size: 490%;
 	background-position: 0 0;
 	overflow: visible;
 	margin: 0px;
 	padding: 0px;
+	opacity: .5;
 
 }
 

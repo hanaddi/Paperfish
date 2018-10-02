@@ -254,6 +254,9 @@ button.green:disabled{
 	margin: 0;
 	width: 800px;
 	height: 480px;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%,-50%);
 	border: solid 1px;
 	background: #eff3f8;
 	overflow: hidden;
@@ -309,10 +312,9 @@ button.green:disabled{
 .logo{
 	position: absolute;
 	background: #321;
-	left: 0px;
-	top: 0px;
-	width: 172px;
-	height: 43px;
+	left: 50px;
+	top: 5%;
+	height: 90%;
 	background: transparent;
 	border:transparent !important;
 }

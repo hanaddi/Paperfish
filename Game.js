@@ -367,10 +367,11 @@ class Game{
 
 	// visual
 	viewLogo(){
-		let logo = f.ce("div");
+		let logo = f.ce("img");
 		f.sa(logo,"class","logo");
+		f.sa(logo,"src",IMG.logo);
 		logo.innerHTML = "&nbsp;";
-		logo.style.backgroundImage = "url('"+IMG.logo+"')";
+		// logo.style.backgroundImage = "url('"+IMG.logo+"')";
 		f.ac(this.el.topBar,logo);
 	}
 

@@ -111,7 +111,7 @@ var fishs = {
 		name : 'Nani',
 		img : "S",
 		type : "v2_C",
-		lvlUpCost : 150,
+		lvlUpCost : 200,
 		lifeSpan : 86399999,
 		curr : ["B","R","Y"],
 		claimBase : [2,2,2],

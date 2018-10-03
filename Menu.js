@@ -184,19 +184,33 @@ class Menu{
 		return div;
 	}
 
-	fishCraft(scrollTop=0){
+	fishCraft(scrollTop=0,short=null){
 		let saya = this;
-		let fishShop = JSON.parse(JSON.stringify(fishCraftShop));
+		let fishShop = {};
 		let div = f.ce("div");
 		f.sa(div,"style","overflow-y:scroll;max-height:350px;margin:10px 0px;position:relative;");
 		div.onscroll =e=>{scrollTop=div.scrollTop;};
 
-
-		for(let i of this.game.craftUnlocked){
-			if(!fishShop[i]){
-				fishShop[i] = fishCraft[i];
+		if(!short){
+			for(let i of this.game.craftUnlocked){
+				if(!fishShop[i]){
+					fishShop[i] = fishCraft[i];
+				}
+			}
+			for(let i of Object.keys(fishCraftShop)){
+				if(!fishShop[i]){
+					fishShop[i] = fishCraftShop[i];
+				}
+			}
+			short = Object.keys(fishShop);
+		}else{
+			for(let i of short){
+				if(!fishShop[i]){
+					fishShop[i] = fishCraft[i];
+				}
 			}
 		}
+
 
 		// for(let jjjj=9;--jjjj;)
 		for(let i of Object.keys(fishShop)){
@@ -231,7 +245,7 @@ class Menu{
 					saya.game.unlockCraft(i);
 					saya.game.el.content.innerHTML = "";
 					saya.game.el.title.innerHTML="Creatures Craft ("+saya.game.craft.length+"/"+saya.game.craftMaxItem+")";
-					let div = saya.fishCraft(scrollTop);
+					let div = saya.fishCraft(scrollTop, short);
 					f.ac(saya.game.el.content, div);
 					div.scrollTop = scrollTop;
 				}
@@ -263,7 +277,7 @@ class Menu{
 					if(1){
 						saya.game.el.content.innerHTML = "";
 						saya.game.el.title.innerHTML="Creatures Craft ("+saya.game.craft.length+"/"+saya.game.craftMaxItem+")";
-						let div = saya.fishCraft(scrollTop);
+						let div = saya.fishCraft(scrollTop,short);
 						f.ac(saya.game.el.content, div);
 						div.scrollTop = scrollTop;
 
@@ -288,7 +302,7 @@ class Menu{
 				// 	saya.game.removeCraft(i);
 				// 	if(1){
 				// 		saya.game.el.content.innerHTML = "";
-				// 		f.ac(saya.game.el.content, saya.fishCraft(scrollTop));
+				// 		f.ac(saya.game.el.content, saya.fishCraft(scrollTop, short));
 				// 	}else{
 				// 		saya.game.hideModal();
 				// 	}
@@ -301,7 +315,7 @@ class Menu{
 						if(1){
 							saya.game.el.content.innerHTML = "";
 							saya.game.el.title.innerHTML="Creatures Craft ("+saya.game.craft.length+"/"+saya.game.craftMaxItem+")";
-							let div = saya.fishCraft(scrollTop);
+							let div = saya.fishCraft(scrollTop,short);
 							f.ac(saya.game.el.content, div);
 							div.scrollTop = scrollTop;
 						}else{

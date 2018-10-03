@@ -270,7 +270,7 @@ class Game{
 			// 	}
 			// }
 
-			this.craftObj[idx].function1(this);
+			// this.craftObj[idx].function1(this);
 			this.craftObj[idx].kill(this);
 
 			// this.craft.splice(idx,1);

@@ -434,6 +434,8 @@ button.green:disabled{
 	border-top: transparent;
 	box-sizing: content-box;
 	overflow: hidden;
+	background-size: cover;
+	background-repeat: no-repeat;
 }
 
 .aqua{

@@ -62,45 +62,46 @@ class Craft {
 	moveArea(x,y){
 		let minx = this.areaLimit[0];
 		let miny = this.areaLimit[1];
-		let maxx = this.areaLimit[2]==-1?this.parentEl.offsetWidth :this.areaLimit[2];
-		let maxy = this.areaLimit[3]==-1?this.parentEl.offsetHeight:this.areaLimit[3];
+		let maxx = Math.min(this.parentEl.offsetWidth ,this.areaLimit[2]==-1?this.parentEl.offsetWidth :this.areaLimit[2]);
+		let maxy = Math.min(this.parentEl.offsetHeight,this.areaLimit[3]==-1?this.parentEl.offsetHeight:this.areaLimit[3]);
 
 		x = Math.min(maxx-this.length, Math.max(minx,this.x + x));
 		y = Math.min(maxy-this.height,Math.max(miny,this.y + y));
 		return [x,y];
 	}
 
-	prepareAnim(){
-		this.elWrap = f.ce("div");
-		f.sa(this.elWrap,"class","ikan");
-		f.sa(this.elWrap,"style","z-index:6;");
-		this.elWrap.style.height = this.height+"px";
-		this.elWrap.style.width = this.length+"px";
+	prepareAnim(saya){
+		saya = saya || this;
+		saya.elWrap = f.ce("div");
+		f.sa(saya.elWrap,"class","ikan");
+		f.sa(saya.elWrap,"style","z-index:6;");
+		saya.elWrap.style.height = saya.height+"px";
+		saya.elWrap.style.width = saya.length+"px";
 
-		this.el = f.ce("div");
-		f.sa(this.el,"class","ikan");
-		this.el.style.height = this.height+"px";
-		this.el.style.width = this.length+"px";
+		saya.el = f.ce("div");
+		f.sa(saya.el,"class","ikan");
+		saya.el.style.height = saya.height+"px";
+		saya.el.style.width = saya.length+"px";
 
-		this.el.style.transform=" perspective(400px) rotateY("+(180*this.dir|0)+"deg)";
-		let el = this.el;
-		length = this.length / 5;
+		saya.el.style.transform=" perspective(400px) rotateY("+(180*saya.dir|0)+"deg)";
+		let el = saya.el;
+		length = saya.length / 5;
 		for(let i=0;i<5;i++){
 			f.ac(el,f.ce("div"));
 			el = el.childNodes[0];
 			f.sa(el,"class","ruas");
 			el.style.width = (length+1)+"px";
 			el.style.left = (i?length:0)+"px";
-			el.style.height = this.height+"px";
-			el.style.backgroundImage = "url('data:image/svg+xml;utf8, "+IMG.fishs[this.img]+"')";
+			el.style.height = saya.height+"px";
+			el.style.backgroundImage = "url('data:image/svg+xml;utf8, "+IMG.fishs[saya.img]+"')";
 			el.style.backgroundPosition = (-length*i)+"px 0";
-			el.style.animationDuration = (1+3*this.length/200)+"s";
+			el.style.animationDuration = (1+3*saya.length/200)+"s";
 		}
-		this.elWrap.style.left = this.x +"px";
-		this.elWrap.style.top = this.y +"px";
+		saya.elWrap.style.left = saya.x +"px";
+		saya.elWrap.style.top = saya.y +"px";
 
-		f.ac(this.elWrap,this.el);
-		f.ac(this.parentEl,this.elWrap);
+		f.ac(saya.elWrap,saya.el);
+		f.ac(saya.parentEl,saya.elWrap);
 
 	}
 
@@ -169,6 +170,7 @@ class Craft {
 		this.el.classList.add("death");
 
 		if(game){
+			this.function1(game);
 			let idx = game.craft.indexOf(this.type);
 			if(idx!=-1){
 				game.craft.splice(idx,1);

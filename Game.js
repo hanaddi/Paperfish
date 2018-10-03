@@ -455,9 +455,11 @@ class Game{
 				if(!r.data.NewlyCreated && 1){
 					this.loadData();
 				}else{
-					// this.newGame();
+					this.newGame();
+					// this.addCraft("G");
+					// if(this.ikan.length==0)this.addIkan("B",true);
 					this.saveData();
-					this.transisiBuka();
+					// this.transisiBuka();
 				}
 
 				let saya = this;
@@ -533,8 +535,13 @@ class Game{
 				}
 
 
+
+
 				window.setTimeout(()=>{
 					saya.transisiBuka();
+					if(saya.uang<1 && saya.paper.B<1){
+						saya.addIkan("B",true);
+					}
 				},2001);
 			}catch(err){
 				if(e!==null){

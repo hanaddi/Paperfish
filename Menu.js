@@ -256,7 +256,7 @@ class Menu{
 				div2.innerHTML = "";
 				let idx=-1;
 				for(let j of Object.keys(fishShop[i].price)){
-					div2.innerHTML += fishShop[i].price[j]?" <img src='"+IMG.icon.paper+"' class='icon coin"+j+"'>"+fishShop[i].price[j]+(++idx%2?"<br>":""):"";
+					div2.innerHTML += fishShop[i].price[j]?" <img src='"+IMG.icon.paper+"' class='icon coin"+j+"'>"+f.numFormat(fishShop[i].price[j])+(++idx%2?"<br>":""):"";
 					if(this.game.paper[j]<fishShop[i].price[j]){
 						f.sa(buy,"disabled","");
 					}

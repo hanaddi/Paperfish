@@ -269,7 +269,7 @@ var fishCraft = {
 		name : 'Siwid',
 		type : "C_2",
 		img : "C_2",
-		desc : "Increase fish <img src='"+IMG.icon.heart+"' class='icon'>",
+		desc : "Make fish live 50% longer.<br>Little fish like him.",
 		length : 80,
 		height:80,
 		delay : 4000,
@@ -322,12 +322,15 @@ var fishCraft = {
 				if(!ikan)return;
 				// if(ikan.level>4)return;
 				ikan.timeCreated +=2000;
+				if(ikan.level<3){
+					ikan.nextPos={x:s.x+300*(Math.random()-.5),y:s.y-100*Math.random()};
+				}
 			});
 			// console.log(s.x, s.y);
 
 		},
 		areaLimit : [0,500,-1,-1],
-		price : {B:3000,Y:3000}
+		price : {B:3000,R:6000,Y:300000}
 	}
 };
 
@@ -338,7 +341,7 @@ var fishCraftShop = {
 	M : fishCraft.M,
 	A : fishCraft.A,
 	C_1 : fishCraft.C_1,
-	C_2 : fishCraft.C_2,
+	// C_2 : fishCraft.C_2,
 	N : fishCraft.N
 };
 

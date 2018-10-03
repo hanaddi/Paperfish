@@ -228,7 +228,7 @@ class Game{
 		let now = new Date();
 		let saya = this;
 		window.setTimeout(()=>{
-			ikan.kill(saya);
+			ikan.tryToKill(saya);
 		}, ikan.timeCreated + ikan.lifeSpan - now.getTime());
 
 	}

@@ -816,3 +816,74 @@ button.green:disabled{
 
 
 /**/
+
+.weed {
+	position: absolute;
+	top:  0px;
+	left: 0px;
+	width: 160px;
+	height: 100px;
+	overflow: visible;
+	margin: 0px;
+	padding: 0px;
+	cursor: pointer;
+
+	transition-duration: 1s;
+	transition-timing-function: cubic-bezier(.55,.07,.5,.98);
+	transform-origin: 50% 50%;
+	/*animation: birthIkan .5s;*/
+
+}
+.weed .daun{
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	height: 33px;
+	width: 200px;
+	/*background-image: url(img/f1.svg);*/
+	background-image: url(img/weed.svg);
+	background-repeat: no-repeat;
+	/*background-size: 200px 180px;*/
+	overflow: visible;
+	margin: 0px;
+	padding: 0px;
+	/*background-position: 0 -128px;*/
+
+	animation: daun 3s infinite cubic-bezier(.34,.01,.77,1.01);
+	/*transition-duration: 3s;*/
+	transform-origin: 50% 100%;
+
+	/*border: solid 2px green;*/
+}
+.weed .daun .daun{
+	/*bottom: 32px;*/
+	left: 0;
+
+	/*background-position: 0 -96px;*/
+	animation-delay: -1.6s;
+}
+.weed .daun .daun .daun{
+	/*background-position: 0 -64px;*/
+	animation-delay: -1.2s;
+}
+.weed .daun .daun .daun .daun{
+	/*background-position: 0 -32px;*/
+	animation-delay: -.8s;
+}
+.weed .daun .daun .daun .daun .daun{
+	/*background-position: 0 0;*/
+	animation-delay: -.4s;
+}
+
+
+@keyframes daun{
+	from{
+		transform: skewX(30deg);
+	}
+	50%{
+		transform: skewX(-20deg);
+	}
+	to{
+		transform: skewX(30deg);
+	}
+}

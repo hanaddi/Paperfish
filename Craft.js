@@ -29,8 +29,8 @@ class Craft {
 			this[i] = fishVar[i];
 		}
 		this.img = this.img || this.type;
-
 		this.areaLimit = this.areaLimit || [0,100,-1,-1];
+		this.dirLock = this.dirLock || false;
 
 
 
@@ -41,7 +41,7 @@ class Craft {
 		this.parentEl = parentEl;
 		this.speed = 50;
 
-		this.prepareAnim();
+		this.prepareAnim(this);
 
 		f.ac(this.elWrap,this.el);
 		f.ac(parentEl,this.elWrap);
@@ -60,7 +60,7 @@ class Craft {
 
 	}
 	moveArea(x,y){
-		let minx = this.areaLimit[0];
+		let minx = Math.max(this.length,this.areaLimit[0]);
 		let miny = this.areaLimit[1];
 		let maxx = Math.min(this.parentEl.offsetWidth ,this.areaLimit[2]==-1?this.parentEl.offsetWidth :this.areaLimit[2]);
 		let maxy = Math.min(this.parentEl.offsetHeight,this.areaLimit[3]==-1?this.parentEl.offsetHeight:this.areaLimit[3]);
@@ -133,13 +133,13 @@ class Craft {
 			delay = 2000;
 			this.dir = 1;
 			this.el.style.transitionDuration="2s";
-			this.el.style.transform=" perspective(400px) rotateY(180deg)";
+			this.el.style.transform=" perspective(400px) "+(this.dirLock?"":"rotateY(180deg)");
 		}else
 		if(x<this.x && this.dir==1){
 			delay = 2000;
 			this.dir = 0;
 			this.el.style.transitionDuration="2s";
-			this.el.style.transform=" perspective(400px) rotateY(0deg)";
+			this.el.style.transform=" perspective(400px) "+(this.dirLock?"":"rotateY(0deg)");
 		}
 
 		let distance = speed?1000/speed:Math.sqrt((this.x-x)*(this.x-x)+(this.y-y)*(this.y-y));
@@ -187,7 +187,6 @@ class Craft {
 
 
 	hint(game){
-
 
 		let length = this.length
 		let height = this.height

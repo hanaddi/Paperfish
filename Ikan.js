@@ -188,6 +188,23 @@ class Ikan{
 	// 	return ikan;
 	// }
 
+
+	tryToKill(game){
+		let saya = this;
+		// return;
+		let now = new Date();
+		if(saya.timeCreated + saya.lifeSpan <= now.getTime()){
+			// console.log("Ikan::tryToKill : "+saya.timeCreated);
+			saya.kill(game);
+		}
+		else{
+			window.setTimeout(()=>{
+				saya.tryToKill(game);
+			}, saya.timeCreated + saya.lifeSpan - now.getTime());
+		}
+	}
+	
+
 	kill(game=null){
 		try{
 			window.clearInterval(this.claimingInterval);

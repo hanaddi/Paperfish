@@ -42,6 +42,7 @@ class Ikan{
 		this.length = length;
 		this.height = height;
 		this.nextPos = null;
+		this.fishVar = {};
 
 
 		this.prepareAnim();

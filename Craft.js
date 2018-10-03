@@ -25,9 +25,15 @@ class Craft {
 
 
 		let fishVar = fishCraft[type]||fishs["B"];
-		// console.log(fishVar);
 		for(let i of Object.keys(fishVar)){
 			this[i] = fishVar[i];
+		}
+		this.img = this.img || this.type;
+
+		this.moveArea = this.moveArea || function(x,y){
+			x = Math.min(this.parentEl.offsetWidth-this.length, Math.max(  0,this.x + x));
+			y = Math.min(this.parentEl.offsetHeight-this.height,Math.max(100,this.y + y));
+			return [x,y];
 		}
 
 
@@ -40,34 +46,6 @@ class Craft {
 		this.speed = 50;
 
 		this.prepareAnim();
-
-		// this.elWrap = f.ce("div");
-		// f.sa(this.elWrap,"class","ikan");
-		// f.sa(this.elWrap,"style","z-index:6;");
-		// this.elWrap.style.height = height+"px";
-		// this.elWrap.style.width = (length)+"px";
-
-		// this.el = f.ce("div");
-		// f.sa(this.el,"class","ikan");
-		// this.el.style.height = height+"px";
-		// this.el.style.width = (length)+"px";
-
-		// this.el.style.transform=" perspective(400px) rotateY("+(180*this.dir|0)+"deg)";
-		// let el = this.el;
-		// length /= 5;
-		// for(let i=0;i<5;i++){
-		// 	f.ac(el,f.ce("div"));
-		// 	el = el.childNodes[0];
-		// 	f.sa(el,"class","ruas");
-		// 	el.style.width = (length+1)+"px";
-		// 	el.style.left = (i?length:0)+"px";
-		// 	el.style.height = height+"px";
-		// 	el.style.backgroundImage = "url('data:image/svg+xml;utf8, "+IMG.fishs[this.type]+"')";
-		// 	el.style.backgroundPosition = (-length*i)+"px 0";
-		// 	el.style.animationDuration = (1+3*this.length/200)+"s";
-		// }
-		// this.elWrap.style.left = this.x +"px";
-		// this.elWrap.style.top = this.y +"px";
 
 		f.ac(this.elWrap,this.el);
 		f.ac(parentEl,this.elWrap);
@@ -108,7 +86,7 @@ class Craft {
 			el.style.width = (length+1)+"px";
 			el.style.left = (i?length:0)+"px";
 			el.style.height = this.height+"px";
-			el.style.backgroundImage = "url('data:image/svg+xml;utf8, "+IMG.fishs[this.type]+"')";
+			el.style.backgroundImage = "url('data:image/svg+xml;utf8, "+IMG.fishs[this.img]+"')";
 			el.style.backgroundPosition = (-length*i)+"px 0";
 			el.style.animationDuration = (1+3*this.length/200)+"s";
 		}
@@ -139,8 +117,9 @@ class Craft {
 
 	move(x,y,speed=null,moveable=true){
 		if(moveable){
-			x = Math.min(this.parentEl.offsetWidth-this.length, Math.max(  0,this.x + x));
-			y = Math.min(this.parentEl.offsetHeight-this.height,Math.max(100,this.y + y));
+			// x = Math.min(this.parentEl.offsetWidth-this.length, Math.max(  0,this.x + x));
+			// y = Math.min(this.parentEl.offsetHeight-this.height,Math.max(100,this.y + y));
+			[x,y] = this.moveArea(x,y);
 		}
 		let delay = 0;
 		if(x>this.x && this.dir==0){
@@ -224,7 +203,7 @@ class Craft {
 			els[i].style.height = height+"px";
 			els[i].style.backgroundPosition = (-length*i)+"px 0";
 			els[i].style.animationDuration = (1+3*this.length/200)+"s";
-			els[i].style.backgroundImage = "url('data:image/svg+xml;utf8, "+IMG.fishs._hint(IMG.fishs[this.type])+"')";
+			els[i].style.backgroundImage = "url('data:image/svg+xml;utf8, "+IMG.fishs._hint(IMG.fishs[this.img])+"')";
 		}
 		
 
@@ -262,7 +241,7 @@ class CraftV extends Craft{
 			el.style.width = (length+1)+"px";
 			el.style.left = (i?length:0)+"px";
 			el.style.height = this.height+"px";
-			el.style.backgroundImage = "url('data:image/svg+xml;utf8, "+IMG.fishs[this.type]+"')";
+			el.style.backgroundImage = "url('data:image/svg+xml;utf8, "+IMG.fishs[this.img]+"')";
 			el.style.backgroundPosition = (-length*i)+"px 0";
 			el.style.animationDuration = (1+3*this.length/200)+"s";
 		}

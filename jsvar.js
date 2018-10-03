@@ -214,6 +214,51 @@ var fishCraft = {
 			g.uang+=4;g.viewMoney();
 		},
 		price : {B:100,R:50,Y:20}
+	},
+
+	C_1:{
+		name : 'C_1',
+		type : "C_1",
+		img : "_",
+		desc : "Generate 400<img src='"+IMG.icon.money+"' class='icon'>/min.<br>Show life bar on fish.",
+		length : 100,
+		height:42,
+		delay : 1000,
+		function0 :g=>{
+			g.ikan.map(ikan=>{
+				if(!ikan)return;
+				ikan.fishVar.C_1 = ikan.fishVar.C_1 || f.ce("div");
+				f.sa(ikan.fishVar.C_1,"class","C_1");
+				if(!ikan.elWrap.contains(ikan.fishVar.C_1)){
+					f.ac(ikan.elWrap,ikan.fishVar.C_1);
+				}
+				ikan.fishVar.C_1.innerHTML = ikan.lifeBar().outerHTML;
+				
+			});
+		},
+		function1 :g=>{
+			g.ikan.map(ikan=>{
+				if(!ikan)return;
+				if(ikan.elWrap.contains(ikan.fishVar.C_1)){
+					f.rc(ikan.elWrap,ikan.fishVar.C_1);
+				}
+				ikan.fishVar.C_1 = null;
+			});
+
+		},
+		function :g=>{
+
+			g.ikan.map(ikan=>{
+				if(!ikan)return;
+				ikan.fishVar.C_1 = ikan.fishVar.C_1 || f.ce("div");
+				f.sa(ikan.fishVar.C_1,"class","C_1");
+				if(!ikan.elWrap.contains(ikan.fishVar.C_1)){
+					f.ac(ikan.elWrap,ikan.fishVar.C_1);
+				}
+				ikan.fishVar.C_1.innerHTML = ikan.lifeBar().outerHTML;
+			});
+		},
+		price : {R:1000,Y:2000}
 	}
 };
 
@@ -223,6 +268,7 @@ var fishCraftShop = {
 	G1 : fishCraft.G1,
 	M : fishCraft.M,
 	A : fishCraft.A,
+	C_1 : fishCraft.C_1,
 	N : fishCraft.N
 };
 

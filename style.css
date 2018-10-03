@@ -778,7 +778,6 @@ button.green:disabled{
 
 /**/
 
-
 .sideMenu{
 	position: absolute;
 	width: 70px;
@@ -801,5 +800,17 @@ button.green:disabled{
 
 	transform: scale(1.1);
 }
+
+/**/
+.C_1{
+	position:absolute;
+	height:15px;
+	width:100px;
+	bottom:100%;
+	left:50%;
+	margin-left:-50px;
+	transform: scale(.5,.3);
+}
+
 
 /**/

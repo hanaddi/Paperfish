@@ -30,11 +30,7 @@ class Craft {
 		}
 		this.img = this.img || this.type;
 
-		this.moveArea = this.moveArea || function(x,y){
-			x = Math.min(this.parentEl.offsetWidth-this.length, Math.max(  0,this.x + x));
-			y = Math.min(this.parentEl.offsetHeight-this.height,Math.max(100,this.y + y));
-			return [x,y];
-		}
+		this.areaLimit = this.areaLimit || [0,100,-1,-1];
 
 
 
@@ -62,6 +58,16 @@ class Craft {
 		if(enableNotif){
 		}
 
+	}
+	moveArea(x,y){
+		let minx = this.areaLimit[0];
+		let miny = this.areaLimit[1];
+		let maxx = this.areaLimit[2]==-1?this.parentEl.offsetWidth :this.areaLimit[2];
+		let maxy = this.areaLimit[3]==-1?this.parentEl.offsetHeight:this.areaLimit[3];
+
+		x = Math.min(maxx-this.length, Math.max(minx,this.x + x));
+		y = Math.min(maxy-this.height,Math.max(miny,this.y + y));
+		return [x,y];
 	}
 
 	prepareAnim(){

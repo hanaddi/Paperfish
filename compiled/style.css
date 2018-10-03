@@ -439,8 +439,8 @@ button.green:disabled{
 .aqua{
 	position: relative;
 	width: 100%;
-	height: 90%;
-	top: 10%;
+	height: 80%;
+	top: 20%;
 	border: transparent;
 	overflow: visible;
 	/*background: #aaddff;*/

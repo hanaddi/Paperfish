@@ -3,6 +3,7 @@ body{
 	margin: 0px;
 	padding: 0px;
 	font-family: 'Do Hyeon', sans-serif;
+	cursor: default;
 
 	-webkit-user-select: none;
 	-moz-user-select: none;
@@ -451,16 +452,21 @@ button.green:disabled{
 	white-space: nowrap;
 }
 
-.amb{
+.aqua .amb{
 	position: absolute;
 	width: 100%;
-	height: 110%;
-	top: -10%;
+	height: 125%;
+	bottom: 0;
+
+	/*width: 100%;*/
+	/*height: 100%;*/
+	/*top: 0%;*/
+
 	border: transparent;
 	overflow: visible;
 	/*background: red;*/
-	/*background-image: url('img/weed.svg');*/
 	background-size: cover;
+	/*opacity: .5;*/
 }
 
 .aqua::before{

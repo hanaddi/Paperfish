@@ -109,6 +109,9 @@ class Game{
 				window.clearInteval(saya.saveInterval);
 			}catch(e){}
 			saya.el.aqua.innerHTML=null;
+			saya.el.amb = f.ce("div");
+			f.sa(saya.el.amb,"class","amb");
+			f.ac(saya.el.aqua,saya.el.amb);
 
 			saya.uang = 500;
 			saya.viewMoney();

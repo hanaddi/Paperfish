@@ -4,8 +4,8 @@
 
 window.onload = function(){
     PlayFab.settings.titleId = "EAC6";
-	// window.game = new Game(f.qs("#wadah"));
-	var game = new Game(f.qs("#wadah"));
+	window.game = new Game(f.qs("#wadah"));
+	// var game = new Game(f.qs("#wadah"));
 
 	let kongUser = function(){
 		console.log("---------------------------");

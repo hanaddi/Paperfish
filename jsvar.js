@@ -12,6 +12,14 @@ var f={
 		i>=60*60000?((i/60/60000|0)+"h "+((i%(60*60000))/60000|0 )+"m"):((i/60000|0 )+((i/60000|0 )>1?" minutes":" minute")),
 
 
+	credit:()=>{
+		let div = f.ce("div");
+
+		div.innerHTML = "<table style='text-align:left'><tr><td>Programming</td><td>:</td><td>Azpald</td></tr> <tr><td>Graphics</td><td>:</td><td>Azpald</td></tr> <tr><td>Music &amp; Sfx</td><td>:</td><td><i>nobody</i></td></tr> <tr><td>Special thanks to</td><td>:</td><td><a target='_blank' href='https://www.kongregate.com/accounts/instanceKilliN'>instanceKilliN</a></td></tr> </table>";
+
+		return div;
+	},
+
 	craft :{
 		weedAnim :saya=>{
 			saya.elWrap = f.ce("div");
@@ -51,8 +59,33 @@ var f={
 
 			f.ac(saya.elWrap,saya.el);
 			f.ac(saya.parentEl,saya.elWrap);
+		
+		},
+		swanAnim:saya=>{
+			saya.elWrap = f.ce("div");
+			f.sa(saya.elWrap,"class","ikan");
+			f.sa(saya.elWrap,"style","z-index:6;");
+			saya.elWrap.style.height = saya.height+"px";
+			saya.elWrap.style.width = saya.length+"px";
+
+			saya.el = f.ce("div");
+			f.sa(saya.el,"class","ikan");
+			saya.el.style.height = saya.height+"px";
+			saya.el.style.width = saya.length+"px";
+			saya.el.style.transform=" perspective(400px) rotateY("+(180*saya.dir|0)+"deg)";
+			saya.el.style.backgroundImage = "url('data:image/svg+xml;utf8, "+IMG.fishs[saya.img]+"')";
+			saya.el.style.backgroundSize= "contain";
+			saya.el.style.backgroundPosition= "center center";
+			saya.el.style.backgroundRepeat= "no-repeat";
+
+			saya.elWrap.style.left = saya.x +"px";
+			saya.elWrap.style.top = saya.y +"px";
+
+			f.ac(saya.elWrap,saya.el);
+			f.ac(saya.parentEl,saya.elWrap);
 
 		}
+
 	},
 
 	null	:null
@@ -89,6 +122,7 @@ var IMG = {
 
 		C_1		:"%3Csvg%20width%3D%2270.556mm%22%20height%3D%2228.222mm%22%20version%3D%221.1%22%20viewBox%3D%220%200%20250%20100%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Acc%3D%22http%3A%2F%2Fcreativecommons.org%2Fns%23%22%20xmlns%3Adc%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Felements%2F1.1%2F%22%20xmlns%3Ardf%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%22%3E%3Cmetadata%3E%3Crdf%3ARDF%3E%3Ccc%3AWork%20rdf%3Aabout%3D%22%22%3E%3Cdc%3Aformat%3Eimage%2Fsvg%2Bxml%3C%2Fdc%3Aformat%3E%3Cdc%3Atype%20rdf%3Aresource%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Fdcmitype%2FStillImage%22%2F%3E%3Cdc%3Atitle%2F%3E%3C%2Fcc%3AWork%3E%3C%2Frdf%3ARDF%3E%3C%2Fmetadata%3E%3Cg%20transform%3D%22translate(-169.69%20-280.27)%22%3E%3Cpath%20d%3D%22m339.09%20368.09%200.73652-9.4447%208.6368-5.8551%2015.231-5.4128-46.168%203.6258%209.5699%2010.968z%22%20fill%3D%22%239bb9e0%22%2F%3E%3Cpath%20d%3D%22m287.33%20280.27%202.8197%2028.612%2031.238%2015.465%2041.337%2014.69-125.3-9.8402%2018.789-24.659z%22%20fill%3D%22%23435e81%22%2F%3E%3Cpath%20d%3D%22m418.41%20374.99-23.418-30.125%2024.705-29.665-23.979%2010.092-18.689%2014.777-3.6589%205.1006%204.206%205.2572%2015.844%2011.19z%22%20fill%3D%22%23435e81%22%2F%3E%3Cpath%20d%3D%22m266.73%20363.08%2040.413%207.58-42.678-5.2452-13.935-5.8556%202.6767-4.7268z%22%20fill%3D%22%232d415b%22%2F%3E%3Cpath%20d%3D%22m255.17%20356.03%2010.996%209.5922-3.7659-4.0211z%22%20fill-opacity%3D%22.35673%22%2F%3E%3Cpath%20d%3D%22m266.36%20365.79%2038.625%2014.473-41.234-12.564-12.796-8.187%203.4002-4.1968z%22%20fill%3D%22%232d415b%22%2F%3E%3Cpath%20d%3D%22m363.7%20347.38-15.898%204.987-9.4583%205.5884%200.75141%2010.137%200.73649-9.445%208.6365-5.8544z%22%20fill-opacity%3D%22.23392%22%2F%3E%3Cpath%20d%3D%22m239.56%20327.34%2022.213-1.908%2064.853%207.298%2069.892%2010.378%200.82928%204.5726-69.1%206.761-78.166%208.9415-14.864-3.5842z%22%20fill%3D%22%236b90c0%22%2F%3E%3Cpath%20d%3D%22m312.94%20340.82-72.379-2.7972%201.9829%202.5598%2068.135%201.7466%2086.35%203.1735z%22%20fill-opacity%3D%22.32749%22%2F%3E%3Cpath%20d%3D%22m287.33%20280.27-23.242%2029.25-1.7012%2023.74%2044.346%201.3806-27.534-22.441z%22%20fill-opacity%3D%22.099415%22%2F%3E%3Cpath%20d%3D%22m261.78%20325.44-22.214%201.9077%200.56374%2013.692%2072.814-0.21285%2084.089%204.6825-0.5091-2.3932-69.891-10.378z%22%20fill%3D%22%235b79a1%22%2F%3E%3Cpath%20d%3D%22m242.17%20326.72-13.418-0.0313-15.159%209.4194-43.895%206.1723%2040.68%204.0035%2010.194%202.6843-19.159%202.4525%2022.684%205.1614%2011.441%204.1109%2012.811-12.305%200.14185-11.15z%22%20fill%3D%22%2380a6d7%22%2F%3E%3Cpath%20d%3D%22m220.57%20348.97-19.16%202.4528%2022.685%205.1602%2011.44%204.1118%204.8505-4.6588z%22%20fill%3D%22%23fff%22%20fill-opacity%3D%22.21637%22%2F%3E%3Cpath%20d%3D%22m220.57%20348.97%2018.953%207.8954%200.86307-0.82952z%22%20fill-opacity%3D%22.21637%22%2F%3E%3Cpath%20d%3D%22m220.57%20348.97-19.16%202.4528%2021.675-1.3348%2017.302%205.9479z%22%20fill-opacity%3D%22.49708%22%2F%3E%3Cpath%20d%3D%22m225.52%20336.47%204.5178%203.0322-4.4506%203.0755-4.7692-3.0322z%22%20stroke%3D%22%23fff%22%20stroke-linecap%3D%22square%22%20stroke-width%3D%221.6996%22%2F%3E%3Cpath%20d%3D%22m228.75%20326.69-15.159%209.4192-43.894%206.1727%2043.75-4.6681z%22%20fill%3D%22%23fff%22%20fill-opacity%3D%22.32749%22%2F%3E%3Cpath%20d%3D%22m242.17%20326.72%206.3196%2010.517-0.14193%2011.15-12.812%2012.306%2013.734-10.391%200.65593-11.469z%22%20fill-opacity%3D%22.20468%22%2F%3E%3Cpath%20d%3D%22m265.11%20348.91%2014.95%202.2762-14.374%201.7757-7.6705%201.4036-4.7883-2.6764%201.2094-3.7908z%22%20fill-opacity%3D%22.30409%22%2F%3E%3Cpath%20d%3D%22m265.18%20344.24%2015.313%200.77113-13.43%206.8175-9.049%202.5324-4.7883-2.6764%201.6447-5.8978z%22%20fill%3D%22%232d415b%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E",
 		C_2		:"%3Csvg%20width%3D%2228.222mm%22%20height%3D%2228.222mm%22%20version%3D%221.1%22%20viewBox%3D%220%200%20100%20100%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Acc%3D%22http%3A%2F%2Fcreativecommons.org%2Fns%23%22%20xmlns%3Adc%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Felements%2F1.1%2F%22%20xmlns%3Ardf%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%22%3E%3Cmetadata%3E%3Crdf%3ARDF%3E%3Ccc%3AWork%20rdf%3Aabout%3D%22%22%3E%3Cdc%3Aformat%3Eimage%2Fsvg%2Bxml%3C%2Fdc%3Aformat%3E%3Cdc%3Atype%20rdf%3Aresource%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Fdcmitype%2FStillImage%22%2F%3E%3Cdc%3Atitle%2F%3E%3C%2Fcc%3AWork%3E%3C%2Frdf%3ARDF%3E%3C%2Fmetadata%3E%3Cg%20transform%3D%22translate(-181.5%20-256.43)%22%3E%3Cg%20transform%3D%22matrix(1.0552%200%200%201.0076%20-10.023%20-2.6956)%22%3E%3Cpath%20d%3D%22m275.07%20320.71%201.2062-12.07-5.5927%205.661-10.226%2017.539z%22%20fill%3D%22%23227000%22%2F%3E%3Cpath%20d%3D%22m251.88%20303.77-2.0361-10.196%2011.962-15.827-3.7485%2016.047z%22%20fill%3D%22%23144200%22%2F%3E%3Cpath%20d%3D%22m261.28%20312.05-11.436-18.471-3.4631%2012.348%202.0361%2016.441z%22%20fill%3D%22%231f7b18%22%2F%3E%3Cpath%20d%3D%22m230.32%20281.98%2010.846-6.6713-14.201-18.126-0.96411%2015.537z%22%20fill%3D%22%23227000%22%2F%3E%3Cpath%20d%3D%22m230.32%20281.98%2010.846-6.6713-14.442%2029.16-6.2666-10.864z%22%20fill%3D%22%232d9300%22%2F%3E%3Cpath%20d%3D%22m183.66%20304.35%201.3937-27.174%207.403%2027.977-2.5882%2014.564z%22%20fill%3D%22%2337960d%22%2F%3E%3Cpath%20d%3D%22m191.22%20335.28%206.371-19.49-5.1398-10.639-10.95%2020.672z%22%20fill%3D%22%2337960d%22%2F%3E%3Cpath%20d%3D%22m206.75%20272.21%204.9828%2021.062-7.7507%2012.685-3.6574-18.124z%22%20fill%3D%22%23227000%22%2F%3E%3Cpath%20d%3D%22m212.54%20302.99-0.81187-9.7268-12.619%2016.497%207.5168%2010.107z%22%20fill%3D%22%232d9300%22%2F%3E%3Cpath%20d%3D%22m217.3%20327.09-11.943%209.763v13.807l11.943%205.763h16.891l11.943-5.763v-13.807l-11.943-9.763z%22%20fill%3D%22%231f7b18%22%2F%3E%3Cpath%20d%3D%22m217.3%20327.09-11.943%209.763-6.5002-16.64%200.25365-10.453z%22%20fill%3D%22%232d9300%22%2F%3E%3Cpath%20d%3D%22m205.36%20336.86v13.807l-21.864-12.61-1.9909-12.231z%22%20fill%3D%22%2337960d%22%2F%3E%3Cpath%20d%3D%22m217.3%20327.09%208.6769-12.188%2011.347-7.6839-3.1333%2019.872z%22%20fill%3D%22%23227000%22%2F%3E%3Cpath%20d%3D%22m218.03%20304.04%207.9538%2010.864%2011.347-7.6839-16.872-13.622z%22%20fill%3D%22%232d9300%22%2F%3E%3Cpath%20d%3D%22m205.36%20350.66%2011.943%205.763h16.891l11.943-5.763v-13.807z%22%20fill%3D%22%2382ff80%22%20fill-opacity%3D%22.16374%22%2F%3E%3Cpath%20d%3D%22m261.28%20312.05-1.313%2013.053-13.827%2011.757-11.943-9.763z%22%20fill%3D%22%232d9300%22%2F%3E%3Cpath%20d%3D%22m275.07%20320.71-6.1222%209.8032-22.806%2020.15v-13.807z%22%20fill%3D%22%232d9300%22%2F%3E%3Ccircle%20transform%3D%22matrix(.95841%20-.28541%20.28541%20.95841%200%200)%22%20cx%3D%22110.55%22%20cy%3D%22394.97%22%20r%3D%223.0908%22%20stroke%3D%22%23fff%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%221.0451%22%2F%3E%3Ccircle%20transform%3D%22matrix(.95841%20-.28541%20.28541%20.95841%200%200)%22%20cx%3D%22123.97%22%20cy%3D%22398.96%22%20r%3D%223.0908%22%20stroke%3D%22%23fff%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%221.0451%22%2F%3E%3Cpath%20d%3D%22m205.36%20336.86v13.807l-1.3839-0.76759%200.20332-8.2606z%22%20fill-opacity%3D%22.33333%22%2F%3E%3Cpath%20d%3D%22m181.51%20325.82%2011.127%205.1471%201.1897-3.639z%22%20fill-opacity%3D%22.28655%22%2F%3E%3Cpath%20d%3D%22m185.05%20277.18%202.5952%2031.015%205e-4%206.0356%204.8066-9.0742z%22%20fill-opacity%3D%22.28655%22%2F%3E%3Cpath%20d%3D%22m199.11%20309.76%208.2891%207.8971%202.4992-7.1311z%22%20fill-opacity%3D%22.23977%22%2F%3E%3Cpath%20d%3D%22m220.45%20293.6%208.3203%206.7188%205.7016-11.512z%22%20fill-opacity%3D%22.22222%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E",
+		C_3		:"%3Csvg%20width%3D%2256.444mm%22%20height%3D%2242.333mm%22%20version%3D%221.1%22%20viewBox%3D%220%200%20200%20150%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Acc%3D%22http%3A%2F%2Fcreativecommons.org%2Fns%23%22%20xmlns%3Adc%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Felements%2F1.1%2F%22%20xmlns%3Ardf%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%22%3E%3Cmetadata%3E%3Crdf%3ARDF%3E%3Ccc%3AWork%20rdf%3Aabout%3D%22%22%3E%3Cdc%3Aformat%3Eimage%2Fsvg%2Bxml%3C%2Fdc%3Aformat%3E%3Cdc%3Atype%20rdf%3Aresource%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Fdcmitype%2FStillImage%22%2F%3E%3Cdc%3Atitle%2F%3E%3C%2Fcc%3AWork%3E%3C%2Frdf%3ARDF%3E%3C%2Fmetadata%3E%3Cg%20transform%3D%22translate(-159.62%20-225.73)%22%3E%3Cg%20transform%3D%22translate(-278.36%20-38.231)%22%3E%3Cpath%20d%3D%22m580%20374.44%2052.444%2016.824-38.582%2019.976-125.75-34.309%2061.318-46.44%2085.274%203.9035z%22%20fill%3D%22%23e6e6e6%22%2F%3E%3Cpath%20d%3D%22m580%20374.44%2037.968%2012.069-24.106%2024.731-119.9-39.592%2054.542-40.893%2080.962%209.1866z%22%20fill-opacity%3D%22.56725%22%2F%3E%3Cpath%20d%3D%22m483.8%20373.3%2015.027-76.116-7.0856-23.352-32.924%203.2396-20.847%207.3294%2038.242%203.6078-1.6079%2013.695-23.31%2083.799%2039.745%2028.449%20104.02-0.35085%2042.905-64.952-102.66-17z%22%20fill%3D%22%23e6e6e6%22%2F%3E%3Cpath%20d%3D%22m455.89%20268.8%2018.582-4.8401%2018.025%209.5316-17.18%2014.905-19.294-0.79491z%22%20fill%3D%22%23e6e6e6%22%2F%3E%3Cpath%20d%3D%22m467.28%20273.53%203.1559%201.8167-3.109%201.8426-3.3315-1.8166z%22%20stroke%3D%22%23fff%22%20stroke-linecap%3D%22square%22%20stroke-width%3D%221.0995%22%2F%3E%3Cpath%20d%3D%22m474.61%20301.71%2020.084%200.65417-14.217%2080.861%202.1976%2010.365-31.375-8.0796%2039.747%2028.448%2032.635-0.10997%20105.58-54.921%208.7177-10.273-102.66-16.998-51.512%2041.649%2015.029-76.117zm-18.647-23.627-1.8721%207.9104%201.9297%200.11579z%22%20fill-opacity%3D%22.56725%22%2F%3E%3Cpath%20d%3D%22m491.82%20274.08-16.013%2013.892%200.40876%200.0394-0.41287%202.5184%2016.471-14.981z%22%20fill-opacity%3D%22.38012%22%2F%3E%3Cpath%20d%3D%22m535.31%20331.66-51.368%2041.782-2.3584%209.6969%202.2318%208.8777%207.8264%2021.932%2032.033-0.0987%2095.105-55.184%2019.188-10.009z%22%20fill%3D%22%23ccc%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E",
 
 		weed	:"%3Csvg%20width%3D%2256.444mm%22%20height%3D%2256.444mm%22%20version%3D%221.1%22%20viewBox%3D%220%200%20200%20200%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Acc%3D%22http%3A%2F%2Fcreativecommons.org%2Fns%23%22%20xmlns%3Adc%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Felements%2F1.1%2F%22%20xmlns%3Ardf%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%22%3E%3Cmetadata%3E%3Crdf%3ARDF%3E%3Ccc%3AWork%20rdf%3Aabout%3D%22%22%3E%3Cdc%3Aformat%3Eimage%2Fsvg%2Bxml%3C%2Fdc%3Aformat%3E%3Cdc%3Atype%20rdf%3Aresource%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Fdcmitype%2FStillImage%22%2F%3E%3Cdc%3Atitle%2F%3E%3C%2Fcc%3AWork%3E%3C%2Frdf%3ARDF%3E%3C%2Fmetadata%3E%3Cg%20transform%3D%22translate(160.82%20-264.94)%22%3E%3Cg%20transform%3D%22matrix(.93537%200%200%201.0866%20-83.246%20-40.259)%22%3E%3Cpath%20d%3D%22m-25.6%20280.91%2032.82%20127.2%206.6878%2052.664h-6.3522z%22%20fill%3D%22%23008000%22%20stroke%3D%22%23e3951d%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.059033%22%2F%3E%3Cpath%20d%3D%22m-25.6%20280.91%2032.82%20127.2%206.6878%2052.664h-3.9327z%22%20fill%3D%22%23008080%22%20stroke%3D%22%23e3951d%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.059033%22%2F%3E%3Cpath%20d%3D%22m-25.6%20280.91%2033.156%20179.87h2.4197%203.9327l-6.6879-52.665z%22%20fill%3D%22%23d0b80e%22%20fill-opacity%3D%22.33918%22%20stroke%3D%22%23e3951d%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.059033%22%2F%3E%3Cpath%20d%3D%22m-82.9%20280.91%2067.917%20127.2%2027.531%2052.664h-6.8541z%22%20fill%3D%22%23008000%22%20stroke%3D%22%23e3951d%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.059033%22%2F%3E%3Cpath%20d%3D%22m-82.9%20280.91%2067.917%20127.2%2027.531%2052.664h-5.5986z%22%20fill%3D%22%23008080%22%20stroke%3D%22%23e3951d%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.059033%22%2F%3E%3Cpath%20d%3D%22m-82.9%20280.91%2088.594%20179.87h1.2557%205.5986l-27.531-52.665z%22%20fill%3D%22%23d0b80e%22%20fill-opacity%3D%22.33918%22%20stroke%3D%22%23e3951d%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.059033%22%2F%3E%3Cpath%20d%3D%22m17.067%20280.91%203.7562%20127.2-5.5884%2052.664h-6.5435z%22%20fill%3D%22%23008000%22%20stroke%3D%22%23e3951d%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.059033%22%2F%3E%3Cpath%20d%3D%22m17.067%20280.91%203.7562%20127.2-5.5884%2052.664h-3.8881z%22%20fill%3D%22%23008080%22%20stroke%3D%22%23e3951d%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.059033%22%2F%3E%3Cpath%20d%3D%22m17.067%20280.91-8.3757%20179.87h2.6556%203.8881l5.5883-52.665z%22%20fill%3D%22%23d0b80e%22%20fill-opacity%3D%22.33918%22%20stroke%3D%22%23e3951d%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.059033%22%2F%3E%3Cpath%20d%3D%22m4.0355%20454.6%208.355%200.30108%207.8973%2010.011h-23.322z%22%20fill%3D%22%23bd7107%22%2F%3E%3Cpath%20d%3D%22m4.0355%20454.6%203.5861%200.30108-2.2365%2010.011h-8.4189z%22%20fill-opacity%3D%22.16959%22%2F%3E%3Cpath%20transform%3D%22matrix(1.0003%200%200%20.9203%2030.856%20280.88)%22%20d%3D%22m-113.72%200.03125%2086.104%20190.01-6.2598%209.9277h8.416%2014.898l-4.8379-6.6641%205.373-55.051v-2e-3l-3.7559-138.22-6.9746%20162.79-2.8691-24.564v-2e-3l-32.811-138.22%2030.428%20179.42-19.814-41.195v-2e-3l-67.896-138.22z%22%20fill-opacity%3D%22.54971%22%20stroke%3D%22%23e3951d%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.061527%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22matrix(.93537%200%200%201.0866%20-64.614%20-40.259)%22%3E%3Cpath%20d%3D%22m8.8127%20316.62%204.5731%20101.96-3.6371%2042.211h-5.0914z%22%20fill%3D%22%23008000%22%20stroke%3D%22%23e3951d%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.047315%22%2F%3E%3Cpath%20d%3D%22m8.8127%20316.62%204.5731%20101.96-3.6371%2042.211h-3.1521z%22%20fill%3D%22%23008080%22%20stroke%3D%22%23e3951d%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.047315%22%2F%3E%3Cpath%20d%3D%22m8.8126%20316.62-4.1555%20144.17h1.9394%203.1521l3.6371-42.211z%22%20fill%3D%22%23d0b80e%22%20fill-opacity%3D%22.33918%22%20stroke%3D%22%23e3951d%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.047315%22%2F%3E%3Cpath%20d%3D%22m-37.114%20316.62%2032.704%20101.96%2013.069%2042.211h-5.4936z%22%20fill%3D%22%23008000%22%20stroke%3D%22%23e3951d%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.047315%22%2F%3E%3Cpath%20d%3D%22m-37.114%20316.62%2032.704%20101.96%2013.069%2042.211h-4.4873z%22%20fill%3D%22%23008080%22%20stroke%3D%22%23e3951d%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.047315%22%2F%3E%3Cpath%20d%3D%22m-37.114%20316.62%2040.279%20144.17h1.0064%204.4873l-13.069-42.211z%22%20fill%3D%22%23d0b80e%22%20fill-opacity%3D%22.33918%22%20stroke%3D%22%23e3951d%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.047315%22%2F%3E%3Cpath%20d%3D%22m43.011%20316.62-20.722%20101.96-11.477%2042.211h-5.2447z%22%20fill%3D%22%23008000%22%20stroke%3D%22%23e3951d%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.047315%22%2F%3E%3Cpath%20d%3D%22m43.011%20316.62-20.722%20101.96-11.477%2042.211h-3.1163z%22%20fill%3D%22%23008080%22%20stroke%3D%22%23e3951d%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.047315%22%2F%3E%3Cpath%20d%3D%22m43.011%20316.62-37.443%20144.17h2.1285%203.1163l11.477-42.211z%22%20fill%3D%22%23d0b80e%22%20fill-opacity%3D%22.33918%22%20stroke%3D%22%23e3951d%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.047315%22%2F%3E%3Cpath%20d%3D%22m4.0355%20454.6%208.355%200.30108%207.8973%2010.011h-23.322z%22%20fill%3D%22%23bd7107%22%2F%3E%3Cpath%20transform%3D%22matrix(-1%200%200%201%2049.026%20280.86)%22%20d%3D%22m44.99%20173.74-8.3555%200.30079-7.8965%2010.012h14.902l-2.2363-10.012%203.5859-0.30079z%22%20fill-opacity%3D%22.30994%22%2F%3E%3Cpath%20transform%3D%22matrix(-1.0003%200%200%20.9203%2029.029%20280.88)%22%20d%3D%22m-13.977%2038.832%2020.715%20110.79%209.8789%2039.496v2e-3l-3.8906%205.3594-3.9883%205.4941v2e-3h14.898v-2e-3h8.416l-5.2207-8.2773%2039.291-152.86-32.693%20110.79-9.4043%2033.018-3.8145-143.8-4.5723%20110.79%201.5605%2019.686-31.176-130.47z%22%20fill-opacity%3D%22.081871%22%20stroke%3D%22%23e3951d%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.049314%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22matrix(-.93566%200%200%20.99999%20-81.498%20.0034275)%22%3E%3Cg%20transform%3D%22matrix(.9997%200%200%201.0866%20-.012975%20-40.262)%22%3E%3Cpath%20d%3D%22m10.265%20280.91%205.7056%20127.2-4.5379%2052.664h-6.3522z%22%20fill%3D%22%23008000%22%20stroke%3D%22%23e3951d%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.059033%22%2F%3E%3Cpath%20d%3D%22m10.265%20280.91%205.7056%20127.2-4.5379%2052.664h-3.9327z%22%20fill%3D%22%23008080%22%20stroke%3D%22%23e3951d%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.059033%22%2F%3E%3Cpath%20d%3D%22m10.265%20280.91-5.1846%20179.87h2.4197%203.9327l4.5379-52.665z%22%20fill%3D%22%23d0b80e%22%20fill-opacity%3D%22.33918%22%20stroke%3D%22%23e3951d%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.059033%22%2F%3E%3Cpath%20d%3D%22m-47.035%20280.91%2040.803%20127.2%2016.305%2052.664h-6.8541z%22%20fill%3D%22%23008000%22%20stroke%3D%22%23e3951d%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.059033%22%2F%3E%3Cpath%20d%3D%22m-47.035%20280.91%2040.803%20127.2%2016.305%2052.664h-5.5986z%22%20fill%3D%22%23008080%22%20stroke%3D%22%23e3951d%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.059033%22%2F%3E%3Cpath%20d%3D%22m-47.035%20280.91%2050.254%20179.87h1.2557%205.5986l-16.305-52.665z%22%20fill%3D%22%23d0b80e%22%20fill-opacity%3D%22.33918%22%20stroke%3D%22%23e3951d%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.059033%22%2F%3E%3Cpath%20d%3D%22m52.932%20280.91-23.358%20127.2-16.814%2052.664h-6.5435z%22%20fill%3D%22%23008000%22%20stroke%3D%22%23e3951d%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.059033%22%2F%3E%3Cpath%20d%3D%22m52.932%20280.91-23.358%20127.2-16.814%2052.664h-3.8881z%22%20fill%3D%22%23008080%22%20stroke%3D%22%23e3951d%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.059033%22%2F%3E%3Cpath%20d%3D%22m52.932%20280.91-46.716%20179.87h2.6556%203.8881l16.814-52.665z%22%20fill%3D%22%23d0b80e%22%20fill-opacity%3D%22.33918%22%20stroke%3D%22%23e3951d%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.059033%22%2F%3E%3Cpath%20d%3D%22m4.0355%20454.6%208.355%200.30108%207.8973%2010.011h-23.322z%22%20fill%3D%22%23bd7107%22%2F%3E%3Cpath%20d%3D%22m4.0355%20454.6%203.5861%200.30108-2.2365%2010.011h-8.4189z%22%20fill-opacity%3D%22.16959%22%2F%3E%3C%2Fg%3E%3Cpath%20d%3D%22m-47.035%20264.97%2049.249%20191.6-5.2601%208.3405h8.4174%2014.898l-6.2969-8.6758%2015.579-53.042%2023.352-138.22-38.898%20162.79%201.9467-24.569-5.7034-138.22-4.7564%20179.42-11.737-41.195-40.79-138.22z%22%20fill-opacity%3D%22.30409%22%20stroke%3D%22%23e3951d%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.061527%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22matrix(.93537%200%200%201.0866%20-83.327%20-40.259)%22%3E%3Cpath%20d%3D%22m8.8127%20316.62%204.5731%20101.96-3.6371%2042.211h-5.0914z%22%20fill%3D%22%23008000%22%20stroke%3D%22%23e3951d%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.047315%22%2F%3E%3Cpath%20d%3D%22m8.8127%20316.62%204.5731%20101.96-3.6371%2042.211h-3.1521z%22%20fill%3D%22%23008080%22%20stroke%3D%22%23e3951d%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.047315%22%2F%3E%3Cpath%20d%3D%22m8.8126%20316.62-4.1555%20144.17h1.9394%203.1521l3.6371-42.211z%22%20fill%3D%22%23d0b80e%22%20fill-opacity%3D%22.33918%22%20stroke%3D%22%23e3951d%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.047315%22%2F%3E%3Cpath%20d%3D%22m-37.114%20316.62%2032.704%20101.96%2013.069%2042.211h-5.4936z%22%20fill%3D%22%23008000%22%20stroke%3D%22%23e3951d%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.047315%22%2F%3E%3Cpath%20d%3D%22m-37.114%20316.62%2032.704%20101.96%2013.069%2042.211h-4.4873z%22%20fill%3D%22%23008080%22%20stroke%3D%22%23e3951d%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.047315%22%2F%3E%3Cpath%20d%3D%22m-37.114%20316.62%2040.279%20144.17h1.0064%204.4873l-13.069-42.211z%22%20fill%3D%22%23d0b80e%22%20fill-opacity%3D%22.33918%22%20stroke%3D%22%23e3951d%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.047315%22%2F%3E%3Cpath%20d%3D%22m43.011%20316.62-20.722%20101.96-11.477%2042.211h-5.2447z%22%20fill%3D%22%23008000%22%20stroke%3D%22%23e3951d%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.047315%22%2F%3E%3Cpath%20d%3D%22m43.011%20316.62-20.722%20101.96-11.477%2042.211h-3.1163z%22%20fill%3D%22%23008080%22%20stroke%3D%22%23e3951d%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.047315%22%2F%3E%3Cpath%20d%3D%22m43.011%20316.62-37.443%20144.17h2.1285%203.1163l11.477-42.211z%22%20fill%3D%22%23d0b80e%22%20fill-opacity%3D%22.33918%22%20stroke%3D%22%23e3951d%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.047315%22%2F%3E%3Cpath%20d%3D%22m4.0355%20454.6%208.355%200.30108%207.8973%2010.011h-23.322z%22%20fill%3D%22%23bd7107%22%2F%3E%3Cpath%20transform%3D%22matrix(-1%200%200%201%2049.026%20280.86)%22%20d%3D%22m44.99%20173.74-8.3555%200.30079-7.8965%2010.012h14.902l-2.2363-10.012%203.5859-0.30079z%22%20fill-opacity%3D%22.30994%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22matrix(-.93537%200%200%201.0866%20-38.388%20-40.259)%22%3E%3Cpath%20d%3D%22m-25.6%20280.91%2032.82%20127.2%206.6878%2052.664h-6.3522z%22%20fill%3D%22%23008000%22%20stroke%3D%22%23e3951d%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.059033%22%2F%3E%3Cpath%20d%3D%22m-25.6%20280.91%2032.82%20127.2%206.6878%2052.664h-3.9327z%22%20fill%3D%22%23008080%22%20stroke%3D%22%23e3951d%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.059033%22%2F%3E%3Cpath%20d%3D%22m-25.6%20280.91%2033.156%20179.87h2.4197%203.9327l-6.6879-52.665z%22%20fill%3D%22%23d0b80e%22%20fill-opacity%3D%22.33918%22%20stroke%3D%22%23e3951d%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.059033%22%2F%3E%3Cpath%20d%3D%22m-82.9%20280.91%2067.917%20127.2%2027.531%2052.664h-6.8541z%22%20fill%3D%22%23008000%22%20stroke%3D%22%23e3951d%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.059033%22%2F%3E%3Cpath%20d%3D%22m-82.9%20280.91%2067.917%20127.2%2027.531%2052.664h-5.5986z%22%20fill%3D%22%23008080%22%20stroke%3D%22%23e3951d%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.059033%22%2F%3E%3Cpath%20d%3D%22m-82.9%20280.91%2088.594%20179.87h1.2557%205.5986l-27.531-52.665z%22%20fill%3D%22%23d0b80e%22%20fill-opacity%3D%22.33918%22%20stroke%3D%22%23e3951d%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.059033%22%2F%3E%3Cpath%20d%3D%22m17.067%20280.91%203.7562%20127.2-5.5884%2052.664h-6.5435z%22%20fill%3D%22%23008000%22%20stroke%3D%22%23e3951d%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.059033%22%2F%3E%3Cpath%20d%3D%22m17.067%20280.91%203.7562%20127.2-5.5884%2052.664h-3.8881z%22%20fill%3D%22%23008080%22%20stroke%3D%22%23e3951d%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.059033%22%2F%3E%3Cpath%20d%3D%22m17.067%20280.91-8.3757%20179.87h2.6556%203.8881l5.5883-52.665z%22%20fill%3D%22%23d0b80e%22%20fill-opacity%3D%22.33918%22%20stroke%3D%22%23e3951d%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%22.059033%22%2F%3E%3Cpath%20d%3D%22m4.0355%20454.6%208.355%200.30108%207.8973%2010.011h-23.322z%22%20fill%3D%22%23bd7107%22%2F%3E%3Cpath%20d%3D%22m4.0355%20454.6%203.5861%200.30108-2.2365%2010.011h-8.4189z%22%20fill-opacity%3D%22.16959%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E",
 
@@ -107,7 +141,7 @@ var fishs = {
 	B:{
 		name : 'Blu',
 		type : "B",
-		lvlUpCost : 50,
+		lvlUpCost : 100,
 		lifeSpan : 20*60*1000,
 		claimBase : 3,
 		price : 100,
@@ -116,7 +150,7 @@ var fishs = {
 	R:{
 		name : 'Red',
 		type : "R",
-		lvlUpCost : 100,
+		lvlUpCost : 200,
 		lifeSpan : 20*60*1000,
 		claimBase : 3,
 		price : 150,
@@ -125,7 +159,7 @@ var fishs = {
 	Y:{
 		name : 'Orang',
 		type : "Y",
-		lvlUpCost : 100,
+		lvlUpCost : 200,
 		lifeSpan : 20*60*1000,
 		claimBase : 3,
 		price : 150,
@@ -139,7 +173,7 @@ var fishs = {
 		name : 'Nilo',
 		img : "D",
 		type : "v2_A",
-		lvlUpCost : 100,
+		lvlUpCost : 200,
 		lifeSpan : 20*60*1000,
 		curr : ["B"],
 		claimBase : [6],
@@ -151,7 +185,7 @@ var fishs = {
 		name : 'Lisa',
 		img : "B1",
 		type : "v2_B",
-		lvlUpCost : 100,
+		lvlUpCost : 200,
 		lifeSpan : 20*60*1000,
 		// lifeSpan : 10000,
 		curr : ["R","Y"],
@@ -164,7 +198,7 @@ var fishs = {
 		name : 'Fred',
 		img : "C",
 		type : "v2_D",
-		lvlUpCost : 200,
+		lvlUpCost : 400,
 		lifeSpan : 5*60*1000,
 		curr : ["R"],
 		claimBase : [12],
@@ -176,7 +210,7 @@ var fishs = {
 		name : 'Nani',
 		img : "S",
 		type : "v2_C",
-		lvlUpCost : 200,
+		lvlUpCost : 500,
 		lifeSpan : 86399999,
 		curr : ["B","R","Y"],
 		claimBase : [2,2,2],
@@ -188,7 +222,7 @@ var fishs = {
 		name : 'Nimo',
 		img : "V2_1",
 		type : "v2_E",
-		lvlUpCost : 200,
+		lvlUpCost : 400,
 		lifeSpan : 2400000,
 		// lifeSpan : 15000,
 		curr : ["B","R"],
@@ -350,13 +384,31 @@ var fishCraft = {
 				ikan.timeCreated =Math.min(ikan.timeCreated+4000,now.getTime());
 				
 				if(ikan.level<3){
-					ikan.nextPos={x:s.x+300*(Math.random()-.5),y:s.y-100*Math.random()};
+					ikan.nextPos={x:s.x+200*(Math.random()-.5),y:s.y-50*Math.random()};
 				}
 			});
 			// console.log(s.x, s.y);
 
 		},
 		areaLimit : [0,500,-1,-1],
+		price : {B:30000,R:600000,Y:600000}
+	},
+	C_3:{
+		name : 'Cob',
+		type : "C_3",
+		img : "C_3",
+		desc : "",
+		length : 70,
+		height:50,
+		delay : 4000,
+		prepareAnim :f.craft.swanAnim,
+		function0 :g=>{
+		},
+		function1 :g=>{
+		},
+		function :(g,s)=>{
+		},
+		areaLimit : [0,0,-1,10],
 		price : {B:30000,R:600000,Y:600000}
 	}
 };
@@ -369,6 +421,7 @@ var fishCraftShop = {
 	A : fishCraft.A,
 	C_1 : fishCraft.C_1,
 	C_2 : fishCraft.C_2,
+	// C_3 : fishCraft.C_3,
 	N : fishCraft.N
 };
 
@@ -378,6 +431,6 @@ var fishCraftShop = {
 var GUIDE = {
 	"Currencies":"There are two types of currencies: paper and coin.<br><br><strong>Paper</strong>. Mainly papers are used to unlock <b>Creatures</b>. There are are three types papers: <img src='"+IMG.icon.paper+"' class='icon coinB'>, <img src='"+IMG.icon.paper+"' class='icon coinR'>, and <img src='"+IMG.icon.paper+"' class='icon coinY'>. Each paper are produced by specific fish. The maximum ammount of each paper you can store is <strong>2.000.000</strong>.<br><br><strong>Coin</strong>. Coin ( <img src='"+IMG.icon.money+"' class='icon'>) used for buying and upgrading <b>Fishs</b>. Coins are produced by <b>Creatures</b>. The maximum ammount of Coin you can store is <strong>2.000.000.000</strong>.",
 	"Fish":"Fish can be bought from <b>Fish shop( <img src='"+IMG.icon.shop+"' class='icon'>)</b>. Fish are used to producing paper. Click on fish to show its stats. Upgrade it to earn more coin. Fish always producing paper even when you offline.<br><br>Tank have limited amount of fish. Each fish have their own lifespan ( <img src='"+IMG.icon.heart+"' class='icon'>). Fish will disappear when its lifespan is over. So, you can buy a new one.",
-	"Creatures":"Creatures can be crafted on <b>Creatures Craft ( <img src='"+IMG.icon.craft+"' class='icon'>)</b>. Most Creatures have special abilities. It also generating coin. Creatures have unlimited lifespan, but it works only when you are online. You can place it on tank at most 10 Creatures.",
+	"Creatures":"Creatures can be crafted on <b>Creatures Craft ( <img src='"+IMG.icon.craft+"' class='icon'>)</b>. Most Creatures have special abilities. It also generating coin. Creatures have unlimited lifespan, but it works only when you are online. You can place it on tank at most 5 Creatures.",
 	"Tank":"Tank level affects how many fish you can place in it. Upgrade the tank to increase the limit."
 };

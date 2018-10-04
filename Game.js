@@ -35,7 +35,7 @@ class Game{
 		this.craftUnlocked = ["G"];
 		this.craftObj = [];
 		this.craft = [];
-		this.craftMaxItem = 10;
+		this.craftMaxItem = 5;
 		this.glassLvlUpCost = 1000;
 		this.glassLvl = 1;
 		this.onModalRemoved = [];
@@ -326,7 +326,7 @@ class Game{
 		if(this.parentEl.contains(this.el.modal)){
 
 		}else{
-			this.el.title.innerText = title;
+			this.el.title.innerHTML = title;
 			this.el.popUp.style.width = "95%";
 			this.el.popUp.style.height = "400px";
 			this.el.popUp.style.opacity = 0;
@@ -342,7 +342,7 @@ class Game{
 		if(this.parentEl.contains(this.el.modal)){
 
 		}else{
-			this.el.title.innerText = title;
+			this.el.title.innerHTML = title;
 			this.el.popUp.style.width = "400px";
 			this.el.popUp.style.height = "auto";
 			this.el.popUp.style.opacity = 0;
@@ -371,10 +371,15 @@ class Game{
 
 	// visual
 	viewLogo(){
+		let saya = this;
 		let logo = f.ce("img");
 		f.sa(logo,"class","logo");
 		f.sa(logo,"src",IMG.logo);
-		logo.innerHTML = "&nbsp;";
+		logo.onclick=e=>{
+			saya.el.content.innerHTML = "";
+			saya.showModalInfo("<img src='"+IMG.logo+"' class='icon'>", f.credit().outerHTML);
+		};
+		// logo.innerHTML = "&nbsp;";
 		// logo.style.backgroundImage = "url('"+IMG.logo+"')";
 		f.ac(this.el.topBar,logo);
 	}
@@ -531,7 +536,7 @@ class Game{
 					for(let i of saya.craft){
 						saya.removeCraft(i);
 					}
-					JSON.parse(r.data.Data.craft.Value).map(e=>{
+					JSON.parse(r.data.Data.craft.Value).slice(0,saya.craftMaxItem).map(e=>{
 						try{
 							saya.addCraft(e);
 						}catch(e){}

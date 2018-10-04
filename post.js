@@ -4,7 +4,8 @@
 
 window.onload = function(){
     PlayFab.settings.titleId = "EAC6";
-	window.game = new Game(f.qs("#wadah"));
+	// window.game = new Game(f.qs("#wadah"));
+	var game = new Game(f.qs("#wadah"));
 
 	let kongUser = function(){
 		console.log("---------------------------");
@@ -84,6 +85,10 @@ window.onload = function(){
 		// f.ac(game.el.amb,(i=f.ce("div"))&&(f.sa(i,"style","position:absolute;bottom:0;left:"+((game.el.amb.offsetWidth%50)/2)+"px;width:"+(game.el.amb.offsetWidth/50|0)*50+"px;height:50px;background-image:url('data:image/svg+xml;utf8, "+IMG.fishs.weed+"');background-size:50px;background-repeat:repeat-x")||1)&&i);
 		// f.ac(game.el.amb,(i=f.ce("div"))&&(f.sa(i,"style","position:absolute;bottom:0;left:0px;width:100%;height:50px;background-image:url('data:image/svg+xml;utf8, "+IMG.fishs.weed+"');background-size:50px;background-repeat:space")||1)&&i);
 		// f.ac(game.el.amb,(i=f.ce("div"))&&(f.sa(i,"style","position:absolute;bottom:0;left:0px;width:100%;height:30px;background-image:url('../img/t2.svg');background-size:30px;background-repeat:repeat-x")||1)&&i);
+	// };
+
+	// window.test2 = function(x="grass"){
+	// 	let tank = new Tank(game,x);
 	// };
 
 }

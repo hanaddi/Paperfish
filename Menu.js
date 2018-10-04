@@ -197,7 +197,8 @@ class Menu{
 					fishShop[i] = fishCraft[i];
 				}
 			}
-			for(let i of Object.keys(fishCraftShop)){
+			for(let i of Object.keys(fishCraftShop).sort((a,b)=>Object.values(fishCraftShop[b].price).reduce((c,d)=>c+d) < Object.values(fishCraftShop[a].price).reduce((c,d)=>c+d)?1:-1)){
+			// for(let i of Object.keys(fishCraftShop)){
 				if(!fishShop[i]){
 					fishShop[i] = fishCraftShop[i];
 				}
@@ -261,6 +262,28 @@ class Menu{
 						f.sa(buy,"disabled","");
 					}
 				}
+
+
+				let update = window.setInterval(()=>{
+					try{
+
+						let disabled = false;
+						for(let j of Object.keys(fishShop[i].price)){
+							if(this.game.paper[j]<fishShop[i].price[j]){
+								disabled = true;
+							}
+						}
+						if(disabled){
+							f.sa(buy,"disabled","");
+						}else{
+							f.ra(buy,"disabled");
+						}
+					}catch(e){
+						console.log(e);
+					}
+				}, 1000);
+				this.game.onModalRemoved.push(()=>{window.clearInterval(update)});
+
 				f.ac(div1, div2);
 				f.ac(div1, buy);
 			}else

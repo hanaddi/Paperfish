@@ -203,9 +203,6 @@ var fishShop = {};
 Object.keys(fishs).sort((a,b)=>fishs[a].price>fishs[b].price?1:-1).map(e=>fishShop[e]=fishs[e]);
 
 
-
-
-
 var fishCraft = {
 	G:{
 		name : 'Mini Gold',

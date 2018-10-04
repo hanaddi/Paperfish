@@ -297,6 +297,7 @@ class Game{
 			this.paper[i] -= fishCraft[type].price[i];
 		}
 		this.viewPaper();
+		try{kongregate.stats.submit("craft", this.craftUnlocked.length);}catch(e){}
 	}
 
 	showModalInfo(title="",info=""){
@@ -560,6 +561,7 @@ class Game{
 	}
 
 	saveData(){
+		try{kongregate.stats.submit("craft", this.craftUnlocked.length);}catch(e){}
 		let param = {
 			Data:{
 				glassLvl: this.glassLvl,
@@ -578,6 +580,7 @@ class Game{
 				craft:JSON.stringify(this.craft),
 				craftUnlocked:JSON.stringify(this.craftUnlocked)
 			}
+			// ,Permission: "Public"
 		};
 		let saya = this;
 		let saving = function(r,e){

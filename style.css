@@ -742,6 +742,11 @@ button.green:disabled{
 
 	border-radius: 5px;
 }
+
+#shopMenuSelected{
+	box-shadow: 0px 0px 5px #fa0,0px 0px 5px #fa0,0px 0px 5px #fa0;
+}
+
 .shopMenu>div{
 	margin: 5px;
 	color: #fff;

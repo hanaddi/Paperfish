@@ -198,7 +198,9 @@ class Craft {
 		// this.el.style.width = (length)+"px";
 
 		// length /= 5;
-		let els = this.el.querySelectorAll(".ikan .ikan .ruas");
+		// let els = this.el.querySelectorAll(".ikan .ikan .ruas");
+		// let els = this.elWrap.querySelectorAll(".ikan");
+		let els = this.elWrap.getElementsByTagName('div');
 
 		for(let i in els){
 			if(!els[i].style){
@@ -209,17 +211,46 @@ class Craft {
 			// els[i].style.height = height+"px";
 			// els[i].style.backgroundPosition = (-length*i)+"px 0";
 			// els[i].style.animationDuration = (1+3*this.length/200)+"s";
-			els[i].style.backgroundImage = "url('data:image/svg+xml;utf8, "+IMG.fishs._hint(IMG.fishs[this.img])+"')";
+
+			if(els[i].style.backgroundImage){
+				els[i].style.backgroundImage = "url('data:image/svg+xml;utf8, "+IMG.fishs._hint(IMG.fishs[this.img])+"')";
+			}
 		}
 
-		els = this.el.querySelectorAll(".weed .weed .daun");
+
+	}
+
+	unHint(game){
+
+		// let length = this.length
+		// let height = this.height
+
+		// this.elWrap.style.height = height+"px";
+		// this.elWrap.style.width = (length)+"px";
+
+		// this.el.style.height = height+"px";
+		// this.el.style.width = (length)+"px";
+
+		// length /= 5;
+		// let els = this.el.querySelectorAll(".ikan .ikan .ruas");
+		// let els = this.elWrap.querySelectorAll(".ikan");
+		let els = this.elWrap.getElementsByTagName('div');
+
 		for(let i in els){
 			if(!els[i].style){
 				continue;
 			}
-			els[i].style.backgroundImage = "url('data:image/svg+xml;utf8, "+IMG.fishs._hint(IMG.fishs[this.img])+"')";
+			// els[i].style.width = (length+1)+"px";
+			// els[i].style.left = (parseInt(i)?length:0)+"px";
+			// els[i].style.height = height+"px";
+			// els[i].style.backgroundPosition = (-length*i)+"px 0";
+			// els[i].style.animationDuration = (1+3*this.length/200)+"s";
+
+			if(els[i].style.backgroundImage){
+				els[i].style.backgroundImage = "url('data:image/svg+xml;utf8, "+(IMG.fishs[this.img])+"')";
+			}
 		}
-		
+
 
 	}
 

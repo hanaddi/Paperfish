@@ -64,9 +64,10 @@ class Menu{
 		let saya = this;
 		let click = function(){
 			saya.game.el.content.innerHTML = "";
-			let div = saya.fishCraft();
+			let div = saya.fishCraft1();
 			f.ac(saya.game.el.content, div );
-			saya.game.showModalWide("Creatures Craft ("+saya.game.craft.length+"/"+saya.game.craftMaxItem+")");
+			// saya.game.showModalWide("Creatures Craft ("+saya.game.craft.length+"/"+saya.game.craftMaxItem+")");
+			saya.game.showModalWide("Creatures Craft");
 			// window.setTimeout(()=>{
 			// 	div.scrollTop = saya.vars.scrollTop;
 			// },5000);
@@ -364,6 +365,215 @@ class Menu{
 
 			f.ac(menu, div1);
 			f.ac(div, menu);
+		}
+
+		return div;
+	}
+
+
+	fishCraft1(scrollTop=0,short=null){
+		let saya = this;
+		let fishShop = {};
+		let div = f.ce("div");
+		f.sa(div,"class",'tank');
+		// f.sa(div,"style","overflow-y:scroll;max-height:350px;margin:10px 0px;position:relative;");
+		div.onscroll =e=>{scrollTop=div.scrollTop;};
+
+		if(!short){
+			for(let i of this.game.craftUnlocked.sort((a,b)=> this.game.craft.indexOf(a)!=-1?-1:this.game.craft.indexOf(b)!=-1?1: Object.values(fishCraft[b].price).reduce((c,d)=>c+d) < Object.values(fishCraft[a].price).reduce((c,d)=>c+d)?1:-1)){
+				if(!fishShop[i]){
+					fishShop[i] = fishCraft[i];
+				}
+			}
+
+			for(let i of Object.keys(fishCraftShop).sort((a,b)=>Object.values(fishCraftShop[b].price).reduce((c,d)=>c+d) < Object.values(fishCraftShop[a].price).reduce((c,d)=>c+d)?1:-1)){
+				if(!fishShop[i]){
+					fishShop[i] = fishCraftShop[i];
+				}
+			}
+			short = Object.keys(fishShop);
+		}else{
+			for(let i of short){
+				if(!fishShop[i]){
+					fishShop[i] = fishCraft[i];
+				}
+			}
+		}
+
+		let divLeft = f.ce("div");
+		f.sa(divLeft,"class","left");
+		f.ac(div,divLeft);
+		let divRight = f.ce("div");
+		f.sa(divRight,"class","right");
+		f.ac(div,divRight);
+		divRight.style.overflowY = "scroll";
+
+		let divTitle = f.ce("div");
+		f.sa(divTitle,"class",'title1');
+		f.ac(divLeft, divTitle);
+
+		let divDesc = f.ce("div");
+		f.sa(divDesc,"style","height:200px;overflow-y:hidden");
+		f.ac(divLeft, divDesc);
+
+		let divAct = f.ce("div");
+		f.sa(divAct,"style","text-align:center;position:absolute;width:100%;bottom:10px;");
+		f.ac(divLeft, divAct);
+
+
+		// if(0)
+		for(let i of Object.keys(fishShop)){
+			let menu = f.ce("div");
+			f.sa(menu,"class","shopMenu");
+			menu.style.height = "auto";
+			menu.style.width = "auto";
+			menu.style.padding = "0";
+			menu.style.margin = "3px";
+			menu.style.cursor = "pointer";
+
+			let aquaMini = f.ce("div");
+			f.sa(aquaMini,"class","aquaMini");
+			// aquaMini.style.transform = "scale(.5)";
+			aquaMini.style.height = "50px";
+			aquaMini.style.width = "80px";
+			f.ac(menu,aquaMini);
+			let ikan = new Craft((80-fishShop[i].length)/2 ,(50-fishShop[i].height)/2,aquaMini, 200, 200, fishShop[i].type,false,false,1);
+			ikan.elWrap.style.transform = "scale(.5)";
+
+			let div1 = f.ce("div");
+			f.sa(div1,"class","center");
+
+			let icon = f.ce("img");
+			f.sa(icon,"class","icon");
+			f.sa(icon,"src",IMG.icon.check);
+			icon.style.position = "absolute";
+			icon.style.left = "0";
+			icon.style.top = "0";
+			icon.style.opacity = 0;
+
+
+			let updateState = function(saya,i,refresh=true){
+				let div1 = f.ce("div");
+				if(saya.game.craftUnlocked.indexOf(i)==-1){
+					menu.style.backgroundColor = "#777777";
+					ikan.hint();
+					let buy = f.ce("button");
+					buy.onclick = function(){
+						saya.game.unlockCraft(i);
+						menu.style.backgroundColor = "";
+						ikan.unHint();
+						updateState(saya,i);
+						// console.log("Menu::fishCraft1 : unlock craft");
+					}
+					buy.innerHTML = " Unlock ";
+
+					let div2 = f.ce("div");
+					// f.sa(div2,"style","text-align:left;");
+					div2.innerHTML = "";
+					let idx=-1;
+					for(let j of Object.keys(fishShop[i].price)){
+						div2.innerHTML += fishShop[i].price[j]?" <img src='"+IMG.icon.paper+"' class='icon coin"+j+"'>"+f.numFormat(fishShop[i].price[j])+(++idx%2?"<br>":""):"";
+						if(saya.game.paper[j]<fishShop[i].price[j]){
+							f.sa(buy,"disabled","");
+						}
+					}
+
+
+					let update = window.setInterval(()=>{
+						try{
+
+							let disabled = false;
+							for(let j of Object.keys(fishShop[i].price)){
+								if(saya.game.paper[j]<fishShop[i].price[j]){
+									disabled = true;
+								}
+							}
+							if(disabled){
+								f.sa(buy,"disabled","");
+							}else{
+								f.ra(buy,"disabled");
+							}
+						}catch(e){
+							console.log(e);
+						}
+					}, 1000);
+					saya.game.onModalRemoved.push(()=>{window.clearInterval(update)});
+
+					f.ac(div1, div2);
+					f.ac(div1, buy);
+				}else
+				if(saya.game.craft.indexOf(i)==-1){
+
+					let totalIkan = 0;
+					saya.game.craft.map(e=>e && (totalIkan++) );
+
+					let buy = f.ce("button");
+					f.sa(buy,"class","green");
+
+					buy.onclick = function(){
+						saya.game.addCraft(fishShop[i].type);
+						f.sa(icon,"src",IMG.icon.check);
+						icon.style.opacity = 1;
+						updateState(saya,i);
+					}
+
+
+					buy.innerHTML = " Insert to tank ";
+					if(totalIkan>=saya.game.craftMaxItem){
+						buy.innerHTML = " Remove others first ";
+						f.sa(buy,"disabled","");
+					}
+
+					f.ac(div1, buy);
+
+				}else{
+					f.sa(icon,"src",IMG.icon.check);
+					icon.style.opacity = 1;
+
+					let buy = f.ce("button");
+					f.sa(buy,"class","red");
+
+
+					((buy,saya,i)=>{
+						buy.onclick = function(){
+							saya.game.removeCraft(i);
+							// console.log("NOOO ",i);
+							icon.style.opacity = 0;
+							updateState(saya,i);
+
+						}
+					})(buy,saya,fishShop[i].type);
+
+
+					buy.innerHTML = " Remove from tank ";
+
+					f.ac(div1, buy);
+
+				}
+
+				if(refresh){
+					divAct.innerHTML = "";
+					f.ac(divAct, div1);
+				}
+				return div1;
+			};
+
+			// div1 = updateState(saya,i);
+
+			updateState(saya,i,false);
+			f.ac(menu, icon);
+			((menu,i,div1)=>{
+				menu.onclick = function(e){
+					divTitle.innerHTML = fishShop[i].name;
+					divDesc.innerHTML = fishShop[i].desc;
+					updateState(saya,i);
+					try{f.qs("#shopMenuSelected").id="";}catch(e){}
+					menu.id="shopMenuSelected";
+					// divAct.innerHTML = "";
+					// f.ac(divAct, div1);
+				};
+			})(menu,i,div1);
+			f.ac(divRight, menu);
 		}
 
 		return div;

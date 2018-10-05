@@ -20,7 +20,7 @@ class Game{
 		f.ac(this.parentEl,this.el.bottomBar);
 
 		// tutup
-		this.el.tutup = document.querySelector(".tutup");
+		this.el.tutup = f.qs(".tutup");
 		// this.el.tutup = f.ce("div");
 		// f.sa(this.el.tutup,"class","tutup");
 		// this.el.tutup.innerHTML = "<div class='d'>Paperfish</div>Please wait...";

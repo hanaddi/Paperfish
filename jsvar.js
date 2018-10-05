@@ -360,7 +360,7 @@ var fishCraft = {
 			});
 		},
 		areaLimit : [0,-15,-1,-1],
-		price : {R:1000,Y:2000}
+		price : {R:5000,Y:2000}
 	},
 	C_2:{
 		name : 'Siwid',
@@ -397,19 +397,25 @@ var fishCraft = {
 		name : 'Cob',
 		type : "C_3",
 		img : "C_3",
-		desc : "",
+		desc : "Level up the littlest fish every 4 minutes, if you have enough <img src='"+IMG.icon.money+"' class='icon'>.",
 		length : 70,
 		height:50,
-		delay : 4000,
+		delay : 240000,
+		// delay : 4000,
 		prepareAnim :f.craft.swanAnim,
 		function0 :g=>{
 		},
 		function1 :g=>{
 		},
 		function :(g,s)=>{
+			let ikan = g.ikan.sort((a,b)=>!a?1:!b?-1:b.level<a.level?1:-1);
+			if(ikan[0] && ikan[0].level<ikan[0].maxLevel){
+				ikan[0].levelUp(g,false);
+				g.viewMoney();
+			}
 		},
 		areaLimit : [0,0,-1,10],
-		price : {B:30000,R:600000,Y:600000}
+		price : {B:10000,R:100000,Y:200000}
 	}
 };
 
@@ -421,7 +427,7 @@ var fishCraftShop = {
 	A : fishCraft.A,
 	C_1 : fishCraft.C_1,
 	C_2 : fishCraft.C_2,
-	// C_3 : fishCraft.C_3,
+	C_3 : fishCraft.C_3,
 	N : fishCraft.N
 };
 

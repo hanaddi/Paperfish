@@ -192,11 +192,18 @@ class Menu{
 		div.onscroll =e=>{scrollTop=div.scrollTop;};
 
 		if(!short){
-			for(let i of this.game.craftUnlocked){
+			// for(let i of this.game.craft.sort((a,b)=>Object.values(fishCraft[b].price).reduce((c,d)=>c+d) < Object.values(fishCraft[a].price).reduce((c,d)=>c+d)?1:-1)){
+			// 	if(!fishShop[i]){
+			// 		fishShop[i] = fishCraft[i];
+			// 	}
+			// }
+
+			for(let i of this.game.craftUnlocked.sort((a,b)=> this.game.craft.indexOf(a)!=-1?-1:this.game.craft.indexOf(b)!=-1?1: Object.values(fishCraft[b].price).reduce((c,d)=>c+d) < Object.values(fishCraft[a].price).reduce((c,d)=>c+d)?1:-1)){
 				if(!fishShop[i]){
 					fishShop[i] = fishCraft[i];
 				}
 			}
+
 			for(let i of Object.keys(fishCraftShop).sort((a,b)=>Object.values(fishCraftShop[b].price).reduce((c,d)=>c+d) < Object.values(fishCraftShop[a].price).reduce((c,d)=>c+d)?1:-1)){
 			// for(let i of Object.keys(fishCraftShop)){
 				if(!fishShop[i]){

@@ -227,9 +227,17 @@ class Ikan{
 		},this.elWrap.style.transitionDuration.slice(0,-1)*1000);
 	}
 
-	levelUp(game){
+	levelUp(game,free = true){
 		let saya = this;
 		if(this.level>=this.maxLevel)return;
+
+		// normalnya free=true karena uang sudah dikurangi sebelum ikan level up
+		if(!free){
+			let lvlUpCost = Math.pow(2,this.level)*this.lvlUpCost;
+			if(game.uang<lvlUpCost)return;
+			game.uang-=lvlUpCost;
+		}
+		
 		this.level++;
 		try{
 			paperClaim(game,true);

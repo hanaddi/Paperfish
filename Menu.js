@@ -456,11 +456,14 @@ class Menu{
 				let div1 = f.ce("div");
 				if(saya.game.craftUnlocked.indexOf(i)==-1){
 					menu.style.backgroundColor = "#777777";
+					aquaMini.style.backgroundColor = "#bbb";
 					ikan.hint();
 					let buy = f.ce("button");
 					buy.onclick = function(){
 						saya.game.unlockCraft(i);
 						menu.style.backgroundColor = "";
+						aquaMini.style.backgroundColor = "";
+						icon.style.opacity = 0;
 						ikan.unHint();
 						updateState(saya,i);
 						// console.log("Menu::fishCraft1 : unlock craft");
@@ -477,6 +480,10 @@ class Menu{
 							f.sa(buy,"disabled","");
 						}
 					}
+					if(!buy.disabled){
+						f.sa(icon,"src",IMG.icon.warn);
+						icon.style.opacity = 1;
+					}
 
 
 					let update = window.setInterval(()=>{
@@ -492,6 +499,10 @@ class Menu{
 								f.sa(buy,"disabled","");
 							}else{
 								f.ra(buy,"disabled");
+								if(saya.game.craftUnlocked.indexOf(i)==-1){
+									f.sa(icon,"src",IMG.icon.warn);
+									icon.style.opacity = 1;
+								}
 							}
 						}catch(e){
 							console.log(e);

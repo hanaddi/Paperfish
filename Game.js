@@ -252,7 +252,7 @@ class Game{
 		ikan.intervalFunction(this);
 		this.craft.push(type);
 		this.craftObj.push(ikan);
-		ikan.function0(this);
+		ikan.function0(this,ikan);
 	}
 
 	removeCraft(type){

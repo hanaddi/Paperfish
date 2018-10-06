@@ -60,6 +60,9 @@ class Craft {
 
 	}
 	moveArea(x,y){
+		let saya=this;
+		this.areaLimit = this.areaLimit.map((e,i)=>(typeof e === 'string')?(i%2?saya.parentEl.offsetHeight:saya.parentEl.offsetWidth)+parseInt(e):e);
+		// console.log(this.areaLimit);
 		let minx = Math.max(this.length,this.areaLimit[0]);
 		let miny = this.areaLimit[1];
 		let maxx = Math.min(this.parentEl.offsetWidth ,this.areaLimit[2]==-1?this.parentEl.offsetWidth :this.areaLimit[2]);
@@ -170,7 +173,7 @@ class Craft {
 		this.el.classList.add("death");
 
 		if(game){
-			this.function1(game);
+			this.function1(game,this);
 			let idx = game.craft.indexOf(this.type);
 			if(idx!=-1){
 				game.craft.splice(idx,1);

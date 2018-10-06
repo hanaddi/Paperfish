@@ -103,6 +103,49 @@ button.green:disabled{
 	background-color: #e3951d;
 	border-radius: 50%;
 }
+
+.goyang{
+	transform-origin: center center;
+	animation: bergoyang 1s linear infinite;
+	/*animation-delay: 1s;*/
+}
+@keyframes bergoyang{
+	from{
+		transform: rotate(10deg) scale(1.2);
+	}
+	10%{
+		transform: rotate(0deg) scale(1.2);
+	}
+	25%{
+		transform: rotate(10deg) scale(1.2);
+	}
+	35%{
+		transform: rotate(0deg) scale(1.2);
+	}
+	50%{
+		transform: rotate(10deg) scale(1.2);
+	}
+	60%{
+		transform: rotate(0deg) scale(1.2);
+	}
+	75%{
+		transform: rotate(10deg) scale(1.2);
+	}
+	to{
+		transform: rotate(10deg) scale(1.2);
+	}
+}
+.notifAngka{
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: 3px 6px;
+	color: #fff;
+	font-size: 14px;
+	background-color: #ff1111;
+
+	border-radius: 50%;
+}
 /*******************************************************************/
 .ikan{
 	position: absolute;

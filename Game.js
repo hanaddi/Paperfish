@@ -228,6 +228,8 @@ class Game{
 			this.showModal(ikan.name+" Fish");
 		}
 		ikan.paperIntervalClaim(this);
+		this.menu.updateMenuBuyIkan();
+
 		let now = new Date();
 		let saya = this;
 		window.setTimeout(()=>{

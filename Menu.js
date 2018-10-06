@@ -83,14 +83,59 @@ class Menu{
 			saya.game.el.content.innerHTML = "";
 			if(saya.game.glassLvl*2+1 > totalIkan){
 				f.ac(saya.game.el.content, saya.fishShop());
-				saya.game.showModalWide("Fish Shop");
+				saya.game.showModalWide("Fish Shop ("+totalIkan+"/"+(saya.game.glassLvl*2+1)+")");
 			}else{
 				// alert("penuh");
 				saya.game.showModalInfo("Insufficient Space","Tank is full ("
 					+totalIkan+"/"+(saya.game.glassLvl*2+1)+"). Upgrade your tank to place more fish.");
 			}
 		};
-		this.addMenu("menuSave",0,"Shop",IMG.icon.shop,click);
+		this.addMenu("menuShop",0,"Shop",IMG.icon.shop,click);
+
+		// alert
+		if(0){
+			// let icon = f.ce("img");
+			// f.sa(icon,"class","icon goyang");
+			// f.sa(icon,"src",IMG.icon.warn);
+			// icon.style.position = "absolute";
+			// icon.style.left = "0";
+			// icon.style.top = "0";
+			// icon.style.display = "none";
+			// f.ac(this.el.menuShop,icon);
+			// this.updateMenuBuyIkan = function(){
+			// 	try{
+			// 		let totalIkan = 0;
+			// 		saya.game.ikan.map(e=>e && (totalIkan++) );
+			// 		if(saya.game.glassLvl*2+1 > totalIkan){
+			// 			icon.style.display = "";
+			// 		}else{
+			// 			icon.style.display = "none";
+			// 		}
+			// 	}catch(e){}
+			// };
+			// this.updateMenuBuyIkan();
+		}else{
+			let notif = f.ce("div");
+			f.sa(notif,"class","notifAngka");
+			f.ac(this.el.menuShop,notif);
+			this.updateMenuBuyIkan = function(){
+				try{
+					let totalIkan = 0;
+					saya.game.ikan.map(e=>e && (totalIkan++) );
+					if(saya.game.glassLvl*2+1 > totalIkan){
+						// notif.innerHTML = ""+totalIkan+"/"+(saya.game.glassLvl*2+1)+"";
+						notif.innerHTML = (saya.game.glassLvl*2+1)-totalIkan;
+						notif.style.display = "";
+					}else{
+						notif.style.display = "none";
+					}
+				}catch(e){}
+			};
+			this.updateMenuBuyIkan();
+		}
+
+
+
 	}
 
 
@@ -171,7 +216,10 @@ class Menu{
 					console.log(e);
 				}
 			}, 1000);
-			this.game.onModalRemoved.push(()=>{window.clearInterval(update)});
+			this.game.onModalRemoved.push(()=>{
+				window.clearInterval(update);
+				saya.updateMenuBuyIkan();
+			});
 
 			if(this.game.uang<fishShop[i].price){
 				f.sa(buy,"disabled","");
@@ -444,7 +492,7 @@ class Menu{
 			f.sa(div1,"class","center");
 
 			let icon = f.ce("img");
-			f.sa(icon,"class","icon");
+			f.sa(icon,"class","icon goyang");
 			f.sa(icon,"src",IMG.icon.check);
 			icon.style.position = "absolute";
 			icon.style.left = "0";
@@ -680,6 +728,11 @@ class Menu{
 
 		f.ac(div, div1);
 		f.ac(div, div2);
+
+
+		this.game.onModalRemoved.push(()=>{
+			saya.updateMenuBuyIkan();
+		});
 
 		return div;
 	}

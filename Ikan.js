@@ -217,6 +217,7 @@ class Ikan{
 			if(idx!=-1){
 				game.ikan[idx] = null;
 			}
+			game.menu.updateMenuBuyIkan();
 		}
 
 		let saya = this;

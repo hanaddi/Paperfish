@@ -619,6 +619,9 @@ class Game{
 		let saving = function(r,e){
 			if(r!==null){
 				saya.viewStatus("Game saved.");
+				window.setTimeout(()=>{
+					saya.saveDataPublic();
+				},5000);
 			}
 		};
 		PlayFabClientSDK.UpdateUserData(param,saving);
@@ -627,15 +630,20 @@ class Game{
 	saveDataPublic(){
 		let param = {
 			Data:{
-				savePublic :{
+				savePublic :JSON.stringify({
 					glassLvl: this.glassLvl,
 					ikan1:JSON.stringify(this.ikan.map(e=>{
 						try{
 							return e.save();
 						}catch(e){}
 					})),
-					craft:JSON.stringify(this.craft)
-				}
+					craft:JSON.stringify(this.craft),
+					tankItems:this.tankItems.map(e=>{
+						try{
+							return [e.item.save(),e.index];
+						}catch(e){}
+					})
+				})
 
 			},
 			Permission: "Public"

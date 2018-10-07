@@ -309,17 +309,21 @@ return [e.item.save(),e.index];}catch(e){}
 }
 };let saya = this;let saving = function(r,e){
 if(r!==null){
-saya.viewStatus("Game saved.");}
+saya.viewStatus("Game saved.");window.setTimeout(()=>{
+saya.saveDataPublic();},5000);}
 };PlayFabClientSDK.UpdateUserData(param,saving);}
 saveDataPublic(){
 let param = {
 Data:{
-savePublic :{
+savePublic :JSON.stringify({
 glassLvl: this.glassLvl,ikan1:JSON.stringify(this.ikan.map(e=>{
 try{
 return e.save();}catch(e){}
-})),craft:JSON.stringify(this.craft)
-}
+})),craft:JSON.stringify(this.craft),tankItems:this.tankItems.map(e=>{
+try{
+return [e.item.save(),e.index];}catch(e){}
+})
+})
 },Permission: "Public"
 };let saya = this;let saving = function(r,e){
 if(r!==null){
@@ -814,9 +818,9 @@ this.elWrap.style.left = this.x +"px";this.elWrap.style.top = this.y +"px";f.ac(
 }
 var tankItems = {
 grass :{
-name :"Grass",type :"grass",price:{B:1},money:2,width :"100%",height :"30px",el : (i=f.ce("div"))&&(f.sa(i,"style","position:absolute;bottom:0;left:0px;width:100%;height:30px;background-image:url('../img/t2.svg');background-size:30px;background-repeat:repeat-x")||1)&&i
+name :"Grass",type :"grass",price:{B:50000,Y:50000},money:2,width :"100%",height :"30px",el : (i=f.ce("div"))&&(f.sa(i,"style","position:absolute;bottom:0;left:0px;width:100%;height:30px;background-image:url('../img/t2.svg');background-size:30px;background-repeat:repeat-x")||1)&&i
 },rocks :{
-name :"Rocks",type :"rocks",price:{B:100000,R:200000},money:2,width :"100px",height :"125px",el : (i=f.ce("div"))&&(f.sa(i,"style","position:absolute;bottom:0;left:0px;width:100px;height:125px;background-image:url('../img/t3.svg');background-size:cover;background-repeat:none")||1)&&i
+name :"Rocks",type :"rocks",price:{B:100000,R:100000},money:2,width :"100px",height :"125px",el : (i=f.ce("div"))&&(f.sa(i,"style","position:absolute;bottom:0;left:0px;width:100px;height:125px;background-image:url('../img/t3.svg');background-size:cover;background-repeat:none")||1)&&i
 }
 };var tankItemsShop = [
 "grass","rocks"

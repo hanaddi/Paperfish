@@ -2,7 +2,7 @@ var tankItems = {
 	grass :{
 		name :"Grass",
 		type :"grass",
-		price:{B:1},
+		price:{B:50000,Y:50000},
 		money:2,
 		width :"100%",
 		height :"30px",
@@ -11,7 +11,7 @@ var tankItems = {
 	rocks :{
 		name :"Rocks",
 		type :"rocks",
-		price:{B:100000,R:200000},
+		price:{B:100000,R:100000},
 		money:2,
 		width :"100px",
 		height :"125px",

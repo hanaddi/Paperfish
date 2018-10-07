@@ -1,3 +1,6 @@
+*:focus {
+	outline: none;
+}
 body{
 	overflow: hidden;
 	margin: 0px;
@@ -21,6 +24,7 @@ button{
 	min-width: 40px;
 	padding: 5px;
 	outline: none;
+	border: solid 1px #fff;
 
 	border-radius: 5px;
 }
@@ -686,7 +690,7 @@ button.green:disabled{
 	width: 100%;
 	height: 100%;
 	background: #1e2939;
-	opacity: .2;
+	opacity: .5;
 	/*z-index: 10;*/
 }
 
@@ -952,4 +956,46 @@ button.green:disabled{
 	height: 100%;
 	left: 0;
 	bottom: 0;
+}
+.setPositionPanel{
+	position: absolute;
+	right: 150px;
+	width:100%;
+	height: 20px;
+	bottom: 0px;
+	border:solid 1px #000000;
+	padding: 0;
+
+	border-radius: 3px;
+}
+.setPositionPanel input[type="range"]{
+	/*background-color: #192;*/
+	width: 100%;
+	margin:0;
+	padding: 0;
+}
+.setPositionPanel input[type="range"]:focus{
+	outline: none;
+}
+.setPositionPanel::before{
+	content: '';
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	height: 100%;
+	border: transparent;
+	background: #1f2;
+	opacity: .8;
+	z-index: -1;
+
+}
+.rightButtonsPanel{
+	position: absolute;
+	width: 140px;
+	right: 0;
+	bottom: 0;
+	padding: 5px;
+	text-align: center;
+	/*background-color: red;*/
 }

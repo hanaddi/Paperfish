@@ -84,6 +84,7 @@ class Menu{
 			if(saya.game.glassLvl*2+1 > totalIkan){
 				f.ac(saya.game.el.content, saya.fishShop());
 				saya.game.showModalWide("Fish Shop ("+totalIkan+"/"+(saya.game.glassLvl*2+1)+")");
+				// saya.game.showModalWide("Fish Shop");
 			}else{
 				// alert("penuh");
 				saya.game.showModalInfo("Insufficient Space","Tank is full ("
@@ -94,6 +95,7 @@ class Menu{
 
 		// alert
 		if(0){
+			// HANYA TANDA SERU
 			// let icon = f.ce("img");
 			// f.sa(icon,"class","icon goyang");
 			// f.sa(icon,"src",IMG.icon.warn);
@@ -129,7 +131,11 @@ class Menu{
 					}else{
 						notif.style.display = "none";
 					}
-				}catch(e){}
+				}catch(e){
+					notif.style.display = "none";
+					window.setTimeout(this.updateMenuBuyIkan,2000);
+					// console.log(e);
+				}
 			};
 			this.updateMenuBuyIkan();
 		}
@@ -718,16 +724,163 @@ class Menu{
 		// RIGHT PANEL
 		let div2 = f.ce("div");
 		f.sa(div2,"class",'right');
+		div2.style.overflowY = "scroll";
 
 		let div21 = f.ce("div");
 		f.sa(div21,"class",'title1');
-		div21.innerHTML = "Tank Shop";
+		div21.innerHTML = "Tank Items";
 		f.ac(div2, div21);
 
-		f.ac(div2,f.ct("Coming soon"));
+		// f.ac(div2,f.ct("Coming soon"));
+
+		for(let xxx=0;++xxx<2;)
+		for(let i of tankItemsShop)
+		{
+			let menu = f.ce("div");
+			f.sa(menu,"class","shopMenu");
+			menu.style.height = "255px";
+			menu.style.width = "auto";
+			menu.style.padding = "0";
+			menu.style.margin = "3px";
+			menu.style.cursor = "pointer";
+
+			let name = f.ce("div");
+			f.ac(name,f.ct(tankItems[i].name));
+			f.ac(menu,name);
+
+			let aquaMini = f.ce("div");
+			f.sa(aquaMini,"class","aquaMini");
+			let aquaMiniSize=[220,150];
+			aquaMini.style.height = aquaMiniSize[1]+"px";
+			aquaMini.style.width = aquaMiniSize[0]+"px";
+			aquaMini.style.overflowY = "visible";
+			aquaMini.style.display = "list-item";
+
+			let el = tankItems[i].el.cloneNode(true);
+			f.ac(aquaMini, el);
+
+			// SCALE
+			let scale=1;
+			if(tankItems[i].width.slice(-2)=='px'){
+				let width = parseInt(tankItems[i].width.slice(0,-2));
+				if(width>aquaMiniSize[0]){
+					scale = Math.min(scale,aquaMiniSize[0]/width);
+				}
+			}
+			if(tankItems[i].height.slice(-2)=='px'){
+				let height = parseInt(tankItems[i].height.slice(0,-2));
+				if(height>aquaMiniSize[1]){
+					scale = Math.min(scale,aquaMiniSize[1]/height);
+				}
+			}
+			el.style.transform = "scale("+scale+") translate(-50%,0)";
+			el.style.left = "50%";
+			el.style.transformOrigin = "left bottom";
+
+
+
+			let divAct0 = f.ce("div");
+			let updateState = function(refresh=false){
+				let divAct = f.ce("div");
+				divAct.style.textAlign = "center";
+				if(saya.game.tankItemsUnlocked && saya.game.tankItemsUnlocked.indexOf(i)!==-1){
+					menu.style.backgroundColor = "";
+
+					let isEnabled=-1;
+					(saya.game.tankItems || []).map((el, idx)=>el && el.item.type==i && (isEnabled=idx));
+
+					let divBuy = f.ce("div");
+					let conf = f.ce("button")
+					conf.innerHTML = "Set";
+					f.ac(divBuy, conf);
+					f.ac(divAct, divBuy);
+
+					if(isEnabled==-1){
+						f.sa(conf,"disabled","");
+					}else{
+						conf.onclick = function(){
+							saya.game.tankItems[isEnabled].item.configure();
+							saya.game.hideModal();
+						}
+					}
+
+					divBuy = f.ce("div");
+					let button = f.ce("button")
+					f.ac(divBuy, button);
+					f.ac(divAct, divBuy);
+					if(isEnabled!==-1){
+						button.classList.add("red");
+						button.innerHTML = "Remove";
+						button.onclick = function(){
+							saya.game.tankItems.map(e=>e && e.item.type==i && e.item.kill() );
+							updateState(true);
+						};
+					}else{
+						button.classList.remove("red");
+						button.innerHTML = "Insert";
+						button.onclick = function(){
+							let tank = new Tank(saya.game,i);
+							updateState(true);
+						};
+					}
+
+				}else{
+					menu.style.backgroundColor = "#777777";
+					let divPrice = f.ce("div");
+					let isEnabled = true;
+					for(let j of Object.keys(tankItems[i].price)){
+						divPrice.innerHTML+=" <img src='"+IMG.icon.paper+"' class='icon coin"+j+"'> "+f.numFormat(tankItems[i].price[j]);
+						isEnabled &= tankItems[i].price[j]<=saya.game.paper[j];
+					}
+					let divBuy = f.ce("div");
+					let buy = f.ce("button")
+					buy.innerHTML = "Buy";
+					((buy,i, saya,menu)=>{
+						buy.onclick = function(){
+							for(let j of Object.keys(tankItems[i].price)){
+								saya.game.paper[j]-=tankItems[i].price[j];
+							}
+							saya.game.tankItemsUnlocked.push(i);
+							updateState(true);
+						};
+						
+					})(buy, i,saya,menu);
+
+					if(!isEnabled){
+						f.sa(buy,"disabled","");
+					}
+					f.ac(divBuy, buy);
+
+					f.ac(divAct, divPrice);
+					f.ac(divAct, divBuy);
+				}
+				if(refresh){
+					divAct0.innerHTML = '';
+					f.ac(divAct0,divAct);
+				}
+				saya.game.viewPaper();
+				return divAct;
+			};
+
+			f.ac(menu,aquaMini);
+			f.ac(menu, divAct0);
+			f.ac(div2,menu);
+
+			updateState(true);
+			let update = window.setInterval(()=>updateState(true),1000);
+
+			saya.game.onModalRemoved.push(()=>{
+				window.clearInterval(update);
+			});
+
+
+		}
 
 		f.ac(div, div1);
 		f.ac(div, div2);
+
+
+
 
 
 		this.game.onModalRemoved.push(()=>{

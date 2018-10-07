@@ -36,6 +36,7 @@ class Game{
 		this.craftObj = [];
 		this.craft = [];
 		this.craftMaxItem = 5;
+		this.tankItemsUnlocked = [];
 		this.glassLvlUpCost = 1000;
 		this.glassLvl = 1;
 		this.onModalRemoved = [];
@@ -596,7 +597,31 @@ class Game{
 			}
 		};
 		PlayFabClientSDK.UpdateUserData(param,saving);
+	}
 
+	saveDataPublic(){
+		let param = {
+			Data:{
+				savePublic :{
+					glassLvl: this.glassLvl,
+					ikan1:JSON.stringify(this.ikan.map(e=>{
+						try{
+							return e.save();
+						}catch(e){}
+					})),
+					craft:JSON.stringify(this.craft)
+				}
+
+			},
+			Permission: "Public"
+		};
+		let saya = this;
+		let saving = function(r,e){
+			if(r!==null){
+				// saya.viewStatus("Game saved.");
+			}
+		};
+		PlayFabClientSDK.UpdateUserData(param,saving);
 	}
 
 

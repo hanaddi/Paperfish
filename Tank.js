@@ -3,29 +3,23 @@ var tankItems = {
 		name :"Grass",
 		type :"grass",
 		price:{B:1},
+		money:2,
 		width :"100%",
 		height :"30px",
 		el : (i=f.ce("div"))&&(f.sa(i,"style","position:absolute;bottom:0;left:0px;width:100%;height:30px;background-image:url('../img/t2.svg');background-size:30px;background-repeat:repeat-x")||1)&&i
 	},
-	test :{
-		name :"COBA",
-		type :"test",
+	rocks :{
+		name :"Rocks",
+		type :"rocks",
 		price:{B:100000,R:200000},
-		width :"300px",
-		height :"300px",
-		el : (i=f.ce("div"))&&(f.sa(i,"style","position:absolute;bottom:0;left:0px;width:300px;height:300px;background-image:url('../img/icon.png');background-size:cover;background-repeat:repeat-x")||1)&&i
-	},
-	test1 :{
-		name :"CO",
-		type :"test1",
-		price:{B:100,R:200000},
-		width :"300px",
-		height :"100px",
-		el : (i=f.ce("div"))&&(f.sa(i,"style","position:absolute;bottom:0;left:0px;width:300px;height:100px;background-image:url('../img/download.png');background-size:cover;background-repeat:repeat-x")||1)&&i
+		money:2,
+		width :"100px",
+		height :"125px",
+		el : (i=f.ce("div"))&&(f.sa(i,"style","position:absolute;bottom:0;left:0px;width:100px;height:125px;background-image:url('../img/t3.svg');background-size:cover;background-repeat:none")||1)&&i
 	}
 };
 var tankItemsShop = [
-	"grass","test","test1"
+	"grass","rocks"
 ];
 
 class Tank{
@@ -52,9 +46,9 @@ class Tank{
 
 				// console.log(this.type);
 				f.ac(this.elWrap,tankItems[this.type].el.cloneNode(true));
-				this.elWrap.style.width = tankItems[type].width;
-				this.elWrap.style.height = tankItems[type].height;
-				this.elWrap.style.left = this.left;
+				this.elWrap.style.width = tankItems[this.type].width;
+				this.elWrap.style.height = tankItems[this.type].height;
+				this.elWrap.style.left = this.left+"px";
 				// this.elWrap.style.zIndex = this.game.tankItems.length;
 
 				f.ac(this.game.el.amb,this.elWrap);
@@ -62,6 +56,13 @@ class Tank{
 					item:this,
 					index:this.game.tankItems.length
 				});
+
+				let saya = this;
+				saya.claimMoney=tankItems[saya.type].money;
+				this.claimingInterval = window.setInterval(()=>{
+					saya.game.uang+=saya.claimMoney;
+					saya.game.viewMoney();
+				},3000);
 			}
 
 		}
@@ -74,6 +75,11 @@ class Tank{
 			console.log("Tank::kill()");
 			console.log(e);
 		}
+
+		try{
+			window.clearInterval(this.claimingInterval);
+		}catch(e){}
+
 		let newTankItems = [];
 		for(let i in this.game.tankItems){
 			if(!this.game.tankItems[i])continue;
@@ -110,11 +116,12 @@ class Tank{
 			f.sa(input,"type","range");
 			f.sa(input,"min","0");
 			f.sa(input,"step","1");
-			f.sa(input,"value",this.left);
 			f.sa(input,"max",this.game.el.amb.offsetWidth-this.elWrap.offsetWidth);
+			input.value=this.left;
 			input.style.width=this.game.el.amb.offsetWidth-this.elWrap.offsetWidth+"px";
 			input.oninput = function(e){
 				vars.left = this.value;
+				// console.log(vars.left);
 				saya.elWrap.style.left=vars.left+"px";
 			};
 			f.ac(divPos,input);
@@ -127,7 +134,7 @@ class Tank{
 		f.sa(divButtons,"class","rightButtonsPanel");
 		// Z index sort UP
 		let buttonUp = f.ce("button");
-		buttonUp.innerHTML="Bring forward";
+		buttonUp.innerHTML="Move forward";
 		buttonUp.onclick = function(e){
 			if(idx==saya.game.tankItems.length-1)return;
 
@@ -144,7 +151,7 @@ class Tank{
 		f.ac(divButtons,f.ce('br'));
 		// Z index sort DOWN
 		let buttonDown = f.ce("button");
-		buttonDown.innerHTML="Bring backward";
+		buttonDown.innerHTML="Move backward";
 		buttonDown.onclick = function(e){
 			if(idx==0)return;
 
@@ -197,6 +204,10 @@ class Tank{
 	normalizeElWrap(){
 		this.game.el.amb.innerHTML="";
 		this.game.tankItems.sort((a,b)=>b.index<a.index?1:-1).map(e=>f.ac(this.game.el.amb,e.item.elWrap));
+	}
+
+	save(){
+		return [this.type,this.left];
 	}
 
 }

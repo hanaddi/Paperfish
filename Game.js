@@ -37,6 +37,7 @@ class Game{
 		this.craft = [];
 		this.craftMaxItem = 5;
 		this.tankItemsUnlocked = [];
+		this.tankItems = [];
 		this.glassLvlUpCost = 1000;
 		this.glassLvl = 1;
 		this.onModalRemoved = [];
@@ -135,6 +136,10 @@ class Game{
 			saya.craftUnlocked=["G"];
 			saya.craftObj=[];
 			saya.fishVars = {};
+
+			saya.tankItemsUnlocked = [];
+			saya.tankItems.map(el=>el && el.item && el.item.kill() );
+			saya.tankItems = [];
 		},1000);
 
 		window.setTimeout(()=>{
@@ -545,6 +550,16 @@ class Game{
 						}catch(e){}
 					});
 				}
+				
+
+				if(r.data.Data.general1){
+					let general1 = JSON.parse(r.data.Data.general1.Value);
+					saya.tankItemsUnlocked=general1.tankItemsUnlocked;
+					saya.tankItems.map(el=>el && el.item && el.item.kill() );
+					general1.tankItems.sort((a,b)=>b[1]<a[1]?1:-1).map(el=>{
+						let tank = new Tank(saya,el[0][0],el[0][1]||0);
+					});
+				}
 
 
 
@@ -586,7 +601,17 @@ class Game{
 				curr:JSON.stringify([this.uang, this.paper]),
 
 				craft:JSON.stringify(this.craft),
-				craftUnlocked:JSON.stringify(this.craftUnlocked)
+				craftUnlocked:JSON.stringify(this.craftUnlocked),
+
+				general1: JSON.stringify({
+					tankItemsUnlocked:this.tankItemsUnlocked,
+					tankItems:this.tankItems.map(e=>{
+						try{
+							return [e.item.save(),e.index];
+						}catch(e){}
+					})
+				})
+
 			}
 			// ,Permission: "Public"
 		};

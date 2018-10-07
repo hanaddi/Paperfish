@@ -733,18 +733,19 @@ class Menu{
 
 		// f.ac(div2,f.ct("Coming soon"));
 
-		for(let xxx=0;++xxx<2;)
+		// for(let xxx=0;++xxx<2;)
 		for(let i of tankItemsShop)
 		{
 			let menu = f.ce("div");
 			f.sa(menu,"class","shopMenu");
-			menu.style.height = "255px";
+			menu.style.height = "260px";
 			menu.style.width = "auto";
 			menu.style.padding = "0";
 			menu.style.margin = "3px";
 			menu.style.cursor = "pointer";
 
 			let name = f.ce("div");
+			f.sa(name,"class","title1");
 			f.ac(name,f.ct(tankItems[i].name));
 			f.ac(menu,name);
 
@@ -777,6 +778,10 @@ class Menu{
 			el.style.left = "50%";
 			el.style.transformOrigin = "left bottom";
 
+			let money = f.ce("div");
+			money.style.color="#000000";
+			money.innerHTML = "<img src='"+IMG.icon._plus(IMG.icon.money)+"' class='icon'>"+(tankItems[i].money*20)+"/min";
+			f.ac(aquaMini, money);
 
 
 			let divAct0 = f.ce("div");
@@ -791,7 +796,7 @@ class Menu{
 
 					let divBuy = f.ce("div");
 					let conf = f.ce("button")
-					conf.innerHTML = "Set";
+					conf.innerHTML = "Move";
 					f.ac(divBuy, conf);
 					f.ac(divAct, divBuy);
 
@@ -810,14 +815,14 @@ class Menu{
 					f.ac(divAct, divBuy);
 					if(isEnabled!==-1){
 						button.classList.add("red");
-						button.innerHTML = "Remove";
+						button.innerHTML = "Hide";
 						button.onclick = function(){
 							saya.game.tankItems.map(e=>e && e.item.type==i && e.item.kill() );
 							updateState(true);
 						};
 					}else{
 						button.classList.remove("red");
-						button.innerHTML = "Insert";
+						button.innerHTML = "Show";
 						button.onclick = function(){
 							let tank = new Tank(saya.game,i);
 							updateState(true);
@@ -867,7 +872,7 @@ class Menu{
 			f.ac(div2,menu);
 
 			updateState(true);
-			let update = window.setInterval(()=>updateState(true),1000);
+			let update = window.setInterval(()=>updateState(true),2000);
 
 			saya.game.onModalRemoved.push(()=>{
 				window.clearInterval(update);

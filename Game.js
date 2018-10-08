@@ -544,6 +544,17 @@ class Game{
 					saya.craftUnlocked = JSON.parse(r.data.Data.craftUnlocked.Value);
 					saya.craftUnlocked = saya.craftUnlocked.length?saya.craftUnlocked:['G'];
 				}
+				
+				if(r.data.Data.craft){
+					for(let i of saya.craft){
+						saya.removeCraft(i);
+					}
+					JSON.parse(r.data.Data.craft.Value).slice(0,saya.craftMaxItem).map(e=>{
+						try{
+							saya.addCraft(e);
+						}catch(e){}
+					});
+				}
 
 				if(r.data.Data.ikan1){
 
@@ -554,17 +565,6 @@ class Game{
 					JSON.parse(r.data.Data.ikan1.Value).sort((i,j)=>Math.random()>.5?1:-1).map(e=>{
 						try{
 							saya.loadIkan(e);
-						}catch(e){}
-					});
-				}
-				
-				if(r.data.Data.craft){
-					for(let i of saya.craft){
-						saya.removeCraft(i);
-					}
-					JSON.parse(r.data.Data.craft.Value).slice(0,saya.craftMaxItem).map(e=>{
-						try{
-							saya.addCraft(e);
 						}catch(e){}
 					});
 				}

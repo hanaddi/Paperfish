@@ -340,22 +340,50 @@ class Ikan{
 
 	}
 
-	lifeBar(){
+	lifeBar(game){
 		let now = new Date();
 		let div = f.ce("div");
 		f.sa(div,"class","lifeBar");
+
 		let bar = f.ce("div");
+		f.sa(bar,"class","lifeBarHp");
 		f.ac(div, bar);
-		bar.style.width = ((now.getTime() - this.timeCreated)/this.lifeSpan*100|0)+"%";
-		bar.style.transitionDuration = ((-now.getTime() + this.timeCreated + this.lifeSpan)/998|0)+"s";
-		// bar.style.transitionDuration = "2s";
-		window.setTimeout(()=>{
-			bar.style.width = "100%";
-		},1000);
+
+		if(0){
+			bar.style.width = ((now.getTime() - this.timeCreated)/this.lifeSpan*100|0)+"%";
+			bar.style.transitionDuration = ((-now.getTime() + this.timeCreated + this.lifeSpan)/998|0)+"s";
+			window.setTimeout(()=>{
+				bar.style.width = "100%";
+			},1000);
+		}else{
+			let saya=this;
+
+			let text = f.ce("div");
+			f.sa(text,"class","lifeBarText");
+			f.ac(div, text);
+
+			let updateFunction=function(){
+				let now=new Date();
+				bar.style.width = ((now.getTime() - saya.timeCreated)/saya.lifeSpan*100|0)+"%";
+				if(game)text.innerHTML = f.lifeBar(saya.timeCreated+saya.lifeSpan-now.getTime());
+			};
+			updateFunction();
+			let update = window.setInterval(()=>{
+				updateFunction();
+				// console.log("Ikan::lifeBar()");
+			},1000);
+			if(game){
+				(saya.game || game).onModalRemoved.push(()=>{
+					window.clearInterval(update);
+				});
+			}
+
+		}
 		return div;
 	}
 
 	viewStats(game){
+		this.game = this.game || game;
 		let div = f.ce("div");
 
 		let uBar = f.ce("div");
@@ -381,7 +409,7 @@ class Ikan{
 		td.innerText = "Life ";
 		f.ac(tr, td);
 		td = f.ce("td");
-		f.ac(td,this.lifeBar());
+		f.ac(td,this.lifeBar(game));
 		f.ac(tr, td);
 		f.ac(table, tr);
 
@@ -672,7 +700,7 @@ class Ikan2 extends Ikan{
 		td.innerText = "Life ";
 		f.ac(tr, td);
 		td = f.ce("td");
-		f.ac(td,this.lifeBar());
+		f.ac(td,this.lifeBar(game));
 		f.ac(tr, td);
 		f.ac(table, tr);
 

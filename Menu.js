@@ -177,7 +177,7 @@ class Menu{
 				// f.ac(menu, div1);
 
 				// div1 = f.ce("div");
-				div1.innerHTML += "<br><img src='"+IMG.icon.heart+"' class='icon'>"+f.timeFormat(fishShop[i].lifeSpan);
+				div1.innerHTML += "<br><img src='"+IMG.icon.heart+"' class='icon'>"+f.lifeBar(fishShop[i].lifeSpan);
 				f.ac(menu, div1);
 
 
@@ -204,7 +204,7 @@ class Menu{
 				// f.ac(menu, div1);
 
 				// div1 = f.ce("div");
-				div1.innerHTML += "<img src='"+IMG.icon.heart+"' class='icon'>"+f.timeFormat(fishShop[i].lifeSpan);
+				div1.innerHTML += "<img src='"+IMG.icon.heart+"' class='icon'>"+f.lifeBar(fishShop[i].lifeSpan);
 				f.ac(menu, div1);
 
 				div1 = f.ce("div");
@@ -799,7 +799,18 @@ class Menu{
 		// f.ac(div2,f.ct("Coming soon"));
 
 		// for(let xxx=0;++xxx<2;)
-		for(let i of tankItemsShop)
+		let tankItemsList=[];
+		for(let i of saya.game.tankItemsUnlocked){
+			if(tankItemsList.indexOf(i)==-1 && tankItemsShop.indexOf(i)!==-1){
+				tankItemsList.push(i);
+			}
+		}
+		for(let i of tankItemsShop){
+			if(tankItemsList.indexOf(i)==-1){
+				tankItemsList.push(i);
+			}
+		}
+		for(let i of tankItemsList)
 		{
 			let menu = f.ce("div");
 			f.sa(menu,"class","shopMenu");
@@ -898,10 +909,17 @@ class Menu{
 					menu.style.backgroundColor = "#777777";
 					let divPrice = f.ce("div");
 					let isEnabled = true;
-					for(let j of Object.keys(tankItems[i].price)){
-						divPrice.innerHTML+=" <img src='"+IMG.icon.paper+"' class='icon coin"+j+"'> "+f.numFormat(tankItems[i].price[j]);
-						isEnabled &= tankItems[i].price[j]<=saya.game.paper[j];
+
+					if(saya.game.glassLvl<(tankItems[i].minGlassLvl || 1)){
+						divPrice.innerHTML = "Available on Tank lvl. "+(tankItems[i].minGlassLvl || 1);
+						isEnabled = false;
+					}else{
+						for(let j of Object.keys(tankItems[i].price)){
+							divPrice.innerHTML+=" <img src='"+IMG.icon.paper+"' class='icon coin"+j+"'> "+f.numFormat(tankItems[i].price[j]);
+							isEnabled &= tankItems[i].price[j]<=saya.game.paper[j];
+						}
 					}
+
 					let divBuy = f.ce("div");
 					let buy = f.ce("button")
 					buy.innerHTML = "Buy";

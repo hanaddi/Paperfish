@@ -16,10 +16,31 @@ var tankItems = {
 		width :"100px",
 		height :"125px",
 		el : (i=f.ce("div"))&&(f.sa(i,"style","position:absolute;bottom:0;left:0px;width:100px;height:125px;background-image:url('"+IMG.tank.rocks+"');background-size:cover;background-repeat:none")||1)&&i
+	},
+	pagoda :{
+		name :"Pagoda",
+		type :"pagoda",
+		price:{B:100000,R:100000},
+		money:3,
+		minGlassLvl:5,
+		width :"120px",
+		height :"300px",
+		el : (i=f.ce("div"))&&(f.sa(i,"style","position:absolute;bottom:0;left:0px;width:120px;height:300px;background-image:url('"+IMG.tank.pagoda+"');background-size:cover;background-repeat:none")||1)&&i
 	}
+	// ,
+	// test1 :{
+	// 	name :"test",
+	// 	type :"test1",
+	// 	price:{B:100000,R:100000},
+	// 	money:2,
+	// 	minGlassLvl:5,
+	// 	width :"100px",
+	// 	height :"300px",
+	// 	el : (i=f.ce("div"))&&(f.sa(i,"style","position:absolute;bottom:0;left:0px;width:100px;height:300px;background-image:url('data:image/svg+xml;utf8,"+IMG.fishs.A+"');background-size:cover;background-repeat:none")||1)&&i
+	// }
 };
 var tankItemsShop = [
-	"grass","rocks"
+	"grass","rocks","pagoda"
 ];
 
 class Tank{
@@ -34,6 +55,8 @@ class Tank{
 
 
 		if(tankItems[type] && this.game.tankItemsUnlocked.indexOf(this.type)!==-1){
+			if(this.game.glassLvl<(tankItems[type].minGlassLvl || 1))return;
+
 			let isUsed=false;
 			let saya = this;
 			this.game.tankItems.map(el=>el && el.item && el.item.type==saya.type && (isUsed=true) );

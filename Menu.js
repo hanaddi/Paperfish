@@ -704,7 +704,12 @@ class Menu{
 		td.innerHTML = "Level";
 		f.ac(tr,td);
 		td = f.ce("td");
-		td.innerHTML = this.game.glassLvl+"/10";
+
+		let textGlassLvl = f.ce("span");
+		textGlassLvl.innerHTML = this.game.glassLvl+"/10";
+		f.ac(td,textGlassLvl);
+
+		// td.innerHTML = this.game.glassLvl+"/10";
 		f.ac(tr,td);
 		f.ac(table,tr);
 
@@ -716,7 +721,9 @@ class Menu{
 		td = f.ce("td");
 		let totalIkan = 0;
 		this.game.ikan.map(e=>e && (totalIkan++) );
-		td.innerHTML = totalIkan+"/"+(this.game.glassLvl*2+1);
+		let textTotalIkan = f.ce("span");
+		textTotalIkan.innerHTML = (totalIkan+"/"+(this.game.glassLvl*2+1));
+		f.ac(td,textTotalIkan);
 		f.ac(tr,td);
 		f.ac(table,tr);
 
@@ -730,7 +737,7 @@ class Menu{
 		td = f.ce("td");
 		let button = f.ce("button");
 
-		let buttonSet = function(saya,button){
+		let buttonSet = function(saya,button,textTotalIkan,textGlassLvl){
 			f.ra(button,"disabled");
 			if(saya.game.glassLvl>=10){
 				button.innerHTML = "Maxed";
@@ -746,17 +753,25 @@ class Menu{
 					saya.game.glassLvlUp();
 					// saya.game.el.content.innerHTML = "";
 					// f.ac(saya.game.el.content, saya.tank());
-					buttonSet(saya, this);
+					buttonSet(saya, this, textTotalIkan,textGlassLvl);
 					saya.game.showPop(" <span style='color:#911'><img src='"+IMG.icon.paper+"' class='icon coinB'> "+f.numFormat(cost), ev.pageX, ev.pageY)+"</span>";
 
 				}
 
 			}
+
+			textGlassLvl.innerHTML = saya.game.glassLvl+"/10";
+
+
+			let totalIkan = 0;
+			saya.game.ikan.map(e=>e && (totalIkan++) );
+			textTotalIkan.innerHTML = (totalIkan+"/"+(saya.game.glassLvl*2+1));
+
 		};
-		buttonSet(saya, button);
+		buttonSet(saya, button, textTotalIkan, textGlassLvl);
 		
 		let buttonUpdate = window.setInterval(()=>{
-			buttonSet(saya, button);
+			buttonSet(saya, button,textTotalIkan, textGlassLvl);
 		}, 1000);
 
 		this.game.onModalRemoved.push(()=>{

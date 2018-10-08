@@ -312,16 +312,16 @@ class Game{
 		// console.log(info,x,y);
 		let div = f.ce("div");
 		div.classList.add("pop1");
-		div.style.left = x+"px";
-		div.style.top = y+"px";
+		div.style.left = (x-this.parentEl.offsetLeft+400)+"px";
+		div.style.top = (y-this.parentEl.offsetTop+240)+"px";
 		div.onclick = e=>this.outerHTML="";
 		div.innerHTML=info;
 
-		f.ac(document.body,div);
+		f.ac(this.parentEl,div);
 
 		window.setTimeout(()=>{
 			try{
-				f.rc(document.body,div);
+				f.rc(this.parentEl,div);
 			}catch(e){}
 		},1000);
 	}

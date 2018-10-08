@@ -87,8 +87,50 @@ window.onload = function(){
 		// f.ac(game.el.amb,(i=f.ce("div"))&&(f.sa(i,"style","position:absolute;bottom:0;left:0px;width:100%;height:30px;background-image:url('../img/t2.svg');background-size:30px;background-repeat:repeat-x")||1)&&i);
 	// };
 
-	window.test2 = function(x="grass"){
-		let tank = new Tank(game,x);
-	};
+	// window.test2 = function(x="grass"){
+	// 	let tank = new Tank(game,x);
+	// };
+
+	
+// var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+
+
+// var ANIM = {
+// 	ekor :[
+// 		start=null,
+// 		function(now){
+// 			ANIM.ekor.start = ANIM.ekor.start || now;
+// 			let progress = now - ANIM.ekor.start;
+// 			for(let el of document.querySelectorAll('.ikan .ruas .ruas')){
+// 				// el.style.transform= "perspective(100px) rotateY("+((Math.cos((progress%3000)/3000*2*Math.PI)+0)*20|0)+"deg)";
+// 				el.style.transform= "perspective(100px) rotateY("+(10-(progress/1000)*20)+"deg)";
+// 			}
+// 			if(progress<1000){
+// 				// console.log(progress);
+// 				requestAnimationFrame(ANIM.ekor[1]);
+// 			}else{
+// 				ANIM.ekor.start = null;
+// 				requestAnimationFrame(ANIM.ekor[2]);
+// 			}
+// 		},
+// 		function(now){
+// 			ANIM.ekor.start = ANIM.ekor.start || now;
+// 			let progress = now - ANIM.ekor.start;
+// 			for(let el of document.querySelectorAll('.ikan .ruas .ruas')){
+// 				// el.style.transform= "perspective(100px) rotateY("+((Math.cos((progress%3000)/3000*2*Math.PI)+0)*20|0)+"deg)";
+// 				el.style.transform= "perspective(100px) rotateY("+(-10+(progress/1000)*20)+"deg)";
+// 			}
+// 			if(progress<1000){
+// 				requestAnimationFrame(ANIM.ekor[2]);
+// 			}else{
+// 				ANIM.ekor.start = null;
+// 				requestAnimationFrame(ANIM.ekor[1]);
+// 			}
+// 		}
+// 	]
+// };
+
+// requestAnimationFrame(ANIM.ekor[2]);
+
 
 }

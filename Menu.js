@@ -81,7 +81,7 @@ class Menu{
 			let totalIkan = 0;
 			saya.game.ikan.map(e=>e && (totalIkan++) );
 			saya.game.el.content.innerHTML = "";
-			if(saya.game.glassLvl*2+1 > totalIkan){
+			if(saya.game.glassLvl*2+1 > totalIkan || 1){
 				f.ac(saya.game.el.content, saya.fishShop());
 				saya.game.showModalWide("Fish Shop ("+totalIkan+"/"+(saya.game.glassLvl*2+1)+")");
 				// saya.game.showModalWide("Fish Shop");
@@ -146,10 +146,11 @@ class Menu{
 
 
 
-	fishShop(){
+	fishShop(scrollTop=0){
 		let saya = this;
 		let div = f.ce("div");
 		f.sa(div,"style","overflow-y:scroll;max-height:350px;margin:10px 0px;position:relative;");
+		div.onscroll =e=>{scrollTop=div.scrollTop;};
 
 		// for(let j=9;--j;)
 		for(let i of Object.keys(fishShop)){
@@ -181,9 +182,14 @@ class Menu{
 
 
 				div1 = f.ce("div");
-				buy.onclick = function(){
+				buy.onclick = function(ev){
 					saya.game.addIkan(fishShop[i].type);
-					saya.game.hideModal();
+					// saya.game.hideModal();
+
+					let totalIkan = 0;
+					saya.game.ikan.map(e=>e && (totalIkan++) );
+					saya.game.el.title.innerHTML="Fish Shop ("+totalIkan+"/"+(saya.game.glassLvl*2+1)+")";
+					saya.game.showPop(" <span style='color:#911'><img src='"+IMG.icon.money+"' class='icon'>"+f.numFormat(fishShop[i].price), ev.pageX, ev.pageY)+"</span>";
 				}
 
 			}else
@@ -202,18 +208,41 @@ class Menu{
 				f.ac(menu, div1);
 
 				div1 = f.ce("div");
-				buy.onclick = function(){
+				buy.onclick = function(ev){
 					saya.game.addIkan2(i);
-					saya.game.hideModal();
+					// saya.game.hideModal();
+
+					let totalIkan = 0;
+					saya.game.ikan.map(e=>e && (totalIkan++) );
+					saya.game.el.title.innerHTML="Fish Shop ("+totalIkan+"/"+(saya.game.glassLvl*2+1)+")";
+					saya.game.showPop(" <span style='color:#911'><img src='"+IMG.icon.money+"' class='icon'>"+f.numFormat(fishShop[i].price), ev.pageX, ev.pageY)+"</span>";
 				}
 			}
 			
 			buy.innerHTML = " <img src='"+IMG.icon.money+"' class='icon'>"+f.numFormat(fishShop[i].price);
 
 
+			try{
+
+				let totalIkan = 0;
+				saya.game.ikan.map(e=>e && (totalIkan++) );
+
+				if(this.game.uang<fishShop[i].price || saya.game.glassLvl*2+1 <= totalIkan){
+					f.sa(buy,"disabled","");
+				}else{
+					f.ra(buy,"disabled");
+				}
+			}catch(e){
+				console.log(e);
+			}
+
 			let update = window.setInterval(()=>{
 				try{
-					if(this.game.uang<fishShop[i].price){
+
+					let totalIkan = 0;
+					saya.game.ikan.map(e=>e && (totalIkan++) );
+
+					if(this.game.uang<fishShop[i].price || saya.game.glassLvl*2+1 <= totalIkan){
 						f.sa(buy,"disabled","");
 					}else{
 						f.ra(buy,"disabled");
@@ -222,14 +251,13 @@ class Menu{
 					console.log(e);
 				}
 			}, 1000);
+
 			this.game.onModalRemoved.push(()=>{
 				window.clearInterval(update);
 				saya.updateMenuBuyIkan();
 			});
 
-			if(this.game.uang<fishShop[i].price){
-				f.sa(buy,"disabled","");
-			}
+
 			f.sa(div1,"style","text-align:center;position: absolute;bottom: 0;width:100%;");
 			f.ac(div1, buy);
 			f.ac(menu, div1);
@@ -498,7 +526,7 @@ class Menu{
 			f.sa(div1,"class","center");
 
 			let icon = f.ce("img");
-			f.sa(icon,"class","icon goyang");
+			f.sa(icon,"class","icon");
 			f.sa(icon,"src",IMG.icon.check);
 			icon.style.position = "absolute";
 			icon.style.left = "0";
@@ -536,6 +564,7 @@ class Menu{
 					}
 					if(!buy.disabled){
 						f.sa(icon,"src",IMG.icon.warn);
+						icon.classList.add("goyang");
 						icon.style.opacity = 1;
 					}
 
@@ -555,6 +584,7 @@ class Menu{
 								f.ra(buy,"disabled");
 								if(saya.game.craftUnlocked.indexOf(i)==-1){
 									f.sa(icon,"src",IMG.icon.warn);
+									icon.classList.add("goyang");
 									icon.style.opacity = 1;
 								}
 							}
@@ -578,6 +608,7 @@ class Menu{
 					buy.onclick = function(){
 						saya.game.addCraft(fishShop[i].type);
 						f.sa(icon,"src",IMG.icon.check);
+						icon.classList.remove("goyang");
 						icon.style.opacity = 1;
 						updateState(saya,i);
 					}
@@ -593,6 +624,7 @@ class Menu{
 
 				}else{
 					f.sa(icon,"src",IMG.icon.check);
+					icon.classList.remove("goyang");
 					icon.style.opacity = 1;
 
 					let buy = f.ce("button");
@@ -697,23 +729,41 @@ class Menu{
 		f.ac(tr,td);
 		td = f.ce("td");
 		let button = f.ce("button");
-		if(this.game.glassLvl>=10){
-			button.innerHTML = "Maxed";
-			f.sa(button,"disabled","");
-		}else{
-			let cost = Math.pow(2,this.game.glassLvl-1)*this.game.glassLvlUpCost;
-			button.innerHTML = " <img src='"+IMG.icon.paper+"' class='icon coinB'> "+f.numFormat(cost);
-			if(cost>this.game.paper.B){
+
+		let buttonSet = function(saya,button){
+			f.ra(button,"disabled");
+			if(saya.game.glassLvl>=10){
+				button.innerHTML = "Maxed";
 				f.sa(button,"disabled","");
-			}
+			}else{
+				let cost = Math.pow(2,saya.game.glassLvl-1)*saya.game.glassLvlUpCost;
+				button.innerHTML = " <img src='"+IMG.icon.paper+"' class='icon coinB'> "+f.numFormat(cost);
+				if(cost>saya.game.paper.B){
+					f.sa(button,"disabled","");
+				}
 
-			button.onclick = function(){
-				saya.game.glassLvlUp();
-				saya.game.el.content.innerHTML = "";
-				f.ac(saya.game.el.content, saya.tank());
-			}
+				button.onclick = function(ev){
+					saya.game.glassLvlUp();
+					// saya.game.el.content.innerHTML = "";
+					// f.ac(saya.game.el.content, saya.tank());
+					buttonSet(saya, this);
+					saya.game.showPop(" <span style='color:#911'><img src='"+IMG.icon.paper+"' class='icon coinB'> "+f.numFormat(cost), ev.pageX, ev.pageY)+"</span>";
 
-		}
+				}
+
+			}
+		};
+		buttonSet(saya, button);
+		
+		let buttonUpdate = window.setInterval(()=>{
+			buttonSet(saya, button);
+		}, 1000);
+
+		this.game.onModalRemoved.push(()=>{
+			window.clearInterval(buttonUpdate);
+		});
+
+
 		f.ac(td,button);
 		f.ac(tr,td);
 		f.ac(table,tr);

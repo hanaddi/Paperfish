@@ -45,7 +45,8 @@ class Ikan{
 		this.fishVar = {};
 
 
-		this.prepareAnim();
+		// this.prepareAnim();
+		f.craft.swanAnim(this);
 		// this.elWrap = f.ce("div");
 		// f.sa(this.elWrap,"class","ikan");
 		// f.sa(this.elWrap,"style","z-index:7;");
@@ -328,6 +329,15 @@ class Ikan{
 		};
 		setTimeout(shine,100);
 
+		// if(this.level>this.maxLevel/2){
+		// 	for(let i of this.elWrap.querySelectorAll(".ikan .ruas")){
+		// 		i.style.animation = "kepala 3s infinite cubic-bezier(.34,.01,.77,1.01)";
+		// 	}
+		// 	for(let i of this.elWrap.querySelectorAll(".ikan .ruas .ruas")){
+		// 		i.style.animation = "ekor 3s infinite cubic-bezier(.34,.01,.77,1.01)";
+		// 	}
+		// }
+
 	}
 
 	lifeBar(){
@@ -397,7 +407,7 @@ class Ikan{
 			f.sa(td,"colspan",2);
 
 			let saya = this;
-			let onclick = function(){
+			let onclick = function(ev){
 
 					
 				saya.levelUp(game);
@@ -411,6 +421,7 @@ class Ikan{
 				// console.log(game.ikan.indexOf(saya));
 				if(game.ikan.indexOf(saya)!=-1){
 					game.uang -= lvlUpCost;
+					game.showPop(" <span style='color:#911'><img src='"+IMG.icon.money+"' class='icon'>"+f.numFormat(lvlUpCost), ev.pageX, ev.pageY)+"</span>";
 				}else{
 					game.hideModal();
 				}
@@ -421,6 +432,7 @@ class Ikan{
 				f.ac(game.el.content, saya.viewStats(game));
 
 				game.viewMoney();
+
 
 				if(0)
 				window.setTimeout(()=>{
@@ -519,6 +531,7 @@ class Ikan{
 					}
 				}
 			},distance*25+500+2500*Math.random());
+			// },distance*25+500+4000);
 
 		},delay+1);
 
@@ -687,7 +700,7 @@ class Ikan2 extends Ikan{
 			f.sa(td,"colspan",2);
 
 			let saya = this;
-			let onclick = function(){
+			let onclick = function(ev){
 				saya.levelUp(game);
 				
 				if(game.uang<lvlUpCost){
@@ -699,6 +712,7 @@ class Ikan2 extends Ikan{
 				// console.log(game.ikan.indexOf(saya));
 				if(game.ikan.indexOf(saya)!=-1){
 					game.uang -= lvlUpCost;
+					game.showPop(" <span style='color:#911'><img src='"+IMG.icon.money+"' class='icon'>"+f.numFormat(lvlUpCost), ev.pageX, ev.pageY)+"</span>";
 				}else{
 					game.hideModal();
 				}

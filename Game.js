@@ -308,6 +308,24 @@ class Game{
 		try{kongregate.stats.submit("craft", this.craftUnlocked.length);}catch(e){}
 	}
 
+	showPop(info="",x=0,y=0){
+		// console.log(info,x,y);
+		let div = f.ce("div");
+		div.classList.add("pop1");
+		div.style.left = x+"px";
+		div.style.top = y+"px";
+		div.onclick = e=>this.outerHTML="";
+		div.innerHTML=info;
+
+		f.ac(document.body,div);
+
+		window.setTimeout(()=>{
+			try{
+				f.rc(document.body,div);
+			}catch(e){}
+		},1000);
+	}
+
 	showModalInfo(title="",info=""){
 		let saya = this;
 		this.el.content.innerHTML = "";

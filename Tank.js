@@ -6,7 +6,7 @@ var tankItems = {
 		money:2,
 		width :"100%",
 		height :"30px",
-		el : (i=f.ce("div"))&&(f.sa(i,"style","position:absolute;bottom:0;left:0px;width:100%;height:30px;background-image:url('../img/t2.svg');background-size:30px;background-repeat:repeat-x")||1)&&i
+		el : (i=f.ce("div"))&&(f.sa(i,"style","position:absolute;bottom:0;left:0px;width:100%;height:30px;background-image:url('"+IMG.tank.grass+"');background-size:30px;background-repeat:repeat-x")||1)&&i
 	},
 	rocks :{
 		name :"Rocks",
@@ -15,7 +15,7 @@ var tankItems = {
 		money:2,
 		width :"100px",
 		height :"125px",
-		el : (i=f.ce("div"))&&(f.sa(i,"style","position:absolute;bottom:0;left:0px;width:100px;height:125px;background-image:url('../img/t3.svg');background-size:cover;background-repeat:none")||1)&&i
+		el : (i=f.ce("div"))&&(f.sa(i,"style","position:absolute;bottom:0;left:0px;width:100px;height:125px;background-image:url('"+IMG.tank.rocks+"');background-size:cover;background-repeat:none")||1)&&i
 	}
 };
 var tankItemsShop = [

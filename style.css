@@ -12,6 +12,11 @@ body{
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
+
+
+    /*transform: translateZ(0);*/
+    /*-webkit-transform: translateZ(0);*/
+    /*-ms-transform: translateZ(0);*/
 }
 
 button{
@@ -194,15 +199,23 @@ button.green:disabled{
 	padding: 0px;
 
 	animation: kepala 3s infinite cubic-bezier(.34,.01,.77,1.01);
+	/*animation-name: kepala;*/
+	/*animation-duration: 3s;*/
+	/*animation-timing-function: cubic-bezier(.34,.01,.77,1.01);*/
+	/*animation-iteration-count: 10;*/
+
+
 	transition-duration: 3s;
 	transform-origin: 0% 90%;
-
-	/*border: solid 2px green;*/
 }
 .ikan .ruas .ruas{
 	left: 32px;
 	top: 0;
 	animation: ekor 3s infinite cubic-bezier(.34,.01,.77,1.01);
+	/*animation-name: ekor;*/
+	/*animation-duration: 3s;*/
+	/*animation-timing-function: cubic-bezier(.34,.01,.77,1.01);*/
+	/*animation-iteration-count: 10;*/
 }
 .ikan .ruas .ruas{
 	background-position: -32px 0;
@@ -666,6 +679,42 @@ button.green:disabled{
 	box-sizing: border-box;
 }
 
+.pop1{
+	position: fixed;
+	width: 100px;
+	margin-left: -50px;
+	height: 30px;
+	/*color: #f00;*/
+	/*cursor: auto;*/
+	animation: _popUp 1.5s ease-out;
+	text-align: center;
+	/*background-color: green;*/
+	z-index: 99;
+
+	/*left: 50%;*/
+	/*top: 50%;*/
+}
+@keyframes _popUp{
+	from{
+		opacity: 0;
+		margin-top: -30px;
+	}
+	25%{
+		opacity: 1;
+		margin-top: -50px;
+	}
+	50%{
+		opacity: 1;
+		margin-top: -50px;
+	}
+	70%{
+		opacity: 0;
+		margin-top: -60px;
+	}
+	to{
+		opacity: 0;
+	}
+}
 /*MODAL*/
 .modal{
 	position: absolute;

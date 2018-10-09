@@ -172,6 +172,12 @@ button.green:disabled{
 	transform-origin: 50% 50%;
 	/*animation: birthIkan .5s;*/
 
+
+   /*-webkit-backface-visibility: hidden;*/
+   /*-moz-backface-visibility: hidden;*/
+   /*-ms-backface-visibility: hidden;*/
+   /*backface-visibility: hidden;*/
+
 }
 @keyframes birthIkan{
 	from{
@@ -934,6 +940,23 @@ button.green:disabled{
 	transform: scale(.5,.3);
 }
 
+.C_9{
+	position:absolute;
+	height:15px;
+	width:15px;
+	top:0%;
+	left:50%;
+	margin-left:-7px;
+	/*transform: scale(.8);*/
+	text-align: center;
+	padding: 3px;
+	color: #fff;
+	font-size: 10px;
+	background-color: #ff1111;
+
+	border-radius: 50%;
+}
+
 
 /**/
 
@@ -952,6 +975,12 @@ button.green:disabled{
 	transition-timing-function: cubic-bezier(.55,.07,.5,.98);
 	transform-origin: 50% 50%;
 	/*animation: birthIkan .5s;*/
+
+
+   /*-webkit-backface-visibility: hidden;*/
+   /*-moz-backface-visibility: hidden;*/
+   /*-ms-backface-visibility: hidden;*/
+   /*backface-visibility: hidden;*/
 
 }
 .weed .daun{

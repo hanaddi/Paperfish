@@ -891,14 +891,14 @@ class Menu{
 					f.ac(divAct, divBuy);
 					if(isEnabled!==-1){
 						button.classList.add("red");
-						button.innerHTML = "Hide";
+						button.innerHTML = "Remove";
 						button.onclick = function(){
 							saya.game.tankItems.map(e=>e && e.item.type==i && e.item.kill() );
 							updateState(true);
 						};
 					}else{
 						button.classList.remove("red");
-						button.innerHTML = "Show";
+						button.innerHTML = "Insert";
 						button.onclick = function(){
 							let tank = new Tank(saya.game,i);
 							updateState(true);

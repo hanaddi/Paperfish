@@ -111,9 +111,17 @@ class Craft {
 
 	intervalFunction(game){
 		let saya = this;
+		let now = new Date();
 
+		saya.lastFunctionCall = saya.lastFunctionCall || now.getTime();
 		this.functionInterval = window.setInterval(()=>{
-			saya.function(game,saya);
+			let now = new Date();
+			while(now.getTime()-saya.lastFunctionCall >=saya.delay){
+				saya.function(game,saya);
+				saya.lastFunctionCall+=saya.delay;
+			}
+
+			// console.log("HOHO");
 
 			// saya.el.style.animation = null;
 			// let shine =()=>{

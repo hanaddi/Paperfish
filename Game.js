@@ -65,6 +65,12 @@ class Game{
 		let hideModal = ()=>{
 			this.hideModal();
 		}
+		let saya=this;
+		this.el.modal.onclick = function(ev){
+			if(ev.target==saya.el.modal){
+				saya.hideModal();
+			}
+		};
 		btnClose.onclick = hideModal;
 		f.ac(uBar, btnClose);
 		this.el.content = f.ce("div");
@@ -602,7 +608,10 @@ class Game{
 	}
 
 	saveData(){
-		try{kongregate.stats.submit("craft", this.craftUnlocked.length);}catch(e){}
+		try{
+			kongregate.stats.submit("craft", this.craftUnlocked.length);
+			kongregate.stats.submit("tankLvl", this.glassLvl);
+		}catch(e){}
 		let param = {
 			Data:{
 				glassLvl: this.glassLvl,

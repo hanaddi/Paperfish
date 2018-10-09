@@ -20,7 +20,7 @@ var tankItems = {
 	pagoda :{
 		name :"Pagoda",
 		type :"pagoda",
-		price:{B:100000,R:100000},
+		price:{R:200000,Y:100000},
 		money:3,
 		minGlassLvl:5,
 		width :"120px",

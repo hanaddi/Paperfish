@@ -115,7 +115,8 @@ button.green:disabled{
 
 .goyang{
 	transform-origin: center center;
-	animation: bergoyang 1s linear infinite;
+	animation: bergoyang 1s linear;
+	animation-iteration-count: 10;
 	/*animation-delay: 1s;*/
 }
 @keyframes bergoyang{
@@ -260,6 +261,12 @@ button.green:disabled{
 
 }
 
+.paused{
+	-webkit-animation-play-state:paused;
+	-moz-animation-play-state:paused;
+	-o-animation-play-state:paused; 
+	animation-play-state:paused;
+}
 
 @keyframes ekor{
 	from{
@@ -290,15 +297,15 @@ button.green:disabled{
 @keyframes ekorEll{
 	from{
 		transform-origin: 0% 50%;
-		transform: skewY(20deg);
+		transform: skewY(10deg);
 	}
 	50%{
 		transform-origin: 0% 50%;
-		transform: skewY(-20deg);
+		transform: skewY(-10deg);
 	}
 	to{
 		transform-origin: 0% 50%;
-		transform: skewY(20deg);
+		transform: skewY(10deg);
 	}
 }
 
@@ -803,6 +810,20 @@ button.green:disabled{
 	display: inline-table;
 
 	border-radius: 5px;
+}
+
+.aquaMini .weed .daun, .aquaMini .ikan .ruas{
+	-webkit-animation-play-state:paused;
+	-moz-animation-play-state:paused;
+	-o-animation-play-state:paused;
+	animation-play-state:paused;
+}
+/*.aquaMini:hover .weed .daun, .aquaMini:hover .ikan .ruas, */
+#shopMenuSelected .weed .daun, #shopMenuSelected .ikan .ruas {
+	-webkit-animation-play-state:running;
+	-moz-animation-play-state:running;
+	-o-animation-play-state:running;
+	animation-play-state:running;
 }
 
 .aquaMini + table{

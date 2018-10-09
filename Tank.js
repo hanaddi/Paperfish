@@ -15,7 +15,7 @@ var tankItems = {
 		money:2,
 		width :"100px",
 		height :"125px",
-		el : (i=f.ce("div"))&&(f.sa(i,"style","position:absolute;bottom:0;left:0px;width:100px;height:125px;background-image:url('"+IMG.tank.rocks+"');background-size:cover;background-repeat:none")||1)&&i
+		el : (i=f.ce("div"))&&(f.sa(i,"style","position:absolute;bottom:0;left:0px;width:100px;height:125px;background-image:url('"+IMG.tank.rocks+"');background-size:cover;background-repeat:no-repeat")||1)&&i
 	},
 	pagoda :{
 		name :"Pagoda",
@@ -25,18 +25,29 @@ var tankItems = {
 		minGlassLvl:5,
 		width :"120px",
 		height :"300px",
-		el : (i=f.ce("div"))&&(f.sa(i,"style","position:absolute;bottom:0;left:0px;width:120px;height:300px;background-image:url('"+IMG.tank.pagoda+"');background-size:cover;background-repeat:none")||1)&&i
+		el : (i=f.ce("div"))&&(f.sa(i,"style","position:absolute;bottom:0;left:0px;width:120px;height:300px;background-image:url('"+IMG.tank.pagoda+"');background-size:cover;background-repeat:no-repeat")||1)&&i
 	},
 	house :{
-		name :"test",
+		name :"House",
 		type :"house",
 		price:{B:10000,R:5000},
 		money:1,
 		minGlassLvl:0,
 		width :"80px",
 		height :"70px",
-		el : (i=f.ce("div"))&&(f.sa(i,"style","position:absolute;bottom:0;left:0px;width:80px;height:70px;background-image:url('../img/t6.svg');background-size:cover;background-repeat:none")||1)&&i
+		el : (i=f.ce("div"))&&(f.sa(i,"style","position:absolute;bottom:0;left:0px;width:80px;height:70px;background-image:url('"+IMG.tank.house+"');background-size:cover;background-repeat:no-repeat")||1)&&i
 		// el : (i=f.ce("div"))&&(f.sa(i,"style","position:absolute;bottom:0;left:0px;width:80px;height:60px;background-image:url('data:image/svg+xml;utf8,"+IMG.fishs.A+"');background-size:cover;background-repeat:none")||1)&&i
+	},
+	sand :{
+		name :"Sand",
+		type :"sand",
+		price:{R:1000,Y:5000},
+		money:1,
+		minGlassLvl:0,
+		width :"100%",
+		height :"40px",
+		el : (i=f.ce("div"))&&(f.sa(i,"style","position:absolute;bottom:0;left:0px;width:100%;height:100%;background-image:url('"+IMG.tank.sand+"');background-size:100%;background-repeat:no-repeat;background-position:50% 100%;")||1)&&i
+		// el : (i=f.ce("div"))&&(f.sa(i,"style","position:absolute;bottom:0;left:0px;width:100%;height:100%;background-image:url('../img/t7.svg');background-size:100%;background-repeat:no-repeat;background-position:50% 100%;")||1)&&i
 	}
 	// ,
 	// test1 :{
@@ -51,7 +62,7 @@ var tankItems = {
 	// }
 };
 var tankItemsShop = [
-	"grass","rocks","pagoda","house"
+	"grass","rocks","pagoda","house","sand"
 ];
 
 class Tank{

@@ -144,8 +144,6 @@ class Menu{
 
 	}
 
-
-
 	fishShop(scrollTop=0){
 		let saya = this;
 		let div = f.ce("div");
@@ -451,7 +449,6 @@ class Menu{
 
 		return div;
 	}
-
 
 	fishCraft1(scrollTop=0,short=null){
 		let saya = this;

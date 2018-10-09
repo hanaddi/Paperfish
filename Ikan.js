@@ -558,7 +558,7 @@ class Ikan{
 						this.move(X, Y);
 					}
 				}
-			},distance*25+500+2500*Math.random());
+			},distance*25+500+ (Math.random()<.5? 10000:2500)*Math.random() );
 			// },distance*25+500+4000);
 
 		},delay+1);

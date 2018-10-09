@@ -162,14 +162,39 @@ G : fishCraft.G,G1 : fishCraft.G1,M : fishCraft.M,A : fishCraft.A,C_1 : fishCraf
 };
 class Game{
 constructor(parentEl){
-this.parentEl = parentEl;this.el = {};this.el.glass = f.ce("div");f.sa(this.el.glass,"class","glass");f.ac(this.parentEl,this.el.glass);this.el.aqua = f.ce("div");f.sa(this.el.aqua,"class","aqua");f.ac(this.el.glass,this.el.aqua);this.el.amb = f.ce("div");f.sa(this.el.amb,"class","amb");f.ac(this.el.aqua,this.el.amb);this.el.bottomBar = f.ce("div");f.sa(this.el.bottomBar,"class","bottomBar");f.ac(this.parentEl,this.el.bottomBar);this.el.tutup = f.qs(".tutup");this.menu = new Menu(this);this.ikan = [];this.craftUnlocked = ["G"];this.craftObj = [];this.craft = [];this.craftMaxItem = 5;this.tankItemsUnlocked = [];this.tankItems = [];this.glassLvlUpCost = 1000;this.glassLvl = 1;this.onModalRemoved = [];this.fishVars = {};this.uang = 0;this.paper = {
+let saya=this;this.parentEl = parentEl;this.el = {};this.el.glass = f.ce("div");f.sa(this.el.glass,"class","glass");f.ac(this.parentEl,this.el.glass);this.el.aqua = f.ce("div");f.sa(this.el.aqua,"class","aqua");f.ac(this.el.glass,this.el.aqua);this.el.amb = f.ce("div");f.sa(this.el.amb,"class","amb");f.ac(this.el.aqua,this.el.amb);this.el.bottomBar = f.ce("div");f.sa(this.el.bottomBar,"class","bottomBar");f.ac(this.parentEl,this.el.bottomBar);this.el.tutup = f.qs(".tutup");this.menu = new Menu(this);this.ikan = [];this.craftUnlocked = ["G"];this.craftObj = [];this.craft = [];this.craftMaxItem = 5;this.tankItemsUnlocked = [];this.tankItems = [];this.glassLvlUpCost = 1000;this.glassLvl = 1;this.onModalRemoved = [];this.fishVars = {};this.uang = 0;this.paper = {
 B:0,R:0,Y:0
 };this.el.modal = f.ce("div");f.sa(this.el.modal,"class","modal");this.el.popUp = f.ce("div");f.sa(this.el.popUp,"class","popUp");let uBar = f.ce("div");f.ac(this.el.popUp, uBar);let title = f.ce("div");f.sa(title,"class","title");this.el.title = title;f.ac(uBar, title);let btnClose = f.ce("div");f.sa(btnClose,"class","btnClose");let hideModal = ()=>{
 this.hideModal();}
-let saya=this;this.el.modal.onclick = function(ev){
+this.el.modal.onclick = function(ev){
 if(ev.target==saya.el.modal){
 saya.hideModal();}
-};btnClose.onclick = hideModal;f.ac(uBar, btnClose);this.el.content = f.ce("div");f.ac(this.el.popUp, this.el.content);f.ac(this.el.modal, this.el.popUp);this.el.topBar = f.ce("div");f.sa(this.el.topBar,"class","topBar");f.ac(this.parentEl,this.el.topBar);this.viewLogo();this.viewPaper();this.viewMoney();this.glassLvl--;this.glassLvlUp(true);}
+};btnClose.onclick = hideModal;f.ac(uBar, btnClose);this.el.content = f.ce("div");f.ac(this.el.popUp, this.el.content);f.ac(this.el.modal, this.el.popUp);this.el.topBar = f.ce("div");f.sa(this.el.topBar,"class","topBar");f.ac(this.parentEl,this.el.topBar);this.viewLogo();this.viewPaper();this.viewMoney();this.glassLvl--;this.glassLvlUp(true);try{
+let hidden, visibilityChange; 
+if(typeof document.hidden !== "undefined"){
+hidden = "hidden";visibilityChange = "visibilitychange";}else
+if(typeof document.msHidden !== "undefined"){
+hidden = "msHidden";visibilityChange = "msvisibilitychange";}else
+if(typeof document.webkitHidden !== "undefined"){
+hidden = "webkitHidden";visibilityChange = "webkitvisibilitychange";}
+let onHide;let doReload = false;let handleVisibilityChange = function(){
+window.clearTimeout(onHide);if(document[hidden]) {
+onHide = window.setTimeout(function(){
+saya.transisiTutup();doReload = true;}, 300000);}else{
+if(doReload){
+window.setTimeout(function(){
+try{
+saya.saveData(function(){
+window.location = window.location;});}catch(e){
+window.location = window.location;}
+}, 1000);}
+}
+};if(typeof document.addEventListener === "undefined" || hidden === undefined) {
+}else{
+document.addEventListener(visibilityChange, handleVisibilityChange, false);}
+}catch(e){
+console.log(e);}
+}
 glassLvlUp(free=false){
 if(this.glassLvl>=10){
 this.glassLvl = 10;return;}
@@ -334,7 +359,7 @@ let saya = this;window.setTimeout(()=>{saya.loadData()},2000);}else{
 console.error(e);saya.newGame();}
 }
 });}
-saveData(){
+saveData(callback=function(){}){
 try{
 kongregate.stats.submit("craft", this.craftUnlocked.length);kongregate.stats.submit("tankLvl", this.glassLvl);}catch(e){}
 let param = {
@@ -351,7 +376,7 @@ return [e.item.save(),e.index];}catch(e){}
 }
 };let saya = this;let saving = function(r,e){
 if(r!==null){
-saya.viewStatus("Game saved.");window.setTimeout(()=>{
+saya.viewStatus("Game saved.");callback();window.setTimeout(()=>{
 saya.saveDataPublic();},5000);}
 };PlayFabClientSDK.UpdateUserData(param,saving);}
 saveDataPublic(){
@@ -565,7 +590,7 @@ window.clearInterval(buttonUpdate);});f.ac(td,button);f.ac(tr,td);f.ac(table,tr)
 if(tankItemsList.indexOf(i)==-1 && tankItemsShop.indexOf(i)!==-1){
 tankItemsList.push(i);}
 }
-for(let i of tankItemsShop){
+for(let i of tankItemsShop.sort((a,b)=>Object.values(tankItems[b].price).reduce((c,d)=>c+d) < Object.values(tankItems[a].price).reduce((c,d)=>c+d)?1:-1)){
 if(tankItemsList.indexOf(i)==-1){
 tankItemsList.push(i);}
 }
@@ -745,7 +770,7 @@ if(this.dontMove){
 this.onDontMove();}else{
 this.move(X, Y);}
 }
-},distance*25+500+2500*Math.random());},delay+1);}
+},distance*25+500+ (Math.random()<.5? 10000:2500)*Math.random() );},delay+1);}
 onDontMove(){
 }
 onclick(e){
@@ -888,14 +913,16 @@ this.elWrap.style.left = this.x +"px";this.elWrap.style.top = this.y +"px";f.ac(
 }
 var tankItems = {
 grass :{
-name :"Grass",type :"grass",price:{B:50000,Y:50000},money:2,width :"100%",height :"30px",el : (i=f.ce("div"))&&(f.sa(i,"style","position:absolute;bottom:0;left:0px;width:100%;height:30px;background-image:url('"+IMG.tank.grass+"');background-size:30px;background-repeat:repeat-x")||1)&&i
+name :"Grass",type :"grass",price:{B:50000,Y:50000},money:2,width :"100%",height :"15px",el : (i=f.ce("div"))&&(f.sa(i,"style","position:absolute;bottom:0;left:0px;width:100%;height:15px;background-image:url('"+IMG.tank.grass+"');background-size:15px;background-repeat:repeat-x")||1)&&i
 },rocks :{
 name :"Rocks",type :"rocks",price:{B:100000,R:100000},money:2,width :"100px",height :"125px",el : (i=f.ce("div"))&&(f.sa(i,"style","position:absolute;bottom:0;left:0px;width:100px;height:125px;background-image:url('"+IMG.tank.rocks+"');background-size:cover;background-repeat:none")||1)&&i
 },pagoda :{
 name :"Pagoda",type :"pagoda",price:{R:200000,Y:100000},money:3,minGlassLvl:5,width :"120px",height :"300px",el : (i=f.ce("div"))&&(f.sa(i,"style","position:absolute;bottom:0;left:0px;width:120px;height:300px;background-image:url('"+IMG.tank.pagoda+"');background-size:cover;background-repeat:none")||1)&&i
+},house :{
+name :"test",type :"house",price:{B:10000,R:5000},money:1,minGlassLvl:0,width :"80px",height :"70px",el : (i=f.ce("div"))&&(f.sa(i,"style","position:absolute;bottom:0;left:0px;width:80px;height:70px;background-image:url('../img/t6.svg');background-size:cover;background-repeat:none")||1)&&i
 }
 };var tankItemsShop = [
-"grass","rocks","pagoda"
+"grass","rocks","pagoda","house"
 ];class Tank{
 constructor(game,type,left=0){
 this.game = game;this.game.tankItemsUnlocked = this.game.tankItemsUnlocked || [];this.game.tankItems = this.game.tankItems || [];this.type = type;this.left = left;let i = null;if(tankItems[type] && this.game.tankItemsUnlocked.indexOf(this.type)!==-1){

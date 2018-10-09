@@ -805,7 +805,7 @@ class Menu{
 				tankItemsList.push(i);
 			}
 		}
-		for(let i of tankItemsShop){
+		for(let i of tankItemsShop.sort((a,b)=>Object.values(tankItems[b].price).reduce((c,d)=>c+d) < Object.values(tankItems[a].price).reduce((c,d)=>c+d)?1:-1)){
 			if(tankItemsList.indexOf(i)==-1){
 				tankItemsList.push(i);
 			}

@@ -5,8 +5,8 @@ var tankItems = {
 		price:{B:50000,Y:50000},
 		money:2,
 		width :"100%",
-		height :"30px",
-		el : (i=f.ce("div"))&&(f.sa(i,"style","position:absolute;bottom:0;left:0px;width:100%;height:30px;background-image:url('"+IMG.tank.grass+"');background-size:30px;background-repeat:repeat-x")||1)&&i
+		height :"15px",
+		el : (i=f.ce("div"))&&(f.sa(i,"style","position:absolute;bottom:0;left:0px;width:100%;height:15px;background-image:url('"+IMG.tank.grass+"');background-size:15px;background-repeat:repeat-x")||1)&&i
 	},
 	rocks :{
 		name :"Rocks",
@@ -26,6 +26,17 @@ var tankItems = {
 		width :"120px",
 		height :"300px",
 		el : (i=f.ce("div"))&&(f.sa(i,"style","position:absolute;bottom:0;left:0px;width:120px;height:300px;background-image:url('"+IMG.tank.pagoda+"');background-size:cover;background-repeat:none")||1)&&i
+	},
+	house :{
+		name :"test",
+		type :"house",
+		price:{B:10000,R:5000},
+		money:1,
+		minGlassLvl:0,
+		width :"80px",
+		height :"70px",
+		el : (i=f.ce("div"))&&(f.sa(i,"style","position:absolute;bottom:0;left:0px;width:80px;height:70px;background-image:url('../img/t6.svg');background-size:cover;background-repeat:none")||1)&&i
+		// el : (i=f.ce("div"))&&(f.sa(i,"style","position:absolute;bottom:0;left:0px;width:80px;height:60px;background-image:url('data:image/svg+xml;utf8,"+IMG.fishs.A+"');background-size:cover;background-repeat:none")||1)&&i
 	}
 	// ,
 	// test1 :{
@@ -40,7 +51,7 @@ var tankItems = {
 	// }
 };
 var tankItemsShop = [
-	"grass","rocks","pagoda"
+	"grass","rocks","pagoda","house"
 ];
 
 class Tank{

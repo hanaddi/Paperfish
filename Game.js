@@ -1,5 +1,6 @@
 class Game{
 	constructor(parentEl){
+		let saya=this;
 		this.parentEl = parentEl;
 		this.el = {};
 
@@ -65,7 +66,6 @@ class Game{
 		let hideModal = ()=>{
 			this.hideModal();
 		}
-		let saya=this;
 		this.el.modal.onclick = function(ev){
 			if(ev.target==saya.el.modal){
 				saya.hideModal();
@@ -90,6 +90,67 @@ class Game{
 		this.glassLvl--;
 		this.glassLvlUp(true);
 
+
+		// Innactivity detection
+		try{
+			let hidden, visibilityChange; 
+			if(typeof document.hidden !== "undefined"){
+				hidden = "hidden";
+				visibilityChange = "visibilitychange";
+			}else
+			if(typeof document.msHidden !== "undefined"){
+				hidden = "msHidden";
+				visibilityChange = "msvisibilitychange";
+			}else
+			if(typeof document.webkitHidden !== "undefined"){
+				hidden = "webkitHidden";
+				visibilityChange = "webkitvisibilitychange";
+			}
+			// let forceReload = function(){
+			// 	if(document[hidden]){
+			// 		window.setTimeout(forceReload,2000);
+			// 	}else{
+			// 		try{
+			// 			saya.saveData(function(){
+			// 				window.location = window.location;
+			// 			});
+			// 		}catch(e){
+			// 			window.location = window.location;
+			// 		}
+			// 	}
+			// };
+			let onHide;
+			let doReload = false;
+			let handleVisibilityChange = function(){
+				// console.log("visibilitychange");
+				window.clearTimeout(onHide);
+				if(document[hidden]) {
+					onHide = window.setTimeout(function(){
+						saya.transisiTutup();
+						doReload = true;
+					}, 300000);
+					// }, 3000);
+				}else{
+					if(doReload){
+						window.setTimeout(function(){
+							try{
+								saya.saveData(function(){
+									window.location = window.location;
+								});
+							}catch(e){
+								window.location = window.location;
+							}
+						}, 1000);
+					}
+				}
+			};
+			if(typeof document.addEventListener === "undefined" || hidden === undefined) {
+			}else{
+				document.addEventListener(visibilityChange, handleVisibilityChange, false);
+			}
+		}catch(e){
+			console.log(e);
+		}
 
 	}
 
@@ -607,7 +668,7 @@ class Game{
 
 	}
 
-	saveData(){
+	saveData(callback=function(){}){
 		try{
 			kongregate.stats.submit("craft", this.craftUnlocked.length);
 			kongregate.stats.submit("tankLvl", this.glassLvl);
@@ -646,6 +707,7 @@ class Game{
 		let saving = function(r,e){
 			if(r!==null){
 				saya.viewStatus("Game saved.");
+				callback();
 				window.setTimeout(()=>{
 					saya.saveDataPublic();
 				},5000);

@@ -24,7 +24,7 @@ class Craft {
 		}
 
 
-		let fishVar = fishCraft[type]||fishs["B"];
+		let fishVar = GLOBAL.fishCraft[type];
 		for(let i of Object.keys(fishVar)){
 			this[i] = fishVar[i];
 		}

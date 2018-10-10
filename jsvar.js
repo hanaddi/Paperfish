@@ -210,8 +210,8 @@ var IMG = {
 };
 
 
-
-var fishs = {
+var GLOBAL={};
+GLOBAL.fishs = {
 	B:{
 		name : 'Blu',
 		type : "B",
@@ -242,12 +242,12 @@ var fishs = {
 };
 
 
-var fishShop = {};
-Object.keys(fishs).map(e=>fishShop[e]=fishs[e]);
-// Object.keys(fishs).sort((a,b)=>fishs[a].price>fishs[b].price?1:-1).map(e=>fishShop[e]=fishs[e]);
+GLOBAL.fishShop = {};
+Object.keys(GLOBAL.fishs).map(e=>GLOBAL.fishShop[e]=GLOBAL.fishs[e]);
+// Object.keys(GLOBAL.fishs).sort((a,b)=>GLOBAL.fishs[a].price>GLOBAL.fishs[b].price?1:-1).map(e=>GLOBAL.fishShop[e]=GLOBAL.fishs[e]);
 
 
-var fishCraft = {
+GLOBAL.fishCraft = {
 	G:{
 		name : 'Mini Gold',
 		type : "G",
@@ -295,10 +295,10 @@ var fishCraft = {
 };
 
 
-var fishCraftShop = {
-	G : fishCraft.G,
-	G1 : fishCraft.G1,
-	// M : fishCraft.M,
+GLOBAL.fishCraftShop = {
+	G : GLOBAL.fishCraft.G,
+	G1 : GLOBAL.fishCraft.G1,
+	// M : GLOBAL.fishCraft.M,
 	// A : fishCraft.A,
 	// C_1 : fishCraft.C_1,
 	// C_2 : fishCraft.C_2,
@@ -309,7 +309,7 @@ var fishCraftShop = {
 	// C_7 : fishCraft.C_7,
 	// C_8 : fishCraft.C_8,
 	// C_9 : fishCraft.C_9,
-	N : fishCraft.N
+	N : GLOBAL.fishCraft.N
 };
 
 

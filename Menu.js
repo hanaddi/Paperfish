@@ -151,7 +151,7 @@ class Menu{
 		div.onscroll =e=>{scrollTop=div.scrollTop;};
 
 		// for(let j=9;--j;)
-		for(let i of Object.keys(fishShop).sort((a,b)=>fishs[a].price>fishs[b].price?1:-1)){
+		for(let i of Object.keys(GLOBAL.fishShop).sort((a,b)=>GLOBAL.fishs[a].price>GLOBAL.fishs[b].price?1:-1)){
 			let menu = f.ce("div");
 			f.sa(menu,"class","shopMenu");
 
@@ -161,48 +161,48 @@ class Menu{
 			
 			let div1 = f.ce("div");
 			f.sa(div1,"class","title1");
-			div1.innerHTML = fishShop[i].name;
+			div1.innerHTML = GLOBAL.fishShop[i].name;
 			f.ac(menu, div1);
 
 			let buy = f.ce("button");
 			div1 = f.ce("div");
 
-			if(!fishShop[i].v){
-				let ikan = new Ikan((160-fishShop[i].lvlUpVar.base[0])/2 ,(100-fishShop[i].lvlUpVar.base[1])/2,aquaMini, 200, 200, fishShop[i].type,false,false,1);
+			if(!GLOBAL.fishShop[i].v){
+				let ikan = new Ikan((160-GLOBAL.fishShop[i].lvlUpVar.base[0])/2 ,(100-GLOBAL.fishShop[i].lvlUpVar.base[1])/2,aquaMini, 200, 200, GLOBAL.fishShop[i].type,false,false,1);
 
 
-				div1.innerHTML = "<img src='"+IMG.icon._plus(IMG.icon.paper)+"' class='icon coin"+fishShop[i].type+"'>"+(fishShop[i].claimBase*6)+"/min";
+				div1.innerHTML = "<img src='"+IMG.icon._plus(IMG.icon.paper)+"' class='icon coin"+GLOBAL.fishShop[i].type+"'>"+(GLOBAL.fishShop[i].claimBase*6)+"/min";
 				// f.ac(menu, div1);
 
 				// div1 = f.ce("div");
-				div1.innerHTML += "<br><img src='"+IMG.icon.heart+"' class='icon'>"+f.lifeBar(fishShop[i].lifeSpan);
+				div1.innerHTML += "<br><img src='"+IMG.icon.heart+"' class='icon'>"+f.lifeBar(GLOBAL.fishShop[i].lifeSpan);
 				f.ac(menu, div1);
 
 
 				div1 = f.ce("div");
 				buy.onclick = function(ev){
-					saya.game.addIkan(fishShop[i].type);
+					saya.game.addIkan(GLOBAL.fishShop[i].type);
 					// saya.game.hideModal();
 
 					let totalIkan = 0;
 					saya.game.ikan.map(e=>e && (totalIkan++) );
 					saya.game.el.title.innerHTML="Fish Shop ("+totalIkan+"/"+(saya.game.glassLvl*2+1)+")";
-					saya.game.showPop(" <span style='color:#911'><img src='"+IMG.icon.money+"' class='icon'>"+f.numFormat(fishShop[i].price), ev.pageX, ev.pageY)+"</span>";
+					saya.game.showPop(" <span style='color:#911'><img src='"+IMG.icon.money+"' class='icon'>"+f.numFormat(GLOBAL.fishShop[i].price), ev.pageX, ev.pageY)+"</span>";
 				}
 
 			}else
-			if(fishShop[i].v==2){
+			if(GLOBAL.fishShop[i].v==2){
 
-				let ikan = new Ikan2((160-fishShop[i].lvlUpVar.base[0])/2 ,(100-fishShop[i].lvlUpVar.base[1])/2,aquaMini, 200, 200, i ,false,false,1);
+				let ikan = new Ikan2((160-GLOBAL.fishShop[i].lvlUpVar.base[0])/2 ,(100-GLOBAL.fishShop[i].lvlUpVar.base[1])/2,aquaMini, 200, 200, i ,false,false,1);
 
 				div1 = f.ce("div");
-				for(let j in fishShop[i].claimBase){
-					div1.innerHTML += "<img src='"+IMG.icon._plus(IMG.icon.paper)+"' class='icon coin"+fishShop[i].curr[j]+"'>"+(fishShop[i].claimBase[j]*6)+"/min<br>";
+				for(let j in GLOBAL.fishShop[i].claimBase){
+					div1.innerHTML += "<img src='"+IMG.icon._plus(IMG.icon.paper)+"' class='icon coin"+GLOBAL.fishShop[i].curr[j]+"'>"+(GLOBAL.fishShop[i].claimBase[j]*6)+"/min<br>";
 				}
 				// f.ac(menu, div1);
 
 				// div1 = f.ce("div");
-				div1.innerHTML += "<img src='"+IMG.icon.heart+"' class='icon'>"+f.lifeBar(fishShop[i].lifeSpan);
+				div1.innerHTML += "<img src='"+IMG.icon.heart+"' class='icon'>"+f.lifeBar(GLOBAL.fishShop[i].lifeSpan);
 				f.ac(menu, div1);
 
 				div1 = f.ce("div");
@@ -213,11 +213,11 @@ class Menu{
 					let totalIkan = 0;
 					saya.game.ikan.map(e=>e && (totalIkan++) );
 					saya.game.el.title.innerHTML="Fish Shop ("+totalIkan+"/"+(saya.game.glassLvl*2+1)+")";
-					saya.game.showPop(" <span style='color:#911'><img src='"+IMG.icon.money+"' class='icon'>"+f.numFormat(fishShop[i].price), ev.pageX, ev.pageY)+"</span>";
+					saya.game.showPop(" <span style='color:#911'><img src='"+IMG.icon.money+"' class='icon'>"+f.numFormat(GLOBAL.fishShop[i].price), ev.pageX, ev.pageY)+"</span>";
 				}
 			}
 			
-			buy.innerHTML = " <img src='"+IMG.icon.money+"' class='icon'>"+f.numFormat(fishShop[i].price);
+			buy.innerHTML = " <img src='"+IMG.icon.money+"' class='icon'>"+f.numFormat(GLOBAL.fishShop[i].price);
 
 
 			try{
@@ -225,7 +225,7 @@ class Menu{
 				let totalIkan = 0;
 				saya.game.ikan.map(e=>e && (totalIkan++) );
 
-				if(this.game.uang<fishShop[i].price || saya.game.glassLvl*2+1 <= totalIkan){
+				if(this.game.uang<GLOBAL.fishShop[i].price || saya.game.glassLvl*2+1 <= totalIkan){
 					f.sa(buy,"disabled","");
 				}else{
 					f.ra(buy,"disabled");
@@ -240,7 +240,7 @@ class Menu{
 					let totalIkan = 0;
 					saya.game.ikan.map(e=>e && (totalIkan++) );
 
-					if(this.game.uang<fishShop[i].price || saya.game.glassLvl*2+1 <= totalIkan){
+					if(this.game.uang<GLOBAL.fishShop[i].price || saya.game.glassLvl*2+1 <= totalIkan){
 						f.sa(buy,"disabled","");
 					}else{
 						f.ra(buy,"disabled");
@@ -279,23 +279,23 @@ class Menu{
 			// 	}
 			// }
 
-			for(let i of this.game.craftUnlocked.sort((a,b)=> this.game.craft.indexOf(a)!=-1?-1:this.game.craft.indexOf(b)!=-1?1: Object.values(fishCraft[b].price).reduce((c,d)=>c+d) < Object.values(fishCraft[a].price).reduce((c,d)=>c+d)?1:-1)){
+			for(let i of this.game.craftUnlocked.sort((a,b)=> this.game.craft.indexOf(a)!=-1?-1:this.game.craft.indexOf(b)!=-1?1: Object.values(GLOBAL.fishCraft[b].price).reduce((c,d)=>c+d) < Object.values(GLOBAL.fishCraft[a].price).reduce((c,d)=>c+d)?1:-1)){
 				if(!fishShop[i]){
-					fishShop[i] = fishCraft[i];
+					fishShop[i] = GLOBAL.fishCraft[i];
 				}
 			}
 
-			for(let i of Object.keys(fishCraftShop).sort((a,b)=>Object.values(fishCraftShop[b].price).reduce((c,d)=>c+d) < Object.values(fishCraftShop[a].price).reduce((c,d)=>c+d)?1:-1)){
+			for(let i of Object.keys(GLOBAL.fishCraftShop).sort((a,b)=>Object.values(GLOBAL.fishCraftShop[b].price).reduce((c,d)=>c+d) < Object.values(GLOBAL.fishCraftShop[a].price).reduce((c,d)=>c+d)?1:-1)){
 			// for(let i of Object.keys(fishCraftShop)){
 				if(!fishShop[i]){
-					fishShop[i] = fishCraftShop[i];
+					fishShop[i] = GLOBAL.fishCraftShop[i];
 				}
 			}
 			short = Object.keys(fishShop);
 		}else{
 			for(let i of short){
 				if(!fishShop[i]){
-					fishShop[i] = fishCraft[i];
+					fishShop[i] = GLOBAL.fishCraft[i];
 				}
 			}
 		}
@@ -459,22 +459,22 @@ class Menu{
 		div.onscroll =e=>{scrollTop=div.scrollTop;};
 
 		if(!short){
-			for(let i of this.game.craftUnlocked.sort((a,b)=> this.game.craft.indexOf(a)!=-1?-1:this.game.craft.indexOf(b)!=-1?1: Object.values(fishCraft[b].price).reduce((c,d)=>c+d) < Object.values(fishCraft[a].price).reduce((c,d)=>c+d)?1:-1)){
+			for(let i of this.game.craftUnlocked.sort((a,b)=> this.game.craft.indexOf(a)!=-1?-1:this.game.craft.indexOf(b)!=-1?1: Object.values(GLOBAL.fishCraft[b].price).reduce((c,d)=>c+d) < Object.values(GLOBAL.fishCraft[a].price).reduce((c,d)=>c+d)?1:-1)){
 				if(!fishShop[i]){
-					fishShop[i] = fishCraft[i];
+					fishShop[i] = GLOBAL.fishCraft[i];
 				}
 			}
 
-			for(let i of Object.keys(fishCraftShop).sort((a,b)=>Object.values(fishCraftShop[b].price).reduce((c,d)=>c+d) < Object.values(fishCraftShop[a].price).reduce((c,d)=>c+d)?1:-1)){
+			for(let i of Object.keys(GLOBAL.fishCraftShop).sort((a,b)=>Object.values(GLOBAL.fishCraftShop[b].price).reduce((c,d)=>c+d) < Object.values(GLOBAL.fishCraftShop[a].price).reduce((c,d)=>c+d)?1:-1)){
 				if(!fishShop[i]){
-					fishShop[i] = fishCraftShop[i];
+					fishShop[i] = GLOBAL.fishCraftShop[i];
 				}
 			}
 			short = Object.keys(fishShop);
 		}else{
 			for(let i of short){
 				if(!fishShop[i]){
-					fishShop[i] = fishCraft[i];
+					fishShop[i] = GLOBAL.fishCraft[i];
 				}
 			}
 		}

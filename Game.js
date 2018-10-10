@@ -227,8 +227,8 @@ class Game{
 		if(this.glassLvl*2+1 <= totalIkan)return;
 
 		if(!free){
-			if(fishs[type].price > this.uang)return;
-			this.uang -= fishs[type].price;
+			if(GLOBAL.fishs[type].price > this.uang)return;
+			this.uang -= GLOBAL.fishs[type].price;
 			this.viewMoney();
 		}
 
@@ -248,8 +248,8 @@ class Game{
 		if(this.glassLvl*2+1 <= totalIkan)return;
 
 		if(!free){
-			if(fishs[type].price > this.uang)return;
-			this.uang -= fishs[type].price;
+			if(GLOBAL.fishs[type].price > this.uang)return;
+			this.uang -= GLOBAL.fishs[type].price;
 			this.viewMoney();
 		}
 
@@ -261,7 +261,7 @@ class Game{
 	}
 
 	loadIkan(arr){
-		if(!fishs[arr[1]]){
+		if(!GLOBAL.fishs[arr[1]]){
 			console.log("Game::loadIkan() ERROR");
 			return;
 		}
@@ -364,12 +364,12 @@ class Game{
 	}
 
 	unlockCraft(type){
-		for(let i of Object.keys(fishCraft[type].price)){
-			if(fishCraft[type].price[i]>this.paper[i])return;
+		for(let i of Object.keys(GLOBAL.fishCraft[type].price)){
+			if(GLOBAL.fishCraft[type].price[i]>this.paper[i])return;
 		}
-		this.craftUnlocked.push(fishCraft[type].type);
-		for(let i of Object.keys(fishCraft[type].price)){
-			this.paper[i] -= fishCraft[type].price[i];
+		this.craftUnlocked.push(GLOBAL.fishCraft[type].type);
+		for(let i of Object.keys(GLOBAL.fishCraft[type].price)){
+			this.paper[i] -= GLOBAL.fishCraft[type].price[i];
 		}
 		this.viewPaper();
 		try{kongregate.stats.submit("craft", this.craftUnlocked.length);}catch(e){}
@@ -699,38 +699,46 @@ class Game{
 				if(r.data.InfoResultPayload.TitleData.fishCraft){
 					try{
 						eval("window.temp ="+r.data.InfoResultPayload.TitleData.fishCraft);
-						fishCraft = window.temp;
-					}catch(e){
-						// console.log(e);
-					}
-				}
+						GLOBAL.fishCraft = window.temp;
 
-				if(r.data.InfoResultPayload.TitleData.fishCraftShop){
-					try{
-						eval("window.temp ="+r.data.InfoResultPayload.TitleData.fishCraftShop);
-						fishCraftShop = window.temp;
-					}catch(e){
-						// console.log(e);
-					}
-				}
 
-				if(r.data.InfoResultPayload.TitleData.fishs){
-					try{
-						eval("window.temp ="+r.data.InfoResultPayload.TitleData.fishs);
-						fishs = window.temp;
-
-						fishShop = {};
-						Object.keys(fishs).map(e=>fishShop[e]=fishs[e]);
+						GLOBAL.fishCraftShop = {};
+						Object.keys(GLOBAL.fishCraft).map(e=>GLOBAL.fishCraftShop[e]=GLOBAL.fishCraft[e]);
 
 					}catch(e){
 						console.log(e);
 					}
 				}
 
+				// if(r.data.InfoResultPayload.TitleData.fishCraftShop){
+				// 	try{
+				// 		// console.log("window.temp ="+r.data.InfoResultPayload.TitleData.fishCraftShop);
+				// 		eval("window.temp ="+r.data.InfoResultPayload.TitleData.fishCraftShop);
+				// 		console.log(window.temp);
+				// 		GLOBAL.fishCraftShop = window.temp;
+				// 	}catch(e){
+				// 		console.log(e);
+				// 	}
+				// }
+
+				// if(0)
+				if(r.data.InfoResultPayload.TitleData.fishs){
+					try{
+						eval("window.temp ="+r.data.InfoResultPayload.TitleData.fishs);
+						GLOBAL.fishs = window.temp;
+
+						GLOBAL.fishShop = {};
+						Object.keys(GLOBAL.fishs).map(e=>GLOBAL.fishShop[e]=GLOBAL.fishs[e]);
+
+					}catch(e){
+						// console.log(e);
+					}
+				}
+
 				// if(r.data.InfoResultPayload.TitleData.fishShop){
 				// 	try{
 				// 		eval("window.temp ="+r.data.InfoResultPayload.TitleData.fishShop);
-				// 		fishShop = window.temp;
+				// 		GLOBAL.fishShop = window.temp;
 				// 	}catch(e){
 				// 		console.log(e);
 				// 	}

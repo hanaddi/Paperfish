@@ -22,9 +22,9 @@ class Ikan{
 			this.dir=(x<this.x?0:1);
 		}
 
-		if(!fishs[type])throw "Undefined ikan";
+		if(!GLOBAL.fishs[type])throw "Undefined ikan";
 
-		let fishVar = fishs[type]||fishs["B"];
+		let fishVar = GLOBAL.fishs[type]||GLOBAL.fishs["B"];
 		// console.log(fishVar);
 		for(let i of Object.keys(fishVar)){
 			this[i] = fishVar[i];

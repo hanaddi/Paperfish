@@ -3,7 +3,11 @@
 ////////////TEST//////////////
 
 window.onload = function(){
-    PlayFab.settings.titleId = "EAC6";
+	if(window.location.host=="localhost"){
+	    PlayFab.settings.titleId = "3D56";
+	}else{
+	    PlayFab.settings.titleId = "EAC6";
+	}
 	window.game = new Game(f.qs("#wadah"));
 	// var game = new Game(f.qs("#wadah"));
 

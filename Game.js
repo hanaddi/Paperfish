@@ -186,7 +186,7 @@ class Game{
 			saya.viewMoney();
 
 			saya.ikan.map(e=>{
-				e.kill(saya);
+				if(e)e.kill(saya);
 			});
 
 			saya.ikan = [];
@@ -555,7 +555,8 @@ class Game{
 			try{
 				// console.log(r);
 				if(!r.data.NewlyCreated && 1){
-					this.loadData();
+					// this.loadData();
+					this.loadData1();
 				}else{
 					this.newGame();
 					// this.addCraft("G");
@@ -626,8 +627,9 @@ class Game{
 				if(r.data.Data.ikan1){
 
 					for(let i of saya.ikan){
-						i.kill(saya);
+						if(i)i.kill(saya);
 					}
+					saya.ikan=[];
 
 					JSON.parse(r.data.Data.ikan1.Value).sort((i,j)=>Math.random()>.5?1:-1).map(e=>{
 						try{
@@ -661,6 +663,147 @@ class Game{
 					window.setTimeout(()=>{saya.loadData()},2000);
 				}else{
 					console.error(e);
+					saya.newGame();
+				}
+			}
+		});
+
+	}
+
+	loadData1(){
+		let saya = this;
+		saya.transisiTutup();
+
+		let param = {
+		"InfoRequestParameters": {
+			"GetUserAccountInfo": false,
+			"GetUserInventory": false,
+			"GetUserVirtualCurrency": false,
+			"GetUserData": true,
+			"UserDataKeys": [],
+			"GetUserReadOnlyData": false,
+			"GetCharacterInventories": false,
+			"GetCharacterList": false,
+			"GetTitleData": true,
+			"TitleDataKeys":[],
+			"GetPlayerStatistics": false,
+			"GetPlayerProfile": false
+			}
+		};
+
+		PlayFabClientSDK.GetPlayerCombinedInfo(param, (r,e)=>{
+			// console.log(r);
+			// return;
+			try{
+
+				if(r.data.InfoResultPayload.TitleData.fishCraft){
+					try{
+						eval("window.temp ="+r.data.InfoResultPayload.TitleData.fishCraft);
+						fishCraft = window.temp;
+					}catch(e){
+						// console.log(e);
+					}
+				}
+
+				if(r.data.InfoResultPayload.TitleData.fishCraftShop){
+					try{
+						eval("window.temp ="+r.data.InfoResultPayload.TitleData.fishCraftShop);
+						fishCraftShop = window.temp;
+					}catch(e){
+						// console.log(e);
+					}
+				}
+
+				if(r.data.InfoResultPayload.TitleData.fishs){
+					try{
+						eval("window.temp ="+r.data.InfoResultPayload.TitleData.fishs);
+						fishs = window.temp;
+
+						fishShop = {};
+						Object.keys(fishs).map(e=>fishShop[e]=fishs[e]);
+
+					}catch(e){
+						console.log(e);
+					}
+				}
+
+				// if(r.data.InfoResultPayload.TitleData.fishShop){
+				// 	try{
+				// 		eval("window.temp ="+r.data.InfoResultPayload.TitleData.fishShop);
+				// 		fishShop = window.temp;
+				// 	}catch(e){
+				// 		console.log(e);
+				// 	}
+				// }
+
+				
+				if(r.data.InfoResultPayload.UserData.glassLvl){
+					saya.glassLvl=1;
+					while(saya.glassLvl<parseInt(r.data.InfoResultPayload.UserData.glassLvl.Value)){
+						saya.glassLvlUp(true);
+					}
+				}
+				if(r.data.InfoResultPayload.UserData.curr){
+					let data = JSON.parse(r.data.InfoResultPayload.UserData.curr.Value);
+					saya.uang = parseInt(data[0]);
+					saya.viewMoney();
+					saya.paper = data[1];
+					saya.viewPaper();
+				}
+				
+				if(r.data.InfoResultPayload.UserData.craftUnlocked){
+					saya.craftUnlocked = JSON.parse(r.data.InfoResultPayload.UserData.craftUnlocked.Value);
+					saya.craftUnlocked = saya.craftUnlocked.length?saya.craftUnlocked:['G'];
+				}
+				
+				if(r.data.InfoResultPayload.UserData.craft){
+					for(let i of saya.craft){
+						saya.removeCraft(i);
+					}
+					JSON.parse(r.data.InfoResultPayload.UserData.craft.Value).slice(0,saya.craftMaxItem).map(e=>{
+						try{
+							saya.addCraft(e);
+						}catch(e){}
+					});
+				}
+
+				if(r.data.InfoResultPayload.UserData.ikan1){
+
+					for(let i of saya.ikan){
+						if(i)i.kill(saya);
+					}
+					saya.ikan=[];
+
+					JSON.parse(r.data.InfoResultPayload.UserData.ikan1.Value).sort((i,j)=>Math.random()>.5?1:-1).map(e=>{
+						try{
+							saya.loadIkan(e);
+						}catch(e){}
+					});
+				}
+				
+
+				if(r.data.InfoResultPayload.UserData.general1){
+					let general1 = JSON.parse(r.data.InfoResultPayload.UserData.general1.Value);
+					saya.tankItemsUnlocked=general1.tankItemsUnlocked;
+					saya.tankItems.map(el=>el && el.item && el.item.kill() );
+					general1.tankItems.sort((a,b)=>b[1]<a[1]?1:-1).map(el=>{
+						let tank = new Tank(saya,el[0][0],el[0][1]||0);
+					});
+				}
+
+
+				window.setTimeout(()=>{
+					saya.transisiBuka();
+					if(saya.uang<1 && saya.paper.B<1 && saya.paper.R<1 && saya.paper.Y<1){
+						saya.addIkan("B",true);
+					}
+				},2001);
+			}catch(err){
+				console.error(err);
+				if(e!==null){
+					let saya = this;
+					window.setTimeout(()=>{saya.loadData1()},2000);
+				}else{
 					saya.newGame();
 				}
 			}

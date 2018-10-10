@@ -818,7 +818,7 @@ button.green:disabled{
 	-o-animation-play-state:paused;
 	animation-play-state:paused;
 }
-/*.aquaMini:hover .weed .daun, .aquaMini:hover .ikan .ruas, */
+.aquaMini:hover .weed .daun, .aquaMini:hover .ikan .ruas, 
 #shopMenuSelected .weed .daun, #shopMenuSelected .ikan .ruas {
 	-webkit-animation-play-state:running;
 	-moz-animation-play-state:running;
@@ -963,9 +963,9 @@ button.green:disabled{
 
 .C_9{
 	position:absolute;
-	height:15px;
-	width:15px;
-	top:0%;
+	height:12px;
+	width:12px;
+	top:100%;
 	left:50%;
 	margin-left:-7px;
 	/*transform: scale(.8);*/
@@ -973,12 +973,10 @@ button.green:disabled{
 	padding: 3px;
 	color: #fff;
 	font-size: 10px;
-	background-color: #ff1111;
+	background-color: #112233;
 
-	border-radius: 50%;
+	/*border-radius: 50%;*/
 }
-
-
 /**/
 
 .weed {

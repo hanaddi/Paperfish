@@ -238,77 +238,13 @@ var fishs = {
 		claimBase : 3,
 		price : 150,
 		lvlUpVar : {base:[37,23],inc:[10,6]}
-	},
-
-	v2_A:{
-		v:2,
-		name : 'Nilo',
-		img : "D",
-		type : "v2_A",
-		lvlUpCost : 200,
-		lifeSpan : 40*60*1000,
-		curr : ["B"],
-		claimBase : [6],
-		price : 250,
-		lvlUpVar : {base:[24,9],inc:[8,3]}
-	},
-	v2_B:{
-		v:2,
-		name : 'Lisa',
-		img : "B1",
-		type : "v2_B",
-		lvlUpCost : 200,
-		lifeSpan : 40*60*1000,
-		// lifeSpan : 10000,
-		curr : ["R","Y"],
-		claimBase : [2,2],
-		price : 300,
-		lvlUpVar : {base:[32,20],inc:[5,3]}
-	},
-	v2_D:{
-		v:2,
-		name : 'Fred',
-		img : "C",
-		type : "v2_D",
-		lvlUpCost : 400,
-		lifeSpan : 10*60*1000,
-		// lifeSpan : 15000,
-		curr : ["R"],
-		claimBase : [12],
-		price : 950,
-		lvlUpVar : {base:[30,24],inc:[5,4]}
-	},
-	v2_C:{
-		v:2,
-		name : 'Nani',
-		img : "S",
-		type : "v2_C",
-		lvlUpCost : 500,
-		lifeSpan : 172799999,
-		// lifeSpan : 186399999,
-		curr : ["B","R","Y"],
-		claimBase : [2,2,2],
-		price : 30000,
-		lvlUpVar : {base:[32,20],inc:[5,3]}
-	},
-	v2_E:{
-		v:2,
-		name : 'Nimo',
-		img : "V2_1",
-		type : "v2_E",
-		lvlUpCost : 400,
-		lifeSpan : 4800000,
-		// lifeSpan : 15000,
-		curr : ["B","R"],
-		claimBase : [3,6],
-		price : 1000,
-		lvlUpVar : {base:[42,25],inc:[3,2]}
 	}
 };
 
 
 var fishShop = {};
-Object.keys(fishs).sort((a,b)=>fishs[a].price>fishs[b].price?1:-1).map(e=>fishShop[e]=fishs[e]);
+Object.keys(fishs).map(e=>fishShop[e]=fishs[e]);
+// Object.keys(fishs).sort((a,b)=>fishs[a].price>fishs[b].price?1:-1).map(e=>fishShop[e]=fishs[e]);
 
 
 var fishCraft = {
@@ -336,40 +272,6 @@ var fishCraft = {
 		function :g=>{g.uang+=60;g.viewMoney();},
 		price : {B:30,R:10,Y:0}
 	},
-	M:{
-		name : 'Blues Mom',
-		type : "M",
-		desc : "Produce <img src='data:image/svg+xml;utf8, "+IMG.fishs.B+"' class='icon coinY'>/ 5 minutes (as long as tank not full).",
-		length : 80,
-		height:45,
-		delay : 300000,
-		function0 :(g)=>{},
-		function1 :(g)=>{},
-		function  :(g,s)=>{
-			g.addIkan("B",true,s.elWrap.offsetLeft+(s.dir*s.length/2),s.elWrap.offsetTop+20);
-		},
-		price : {B:1000,R:1000,Y:1000}
-	},
-	A:{
-		name : 'Sura',
-		type : "A",
-		desc : "For every minute :<br>- Generate 330<img src='"+IMG.icon.money+"' class='icon'><br>- Turn 20<img src='"+IMG.icon.paper+"' class='icon coinB'> to 10<img src='"+IMG.icon.paper+"' class='icon coinR'>",
-		length : 125,
-		height:50,
-		delay : 60000,
-		function0 :g=>{},
-		function1 :g=>{},
-		function :g=>{
-			g.uang+=300;
-			g.viewMoney();
-			if(g.paper.B>=20){
-				g.paper.B -= 20;
-				g.paper.R += 11;
-				g.viewPaper();
-			}
-		},
-		price : {B:2000,R:2500,Y:2000}
-	},
 	N:{
 		name : 'Shadow',
 		type : "N",
@@ -389,292 +291,6 @@ var fishCraft = {
 			g.uang+=4;g.viewMoney();
 		},
 		price : {B:100,R:50,Y:20}
-	},
-
-	C_1:{
-		name : 'Marlin',
-		type : "C_1",
-		img : "C_1",
-		desc : "Generate 300<img src='"+IMG.icon.money+"' class='icon'>/min.<br>Show life bar on fish.",
-		length : 140,
-		height:56,
-		delay : 1000,
-		function0 :g=>{
-			g.ikan.map(ikan=>{
-				if(!ikan)return;
-				ikan.fishVar.C_1 = ikan.fishVar.C_1 || f.ce("div");
-				f.sa(ikan.fishVar.C_1,"class","C_1");
-				if(!ikan.elWrap.contains(ikan.fishVar.C_1)){
-					f.ac(ikan.elWrap,ikan.fishVar.C_1);
-				}
-				ikan.fishVar.C_1.innerHTML = ikan.lifeBar().outerHTML;
-				
-			});
-		},
-		function1 :g=>{
-			g.ikan.map(ikan=>{
-				if(!ikan)return;
-				if(ikan.elWrap.contains(ikan.fishVar.C_1)){
-					f.rc(ikan.elWrap,ikan.fishVar.C_1);
-				}
-				ikan.fishVar.C_1 = null;
-			});
-
-		},
-		function :g=>{
-			g.uang+=5;g.viewMoney();
-			g.ikan.map(ikan=>{
-				if(!ikan)return;
-				ikan.fishVar.C_1 = ikan.fishVar.C_1 || f.ce("div");
-				f.sa(ikan.fishVar.C_1,"class","C_1");
-				if(!ikan.elWrap.contains(ikan.fishVar.C_1)){
-					f.ac(ikan.elWrap,ikan.fishVar.C_1);
-				}
-				ikan.fishVar.C_1.innerHTML = ikan.lifeBar().outerHTML;
-			});
-		},
-		areaLimit : [0,-15,-1,-1],
-		price : {R:5000,Y:2000}
-	},
-	C_2:{
-		name : 'Siwid',
-		type : "C_2",
-		img : "C_2",
-		desc : "Freeze fish lifetimes.<br>Little fish likes him.",
-		length : 80,
-		height:80,
-		delay : 4000,
-		dirLock : true,
-		prepareAnim :f.craft.weedAnim,
-		function0 :(g,s)=>{
-			g.ikan.map(ikan=>{
-				if(!ikan)return;
-				let now = new Date();
-				// if(ikan.level>4)return;
-				ikan.fishVar = ikan.fishVar || {};
-				ikan.fishVar.C_2 = {
-					sisaUsia : ikan.timeCreated + ikan.lifeSpan - now.getTime()
-				};
-				// ikan.timeCreated =Math.min(ikan.timeCreated+4000,now.getTime());
-				
-			});
-		},
-		function1 :g=>{
-		},
-		function :(g,s)=>{
-			g.ikan.map(ikan=>{
-				if(!ikan)return;
-				let now = new Date();
-				// if(ikan.level>4)return;
-
-				ikan.fishVar = ikan.fishVar || {};
-				ikan.fishVar.C_2 = ikan.fishVar.C_2 || {
-					sisaUsia : ikan.timeCreated + ikan.lifeSpan - now.getTime()
-				};
-
-				if(ikan.fishVar && ikan.fishVar.C_2 && ikan.fishVar.C_2.sisaUsia){
-					ikan.timeCreated =Math.min(now.getTime()+ikan.fishVar.C_2.sisaUsia-ikan.lifeSpan, now.getTime());
-				}else{
-					ikan.timeCreated =Math.min(ikan.timeCreated+4000,now.getTime());
-				}
-				
-				if(ikan.level<3){
-					ikan.nextPos={x:s.x+200*(Math.random()-.5),y:s.y-50*Math.random()};
-				}
-			});
-			// console.log(s.x, s.y);
-
-		},
-		areaLimit : [0,500,-1,-1],
-		price : {B:30000,R:600000,Y:600000}
-	},
-	C_3:{
-		name : 'Cob',
-		type : "C_3",
-		img : "C_3",
-		desc : "Level up the littlest fish every 4 minutes, if you have enough <img src='"+IMG.icon.money+"' class='icon'>.",
-		length : 70,
-		height:50,
-		delay : 240000,
-		// delay : 4000,
-		prepareAnim :f.craft.swanAnim,
-		function0 :g=>{
-		},
-		function1 :g=>{
-		},
-		function :(g,s)=>{
-			let ikan = g.ikan.sort((a,b)=>!a?1:!b?-1:b.level<a.level?1:-1);
-			if(ikan[0] && ikan[0].level<ikan[0].maxLevel){
-				ikan[0].levelUp(g,false);
-				g.viewMoney();
-			}
-		},
-		areaLimit : [0,0,-1,10],
-		price : {B:10000,R:100000,Y:200000}
-	},
-	C_4:{
-		name : 'Lucy',
-		type : "C_4",
-		img : "C_4",
-		desc : "Generate 450<img src='"+IMG.icon.money+"' class='icon'>/min",
-		length : 120,
-		height:60,
-		delay : 4000,
-		prepareAnim :(s)=>{
-			f.craft.defaultAnim(s);
-			for(let i of s.elWrap.querySelectorAll(".ikan .ruas .ruas")){
-				if(!i)continue;
-				i.style.animationName='ekorEll';
-				// i.style.backgroundColor='red';
-			}
-		},
-		function0 :(g,s)=>{
-		},
-		function1 :g=>{
-		},
-		function :(g,s)=>{g.uang+=30;g.viewMoney();},
-		areaLimit : [0,0,-1,"-100"],
-		price : {B:500,R:500}
-	},
-	C_5:{
-		name : 'Venus',
-		type : "C_5",
-		img : "C_5",
-		desc : "Force fish to generate 40<img src='"+IMG.icon.money+"' class='icon'>/min each.",
-		length : 70,
-		height:49,
-		delay : 3000,
-		function0 :g=>{
-		},
-		function1 :g=>{
-		},
-		function :(g,s)=>{
-			g.ikan.map(e=>e && (g.uang+=2));
-			g.viewMoney();
-		},
-		price : {B:50000,R:50000,Y:60000}
-	},
-	C_6:{
-		name : 'Kiiro',
-		type : "C_6",
-		img : "C_6",
-		desc : "Extra 50% <img src='"+IMG.icon.paper+"' class='icon coinY'> production.",
-		length : 72,
-		height:30,
-		delay : 6000,
-		function0 :g=>{
-		},
-		function1 :g=>{
-		},
-		function :(g,s)=>{
-			g.ikan.map(e=>{
-				if(!e)return;
-				if(Array.isArray(e.claimBase) && e.curr.indexOf("Y")!==-1){
-					g.paper.Y+=e.claimBase[e.curr.indexOf("Y")];
-				}else
-				if(e.type == "Y"){
-					g.paper.Y+=e.claimBase;
-				}
-			});
-			g.viewPaper();
-		},
-		price : {B:60000,R:60000,Y:200000}
-	},
-	C_7:{
-		name : 'Soga',
-		type : "C_7",
-		img : "C_7",
-		desc : "Extra 50% <img src='"+IMG.icon.paper+"' class='icon coinR'> production.",
-		length : 72,
-		height:50,
-		delay : 6000,
-		function0 :g=>{
-		},
-		function1 :g=>{
-		},
-		function :(g,s)=>{
-			g.ikan.map(e=>{
-				if(!e)return;
-				if(Array.isArray(e.claimBase) && e.curr.indexOf("R")!==-1){
-					g.paper.R+=e.claimBase[e.curr.indexOf("R")];
-				}else
-				if(e.type == "R"){
-					g.paper.R+=e.claimBase;
-				}
-			});
-			g.viewPaper();
-		},
-		price : {B:60000,R:200000,Y:60000}
-	},
-	C_8:{
-		name : 'Cai',
-		type : "C_8",
-		img : "C_8",
-		desc : "Extra 50% <img src='"+IMG.icon.paper+"' class='icon coinB'> production.",
-		length : 72,
-		height:35,
-		delay : 6000,
-		function0 :g=>{
-		},
-		function1 :g=>{
-		},
-		function :(g,s)=>{
-			g.ikan.map(e=>{
-				if(!e)return;
-				if(Array.isArray(e.claimBase) && e.curr.indexOf("B")!==-1){
-					g.paper.B+=e.claimBase[e.curr.indexOf("B")];
-				}else
-				if(e.type == "B"){
-					g.paper.B+=e.claimBase;
-				}
-			});
-			g.viewPaper();
-		},
-		price : {B:200000,R:60000,Y:60000}
-	},
-	C_9:{
-		name : 'Drake',
-		type : "C_9",
-		img : "C_9",
-		desc : "Generate 300<img src='"+IMG.icon.money+"' class='icon'>/min.<br>Show level on fish.",
-		length : 150,
-		height:75,
-		delay : 1000,
-		function0 :g=>{
-			g.ikan.map(ikan=>{
-				if(!ikan)return;
-				ikan.fishVar.C_9 = ikan.fishVar.C_9 || f.ce("div");
-				f.sa(ikan.fishVar.C_9,"class","C_9");
-				if(!ikan.elWrap.contains(ikan.fishVar.C_9)){
-					f.ac(ikan.elWrap,ikan.fishVar.C_9);
-				}
-				ikan.fishVar.C_9.innerHTML = ikan.level;
-				
-			});
-		},
-		function1 :g=>{
-			g.ikan.map(ikan=>{
-				if(!ikan)return;
-				if(ikan.elWrap.contains(ikan.fishVar.C_9)){
-					f.rc(ikan.elWrap,ikan.fishVar.C_9);
-				}
-				ikan.fishVar.C_9 = null;
-			});
-
-		},
-		function :g=>{
-			g.uang+=5;g.viewMoney();
-			g.ikan.map(ikan=>{
-				if(!ikan)return;
-				ikan.fishVar.C_9 = ikan.fishVar.C_9 || f.ce("div");
-				f.sa(ikan.fishVar.C_9,"class","C_9");
-				if(!ikan.elWrap.contains(ikan.fishVar.C_9)){
-					f.ac(ikan.elWrap,ikan.fishVar.C_9);
-				}
-				ikan.fishVar.C_9.innerHTML = ikan.level;
-			});
-		},
-		price : {B:1000,R:1000,Y:1000}
 	}
 };
 
@@ -682,23 +298,19 @@ var fishCraft = {
 var fishCraftShop = {
 	G : fishCraft.G,
 	G1 : fishCraft.G1,
-	M : fishCraft.M,
-	A : fishCraft.A,
-	C_1 : fishCraft.C_1,
-	C_2 : fishCraft.C_2,
-	C_3 : fishCraft.C_3,
+	// M : fishCraft.M,
+	// A : fishCraft.A,
+	// C_1 : fishCraft.C_1,
+	// C_2 : fishCraft.C_2,
+	// C_3 : fishCraft.C_3,
 	// C_4 : fishCraft.C_4,
-	C_5 : fishCraft.C_5,
-	C_6 : fishCraft.C_6,
-	C_7 : fishCraft.C_7,
-	C_8 : fishCraft.C_8,
-	C_9 : fishCraft.C_9,
+	// C_5 : fishCraft.C_5,
+	// C_6 : fishCraft.C_6,
+	// C_7 : fishCraft.C_7,
+	// C_8 : fishCraft.C_8,
+	// C_9 : fishCraft.C_9,
 	N : fishCraft.N
 };
-
-if(Date.now() > 1539130481000){
-	fishCraftShop.C_4=fishCraft.C_4;
-}
 
 
 

@@ -1371,7 +1371,7 @@ class Menu{
 		div.onscroll =e=>{scrollTop=div.scrollTop;};
 
 
-		for(let i of Object.keys(fishShop)){
+		for(let i of Object.keys(fishShop).sort((a,b)=>fishs[a].price>fishs[b].price?1:-1)){
 			let menu = f.ce("div");
 			f.sa(menu,"class","shopMenu");
 

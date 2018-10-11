@@ -72,7 +72,7 @@ class Menu{
 			// 	div.scrollTop = saya.vars.scrollTop;
 			// },5000);
 		};
-		this.addMenu("menuCraft",1,"Craft",IMG.icon.craft,click);
+		this.addMenu("menuCraft",1,"Creatures",IMG.icon.craft,click);
 	}
 
 	addMenuBuyIkan1(){
@@ -91,7 +91,7 @@ class Menu{
 					+totalIkan+"/"+(saya.game.glassLvl*2+1)+"). Upgrade your tank to place more fish.");
 			}
 		};
-		this.addMenu("menuShop",0,"Shop",IMG.icon.shop,click);
+		this.addMenu("menuShop",0,"Fish",IMG.icon.shop,click);
 
 		// alert
 		if(0){
@@ -725,8 +725,6 @@ class Menu{
 		f.ac(table,tr);
 
 
-
-
 		tr = f.ce("tr");
 		td = f.ce("td");
 		td.innerHTML = "Upgrade";
@@ -774,11 +772,11 @@ class Menu{
 		this.game.onModalRemoved.push(()=>{
 			window.clearInterval(buttonUpdate);
 		});
-
-
 		f.ac(td,button);
 		f.ac(tr,td);
 		f.ac(table,tr);
+
+
 
 		f.ac(div1, table);
 
@@ -796,17 +794,78 @@ class Menu{
 		// f.ac(div2,f.ct("Coming soon"));
 
 		// for(let xxx=0;++xxx<2;)
+		this.tankItems(div2,true,false);
+
+		f.ac(div, div1);
+		f.ac(div, div2);
+
+
+		// LEFT AGAIN
+
+		tr = f.ce("tr");
+		td = f.ce("td");
+		let btnTankShop = f.ce("button");
+		btnTankShop.innerHTML = " Inventory ";
+		btnTankShop.classList.add("green");
+		btnTankShop.onclick = function(){
+			for(let i of saya.game.parentEl.querySelectorAll(".MENU_showUnlocked")){
+				i.style.display="inline-table";
+			}
+			for(let i of saya.game.parentEl.querySelectorAll(".MENU_showShop")){
+				i.style.display="none";
+			}
+		};
+		td.colspan=2;
+		f.ac(td,btnTankShop);
+		f.ac(tr,td);
+		f.ac(table,tr);
+
+
+		tr = f.ce("tr");
+		td = f.ce("td");
+		btnTankShop = f.ce("button");
+		btnTankShop.innerHTML = " Shop ";
+		btnTankShop.classList.add("green");
+		btnTankShop.onclick = function(){
+			// let temp = f.ce("div");
+			// saya.tankItems(div2,false,true);
+			for(let i of saya.game.parentEl.querySelectorAll(".MENU_showUnlocked")){
+				i.style.display="none";
+			}
+			for(let i of saya.game.parentEl.querySelectorAll(".MENU_showShop")){
+				i.style.display="inline-table";
+			}
+		};
+		td.colspan=2;
+		f.ac(td,btnTankShop);
+		f.ac(tr,td);
+		f.ac(table,tr);
+
+
+		this.game.onModalRemoved.push(()=>{
+			saya.updateMenuBuyIkan();
+		});
+
+		return div;
+	}
+
+
+	tankItems(div2, showUnlocked=true, showShop=true){
+		let saya = this;
+
 		let tankItemsList=[];
 		for(let i of saya.game.tankItemsUnlocked){
-			if(tankItemsList.indexOf(i)==-1 && tankItemsShop.indexOf(i)!==-1){
+			if(tankItemsList.indexOf(i)==-1 && GLOBAL.tankItemsShop.indexOf(i)!==-1){
 				tankItemsList.push(i);
 			}
 		}
-		for(let i of tankItemsShop.sort((a,b)=>Object.values(tankItems[b].price).reduce((c,d)=>c+d) < Object.values(tankItems[a].price).reduce((c,d)=>c+d)?1:-1)){
+
+		for(let i of GLOBAL.tankItemsShop.sort((a,b)=>GLOBAL.tankItems[b].minGlassLvl<GLOBAL.tankItems[a].minGlassLvl?1:GLOBAL.tankItems[b].minGlassLvl>GLOBAL.tankItems[a].minGlassLvl?-1: Object.values(GLOBAL.tankItems[b].price).reduce((c,d)=>c+d) < Object.values(GLOBAL.tankItems[a].price).reduce((c,d)=>c+d)?1:-1)){
 			if(tankItemsList.indexOf(i)==-1){
 				tankItemsList.push(i);
 			}
 		}
+
 		for(let i of tankItemsList)
 		{
 			let menu = f.ce("div");
@@ -817,9 +876,22 @@ class Menu{
 			menu.style.margin = "3px";
 			menu.style.cursor = "pointer";
 
+			if(saya.game.tankItemsUnlocked.indexOf(i)!==-1){
+				menu.classList.add("MENU_showUnlocked");
+				if(!showUnlocked){
+					menu.style.display = "none";
+				}
+			}else
+			if(GLOBAL.tankItemsShop.indexOf(i)!==-1){
+				menu.classList.add("MENU_showShop");
+				if(!showShop){
+					menu.style.display = "none";
+				}
+			}
+
 			let name = f.ce("div");
 			f.sa(name,"class","title1");
-			f.ac(name,f.ct(tankItems[i].name));
+			f.ac(name,f.ct(GLOBAL.tankItems[i].name));
 			f.ac(menu,name);
 
 			let aquaMini = f.ce("div");
@@ -830,19 +902,19 @@ class Menu{
 			aquaMini.style.overflowY = "visible";
 			aquaMini.style.display = "list-item";
 
-			let el = tankItems[i].el.cloneNode(true);
+			let el = GLOBAL.tankItems[i].el.cloneNode(true);
 			f.ac(aquaMini, el);
 
 			// SCALE
 			let scale=1;
-			if(tankItems[i].width.slice(-2)=='px'){
-				let width = parseInt(tankItems[i].width.slice(0,-2));
+			if(GLOBAL.tankItems[i].width.slice(-2)=='px'){
+				let width = parseInt(GLOBAL.tankItems[i].width.slice(0,-2));
 				if(width>aquaMiniSize[0]){
 					scale = Math.min(scale,aquaMiniSize[0]/width);
 				}
 			}
-			if(tankItems[i].height.slice(-2)=='px'){
-				let height = parseInt(tankItems[i].height.slice(0,-2));
+			if(GLOBAL.tankItems[i].height.slice(-2)=='px'){
+				let height = parseInt(GLOBAL.tankItems[i].height.slice(0,-2));
 				if(height>aquaMiniSize[1]){
 					scale = Math.min(scale,aquaMiniSize[1]/height);
 				}
@@ -853,7 +925,7 @@ class Menu{
 
 			let money = f.ce("div");
 			money.style.color="#000000";
-			money.innerHTML = "<img src='"+IMG.icon._plus(IMG.icon.money)+"' class='icon'>"+(tankItems[i].money*20)+"/min";
+			money.innerHTML = "<img src='"+IMG.icon._plus(IMG.icon.money)+"' class='icon'>"+(GLOBAL.tankItems[i].money*20)+"/min";
 			f.ac(aquaMini, money);
 
 
@@ -907,13 +979,13 @@ class Menu{
 					let divPrice = f.ce("div");
 					let isEnabled = true;
 
-					if(saya.game.glassLvl<(tankItems[i].minGlassLvl || 1)){
-						divPrice.innerHTML = "Available on Tank lvl. "+(tankItems[i].minGlassLvl || 1);
+					if(saya.game.glassLvl<(GLOBAL.tankItems[i].minGlassLvl || 1)){
+						divPrice.innerHTML = "Available on Tank lvl. "+(GLOBAL.tankItems[i].minGlassLvl || 1);
 						isEnabled = false;
 					}else{
-						for(let j of Object.keys(tankItems[i].price)){
-							divPrice.innerHTML+=" <img src='"+IMG.icon.paper+"' class='icon coin"+j+"'> "+f.numFormat(tankItems[i].price[j]);
-							isEnabled &= tankItems[i].price[j]<=saya.game.paper[j];
+						for(let j of Object.keys(GLOBAL.tankItems[i].price)){
+							divPrice.innerHTML+=" <img src='"+IMG.icon.paper+"' class='icon coin"+j+"'> "+f.numFormat(GLOBAL.tankItems[i].price[j]);
+							isEnabled &= GLOBAL.tankItems[i].price[j]<=saya.game.paper[j];
 						}
 					}
 
@@ -922,9 +994,11 @@ class Menu{
 					buy.innerHTML = "Buy";
 					((buy,i, saya,menu)=>{
 						buy.onclick = function(){
-							for(let j of Object.keys(tankItems[i].price)){
-								saya.game.paper[j]-=tankItems[i].price[j];
+							for(let j of Object.keys(GLOBAL.tankItems[i].price)){
+								saya.game.paper[j]-=GLOBAL.tankItems[i].price[j];
 							}
+							menu.classList.remove("MENU_showShop");
+							menu.classList.add("MENU_showUnlocked");
 							saya.game.tankItemsUnlocked.push(i);
 							updateState(true);
 						};
@@ -960,19 +1034,7 @@ class Menu{
 
 
 		}
-
-		f.ac(div, div1);
-		f.ac(div, div2);
-
-
-
-
-
-		this.game.onModalRemoved.push(()=>{
-			saya.updateMenuBuyIkan();
-		});
-
-		return div;
+		return div2;
 	}
 
 

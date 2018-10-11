@@ -1,9 +1,11 @@
-var tankItems = {
+GLOBAL =GLOBAL||{};
+GLOBAL.tankItems = {
 	grass :{
 		name :"Grass",
 		type :"grass",
 		price:{B:50000,Y:50000},
 		money:2,
+		minGlassLvl:0,
 		width :"100%",
 		height :"15px",
 		el : (i=f.ce("div"))&&(f.sa(i,"style","position:absolute;bottom:0;left:0px;width:100%;height:15px;background-image:url('"+IMG.tank.grass+"');background-size:15px;background-repeat:repeat-x")||1)&&i
@@ -13,6 +15,7 @@ var tankItems = {
 		type :"rocks",
 		price:{B:100000,R:100000},
 		money:2,
+		minGlassLvl:0,
 		width :"100px",
 		height :"125px",
 		el : (i=f.ce("div"))&&(f.sa(i,"style","position:absolute;bottom:0;left:0px;width:100px;height:125px;background-image:url('"+IMG.tank.rocks+"');background-size:cover;background-repeat:no-repeat")||1)&&i
@@ -48,6 +51,17 @@ var tankItems = {
 		height :"40px",
 		el : (i=f.ce("div"))&&(f.sa(i,"style","position:absolute;bottom:0;left:0px;width:100%;height:100%;background-image:url('"+IMG.tank.sand+"');background-size:100%;background-repeat:no-repeat;background-position:50% 100%;")||1)&&i
 		// el : (i=f.ce("div"))&&(f.sa(i,"style","position:absolute;bottom:0;left:0px;width:100%;height:100%;background-image:url('../img/t7.svg');background-size:100%;background-repeat:no-repeat;background-position:50% 100%;")||1)&&i
+	},
+	chest :{
+		name :"Treasure Chest",
+		type :"chest",
+		price:{Y:300000},
+		money:4,
+		minGlassLvl:0,
+		width :"95px",
+		height :"60px",
+		el : (i=f.ce("div"))&&(f.sa(i,"style","position:absolute;bottom:0;left:0px;width:95px;height:60px;background-image:url('../img/t8.svg');background-size:cover;background-repeat:no-repeat;")||1)&&i
+		// el : (i=f.ce("div"))&&(f.sa(i,"style","position:absolute;bottom:0;left:0px;width:95px;height:60px;background-image:url('"+IMG.tank.sand+"');background-size:cover;background-repeat:no-repeat;")||1)&&i
 	}
 	// ,
 	// test1 :{
@@ -61,8 +75,8 @@ var tankItems = {
 	// 	el : (i=f.ce("div"))&&(f.sa(i,"style","position:absolute;bottom:0;left:0px;width:100px;height:300px;background-image:url('data:image/svg+xml;utf8,"+IMG.fishs.A+"');background-size:cover;background-repeat:none")||1)&&i
 	// }
 };
-var tankItemsShop = [
-	"grass","rocks","pagoda","house","sand"
+GLOBAL.tankItemsShop = [
+	// "grass","rocks","pagoda","house","sand"
 ];
 
 class Tank{
@@ -76,8 +90,8 @@ class Tank{
 		let i = null;
 
 
-		if(tankItems[type] && this.game.tankItemsUnlocked.indexOf(this.type)!==-1){
-			if(this.game.glassLvl<(tankItems[type].minGlassLvl || 1))return;
+		if(GLOBAL.tankItems[type] && this.game.tankItemsUnlocked.indexOf(this.type)!==-1){
+			if(this.game.glassLvl<(GLOBAL.tankItems[type].minGlassLvl || 1))return;
 
 			let isUsed=false;
 			let saya = this;
@@ -90,9 +104,9 @@ class Tank{
 				f.sa(this.elWrap,"class","tankItems");
 
 				// console.log(this.type);
-				f.ac(this.elWrap,tankItems[this.type].el.cloneNode(true));
-				this.elWrap.style.width = tankItems[this.type].width;
-				this.elWrap.style.height = tankItems[this.type].height;
+				f.ac(this.elWrap,GLOBAL.tankItems[this.type].el.cloneNode(true));
+				this.elWrap.style.width = GLOBAL.tankItems[this.type].width;
+				this.elWrap.style.height = GLOBAL.tankItems[this.type].height;
 				this.elWrap.style.left = this.left+"px";
 				// this.elWrap.style.zIndex = this.game.tankItems.length;
 
@@ -103,7 +117,7 @@ class Tank{
 				});
 
 				let saya = this;
-				saya.claimMoney=tankItems[saya.type].money;
+				saya.claimMoney=GLOBAL.tankItems[saya.type].money;
 				this.claimingInterval = window.setInterval(()=>{
 					saya.game.uang+=saya.claimMoney;
 					saya.game.viewMoney();
@@ -151,7 +165,7 @@ class Tank{
 
 		// this.game.el.glass.style.zIndex=10;
 
-		if(tankItems[this.type].width.slice(-2)=="px"){
+		if(GLOBAL.tankItems[this.type].width.slice(-2)=="px"){
 			let divPos = f.ce('div');
 			f.sa(divPos,"class","setPositionPanel");
 			divPos.style.textAlign="center";

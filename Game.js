@@ -126,6 +126,7 @@ class Game{
 				window.clearTimeout(onHide);
 				if(document[hidden]) {
 					onHide = window.setTimeout(function(){
+						GLOBAL.waitMessage.innerText = "Please Wait";
 						saya.transisiTutup();
 						doReload = true;
 					}, 300000);
@@ -169,6 +170,7 @@ class Game{
 	}
 
 	newGame(type){
+		GLOBAL.waitMessage.innerText = "Creating New Game";
 		this.transisiTutup();
 		this.hideModal();
 		let saya = this;
@@ -583,6 +585,7 @@ class Game{
 
 	loadData(){
 		let saya = this;
+		GLOBAL.waitMessage.innerText = "Retrieving Progress";
 		saya.transisiTutup();
 
 		let param = {
@@ -672,6 +675,7 @@ class Game{
 
 	loadData1(){
 		let saya = this;
+		GLOBAL.waitMessage.innerText = "Retrieving Progress";
 		saya.transisiTutup();
 
 		let param = {
@@ -696,53 +700,63 @@ class Game{
 			// return;
 			try{
 
-				if(r.data.InfoResultPayload.TitleData.fishCraft){
+				// if(r.data.InfoResultPayload.TitleData.fishCraft){
+				// 	try{
+				// 		eval("window.temp ="+r.data.InfoResultPayload.TitleData.fishCraft);
+				// 		GLOBAL.fishCraft = window.temp;
+
+
+				// 		GLOBAL.fishCraftShop = {};
+				// 		Object.keys(GLOBAL.fishCraft).map(e=>GLOBAL.fishCraftShop[e]=GLOBAL.fishCraft[e]);
+
+				// 	}catch(e){
+				// 		console.log(e);
+				// 	}
+				// }
+
+				if(r.data.InfoResultPayload.TitleData.fishCraftShop){
 					try{
-						eval("window.temp ="+r.data.InfoResultPayload.TitleData.fishCraft);
-						GLOBAL.fishCraft = window.temp;
-
-
+						// eval("window.temp ="+r.data.InfoResultPayload.TitleData.fishCraftShop);
+						// console.log(window.temp);
+						// GLOBAL.fishCraftShop = window.temp;
 						GLOBAL.fishCraftShop = {};
-						Object.keys(GLOBAL.fishCraft).map(e=>GLOBAL.fishCraftShop[e]=GLOBAL.fishCraft[e]);
-
+						JSON.parse(r.data.InfoResultPayload.TitleData.fishCraftShop).map(el=>el && GLOBAL.fishCraft[el] && (GLOBAL.fishCraftShop[el]=GLOBAL.fishCraft[el]));
 					}catch(e){
 						console.log(e);
 					}
 				}
 
-				// if(r.data.InfoResultPayload.TitleData.fishCraftShop){
+				// if(r.data.InfoResultPayload.TitleData.fishs){
 				// 	try{
-				// 		// console.log("window.temp ="+r.data.InfoResultPayload.TitleData.fishCraftShop);
-				// 		eval("window.temp ="+r.data.InfoResultPayload.TitleData.fishCraftShop);
-				// 		console.log(window.temp);
-				// 		GLOBAL.fishCraftShop = window.temp;
+				// 		eval("window.temp ="+r.data.InfoResultPayload.TitleData.fishs);
+				// 		GLOBAL.fishs = window.temp;
+
+				// 		GLOBAL.fishShop = {};
+				// 		Object.keys(GLOBAL.fishs).map(e=>GLOBAL.fishShop[e]=GLOBAL.fishs[e]);
+
 				// 	}catch(e){
-				// 		console.log(e);
+				// 		// console.log(e);
 				// 	}
 				// }
 
-				// if(0)
-				if(r.data.InfoResultPayload.TitleData.fishs){
+				if(r.data.InfoResultPayload.TitleData.fishShop){
 					try{
-						eval("window.temp ="+r.data.InfoResultPayload.TitleData.fishs);
-						GLOBAL.fishs = window.temp;
-
+						// eval("window.temp ="+r.data.InfoResultPayload.TitleData.fishShop);
 						GLOBAL.fishShop = {};
-						Object.keys(GLOBAL.fishs).map(e=>GLOBAL.fishShop[e]=GLOBAL.fishs[e]);
-
+						JSON.parse(r.data.InfoResultPayload.TitleData.fishShop).map(el=>el && GLOBAL.fishs[el] && (GLOBAL.fishShop[el]=GLOBAL.fishs[el]));
 					}catch(e){
-						// console.log(e);
+						console.log(e);
 					}
 				}
 
-				// if(r.data.InfoResultPayload.TitleData.fishShop){
-				// 	try{
-				// 		eval("window.temp ="+r.data.InfoResultPayload.TitleData.fishShop);
-				// 		GLOBAL.fishShop = window.temp;
-				// 	}catch(e){
-				// 		console.log(e);
-				// 	}
-				// }
+				if(r.data.InfoResultPayload.TitleData.tankItemsShop){
+					try{
+						GLOBAL.tankItemsShop = [];
+						JSON.parse(r.data.InfoResultPayload.TitleData.tankItemsShop).map(el=>el && GLOBAL.tankItems[el] && (GLOBAL.tankItemsShop.push(el) ));
+					}catch(e){
+						console.log(e);
+					}
+				}
 
 				
 				if(r.data.InfoResultPayload.UserData.glassLvl){

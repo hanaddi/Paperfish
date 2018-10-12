@@ -60,8 +60,8 @@ GLOBAL.tankItems = {
 		minGlassLvl:0,
 		width :"95px",
 		height :"60px",
-		el : (i=f.ce("div"))&&(f.sa(i,"style","position:absolute;bottom:0;left:0px;width:95px;height:60px;background-image:url('../img/t8.svg');background-size:cover;background-repeat:no-repeat;")||1)&&i
-		// el : (i=f.ce("div"))&&(f.sa(i,"style","position:absolute;bottom:0;left:0px;width:95px;height:60px;background-image:url('"+IMG.tank.sand+"');background-size:cover;background-repeat:no-repeat;")||1)&&i
+		el : (i=f.ce("div"))&&(f.sa(i,"style","position:absolute;bottom:0;left:0px;width:95px;height:60px;background-image:url('"+IMG.tank.chest+"');background-size:cover;background-repeat:no-repeat;")||1)&&i
+		// el : (i=f.ce("div"))&&(f.sa(i,"style","position:absolute;bottom:0;left:0px;width:95px;height:60px;background-image:url('../img/t8.svg');background-size:cover;background-repeat:no-repeat;")||1)&&i
 	}
 	// ,
 	// test1 :{

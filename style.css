@@ -925,6 +925,36 @@ button.green:disabled{
 	border-radius: 5px;
 }
 
+
+
+.friendPanel{
+	position: relative;
+	border: solid 1px #aaa;
+	overflow-y: scroll;
+	height:350px;
+	max-height:350px;
+	margin:10px 0px;
+	
+	border-radius: 5px;
+}
+
+.ellipses {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	width: 58px;
+}
+.avatar{
+	position: relative;
+	width: 58px;
+	height: 58px;
+	border: transparent;
+	overflow: visible;
+	background: #ddd;
+	background-size: cover;
+
+	border-radius: 5px;
+}
 /**/
 
 .sideMenu{

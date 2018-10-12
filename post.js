@@ -3,7 +3,7 @@
 ////////////TEST//////////////
 
 window.onload = function(){
-	if(window.location.host=="localhost"){
+	if(window.location.host=="localhost" && 0){
 	    PlayFab.settings.titleId = "3D56";
 	}else{
 	    PlayFab.settings.titleId = "EAC6";

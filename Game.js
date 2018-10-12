@@ -44,6 +44,8 @@ class Game{
 		this.onModalRemoved = [];
 		this.fishVars = {};
 		this.uang = 0;
+		this.multi = new Multi(this);
+		this.friendList = {};
 		this.paper = {
 			B:0,
 			R:0,
@@ -533,12 +535,16 @@ class Game{
 
 	transisiBuka(){
 		try{
-			this.el.tutup.style.left=(Math.random()>.5?100:-100)+"%";
+			if(!(this.el.tutup.style.left) || this.el.tutup.style.left.length<3){
+				this.el.tutup.style.left=(Math.random()>.5?100:-100)+"%";
+			}
 		}catch(e){}
 	}
 	transisiTutup(){
 		try{
-			this.el.tutup.style.left="0%";
+			if(this.el.tutup.style.left!="0%"){
+				this.el.tutup.style.left="0%";
+			}
 		}catch(e){}
 	}
 
@@ -566,6 +572,7 @@ class Game{
 					this.saveData();
 					// this.transisiBuka();
 				}
+				this.multi.getFriends();
 
 				let saya = this;
 				saya.loggedIn = true;
@@ -811,6 +818,11 @@ class Game{
 					general1.tankItems.sort((a,b)=>b[1]<a[1]?1:-1).map(el=>{
 						let tank = new Tank(saya,el[0][0],el[0][1]||0);
 					});
+
+					if(general1.multi){
+						// console.log(general1.multi);
+						saya.friendList = general1.multi;
+					}
 				}
 
 
@@ -824,7 +836,9 @@ class Game{
 				console.error(err);
 				if(e!==null){
 					let saya = this;
-					window.setTimeout(()=>{saya.loadData1()},2000);
+					window.setTimeout(()=>{
+						saya.loadData1();
+					},2000);
 				}else{
 					saya.newGame();
 				}
@@ -858,6 +872,7 @@ class Game{
 
 				general1: JSON.stringify({
 					tankItemsUnlocked:this.tankItemsUnlocked,
+					multi:this.friendList || {},
 					tankItems:this.tankItems.map(e=>{
 						try{
 							return [e.item.save(),e.index];

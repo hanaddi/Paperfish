@@ -172,7 +172,7 @@ var GUIDE = {
 };
 class Game{
 constructor(parentEl){
-let saya=this;this.parentEl = parentEl;this.el = {};this.el.glass = f.ce("div");f.sa(this.el.glass,"class","glass");f.ac(this.parentEl,this.el.glass);this.el.aqua = f.ce("div");f.sa(this.el.aqua,"class","aqua");f.ac(this.el.glass,this.el.aqua);this.el.amb = f.ce("div");f.sa(this.el.amb,"class","amb");f.ac(this.el.aqua,this.el.amb);this.el.bottomBar = f.ce("div");f.sa(this.el.bottomBar,"class","bottomBar");f.ac(this.parentEl,this.el.bottomBar);this.el.tutup = f.qs(".tutup");this.menu = new Menu(this);this.ikan = [];this.craftUnlocked = ["G"];this.craftObj = [];this.craft = [];this.craftMaxItem = 5;this.tankItemsUnlocked = [];this.tankItems = [];this.glassLvlUpCost = 1000;this.glassLvl = 1;this.onModalRemoved = [];this.fishVars = {};this.uang = 0;this.paper = {
+let saya=this;this.parentEl = parentEl;this.el = {};this.el.glass = f.ce("div");f.sa(this.el.glass,"class","glass");f.ac(this.parentEl,this.el.glass);this.el.aqua = f.ce("div");f.sa(this.el.aqua,"class","aqua");f.ac(this.el.glass,this.el.aqua);this.el.amb = f.ce("div");f.sa(this.el.amb,"class","amb");f.ac(this.el.aqua,this.el.amb);this.el.bottomBar = f.ce("div");f.sa(this.el.bottomBar,"class","bottomBar");f.ac(this.parentEl,this.el.bottomBar);this.el.tutup = f.qs(".tutup");this.menu = new Menu(this);this.ikan = [];this.craftUnlocked = ["G"];this.craftObj = [];this.craft = [];this.craftMaxItem = 5;this.tankItemsUnlocked = [];this.tankItems = [];this.glassLvlUpCost = 1000;this.glassLvl = 1;this.onModalRemoved = [];this.fishVars = {};this.uang = 0;this.multi = new Multi(this);this.friendList = {};this.paper = {
 B:0,R:0,Y:0
 };this.el.modal = f.ce("div");f.sa(this.el.modal,"class","modal");this.el.popUp = f.ce("div");f.sa(this.el.popUp,"class","popUp");let uBar = f.ce("div");f.ac(this.el.popUp, uBar);let title = f.ce("div");f.sa(title,"class","title");this.el.title = title;f.ac(uBar, title);let btnClose = f.ce("div");f.sa(btnClose,"class","btnClose");let hideModal = ()=>{
 this.hideModal();}
@@ -309,11 +309,15 @@ div.style.transitionDuration = "1s";div.style.opacity = "0";div.style.height = "
 f.rc(this.el.bottomBar,div);},4000);}
 transisiBuka(){
 try{
-this.el.tutup.style.left=(Math.random()>.5?100:-100)+"%";}catch(e){}
+if(!(this.el.tutup.style.left) || this.el.tutup.style.left.length<3){
+this.el.tutup.style.left=(Math.random()>.5?100:-100)+"%";}
+}catch(e){}
 }
 transisiTutup(){
 try{
-this.el.tutup.style.left="0%";}catch(e){}
+if(this.el.tutup.style.left!="0%"){
+this.el.tutup.style.left="0%";}
+}catch(e){}
 }
 kongLogin(){
 let param = {
@@ -323,7 +327,7 @@ try{
 if(!r.data.NewlyCreated && 1){
 this.loadData1();}else{
 this.newGame();this.saveData();}
-let saya = this;saya.loggedIn = true;this.saveInterval = window.setInterval(()=>{
+this.multi.getFriends();let saya = this;saya.loggedIn = true;this.saveInterval = window.setInterval(()=>{
 saya.saveData();},60000);}catch(e){
 if(e!==null){
 let saya = this;window.setTimeout(()=>{saya.kongLogin()},2000);}else{
@@ -415,13 +419,16 @@ saya.loadIkan(e);}catch(e){}
 });}
 if(r.data.InfoResultPayload.UserData.general1){
 let general1 = JSON.parse(r.data.InfoResultPayload.UserData.general1.Value);saya.tankItemsUnlocked=general1.tankItemsUnlocked;saya.tankItems.map(el=>el && el.item && el.item.kill() );general1.tankItems.sort((a,b)=>b[1]<a[1]?1:-1).map(el=>{
-let tank = new Tank(saya,el[0][0],el[0][1]||0);});}
+let tank = new Tank(saya,el[0][0],el[0][1]||0);});if(general1.multi){
+saya.friendList = general1.multi;}
+}
 window.setTimeout(()=>{
 saya.transisiBuka();if(saya.uang<1 && saya.paper.B<1 && saya.paper.R<1 && saya.paper.Y<1){
 saya.addIkan("B",true);}
 },2001);}catch(err){
 console.error(err);if(e!==null){
-let saya = this;window.setTimeout(()=>{saya.loadData1()},2000);}else{
+let saya = this;window.setTimeout(()=>{
+saya.loadData1();},2000);}else{
 saya.newGame();}
 }
 });}
@@ -434,7 +441,7 @@ glassLvl: this.glassLvl,ikan1:JSON.stringify(this.ikan.map(e=>{
 try{
 return e.save();}catch(e){}
 })),curr:JSON.stringify([this.uang, this.paper]),craft:JSON.stringify(this.craft),craftUnlocked:JSON.stringify(this.craftUnlocked),general1: JSON.stringify({
-tankItemsUnlocked:this.tankItemsUnlocked,tankItems:this.tankItems.map(e=>{
+tankItemsUnlocked:this.tankItemsUnlocked,multi:this.friendList || {},tankItems:this.tankItems.map(e=>{
 try{
 return [e.item.save(),e.index];}catch(e){}
 })
@@ -1060,7 +1067,9 @@ return [this.type,this.left];}
 }
 class Multi{
 constructor(game){
-this.game = game;this.game.friendList = this.game.friendList || {};this.elWrap = f.ce("div");}
+this.game = game;this.game.friendList = this.game.friendList || {};this.elWrap = f.ce("div");this.elWrap.classList.add('friendHouse');this.uang = 2000000000;this.paper = {
+B: 2000000000,R: 2000000000,Y: 2000000000
+};this.el = {};this.el.glass = f.ce("div");f.sa(this.el.glass,"class","glass");f.ac(this.elWrap,this.el.glass);this.el.aqua = f.ce("div");f.sa(this.el.aqua,"class","aqua");f.ac(this.el.glass,this.el.aqua);this.el.amb = f.ce("div");f.sa(this.el.amb,"class","amb");f.ac(this.el.aqua,this.el.amb);}
 getFriends(user_id){
 let saya = this;user_id = user_id || window.kongVars.userId;let param = {
 "FunctionName": "getFriends","FunctionParameter": {
@@ -1082,8 +1091,68 @@ PlayFabClientSDK.ExecuteCloudScript(param,callback);}
 viewFriends(){
 let saya = this;saya.game.el.content.innerHTML = "";let divFriends = f.ce("div")
 f.sa(divFriends,"class","friendPanel");for(let i of Object.keys(saya.game.friendList)){
-if(i == parseInt(window.kongVars.userId || "") )continue;let menu = f.ce("div");f.sa(menu,"class","shopMenu");menu.style.height = "auto";menu.style.width = "auto";menu.style.padding = "0";menu.style.margin = "3px";menu.style.cursor = "pointer";menu.title = saya.game.friendList[i].name;let avatar = f.ce("div");f.sa(avatar,"class","avatar");avatar.style.backgroundImage = "url('"+saya.game.friendList[i].avatar+"')";f.ac(menu,avatar);let name = f.ce("div");f.sa(name,"class","ellipses");name.innerText = saya.game.friendList[i].name;f.ac(menu,name);f.ac(divFriends,menu);}
+if(i == parseInt(window.kongVars.userId || "") )continue;let menu = f.ce("div");f.sa(menu,"class","shopMenu");menu.style.height = "auto";menu.style.width = "auto";menu.style.padding = "0";menu.style.margin = "3px";menu.style.cursor = "pointer";menu.title = saya.game.friendList[i].name;let avatar = f.ce("div");f.sa(avatar,"class","avatar");avatar.style.backgroundImage = "url('"+saya.game.friendList[i].avatar+"')";f.ac(menu,avatar);let name = f.ce("div");f.sa(name,"class","ellipses");name.innerText = saya.game.friendList[i].name;f.ac(menu,name);f.ac(divFriends,menu);menu.onclick = function(ev){
+GLOBAL.waitMessage.innerText = "I am coming, "+(saya.game.friendList[i].name||"friend")+".";saya.game.transisiTutup();window.setTimeout(function(){
+saya.goToFriend(i);},1000);};}
 f.ac(saya.game.el.content, divFriends);saya.game.showModalWide("Friends");}
+backHome(){
+let saya = this;GLOBAL.waitMessage.innerText = "Go home.";saya.game.transisiTutup();window.setTimeout(function(){
+saya.game.el.glass.style.opacity=1;saya.elWrap.innerHTML = "";saya.el.glass = f.ce("div");f.sa(saya.el.glass,"class","glass");f.ac(saya.elWrap,saya.el.glass);saya.el.aqua = f.ce("div");f.sa(saya.el.aqua,"class","aqua");f.ac(saya.el.glass,saya.el.aqua);saya.el.amb = f.ce("div");f.sa(saya.el.amb,"class","amb");f.ac(saya.el.aqua,saya.el.amb);try{
+f.rc(saya.game.parentEl, saya.elWrap);}catch(err){}
+saya.game.transisiBuka();},1200);saya.game.hideModal();}
+goToFriend(user_id){
+let saya = this;saya.game.el.glass.style.opacity=0;saya.game.hideModal();if(!saya.game.friendList[user_id].PFId){
+let param = {
+KongregateIDs :[
+user_id
+]
+};let callback = function(r,e){
+if(e!=null){
+}else
+if(r!=null){
+if(r.data && r.data.Data && r.data.Data[0] && r.data.Data[0].PlayFabId){
+saya.game.friendList[user_id].PFId = r.data.Data[0].PlayFabId;saya.viewTank(saya.game.friendList[user_id].PFId);}
+}
+};PlayFabClientSDK.GetPlayFabIDsFromKongregateIDs(param, callback);}else{
+saya.viewTank(saya.game.friendList[user_id].PFId);}
+f.ac(saya.game.parentEl, saya.elWrap);}
+viewTank(PFId){
+let saya = this;let param = {
+Keys:["savePublic"],PlayFabId: PFId
+};let callback = function(r,e){
+if(e!=null){
+}else
+if(r!=null){
+if(r.data && r.data.Data && r.data.Data.savePublic && r.data.Data.savePublic.Value){
+try{
+saya.elWrap.innerHTML = "";saya.el.glass = f.ce("div");f.sa(saya.el.glass,"class","glass");f.ac(saya.elWrap,saya.el.glass);saya.el.aqua = f.ce("div");f.sa(saya.el.aqua,"class","aqua");f.ac(saya.el.glass,saya.el.aqua);saya.el.amb = f.ce("div");f.sa(saya.el.amb,"class","amb");f.ac(saya.el.aqua,saya.el.amb);let data = JSON.parse(r.data.Data.savePublic.Value);saya.el.glass.style.width = Math.min(600,400+20*data.glassLvl) + "px";saya.el.glass.style.height = Math.min(400,200+20*data.glassLvl) + "px";saya.el.glass.style.right = ((saya.elWrap.offsetWidth - saya.el.glass.offsetWidth)/2|0) + "px";saya.ikan = [];JSON.parse(data.craft).map(function(el){
+if(el)saya.addCraft(el);});JSON.parse(data.ikan1).map(function(el){
+if(el)saya.loadIkan(el);});(data.tankItems).sort((a,b)=>b[1]<a[1]?1:-1).map(function(el){
+saya.addTankItem(el[0][0],el[0][1]||0);});saya.game.transisiBuka();}catch(e){
+console.log(e);}
+}
+}
+};PlayFabClientSDK.GetUserData(param, callback);}
+addTankItem(type,left=0){
+let i = null;if(GLOBAL.tankItems[type]){
+let elWrap = f.ce("div");f.sa(elWrap,"class","tankItems");f.ac(elWrap,GLOBAL.tankItems[type].el.cloneNode(true));elWrap.style.width = GLOBAL.tankItems[type].width;elWrap.style.height = GLOBAL.tankItems[type].height;elWrap.style.left = left+"px";f.ac(this.el.amb,elWrap);}
+}
+addCraft(type){
+if(!type)return;let ikan = new Craft(this.el.aqua.offsetWidth*Math.random(),this.el.aqua.offsetHeight*Math.random(),this.el.aqua, 74, 46, type);try{
+ikan.function0(this,ikan);}catch(e){
+console.log(e);}
+}
+loadIkan(arr){
+if(!GLOBAL.fishs[arr[1]]){
+console.log("Game::loadIkan() ERROR");return;}
+if(arr[4] && arr[4]==2){
+let type = arr[1];let level = arr[2] || 1;let ikan = new Ikan2(this.el.aqua.offsetWidth*Math.random(),this.el.aqua.offsetHeight*Math.random(),this.el.aqua, 74, 46, type,true,true,level);ikan.timeCreated = arr[0]?arr[0]:ikan.timeCreated;ikan.lastClaim = arr[3];this.ikan.push(ikan);this.afterAddIkan(ikan);}else{
+let type = arr[1];let level = arr[2] || 1;let ikan = new Ikan(this.el.aqua.offsetWidth*Math.random(),this.el.aqua.offsetHeight*Math.random(),this.el.aqua, 74, 46, type,true,true,level);ikan.timeCreated = arr[0]?arr[0]:ikan.timeCreated;ikan.lastClaim = arr[3];this.ikan.push(ikan);this.afterAddIkan(ikan);}
+}
+afterAddIkan(ikan){
+ikan.onclick = e=>{
+}
+}
 }
 window.test1 = function(){
 window.multi = new Multi(game);multi.getFriends();}

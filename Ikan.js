@@ -204,7 +204,6 @@ class Ikan{
 			}, saya.timeCreated + saya.lifeSpan - now.getTime());
 		}
 	}
-	
 
 	kill(game=null){
 		try{

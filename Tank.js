@@ -62,6 +62,28 @@ GLOBAL.tankItems = {
 		height :"60px",
 		el : (i=f.ce("div"))&&(f.sa(i,"style","position:absolute;bottom:0;left:0px;width:95px;height:60px;background-image:url('"+IMG.tank.chest+"');background-size:cover;background-repeat:no-repeat;")||1)&&i
 		// el : (i=f.ce("div"))&&(f.sa(i,"style","position:absolute;bottom:0;left:0px;width:95px;height:60px;background-image:url('../img/t8.svg');background-size:cover;background-repeat:no-repeat;")||1)&&i
+	},
+	name :{
+		name :"Your Name",
+		type :"name",
+		price:{B:300000,Y:50000},
+		money:2,
+		minGlassLvl:3,
+		width :"180px",
+		height :"165px",
+		onload :function(){
+			let textPanel = document.querySelector(".yourName");
+			let text = document.querySelector(".yourName .textPanel .text");
+			try{text.childNodes[0].innerText = window.kongVars.username;}catch(e){}
+			// console.log(text.childNodes[0].offsetWidth , textPanel.offsetWidth)
+			if(text.childNodes[0].offsetWidth > textPanel.offsetWidth){
+				text.style.transform = "scale("+(textPanel.offsetWidth/text.childNodes[0].offsetWidth/1.3)+",1)";
+				// text.childNodes[0].style.transform = "scale("+(textPanel.offsetWidth/text.childNodes[0].offsetWidth)+",1)";
+				text.style.transformOrigin = "left";
+				text.style.textAlign = "left";
+			}
+		},
+		el : (i=f.ce("div"))&&(f.sa(i,"class","yourName")||1)&&(f.ac(i, (j=f.ce("div"))&&(f.sa(j,"class","textPanel")||1)&&(f.ac(j, (k=f.ce("div"))&&(f.sa(k,"class","text")||1)&&(f.ac(k, (l=f.ce("span"))&&(l.innerText="Someone")&&l )||1) &&k )||1) &&j )||1)&&i
 	}
 	// ,
 	// test1 :{
@@ -76,7 +98,7 @@ GLOBAL.tankItems = {
 	// }
 };
 GLOBAL.tankItemsShop = [
-	// "grass","rocks","pagoda","house","sand"
+	"grass","rocks","pagoda","house","sand","name"
 ];
 
 class Tank{
@@ -122,6 +144,8 @@ class Tank{
 					saya.game.uang+=saya.claimMoney;
 					saya.game.viewMoney();
 				},3000);
+
+				(GLOBAL.tankItems[this.type].onload||function(){})();
 			}
 
 		}

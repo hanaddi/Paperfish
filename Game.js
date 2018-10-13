@@ -316,7 +316,6 @@ class Game{
 	}
 
 
-
 	addCraft(type){
 		if(!type)return;
 

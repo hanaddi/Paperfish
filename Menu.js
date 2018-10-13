@@ -947,6 +947,7 @@ class Menu{
 
 			let money = f.ce("div");
 			money.style.color="#000000";
+			money.style.position="relative";
 			money.innerHTML = "<img src='"+IMG.icon._plus(IMG.icon.money)+"' class='icon'>"+(GLOBAL.tankItems[i].money*20)+"/min";
 			f.ac(aquaMini, money);
 

@@ -78,7 +78,35 @@ button.green:disabled{
 .title1{
 	font-size: 120%;
 	text-align: center;
+	text-align: -webkit-center;
+	text-align: -moz-center;
+	text-align: -ms-center;
+	text-align: -khtml-center;
 }
+
+
+.title2{
+	position: absolute;
+	width: auto;
+	height: auto;
+	top:0;
+	left: 50%;
+	padding: 10px 10px;
+	transform: translate(-50%,0);
+	background-image: url('data:image/svg+xml;utf8,%3Csvg%20version%3D%221.1%22%20viewBox%3D%220%200%201920%201200%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Acc%3D%22http%3A%2F%2Fcreativecommons.org%2Fns%23%22%20xmlns%3Adc%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Felements%2F1.1%2F%22%20xmlns%3Ardf%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%22%3E%3Cmetadata%3E%3Crdf%3ARDF%3E%3Ccc%3AWork%20rdf%3Aabout%3D%22%22%3E%3Cdc%3Aformat%3Eimage%2Fsvg%2Bxml%3C%2Fdc%3Aformat%3E%3Cdc%3Atype%20rdf%3Aresource%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Fdcmitype%2FStillImage%22%2F%3E%3Cdc%3Atitle%2F%3E%3C%2Fcc%3AWork%3E%3C%2Frdf%3ARDF%3E%3C%2Fmetadata%3E%3Cg%20transform%3D%22translate(2260)%22%3E%3Crect%20x%3D%22-2260%22%20width%3D%221920%22%20height%3D%221200%22%20fill%3D%22%23ff9800%22%2F%3E%3Cg%20fill%3D%22%23fffce3%22%20fill-opacity%3D%22.4386%22%3E%3Crect%20x%3D%22-2229.4%22%20y%3D%2222.948%22%20width%3D%221858.8%22%20height%3D%221161.8%22%2F%3E%3Crect%20x%3D%22-2214.1%22%20y%3D%2222.948%22%20width%3D%221828.2%22%20height%3D%221142.6%22%2F%3E%3Crect%20x%3D%22-2195.7%22%20y%3D%2222.948%22%20width%3D%221791.5%22%20height%3D%221119.7%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22matrix(1.0378%20.01277%20-.01277%201.0378%2056.827%20-10.993)%22%20fill%3D%22%23fffce3%22%20fill-opacity%3D%22.4386%22%3E%3Crect%20x%3D%22-2229.4%22%20y%3D%2222.948%22%20width%3D%221858.8%22%20height%3D%221161.8%22%2F%3E%3Crect%20x%3D%22-2214.1%22%20y%3D%2222.948%22%20width%3D%221828.2%22%20height%3D%221142.6%22%2F%3E%3Crect%20x%3D%22-2195.7%22%20y%3D%2222.948%22%20width%3D%221791.5%22%20height%3D%221119.7%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E');
+	background-size: cover;
+	border:1px solid #000000;
+	font-size: 120%;
+	text-align: center;
+	text-align: -webkit-center;
+	text-align: -moz-center;
+	text-align: -ms-center;
+	text-align: -khtml-center;
+
+	border-radius: 5px;
+}
+
+
 /*************************** ICON RELATED ***************************/
 .icon{
 	position: relative;
@@ -934,6 +962,8 @@ button.green:disabled{
 	height:350px;
 	max-height:350px;
 	margin:10px 0px;
+	/*text-align: center;*/
+	padding: 2px;
 	
 	border-radius: 5px;
 }
@@ -987,7 +1017,28 @@ button.green:disabled{
 	border-radius: 10px;
 	transition-duration: .1s;
 }
-.sideMenu:hover{
+.sideMenuL{
+	position: absolute;
+	width: 35px;
+	height: 30px;
+	left: 10px;
+	padding: 10px 2px 2px 2px;
+	top: 60px;
+	background-color: #123;
+	color: #ffffff;
+	background-size: 80%;
+	background-position: 50% top;
+	background-repeat: no-repeat;
+	text-align: center;
+	overflow: visible;
+	cursor: pointer;
+	font-size: 9px;
+	z-index: 9;
+
+	border-radius: 5px;
+	transition-duration: .1s;
+}
+.sideMenu:hover, .sideMenuL:hover{
 
 	transform: scale(1.1);
 }

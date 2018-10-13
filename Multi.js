@@ -26,6 +26,42 @@ class Multi{
 		f.sa(this.el.amb,"class","amb");
 		f.ac(this.el.aqua,this.el.amb);
 
+		this.el.papan = f.ce("div");
+		f.sa(this.el.papan,"class","title2");
+		f.ac(this.elWrap,this.el.papan);
+		this.el.avatar = f.ce("div");
+		f.sa(this.el.avatar,"class","avatar");
+		f.ac(this.el.papan, this.el.avatar);
+		this.el.name = f.ce("div");
+		f.ac(this.el.papan, this.el.name);
+
+
+		this.el.btnHome = f.ce("div");
+		f.sa(this.el.btnHome,"class","sideMenuL");
+		this.el.btnHome.style.top ="380px";
+		this.el.btnHome.style.backgroundImage = "url('"+IMG.icon.home+"')";
+		let saya = this;
+		this.el.btnHome.onclick = function(){
+			saya.game.multi.backHome()
+			// saya.game.multi.viewFriends();
+		};
+		f.ac(this.el.btnHome, f.ce("br"));
+		f.ac(this.el.btnHome, f.ce("br"));
+		f.ac(this.el.btnHome, f.ct("Home"));
+		f.ac(this.elWrap,this.el.btnHome);
+
+		this.el.btnFriend = f.ce("div");
+		f.sa(this.el.btnFriend,"class","sideMenuL");
+		this.el.btnFriend.style.top ="430px";
+		this.el.btnFriend.style.backgroundImage = "url('"+IMG.icon.friend+"')";
+		this.el.btnFriend.onclick = function(){
+			saya.game.multi.viewFriends();
+		};
+		f.ac(this.el.btnFriend, f.ce("br"));
+		f.ac(this.el.btnFriend, f.ce("br"));
+		f.ac(this.el.btnFriend, f.ct("Friends"));
+		f.ac(this.elWrap,this.el.btnFriend);
+
 	}
 
 	getFriends(user_id){
@@ -73,56 +109,57 @@ class Multi{
 		saya.game.el.content.innerHTML = "";
 		let divFriends = f.ce("div")
 		f.sa(divFriends,"class","friendPanel");
-		for(let i of Object.keys(saya.game.friendList)){
-			if(i == parseInt(window.kongVars.userId || "") )continue;
-			let menu = f.ce("div");
-			f.sa(menu,"class","shopMenu");
-			menu.style.height = "auto";
-			menu.style.width = "auto";
-			menu.style.padding = "0";
-			menu.style.margin = "3px";
-			menu.style.cursor = "pointer";
-			menu.title = saya.game.friendList[i].name;
+		if(Object.keys(saya.game.friendList).length){
+			for(let i of Object.keys(saya.game.friendList)){
+				if(i == parseInt(window.kongVars.userId || "") )continue;
+				let menu = f.ce("div");
+				f.sa(menu,"class","shopMenu");
+				menu.style.height = "auto";
+				menu.style.width = "auto";
+				menu.style.padding = "0";
+				menu.style.margin = "3px";
+				menu.style.cursor = "pointer";
+				menu.title = saya.game.friendList[i].name;
 
-			let avatar = f.ce("div");
-			f.sa(avatar,"class","avatar");
-			avatar.style.backgroundImage = "url('"+saya.game.friendList[i].avatar+"')";
-			f.ac(menu,avatar);
+				let avatar = f.ce("div");
+				f.sa(avatar,"class","avatar");
+				avatar.style.backgroundImage = "url('"+saya.game.friendList[i].avatar+"')";
+				f.ac(menu,avatar);
 
-			let name = f.ce("div");
-			f.sa(name,"class","ellipses");
-			name.innerText = saya.game.friendList[i].name;
-			f.ac(menu,name);
+				let name = f.ce("div");
+				f.sa(name,"class","ellipses");
+				name.innerText = saya.game.friendList[i].name;
+				f.ac(menu,name);
 
-			f.ac(divFriends,menu);
+				f.ac(divFriends,menu);
 
-			menu.onclick = function(ev){
+				menu.onclick = function(ev){
 
-				GLOBAL.waitMessage.innerText = "I am coming, "+(saya.game.friendList[i].name||"friend")+".";
-				saya.game.transisiTutup();
+					GLOBAL.waitMessage.innerText = "I am coming, "+(saya.game.friendList[i].name||"friend")+" !";
+					saya.game.transisiTutup();
 
-				window.setTimeout(function(){
-					saya.goToFriend(i);
-				},1000);
+					window.setTimeout(function(){
+						saya.goToFriend(i);
+					},1000);
 
-			};
+				};
 
+			}
+		}else{
+			f.ac(divFriends,f.ct("Can't find your friends."));
 		}
 		f.ac(saya.game.el.content, divFriends);
-		saya.game.showModalWide("Friends");
+		saya.game.showModalWide("Kongregate Friends");
 	}
 
 	backHome(){
 		let saya = this;
-		GLOBAL.waitMessage.innerText = "Go home.";
+		GLOBAL.waitMessage.innerText = "Going home.";
 		saya.game.transisiTutup();
 
 		window.setTimeout(function(){
 			saya.game.el.glass.style.opacity=1;
-			saya.elWrap.innerHTML = "";
-			saya.el.glass = f.ce("div");
-			f.sa(saya.el.glass,"class","glass");
-			f.ac(saya.elWrap,saya.el.glass);
+			saya.el.glass.innerHTML = "";
 			saya.el.aqua = f.ce("div");
 			f.sa(saya.el.aqua,"class","aqua");
 			f.ac(saya.el.glass,saya.el.aqua);
@@ -135,7 +172,7 @@ class Multi{
 			}catch(err){}
 			saya.game.transisiBuka();
 		},1200);
-		saya.game.hideModal();
+		// saya.game.hideModal();
 	}
 
 	goToFriend(user_id){
@@ -152,26 +189,34 @@ class Multi{
 			};
 			let callback = function(r,e){
 				if(e!=null){
-
+					saya.game.showModalInfo(saya.game.friendList[user_id].name+" isn't home","Please come back later");
+					saya.backHome();
 				}else
 				if(r!=null){
 					// console.log(r);
 					if(r.data && r.data.Data && r.data.Data[0] && r.data.Data[0].PlayFabId){
 						saya.game.friendList[user_id].PFId = r.data.Data[0].PlayFabId;
-						saya.viewTank(saya.game.friendList[user_id].PFId);
+						saya.viewTank(saya.game.friendList[user_id].PFId, user_id);
+					}else
+					{
+						saya.game.showModalInfo(saya.game.friendList[user_id].name+" isn't home","Please come back later");
+						saya.backHome();
 					}
+				}else{
+					saya.game.showModalInfo(saya.game.friendList[user_id].name+" isn't home","Please come back later");
+						saya.backHome();
 				}
 			};
 
 			PlayFabClientSDK.GetPlayFabIDsFromKongregateIDs(param, callback);
 		}else{
-			saya.viewTank(saya.game.friendList[user_id].PFId);
+			saya.viewTank(saya.game.friendList[user_id].PFId, user_id);
 		}
 
 		f.ac(saya.game.parentEl, saya.elWrap);
 	}
 
-	viewTank(PFId){
+	viewTank(PFId,user_id){
 		let saya = this;
 
 		let param = {
@@ -179,46 +224,38 @@ class Multi{
 			PlayFabId: PFId
 		};
 
-		// let param = {
-		// 	Data:{
-		// 		savePublic :JSON.stringify({
-		// 			glassLvl: this.glassLvl,
-		// 			ikan1:JSON.stringify(this.ikan.map(e=>{
-		// 				try{
-		// 					return e.save();
-		// 				}catch(e){}
-		// 			})),
-		// 			craft:JSON.stringify(this.craft),
-		// 			tankItems:this.tankItems.map(e=>{
-		// 				try{
-		// 					return [e.item.save(),e.index];
-		// 				}catch(e){}
-		// 			})
-		// 		})
-
-		// 	},
-		// 	Permission: "Public"
-		// };
-
 		let callback = function(r,e){
 			if(e!=null){
+				saya.game.showModalInfo(saya.game.friendList[user_id].name+" isn't home","Please come back later");
+				saya.backHome();
 
 			}else
 			if(r!=null){
 				if(r.data && r.data.Data && r.data.Data.savePublic && r.data.Data.savePublic.Value){
 					// console.log(r.data.Data.savePublic.Value);
 					try{
-
-						saya.elWrap.innerHTML = "";
-						saya.el.glass = f.ce("div");
-						f.sa(saya.el.glass,"class","glass");
-						f.ac(saya.elWrap,saya.el.glass);
+						saya.el.glass.innerHTML = "";
+						saya.el.glass.style.backgroundImage = null;
 						saya.el.aqua = f.ce("div");
 						f.sa(saya.el.aqua,"class","aqua");
 						f.ac(saya.el.glass,saya.el.aqua);
 						saya.el.amb = f.ce("div");
 						f.sa(saya.el.amb,"class","amb");
 						f.ac(saya.el.aqua,saya.el.amb);
+
+						// saya.el.papan = f.ce("div");
+						// f.sa(saya.el.papan,"class","title2");
+						// f.ac(saya.elWrap,saya.el.papan);
+						// saya.el.avatar = f.ce("div");
+						// f.sa(saya.el.avatar,"class","avatar");
+						// saya.el.avatar.style.margin = "20px 10px 10px 10px";
+						// f.ac(saya.el.papan, saya.el.avatar);
+						// saya.el.name = f.ce("div");
+						// f.ac(saya.el.papan, saya.el.name);
+
+
+						saya.el.avatar.style.backgroundImage = "url('"+saya.game.friendList[user_id].avatar+"')";
+						saya.el.name.innerText = " "+saya.game.friendList[user_id].name+" ";
 
 
 						let data = JSON.parse(r.data.Data.savePublic.Value);
@@ -257,7 +294,13 @@ class Multi{
 						console.log(e);
 					}
 
+				}else{
+					saya.game.showModalInfo(saya.game.friendList[user_id].name+" isn't home","Please come back later");
+					saya.backHome();
 				}
+			}else{
+				saya.game.showModalInfo(saya.game.friendList[user_id].name+" isn't home","Please come back later");
+				saya.backHome();
 			}
 		};
 		PlayFabClientSDK.GetUserData(param, callback);

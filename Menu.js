@@ -10,6 +10,8 @@ class Menu{
 		this.addMenuCraft();
 		this.addMenuTank();
 		this.addMenuGuide();
+
+		this.addMenuFriend();
 	}
 
 
@@ -23,6 +25,26 @@ class Menu{
 		f.ac(this.el[menu], f.ce("br"));
 		f.ac(this.el[menu], f.ct(text));
 		f.ac(this.game.parentEl,this.el[menu]);
+	}
+
+	addMenuL(menu,y=0,text="", img="",click=()=>{}){
+		this.el[menu] = f.ce("div");
+		f.sa(this.el[menu],"class","sideMenuL");
+		this.el[menu].style.top = (30+y*40)+"px";
+		this.el[menu].style.backgroundImage = "url('"+img+"')";
+		this.el[menu].onclick = click;
+		f.ac(this.el[menu], f.ce("br"));
+		f.ac(this.el[menu], f.ce("br"));
+		f.ac(this.el[menu], f.ct(text));
+		f.ac(this.game.parentEl,this.el[menu]);
+	}
+
+	addMenuFriend(){
+		let saya = this;
+		let click = function(){
+			saya.game.multi.viewFriends();
+		};
+		this.addMenuL("menuFriend",10,"Friends",IMG.icon.friend,click);
 	}
 
 	addMenuSave(){

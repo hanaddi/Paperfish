@@ -71,13 +71,14 @@ GLOBAL.tankItems = {
 		minGlassLvl:3,
 		width :"180px",
 		height :"165px",
-		onload :function(g){
-			let textPanel = document.querySelector(".yourName");
-			let text = document.querySelector(".yourName .textPanel .text");
+		onload :function(g,el){
+			el = el || f.ce("div");
+			let textPanel = el.querySelector(".yourName");
+			let text = el.querySelector(".yourName .textPanel .text");
 			try{text.childNodes[0].innerText = (g && g.username) || window.kongVars.username;}catch(e){}
-			// console.log(text.childNodes[0].offsetWidth , textPanel.offsetWidth)
-			if(text.childNodes[0].offsetWidth > textPanel.offsetWidth){
-				text.style.transform = "scale("+(textPanel.offsetWidth/text.childNodes[0].offsetWidth/1.3)+",1)";
+			// console.log(text.offsetWidth ,text.childNodes[0].offsetWidth , textPanel.offsetWidth)
+			if(text.childNodes[0].offsetWidth > text.offsetWidth){
+				text.style.transform = "scale("+((text.offsetWidth/text.childNodes[0].offsetWidth))+",1)";
 				// text.childNodes[0].style.transform = "scale("+(textPanel.offsetWidth/text.childNodes[0].offsetWidth)+",1)";
 				text.style.transformOrigin = "left";
 				text.style.textAlign = "left";
@@ -126,7 +127,8 @@ class Tank{
 				f.sa(this.elWrap,"class","tankItems");
 
 				// console.log(this.type);
-				f.ac(this.elWrap,GLOBAL.tankItems[this.type].el.cloneNode(true));
+				let el = GLOBAL.tankItems[this.type].el.cloneNode(true);
+				f.ac(this.elWrap,el);
 				this.elWrap.style.width = GLOBAL.tankItems[this.type].width;
 				this.elWrap.style.height = GLOBAL.tankItems[this.type].height;
 				this.elWrap.style.left = this.left+"px";
@@ -145,7 +147,7 @@ class Tank{
 					saya.game.viewMoney();
 				},3000);
 
-				(GLOBAL.tankItems[this.type].onload||function(){})();
+				(GLOBAL.tankItems[this.type].onload||function(){})(null,el);
 			}
 
 		}

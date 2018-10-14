@@ -320,13 +320,14 @@ class Multi{
 			f.sa(elWrap,"class","tankItems");
 
 			// console.log(this.type);
-			f.ac(elWrap,GLOBAL.tankItems[type].el.cloneNode(true));
+			let el = GLOBAL.tankItems[type].el.cloneNode(true);
+			f.ac(elWrap,el);
 			elWrap.style.width = GLOBAL.tankItems[type].width;
 			elWrap.style.height = GLOBAL.tankItems[type].height;
 			elWrap.style.left = left+"px";
 
 			f.ac(this.el.amb,elWrap);
-			(GLOBAL.tankItems[type].onload||function(){})(this);
+			(GLOBAL.tankItems[type].onload||function(){})(this,el);
 
 		}
 	}

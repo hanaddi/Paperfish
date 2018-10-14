@@ -63,6 +63,37 @@ class Multi{
 		f.ac(this.el.btnFriend, f.ct("Players"));
 		f.ac(this.elWrap,this.el.btnFriend);
 
+
+		this.intervalRefreshLastLogins = window.setInterval(this.refreshLastLogins,300000);
+	}
+
+	refreshLastLogins(){
+		let saya = this;
+		let param = {
+			"StatisticName": "login",
+			"StartPosition": 0,
+			"MaxResultsCount": 10
+		};
+
+		let callback = function(r,e){
+			if(e!==null){
+				saya.game.viewStatus("Can't find your friends.");
+			}else
+			if(r!==null){
+				if(r.data && r.data.Leaderboard){
+					let lastLogins=[];
+					(r.data.Leaderboard).map(function(el){
+						lastLogins.push({
+							PFId:el.PlayFabId,
+							name:el.DisplayName
+						});
+					});
+					saya.lastLogins = lastLogins;
+				}
+			}
+		}
+
+		PlayFabClientSDK.GetLeaderboard(param,callback);
 	}
 
 	getFriends(user_id){

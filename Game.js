@@ -579,7 +579,7 @@ class Game{
 				saya.loggedIn = true;
 				this.saveInterval = window.setInterval(()=>{
 					saya.saveData();
-				},60000);
+				},120000);
 			}catch(e){
 				if(e!==null){
 					let saya = this;

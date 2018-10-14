@@ -218,6 +218,7 @@ class Multi{
 
 	viewTank(PFId,user_id){
 		let saya = this;
+		saya.username = saya.game.friendList[user_id].name;
 
 		let param = {
 			Keys:["savePublic"],
@@ -325,6 +326,7 @@ class Multi{
 			elWrap.style.left = left+"px";
 
 			f.ac(this.el.amb,elWrap);
+			(GLOBAL.tankItems[type].onload||function(){})(this);
 
 		}
 	}

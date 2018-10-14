@@ -71,10 +71,10 @@ GLOBAL.tankItems = {
 		minGlassLvl:3,
 		width :"180px",
 		height :"165px",
-		onload :function(){
+		onload :function(g){
 			let textPanel = document.querySelector(".yourName");
 			let text = document.querySelector(".yourName .textPanel .text");
-			try{text.childNodes[0].innerText = window.kongVars.username;}catch(e){}
+			try{text.childNodes[0].innerText = (g && g.username) || window.kongVars.username;}catch(e){}
 			// console.log(text.childNodes[0].offsetWidth , textPanel.offsetWidth)
 			if(text.childNodes[0].offsetWidth > textPanel.offsetWidth){
 				text.style.transform = "scale("+(textPanel.offsetWidth/text.childNodes[0].offsetWidth/1.3)+",1)";

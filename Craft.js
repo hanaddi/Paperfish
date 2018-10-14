@@ -132,7 +132,6 @@ class Craft {
 		},this.delay);
 	}
 
-
 	move(x,y,speed=null,moveable=true){
 		if(moveable){
 			// x = Math.min(this.parentEl.offsetWidth-this.length, Math.max(  0,this.x + x));
@@ -197,7 +196,8 @@ class Craft {
 
 
 
-	hint(game){
+	hint(game,saya){
+		saya = saya || this;
 
 		// let length = this.length
 		// let height = this.height
@@ -211,7 +211,7 @@ class Craft {
 		// length /= 5;
 		// let els = this.el.querySelectorAll(".ikan .ikan .ruas");
 		// let els = this.elWrap.querySelectorAll(".ikan");
-		let els = this.elWrap.getElementsByTagName('div');
+		let els = saya.elWrap.getElementsByTagName('div');
 
 		for(let i in els){
 			if(!els[i].style){
@@ -224,14 +224,15 @@ class Craft {
 			// els[i].style.animationDuration = (1+3*this.length/200)+"s";
 
 			if(els[i].style.backgroundImage){
-				els[i].style.backgroundImage = "url('data:image/svg+xml;utf8, "+IMG.fishs._hint(IMG.fishs[this.img])+"')";
+				els[i].style.backgroundImage = "url('data:image/svg+xml;utf8, "+IMG.fishs._hint(IMG.fishs[saya.img])+"')";
 			}
 		}
 
 
 	}
 
-	unHint(game){
+	unHint(game,saya){
+		saya = saya || this;
 
 		// let length = this.length
 		// let height = this.height
@@ -245,7 +246,7 @@ class Craft {
 		// length /= 5;
 		// let els = this.el.querySelectorAll(".ikan .ikan .ruas");
 		// let els = this.elWrap.querySelectorAll(".ikan");
-		let els = this.elWrap.getElementsByTagName('div');
+		let els = saya.elWrap.getElementsByTagName('div');
 
 		for(let i in els){
 			if(!els[i].style){
@@ -258,7 +259,7 @@ class Craft {
 			// els[i].style.animationDuration = (1+3*this.length/200)+"s";
 
 			if(els[i].style.backgroundImage){
-				els[i].style.backgroundImage = "url('data:image/svg+xml;utf8, "+(IMG.fishs[this.img])+"')";
+				els[i].style.backgroundImage = "url('data:image/svg+xml;utf8, "+(IMG.fishs[saya.img])+"')";
 			}
 		}
 

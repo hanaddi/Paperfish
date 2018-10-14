@@ -287,190 +287,6 @@ class Menu{
 		return div;
 	}
 
-	fishCraft(scrollTop=0,short=null){
-		let saya = this;
-		let fishShop = {};
-		let div = f.ce("div");
-		f.sa(div,"style","overflow-y:scroll;max-height:350px;margin:10px 0px;position:relative;");
-		div.onscroll =e=>{scrollTop=div.scrollTop;};
-
-		if(!short){
-			// for(let i of this.game.craft.sort((a,b)=>Object.values(fishCraft[b].price).reduce((c,d)=>c+d) < Object.values(fishCraft[a].price).reduce((c,d)=>c+d)?1:-1)){
-			// 	if(!fishShop[i]){
-			// 		fishShop[i] = fishCraft[i];
-			// 	}
-			// }
-
-			for(let i of this.game.craftUnlocked.sort((a,b)=> this.game.craft.indexOf(a)!=-1?-1:this.game.craft.indexOf(b)!=-1?1: Object.values(GLOBAL.fishCraft[b].price).reduce((c,d)=>c+d) < Object.values(GLOBAL.fishCraft[a].price).reduce((c,d)=>c+d)?1:-1)){
-				if(!fishShop[i]){
-					fishShop[i] = GLOBAL.fishCraft[i];
-				}
-			}
-
-			for(let i of Object.keys(GLOBAL.fishCraftShop).sort((a,b)=>Object.values(GLOBAL.fishCraftShop[b].price).reduce((c,d)=>c+d) < Object.values(GLOBAL.fishCraftShop[a].price).reduce((c,d)=>c+d)?1:-1)){
-			// for(let i of Object.keys(fishCraftShop)){
-				if(!fishShop[i]){
-					fishShop[i] = GLOBAL.fishCraftShop[i];
-				}
-			}
-			short = Object.keys(fishShop);
-		}else{
-			for(let i of short){
-				if(!fishShop[i]){
-					fishShop[i] = GLOBAL.fishCraft[i];
-				}
-			}
-		}
-
-
-		// for(let jjjj=9;--jjjj;)
-		for(let i of Object.keys(fishShop)){
-			let menu = f.ce("div");
-			f.sa(menu,"class","shopMenu");
-
-			let aquaMini = f.ce("div");
-			f.sa(aquaMini,"class","aquaMini");
-			f.ac(menu,aquaMini);
-			let ikan = new Craft((160-fishShop[i].length)/2 ,(100-fishShop[i].height)/2,aquaMini, 200, 200, fishShop[i].type,false,false,1);
-
-			let div1 = f.ce("div");
-			f.sa(div1,"class","title1");
-			div1.innerHTML = fishShop[i].name;
-			f.ac(menu, div1);
-
-			div1 = f.ce("div");
-			f.sa(div1,"style","height:100px;overflow-y:hidden");
-			div1.innerHTML = fishShop[i].desc;
-			f.ac(menu, div1);
-
-
-
-			// BUY
-			div1 = f.ce("div");
-			f.sa(div1,"style","text-align:center;height:80px;display:grid;place-items:center");
-			if(this.game.craftUnlocked.indexOf(i)==-1){
-				menu.style.backgroundColor = "#777777";
-				ikan.hint();
-				let buy = f.ce("button");
-				buy.onclick = function(){
-					saya.game.unlockCraft(i);
-					saya.game.el.content.innerHTML = "";
-					saya.game.el.title.innerHTML="Creatures Craft ("+saya.game.craft.length+"/"+saya.game.craftMaxItem+")";
-					let div = saya.fishCraft(scrollTop, short);
-					f.ac(saya.game.el.content, div);
-					div.scrollTop = scrollTop;
-				}
-				buy.innerHTML = " Unlock ";
-
-				let div2 = f.ce("div");
-				f.sa(div2,"style","text-align:left;");
-				div2.innerHTML = "";
-				let idx=-1;
-				for(let j of Object.keys(fishShop[i].price)){
-					div2.innerHTML += fishShop[i].price[j]?" <img src='"+IMG.icon.paper+"' class='icon coin"+j+"'>"+f.numFormat(fishShop[i].price[j])+(++idx%2?"<br>":""):"";
-					if(this.game.paper[j]<fishShop[i].price[j]){
-						f.sa(buy,"disabled","");
-					}
-				}
-
-
-				let update = window.setInterval(()=>{
-					try{
-
-						let disabled = false;
-						for(let j of Object.keys(fishShop[i].price)){
-							if(this.game.paper[j]<fishShop[i].price[j]){
-								disabled = true;
-							}
-						}
-						if(disabled){
-							f.sa(buy,"disabled","");
-						}else{
-							f.ra(buy,"disabled");
-						}
-					}catch(e){
-						console.log(e);
-					}
-				}, 1000);
-				this.game.onModalRemoved.push(()=>{window.clearInterval(update)});
-
-				f.ac(div1, div2);
-				f.ac(div1, buy);
-			}else
-			if(this.game.craft.indexOf(i)==-1){
-
-				let totalIkan = 0;
-				saya.game.craft.map(e=>e && (totalIkan++) );
-
-				let buy = f.ce("button");
-				f.sa(buy,"class","green");
-
-				buy.onclick = function(){
-					saya.game.addCraft(fishShop[i].type);
-					if(1){
-						saya.game.el.content.innerHTML = "";
-						saya.game.el.title.innerHTML="Creatures Craft ("+saya.game.craft.length+"/"+saya.game.craftMaxItem+")";
-						let div = saya.fishCraft(scrollTop,short);
-						f.ac(saya.game.el.content, div);
-						div.scrollTop = scrollTop;
-
-					}else{
-						saya.game.hideModal();
-					}
-				}
-
-
-				buy.innerHTML = " Insert to tank ";
-				if(totalIkan>=this.game.craftMaxItem){
-					buy.innerHTML = " Remove others first ";
-					f.sa(buy,"disabled","");
-				}
-
-				f.ac(div1, buy);
-
-			}else{
-				let buy = f.ce("button");
-				f.sa(buy,"class","red");
-				// buy.onclick = function(){
-				// 	saya.game.removeCraft(i);
-				// 	if(1){
-				// 		saya.game.el.content.innerHTML = "";
-				// 		f.ac(saya.game.el.content, saya.fishCraft(scrollTop, short));
-				// 	}else{
-				// 		saya.game.hideModal();
-				// 	}
-				// }
-
-				((buy,saya,i)=>{
-					buy.onclick = function(){
-						saya.game.removeCraft(i);
-						// console.log("NOOO ",i);
-						if(1){
-							saya.game.el.content.innerHTML = "";
-							saya.game.el.title.innerHTML="Creatures Craft ("+saya.game.craft.length+"/"+saya.game.craftMaxItem+")";
-							let div = saya.fishCraft(scrollTop,short);
-							f.ac(saya.game.el.content, div);
-							div.scrollTop = scrollTop;
-						}else{
-							saya.game.hideModal();
-						}
-					}
-				})(buy,saya,fishShop[i].type);
-
-
-				buy.innerHTML = " Remove from tank ";
-
-				f.ac(div1, buy);
-
-			}
-
-
-			f.ac(menu, div1);
-			f.ac(div, menu);
-		}
-
-		return div;
-	}
 
 	fishCraft1(scrollTop=0,short=null){
 		let saya = this;
@@ -558,14 +374,14 @@ class Menu{
 				if(saya.game.craftUnlocked.indexOf(i)==-1){
 					menu.style.backgroundColor = "#777777";
 					aquaMini.style.backgroundColor = "#bbb";
-					ikan.hint();
+					ikan.hint(null,ikan);
 					let buy = f.ce("button");
 					buy.onclick = function(){
 						saya.game.unlockCraft(i);
 						menu.style.backgroundColor = "";
 						aquaMini.style.backgroundColor = "";
 						icon.style.opacity = 0;
-						ikan.unHint();
+						ikan.unHint(null,ikan);
 						updateState(saya,i);
 						// console.log("Menu::fishCraft1 : unlock craft");
 					}
@@ -876,7 +692,7 @@ class Menu{
 		let saya = this;
 
 		let tankItemsList=[];
-		for(let i of saya.game.tankItemsUnlocked){
+		for(let i of saya.game.tankItemsUnlocked.reverse()){
 			if(tankItemsList.indexOf(i)==-1 && GLOBAL.tankItemsShop.indexOf(i)!==-1){
 				tankItemsList.push(i);
 			}

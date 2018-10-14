@@ -564,11 +564,13 @@ class Game{
 				if(!r.data.NewlyCreated && 1){
 					// this.loadData();
 					this.loadData1();
+					if(window.kongVars && window.kongVars.username)PlayFabClientSDK.UpdateUserTitleDisplayName({DisplayName:window.kongVars.username});
 				}else{
 					this.newGame();
 					// this.addCraft("G");
 					// if(this.ikan.length==0)this.addIkan("B",true);
-					this.saveData();
+					if(window.kongVars && window.kongVars.username)PlayFabClientSDK.UpdateUserTitleDisplayName({DisplayName:window.kongVars.username});
+					// this.saveData();
 					// this.transisiBuka();
 				}
 				this.multi.getFriends();

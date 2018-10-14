@@ -2,6 +2,7 @@ class Multi{
 	constructor(game){
 		this.game = game;
 		this.game.friendList = this.game.friendList || {};
+		this.lastLogins = [];
 
 		this.elWrap = f.ce("div");
 		this.elWrap.classList.add('friendHouse');
@@ -59,7 +60,7 @@ class Multi{
 		};
 		f.ac(this.el.btnFriend, f.ce("br"));
 		f.ac(this.el.btnFriend, f.ce("br"));
-		f.ac(this.el.btnFriend, f.ct("Friends"));
+		f.ac(this.el.btnFriend, f.ct("Players"));
 		f.ac(this.elWrap,this.el.btnFriend);
 
 	}
@@ -97,6 +98,14 @@ class Multi{
 				}else{
 					saya.game.viewStatus("Can't find your friends.");
 				}
+				if(r.data && r.data.FunctionResult && r.data.FunctionResult.login){
+					(r.data.FunctionResult.login.Leaderboard).map(function(el){
+						saya.lastLogins.push({
+							PFId:el.PlayFabId,
+							name:el.DisplayName
+						});
+					});
+				}
 			}
 		}
 
@@ -107,8 +116,46 @@ class Multi{
 		let saya = this;
 
 		saya.game.el.content.innerHTML = "";
-		let divFriends = f.ce("div")
-		f.sa(divFriends,"class","friendPanel");
+		let divPanel = f.ce("div");
+		f.sa(divPanel,"class","tank");
+
+		// LAST LOGINS
+		let divLast = f.ce("div");
+		f.sa(divLast,"class","left");
+		divLast.style.overflowY = "scroll";
+		let divTitle = f.ce("div");
+		f.sa(divTitle,"class",'title1');
+		divTitle.innerHTML = "Last Login";
+		f.ac(divLast, divTitle);
+		if(saya.lastLogins.length>0){
+			saya.lastLogins.map(function(el){
+				if(el.name==window.kongVars.username)return;
+				let button = f.ce("button");
+				button.innerText = el.name||"Guest";
+				button.style.width = "90%";
+				button.onclick = function(ev){
+					GLOBAL.waitMessage.innerText = "I am coming, "+(el.name||"friend")+" !";
+					saya.game.transisiTutup();
+
+					window.setTimeout(function(){
+						saya.goToPlayer(el);
+					},1000);
+				};
+				f.ac(divLast,button);
+				f.ac(divLast,f.ce("br"));
+			});
+		}
+
+		// FRIENDS
+		let divFriends = f.ce("div");
+		f.sa(divFriends,"class","right");
+		divFriends.style.overflowY = "scroll";
+		// divFriends.style.textAlign = "center";
+		divTitle = f.ce("div");
+		f.sa(divTitle,"class",'title1');
+		divTitle.innerHTML = "Kongregate Friends";
+		f.ac(divFriends, divTitle);
+
 		if(Object.keys(saya.game.friendList).length){
 			for(let i of Object.keys(saya.game.friendList)){
 				if(i == parseInt(window.kongVars.userId || "") )continue;
@@ -148,8 +195,10 @@ class Multi{
 		}else{
 			f.ac(divFriends,f.ct("Can't find your friends."));
 		}
-		f.ac(saya.game.el.content, divFriends);
-		saya.game.showModalWide("Kongregate Friends");
+		f.ac(divPanel, divLast);
+		f.ac(divPanel, divFriends);
+		f.ac(saya.game.el.content, divPanel);
+		saya.game.showModalWide("Players");
 	}
 
 	backHome(){
@@ -173,6 +222,89 @@ class Multi{
 			saya.game.transisiBuka();
 		},1200);
 		// saya.game.hideModal();
+	}
+
+	goToPlayer(player){
+		let saya = this;
+		saya.username = player.name|| "Guest";
+		f.ac(saya.game.parentEl, saya.elWrap);
+		saya.game.el.glass.style.opacity=0;
+		saya.game.hideModal();
+
+		let param = {
+			Keys:["savePublic"],
+			PlayFabId: player.PFId
+		};
+
+		let callback = function(r,e){
+			if(e!=null){
+				saya.game.showModalInfo(saya.username+" isn't home","Please come back later");
+				saya.backHome();
+
+			}else
+			if(r!=null){
+				if(r.data && r.data.Data && r.data.Data.savePublic && r.data.Data.savePublic.Value){
+					// console.log("cp 1");
+					try{
+						saya.el.glass.innerHTML = "";
+						saya.el.glass.style.backgroundImage = null;
+						saya.el.aqua = f.ce("div");
+						f.sa(saya.el.aqua,"class","aqua");
+						f.ac(saya.el.glass,saya.el.aqua);
+						saya.el.amb = f.ce("div");
+						f.sa(saya.el.amb,"class","amb");
+						f.ac(saya.el.aqua,saya.el.amb);
+
+
+						saya.el.avatar.style.backgroundImage = "url('https://cdn4.kongcdn.com/compiled-assets/favicos/favico-57-b4efefa5bfe12e3c2448f94d86df94bf.png')";
+						saya.el.name.innerText = " "+saya.username+" ";
+
+
+						let data = JSON.parse(r.data.Data.savePublic.Value);
+
+						saya.el.glass.style.width = Math.min(600,400+20*data.glassLvl) + "px";
+						saya.el.glass.style.height = Math.min(400,200+20*data.glassLvl) + "px";
+						saya.el.glass.style.right = ((saya.elWrap.offsetWidth - saya.el.glass.offsetWidth)/2|0) + "px";
+
+
+
+						
+						// (saya.ikan||[]).map(function(el){
+						// 	try{
+						// 		el.elWrap.outerHTML = "";
+						// 	}catch(e){
+
+						// 	}
+						// });
+						saya.ikan = [];
+						JSON.parse(data.craft).map(function(el){
+							if(el)saya.addCraft(el);
+						});
+						JSON.parse(data.ikan1).map(function(el){
+							if(el)saya.loadIkan(el);
+						});
+
+						(data.tankItems).sort((a,b)=>b[1]<a[1]?1:-1).map(function(el){
+							saya.addTankItem(el[0][0],el[0][1]||0);
+						});
+
+
+						saya.game.transisiBuka();
+					}catch(e){
+						console.log(e);
+					}
+
+				}else{
+					saya.game.showModalInfo(saya.username+" isn't home","Please come back later");
+					saya.backHome();
+				}
+			}else{
+				saya.game.showModalInfo(saya.username+" isn't home","Please come back later");
+				saya.backHome();
+			}
+		};
+		PlayFabClientSDK.GetUserData(param, callback);
+
 	}
 
 	goToFriend(user_id){

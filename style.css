@@ -976,8 +976,8 @@ button.green:disabled{
 }
 .avatar{
 	position: relative;
-	width: 58px;
-	height: 58px;
+	width: 65px;
+	height: 65px;
 	border: transparent;
 	overflow: visible;
 	background: #ddd;

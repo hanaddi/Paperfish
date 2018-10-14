@@ -67,6 +67,23 @@ handlers.getKongFriends = function(args){
 
 
 handlers.getFriends = function(args){
+	// update stats
+	var now = server.GetTime({}).Time;
+
+	var param = {
+		"PlayFabId": currentPlayerId,
+		"Statistics": [
+			{
+			"StatisticName": "login",
+			"Value": (new Date(now)).getTime()/60000|0
+			}
+		]
+	};
+
+	var stats = server.UpdatePlayerStatistics(param);
+
+
+
 	var options = {
 		url : "https://api.kongregate.com/api/high_scores/friends/135339/"+encodeURIComponent(args.user_id)+".json",
 		headers : ({
@@ -94,7 +111,8 @@ handlers.getFriends = function(args){
 	return {
 		data: result.users.map(function(el){
 			return [el.user_id,el.username,el.user_vars.avatar_url];
-		})
+		}),
+		login:server.GetLeaderboard({  "StatisticName": "login","StartPosition": 0,"MaxResultsCount": 10})
 	};
 }
 

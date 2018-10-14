@@ -44,7 +44,7 @@ class Menu{
 		let click = function(){
 			saya.game.multi.viewFriends();
 		};
-		this.addMenuL("menuFriend",10,"Friends",IMG.icon.friend,click);
+		this.addMenuL("menuFriend",10,"Players",IMG.icon.friend,click);
 	}
 
 	addMenuSave(){

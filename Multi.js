@@ -65,6 +65,7 @@ class Multi{
 
 
 		this.intervalRefreshLastLogins = window.setInterval(this.refreshLastLogins,300000);
+		// this.intervalRefreshLastLogins = window.setInterval(this.refreshLastLogins,3000);
 	}
 
 	refreshLastLogins(){
@@ -224,7 +225,7 @@ class Multi{
 
 			}
 		}else{
-			f.ac(divFriends,f.ct("Can't find your friends."));
+			f.ac(divFriends,f.ct("Can't find your friends. You can add someone as friend, or invite your friends to join the game."));
 		}
 		f.ac(divPanel, divLast);
 		f.ac(divPanel, divFriends);
@@ -297,22 +298,19 @@ class Multi{
 						saya.el.glass.style.height = Math.min(400,200+20*data.glassLvl) + "px";
 						saya.el.glass.style.right = ((saya.elWrap.offsetWidth - saya.el.glass.offsetWidth)/2|0) + "px";
 
-
-
-						
-						// (saya.ikan||[]).map(function(el){
-						// 	try{
-						// 		el.elWrap.outerHTML = "";
-						// 	}catch(e){
-
-						// 	}
-						// });
 						saya.ikan = [];
 						JSON.parse(data.craft).map(function(el){
 							if(el)saya.addCraft(el);
 						});
+						let isCoinAdded = (saya.game.playerCoin[player.PFId] && (((new Date()).getTime()/86400000|0)-saya.game.playerCoin[player.PFId])<=0);
+						// console.log(isCoinAdded);
 						JSON.parse(data.ikan1).map(function(el){
-							if(el)saya.loadIkan(el);
+							if(el){
+								saya.loadIkan(el,isCoinAdded,player.PFId,1000);
+								if(!isCoinAdded){
+									isCoinAdded = true;
+								}
+							}
 						});
 
 						(data.tankItems).sort((a,b)=>b[1]<a[1]?1:-1).map(function(el){
@@ -407,15 +405,6 @@ class Multi{
 						f.sa(saya.el.amb,"class","amb");
 						f.ac(saya.el.aqua,saya.el.amb);
 
-						// saya.el.papan = f.ce("div");
-						// f.sa(saya.el.papan,"class","title2");
-						// f.ac(saya.elWrap,saya.el.papan);
-						// saya.el.avatar = f.ce("div");
-						// f.sa(saya.el.avatar,"class","avatar");
-						// saya.el.avatar.style.margin = "20px 10px 10px 10px";
-						// f.ac(saya.el.papan, saya.el.avatar);
-						// saya.el.name = f.ce("div");
-						// f.ac(saya.el.papan, saya.el.name);
 
 
 						saya.el.avatar.style.backgroundImage = "url('"+saya.game.friendList[user_id].avatar+"')";
@@ -442,8 +431,14 @@ class Multi{
 						JSON.parse(data.craft).map(function(el){
 							if(el)saya.addCraft(el);
 						});
+						let isCoinAdded = (saya.game.playerCoin[PFId] && (((new Date()).getTime()/86400000|0)-saya.game.playerCoin[PFId])<=0);
 						JSON.parse(data.ikan1).map(function(el){
-							if(el)saya.loadIkan(el);
+							if(el){
+								saya.loadIkan(el,isCoinAdded,PFId,2000);
+								if(!isCoinAdded){
+									isCoinAdded = true;
+								}
+							}
 						});
 
 						(data.tankItems).sort((a,b)=>b[1]<a[1]?1:-1).map(function(el){
@@ -507,7 +502,7 @@ class Multi{
 		}
 	}
 
-	loadIkan(arr){
+	loadIkan(arr,isCoinAdded,PFId,uang){
 		if(!GLOBAL.fishs[arr[1]]){
 			console.log("Game::loadIkan() ERROR");
 			return;
@@ -522,7 +517,7 @@ class Multi{
 			ikan.timeCreated = arr[0]?arr[0]:ikan.timeCreated;
 			ikan.lastClaim = arr[3];
 			this.ikan.push(ikan);
-			this.afterAddIkan(ikan);
+			this.afterAddIkan(ikan,isCoinAdded,PFId,uang);
 			
 		}else{
 			let type = arr[1];
@@ -531,12 +526,25 @@ class Multi{
 			ikan.timeCreated = arr[0]?arr[0]:ikan.timeCreated;
 			ikan.lastClaim = arr[3];
 			this.ikan.push(ikan);
-			this.afterAddIkan(ikan);
+			this.afterAddIkan(ikan,isCoinAdded,PFId,uang);
 		}
 	}
 
-	afterAddIkan(ikan){
-		ikan.onclick = e=>{
+	afterAddIkan(ikan,isCoinAdded,PFId,uang){
+		let saya = this;
+		if(!isCoinAdded){
+			ikan.addNotif();
+		}
+		ikan.onclick = ev=>{
+			// f.ac(saya.game.el.content, divPanel);
+			// saya.game.showModalWide("Players");
+			// saya.game.showModalInfo("Ikan","HA HA HA");
+			saya.game.showPop(" <span style='color:#151'><img src='"+IMG.icon.money+"' class='icon'>"+f.numFormat(uang), ev.pageX, ev.pageY)+"</span>";
+			ikan.clearNotif();
+			saya.game.playerCoin[PFId]=(new Date()).getTime()/86400000|0;
+			saya.game.uang+=uang;
+			saya.game.viewMoney();
+			ikan.onclick = function(){};
 		}
 	}
 

@@ -694,17 +694,20 @@ button.green:disabled{
 /*notif*/
 .notif{
 	position: absolute;
-	width: 40px;
+	width: 15px;
 	left: 50%;
 	margin-left: -20px;
 	bottom: 100%;
-	height: 30px;
+	height: 15px;
 	background: #900;
 	color: #fff;
 	border-radius: 5px;
 	font-weight: bolder;
-	display: grid;
-	place-items :center;
+	/*display: grid;*/
+	/*place-items :center;*/
+	text-align: center;
+	font-size: 70%;
+	padding: 5px;
 }
 .notif::before{
 	content: '';
@@ -727,7 +730,7 @@ button.green:disabled{
 	height: 30px;
 	/*color: #f00;*/
 	/*cursor: auto;*/
-	animation: _popUp 1.5s ease-out;
+	animation: _popUp 2.5s ease-out;
 	text-align: center;
 	/*background-color: green;*/
 	z-index: 99;
@@ -819,7 +822,7 @@ button.green:disabled{
 	color: #fff;
 	cursor: pointer;
 	text-align: center;
-	place-items:center;
+	/*place-items:center;*/
 	border-radius: 5px;
 }
 .btnClose::before{

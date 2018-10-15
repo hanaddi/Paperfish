@@ -46,6 +46,7 @@ class Game{
 		this.uang = 0;
 		this.multi = new Multi(this);
 		this.friendList = {};
+		this.playerCoin = {};
 		this.paper = {
 			B:0,
 			R:0,
@@ -207,6 +208,7 @@ class Game{
 			saya.craftUnlocked=["G"];
 			saya.craftObj=[];
 			saya.fishVars = {};
+			saya.playerCoin = {};
 
 			saya.tankItemsUnlocked = [];
 			saya.tankItems.map(el=>el && el.item && el.item.kill() );
@@ -393,7 +395,7 @@ class Game{
 			try{
 				f.rc(this.parentEl,div);
 			}catch(e){}
-		},1000);
+		},2000);
 	}
 
 	showModalInfo(title="",info=""){
@@ -591,95 +593,6 @@ class Game{
 		});
 	}
 
-	loadData(){
-		let saya = this;
-		GLOBAL.waitMessage.innerText = "Retrieving Progress";
-		saya.transisiTutup();
-
-		let param = {
-			Keys :[]
-		};
-		PlayFabClientSDK.GetUserData(param, (r,e)=>{
-			// console.log(r);
-			try{
-				// throw 123;
-
-				if(r.data.Data.glassLvl){
-					saya.glassLvl=1;
-					while(saya.glassLvl<parseInt(r.data.Data.glassLvl.Value)){
-						saya.glassLvlUp(true);
-					}
-				}
-
-				if(r.data.Data.curr){
-					let data = JSON.parse(r.data.Data.curr.Value);
-					saya.uang = parseInt(data[0]);
-					saya.viewMoney();
-					saya.paper = data[1];
-					saya.viewPaper();
-				}
-				
-				if(r.data.Data.craftUnlocked){
-					saya.craftUnlocked = JSON.parse(r.data.Data.craftUnlocked.Value);
-					saya.craftUnlocked = saya.craftUnlocked.length?saya.craftUnlocked:['G'];
-				}
-				
-				if(r.data.Data.craft){
-					for(let i of saya.craft){
-						saya.removeCraft(i);
-					}
-					JSON.parse(r.data.Data.craft.Value).slice(0,saya.craftMaxItem).map(e=>{
-						try{
-							saya.addCraft(e);
-						}catch(e){}
-					});
-				}
-
-				if(r.data.Data.ikan1){
-
-					for(let i of saya.ikan){
-						if(i)i.kill(saya);
-					}
-					saya.ikan=[];
-
-					JSON.parse(r.data.Data.ikan1.Value).sort((i,j)=>Math.random()>.5?1:-1).map(e=>{
-						try{
-							saya.loadIkan(e);
-						}catch(e){}
-					});
-				}
-				
-
-				if(r.data.Data.general1){
-					let general1 = JSON.parse(r.data.Data.general1.Value);
-					saya.tankItemsUnlocked=general1.tankItemsUnlocked;
-					saya.tankItems.map(el=>el && el.item && el.item.kill() );
-					general1.tankItems.sort((a,b)=>b[1]<a[1]?1:-1).map(el=>{
-						let tank = new Tank(saya,el[0][0],el[0][1]||0);
-					});
-				}
-
-
-
-
-				window.setTimeout(()=>{
-					saya.transisiBuka();
-					if(saya.uang<1 && saya.paper.B<1){
-						saya.addIkan("B",true);
-					}
-				},2001);
-			}catch(err){
-				if(e!==null){
-					let saya = this;
-					window.setTimeout(()=>{saya.loadData()},2000);
-				}else{
-					console.error(e);
-					saya.newGame();
-				}
-			}
-		});
-
-	}
 
 	loadData1(){
 		let saya = this;
@@ -821,8 +734,10 @@ class Game{
 					});
 
 					if(general1.multi){
-						// console.log(general1.multi);
 						saya.friendList = general1.multi;
+					}
+					if(general1.pCoin){
+						saya.playerCoin = general1.pCoin;
 					}
 				}
 
@@ -878,7 +793,8 @@ class Game{
 						try{
 							return [e.item.save(),e.index];
 						}catch(e){}
-					})
+					}),
+					pCoin:this.playerCoin||{}
 				})
 
 			}

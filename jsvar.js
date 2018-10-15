@@ -754,7 +754,7 @@ GLOBAL.fishCraft = {
 		desc: "Free levels up a random fish every 3 minutes.",
 		length: 100,
 		height: 50,
-		delay: 360000,
+		delay: 180000,
 		// delay: 3000,
 		hint: function hint(game,saya){
 			saya.el.style.backgroundImage = "url('data:image/svg+xml;utf8, "+IMG.fishs._hint(IMG.fishs[saya.imgs[0]])+"')";

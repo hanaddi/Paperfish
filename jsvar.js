@@ -831,9 +831,9 @@ GLOBAL.fishCraft = {
 			let anim1 = function(i=1){
 				// if(i*Math.random()<.3)return;
 				s.elUp.style.transform = "rotate(-180deg)";
-				s.elUp1.style.transform = "rotate(180deg)";
-				s.elDown.style.transform = "rotate(180deg)";
-				s.elDown1.style.transform = "rotate(-180deg)";
+				s.elUp1.style.transform = "rotate(190deg)";
+				s.elDown.style.transform = "rotate(170deg)";
+				s.elDown1.style.transform = "rotate(-170deg)";
 			};
 			let anim2 = function(i=1){
 				// if(i*Math.random()<.3)return;

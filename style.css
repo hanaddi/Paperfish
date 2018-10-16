@@ -979,8 +979,8 @@ button.green:disabled{
 }
 .avatar{
 	position: relative;
-	width: 65px;
-	height: 65px;
+	width: 64px;
+	height: 64px;
 	border: transparent;
 	overflow: visible;
 	background: #ddd;
@@ -1238,4 +1238,29 @@ button.green:disabled{
 	text-align: center;
 	white-space: nowrap;
 	transform-origin: left;
+}
+
+.pumpkin{
+	width: 80px;
+	height: 80px;
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	background-image: url('../img/t-9.a.svg');
+	background-size: cover;
+}
+.pumpkin:hover >div{
+	opacity: 1;
+}
+.pumpkin> div{
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	background-image: url('../img/t-9.b.svg');
+	background-size: cover;
+	transition-duration: 2s;
+	transition-delay: .5s;
+	opacity: 0;
 }

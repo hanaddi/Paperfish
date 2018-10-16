@@ -692,7 +692,7 @@ class Menu{
 		let saya = this;
 
 		let tankItemsList=[];
-		for(let i of saya.game.tankItemsUnlocked.reverse()){
+		for(let i of saya.game.tankItemsUnlocked.slice(0).reverse()){
 			if(tankItemsList.indexOf(i)==-1 && GLOBAL.tankItemsShop.indexOf(i)!==-1){
 				tankItemsList.push(i);
 			}

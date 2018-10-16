@@ -85,21 +85,28 @@ GLOBAL.tankItems = {
 			}
 		},
 		el : (i=f.ce("div"))&&(f.sa(i,"class","yourName")||1)&&(f.ac(i, (j=f.ce("div"))&&(f.sa(j,"class","textPanel")||1)&&(f.ac(j, (k=f.ce("div"))&&(f.sa(k,"class","text")||1)&&(f.ac(k, (l=f.ce("span"))&&(l.innerText="Someone")&&l )||1) &&k )||1) &&j )||1)&&i
+	},
+	pumpkin :{
+		name :"Jack",
+		type :"pumpkin",
+		price:{B:300000,Y:50000},
+		money:2,
+		minGlassLvl:3,
+		width :"80px",
+		height :"80px",
+		onload :function(g,el){
+			el.childNodes[0].style.opacity = 1;
+
+			window.setTimeout(function(){
+				el.childNodes[0].style.opacity = "";
+			},3000);
+		},
+		// el : (i=f.ce("div"))&&(f.sa(i,"style","position:absolute;bottom:0;left:0px;width:50px;height:50px;background-image:url('../img/t-9.a.svg');background-size:cover;background-repeat:no-repeat;")||1)&&i
+		el : (i=f.ce("div"))&&(f.sa(i,"class","pumpkin")||1)&&(f.ac(i, (j=f.ce("div"))&&(f.sa(j,"class","yyy")||1)&&j )||1)&&i
 	}
-	// ,
-	// test1 :{
-	// 	name :"test",
-	// 	type :"test1",
-	// 	price:{B:100000,R:100000},
-	// 	money:2,
-	// 	minGlassLvl:5,
-	// 	width :"100px",
-	// 	height :"300px",
-	// 	el : (i=f.ce("div"))&&(f.sa(i,"style","position:absolute;bottom:0;left:0px;width:100px;height:300px;background-image:url('data:image/svg+xml;utf8,"+IMG.fishs.A+"');background-size:cover;background-repeat:none")||1)&&i
-	// }
 };
 GLOBAL.tankItemsShop = [
-	"grass","rocks","pagoda","house","sand","name"
+	"grass","rocks","pagoda","house","sand","name","pumpkin"
 ];
 
 class Tank{

@@ -64,7 +64,10 @@ class Multi{
 		f.ac(this.elWrap,this.el.btnFriend);
 
 
-		this.intervalRefreshLastLogins = window.setInterval(this.refreshLastLogins,300000);
+		this.intervalRefreshLastLogins = window.setInterval(function(){
+			saya.refreshLastLogins();
+		},300000);
+		
 		// this.intervalRefreshLastLogins = window.setInterval(this.refreshLastLogins,3000);
 	}
 
@@ -254,6 +257,7 @@ class Multi{
 			saya.game.transisiBuka();
 		},1200);
 		// saya.game.hideModal();
+		saya.refreshLastLogins();
 	}
 
 	goToPlayer(player){
@@ -534,16 +538,18 @@ class Multi{
 		let saya = this;
 		if(!isCoinAdded){
 			ikan.addNotif();
-		}
-		ikan.onclick = ev=>{
-			// f.ac(saya.game.el.content, divPanel);
-			// saya.game.showModalWide("Players");
-			// saya.game.showModalInfo("Ikan","HA HA HA");
-			saya.game.showPop(" <span style='color:#151'><img src='"+IMG.icon.money+"' class='icon'>"+f.numFormat(uang), ev.pageX, ev.pageY)+"</span>";
-			ikan.clearNotif();
-			saya.game.playerCoin[PFId]=(new Date()).getTime()/86400000|0;
-			saya.game.uang+=uang;
-			saya.game.viewMoney();
+			ikan.onclick = ev=>{
+				// f.ac(saya.game.el.content, divPanel);
+				// saya.game.showModalWide("Players");
+				// saya.game.showModalInfo("Ikan","HA HA HA");
+				saya.game.showPop(" <span style='color:#151'><img src='"+IMG.icon.money+"' class='icon'>"+f.numFormat(uang), ev.pageX, ev.pageY)+"</span>";
+				ikan.clearNotif();
+				saya.game.playerCoin[PFId]=(new Date()).getTime()/86400000|0;
+				saya.game.uang+=uang;
+				saya.game.viewMoney();
+				ikan.onclick = function(){};
+			}
+		}else{
 			ikan.onclick = function(){};
 		}
 	}

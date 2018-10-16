@@ -737,7 +737,13 @@ class Game{
 						saya.friendList = general1.multi;
 					}
 					if(general1.pCoin){
-						saya.playerCoin = general1.pCoin;
+						saya.playerCoin = {};
+						let now = (new Date()).getTime()/86400000|0;
+						Object.keys(general1.pCoin).map(function(el){
+							if(now - general1.pCoin[el]<=0){
+								saya.playerCoin[el] = general1.pCoin[el];
+							}
+						});
 					}
 				}
 

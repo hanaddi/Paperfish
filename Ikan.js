@@ -141,16 +141,19 @@ class Ikan{
 		let claim = function(){
 			saya.paperClaim(game);
 		}
-		this.claimingInterval = window.setInterval(claim,3000);
+		this.claimingInterval = window.setInterval(claim,6000);
 	}
 
 	paperClaim(game,force=false){
 		let now = new Date();
+		// console.log("1 ",now.getTime());
 		if(now.getTime() - this.lastClaim>=3000 || force){
-			let claimed = this.claimBase*this.level*(Math.min(now.getTime(),this.timeCreated+this.lifeSpan) - this.lastClaim)/10000|0;
+			let claimed = Math.round(this.claimBase*this.level*(Math.min(now.getTime(),this.timeCreated+this.lifeSpan) - this.lastClaim)/10000);
 			if(claimed>0){
+				// console.log(this.claimBase*this.level/10*60);
 				game.paper[this.type] = parseInt(game.paper[this.type])+claimed;
 				this.lastClaim = now.getTime();
+				// console.log("2 ",now.getTime());
 			}
 			game.viewPaper();
 		}
@@ -382,6 +385,7 @@ class Ikan{
 	}
 
 	viewStats(game){
+		let saya = this;
 		this.game = this.game || game;
 		let div = f.ce("div");
 
@@ -423,17 +427,16 @@ class Ikan{
 		f.ac(table, tr);
 
 
-		if(this.level < this.maxLevel){
-			let lvlUpCost = Math.pow(2,this.level)*this.lvlUpCost;
 			tr = f.ce("tr");
 			td = f.ce("td");
 			let button = f.ce("button");
+		if(this.level < this.maxLevel){
+			let lvlUpCost = Math.pow(2,this.level)*this.lvlUpCost;
 			button.innerHTML = "Lvl. Up<br><img src='"+IMG.icon.money+"' class='icon'>"+f.numFormat(lvlUpCost);
-			f.ac(td, button);
-			f.ac(tr, td);
-			f.sa(td,"colspan",2);
+			// f.ac(td, button);
+			// f.ac(tr, td);
+			// f.sa(td,"colspan",2);
 
-			let saya = this;
 			let onclick = function(ev){
 
 					
@@ -490,19 +493,30 @@ class Ikan{
 			}
 
 
-			f.ac(table, tr);
-		}
-		else{
-			tr = f.ce("tr");
-			td = f.ce("td");
-			let button = f.ce("button");
+		}else
+		{
 			button.innerHTML = " Level <br> Maxed ";
+			f.sa(button,"disabled","");
+		}
 			f.ac(td, button);
 			f.ac(tr, td);
 			f.sa(td,"colspan",2);
-			f.sa(button,"disabled","");
 			f.ac(table, tr);
-		}
+
+
+		let btnDestroy = f.ce("button");
+		f.sa(btnDestroy,"class","red");
+		let destroyComp = Math.pow(2,this.level-1)*this.lvlUpCost/2|0;
+		btnDestroy.innerHTML = " Destroy <br> <img src='"+IMG.icon._plus(IMG.icon.money)+"' class='icon'>"+f.numFormat(destroyComp);
+		btnDestroy.onclick = function(ev){
+			game.uang+=destroyComp;
+			game.showPop(" <span style='color:#151'><img src='"+IMG.icon.money+"' class='icon'>"+f.numFormat(destroyComp), ev.pageX, ev.pageY)+"</span>";
+			game.viewMoney();
+			game.hideModal();
+			saya.kill(game);
+			saya.onclick = function(){};
+		};
+		f.ac(td, btnDestroy);
 
 
 		f.ac(uBar,table);
@@ -645,7 +659,7 @@ class Ikan2 extends Ikan{
 		for(let i in this.claimBase){
 			if(now.getTime() - this.lastClaim[i]>=3000 || force){
 				// console.log("try to claim "+this.curr[i] );
-				let claimed = this.claimBase[i]*this.level*(Math.min(now.getTime(),this.timeCreated+this.lifeSpan) - this.lastClaim[i])/10000|0;
+				let claimed = Math.round(this.claimBase[i]*this.level*(Math.min(now.getTime(),this.timeCreated+this.lifeSpan) - this.lastClaim[i])/10000);
 				if(claimed>0){
 					// console.log("claimed "+this.curr[i] );
 					game.paper[this.curr[i]] += claimed;
@@ -674,6 +688,7 @@ class Ikan2 extends Ikan{
 
 
 	viewStats(game){
+		let saya = this;
 		let div = f.ce("div");
 
 		let uBar = f.ce("div");
@@ -716,17 +731,16 @@ class Ikan2 extends Ikan{
 		f.ac(table, tr);
 
 
-		if(this.level < this.maxLevel){
-			let lvlUpCost = Math.pow(2,this.level)*this.lvlUpCost;
 			tr = f.ce("tr");
 			td = f.ce("td");
 			let button = f.ce("button");
+		if(this.level < this.maxLevel){
+			let lvlUpCost = Math.pow(2,this.level)*this.lvlUpCost;
 			button.innerHTML = "Lvl. Up<br><img src='"+IMG.icon.money+"' class='icon'>"+f.numFormat(lvlUpCost);
-			f.ac(td, button);
-			f.ac(tr, td);
-			f.sa(td,"colspan",2);
+			// f.ac(td, button);
+			// f.ac(tr, td);
+			// f.sa(td,"colspan",2);
 
-			let saya = this;
 			let onclick = function(ev){
 				saya.levelUp(game);
 				
@@ -784,19 +798,35 @@ class Ikan2 extends Ikan{
 				f.sa(button,"disabled","");
 			}
 
-			f.ac(table, tr);
+			// f.ac(table, tr);
 		}
 		else{
-			tr = f.ce("tr");
-			td = f.ce("td");
-			let button = f.ce("button");
+			// tr = f.ce("tr");
+			// td = f.ce("td");
+			// let button = f.ce("button");
 			button.innerHTML = " Level <br> Maxed ";
+			f.sa(button,"disabled","");
+		}
 			f.ac(td, button);
 			f.ac(tr, td);
 			f.sa(td,"colspan",2);
-			f.sa(button,"disabled","");
 			f.ac(table, tr);
-		}
+
+
+		let btnDestroy = f.ce("button");
+		f.sa(btnDestroy,"class","red");
+		let destroyComp = Math.pow(2,this.level-1)*this.lvlUpCost/2|0;
+		btnDestroy.innerHTML = " Destroy <br> <img src='"+IMG.icon._plus(IMG.icon.money)+"' class='icon'>"+f.numFormat(destroyComp);
+		btnDestroy.onclick = function(ev){
+			game.uang+=destroyComp;
+			game.showPop(" <span style='color:#151'><img src='"+IMG.icon.money+"' class='icon'>"+f.numFormat(destroyComp), ev.pageX, ev.pageY)+"</span>";
+			game.viewMoney();
+			game.hideModal();
+			saya.kill(game);
+			saya.onclick = function(){};
+		};
+		f.ac(td, btnDestroy);
+
 
 
 		f.ac(uBar,table);

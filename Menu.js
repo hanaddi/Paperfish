@@ -12,13 +12,15 @@ class Menu{
 		this.addMenuGuide();
 
 		this.addMenuFriend();
+		this.addMenuOfferTankItem();
 	}
 
 
 	addMenu(menu,y=0,text="", img="",click=()=>{}){
 		this.el[menu] = f.ce("div");
 		f.sa(this.el[menu],"class","sideMenu");
-		this.el[menu].style.top = (60+y*80)+"px";
+		// this.el[menu].style.top = (60+y*80)+"px";
+		this.el[menu].style.top = (60+y*60)+"px";
 		this.el[menu].style.backgroundImage = "url('"+img+"')";
 		this.el[menu].onclick = click;
 		f.ac(this.el[menu], f.ce("br"));
@@ -47,6 +49,209 @@ class Menu{
 		this.addMenuL("menuFriend",10,"Players",IMG.icon.friend,click);
 	}
 
+	addMenuOfferTankItem(offer){
+		offer=offer|| {
+			icon:IMG.tank.pumpkin1,
+			title:"Jack",
+			desc:"Buy Jack as your new tank item!",
+			id:"pumpkin",
+			price:1000000,
+			end:1540047863000
+			// end:1539712662000
+		};
+		let saya = this;
+		let now = new Date();
+		if(offer.end<now.getTime())return;
+		let click = function(){
+			saya.game.el.content.innerHTML = "";
+
+			let div2 = f.ce("div");
+			div2.style.textAlign="center";
+
+			f.ac(div2, f.ct(offer.desc));
+			f.ac(div2, f.ce("br"));
+
+			let menu = f.ce("div");
+			f.sa(menu,"class","shopMenu");
+			menu.style.height = "260px";
+			menu.style.width = "auto";
+			menu.style.padding = "0";
+			menu.style.margin = "3px";
+			menu.style.cursor = "pointer";
+
+			if(saya.game.tankItemsUnlocked.indexOf(offer.id)!==-1){
+				menu.classList.add("MENU_showUnlocked");
+			}
+			else
+			if(GLOBAL.tankItemsShop.indexOf(offer.id)!==-1){
+				menu.classList.add("MENU_showShop");
+			}
+
+			// let name = f.ce("div");
+			// f.sa(name,"class","title1");
+			// f.ac(name,f.ct(GLOBAL.tankItems[offer.id].name));
+			// f.ac(menu,name);
+
+			let aquaMini = f.ce("div");
+			f.sa(aquaMini,"class","aquaMini");
+			let aquaMiniSize=[220,150];
+			aquaMini.style.height = aquaMiniSize[1]+"px";
+			aquaMini.style.width = aquaMiniSize[0]+"px";
+			aquaMini.style.overflowY = "visible";
+			aquaMini.style.display = "list-item";
+
+			let el = GLOBAL.tankItems[offer.id].el.cloneNode(true);
+			f.ac(aquaMini, el);
+
+			// SCALE
+			let scale=1;
+			if(GLOBAL.tankItems[offer.id].width.slice(-2)=='px'){
+				let width = parseInt(GLOBAL.tankItems[offer.id].width.slice(0,-2));
+				if(width>aquaMiniSize[0]){
+					scale = Math.min(scale,aquaMiniSize[0]/width);
+				}
+			}
+			if(GLOBAL.tankItems[offer.id].height.slice(-2)=='px'){
+				let height = parseInt(GLOBAL.tankItems[offer.id].height.slice(0,-2));
+				if(height>aquaMiniSize[1]){
+					scale = Math.min(scale,aquaMiniSize[1]/height);
+				}
+			}
+			el.style.transform = "scale("+scale+") translate(-50%,0)";
+			el.style.left = "50%";
+			el.style.transformOrigin = "left bottom";
+
+			let money = f.ce("div");
+			money.style.color="#000000";
+			money.style.position="relative";
+			money.innerHTML = "<img src='"+IMG.icon._plus(IMG.icon.money)+"' class='icon'>"+(GLOBAL.tankItems[offer.id].money*20)+"/min";
+			f.ac(aquaMini, money);
+
+
+			let divAct0 = f.ce("div");
+			let updateState = function(refresh=false){
+				let now = new Date();
+				menu.style.backgroundColor = "transparent";
+				let divAct = f.ce("div");
+				divAct.style.textAlign = "center";
+				if(saya.game.tankItemsUnlocked && saya.game.tankItemsUnlocked.indexOf(offer.id)!==-1){
+					// menu.style.backgroundColor = "";
+
+					let isEnabled=-1;
+					(saya.game.tankItems || []).map((el, idx)=>el && el.item.type==offer.id && (isEnabled=idx));
+
+					let divBuy = f.ce("div");
+					let conf = f.ce("button")
+					conf.innerHTML = "Move";
+					f.ac(divBuy, conf);
+					f.ac(divAct, divBuy);
+
+					if(isEnabled==-1){
+						f.sa(conf,"disabled","");
+					}else{
+						conf.onclick = function(){
+							saya.game.tankItems[isEnabled].item.configure();
+							saya.game.hideModal();
+						}
+					}
+
+					divBuy = f.ce("div");
+					let button = f.ce("button")
+					f.ac(divBuy, button);
+					f.ac(divAct, divBuy);
+					if(isEnabled!==-1){
+						button.classList.add("red");
+						button.innerHTML = "Remove";
+						button.onclick = function(){
+							saya.game.tankItems.map(e=>e && e.item.type==offer.id && e.item.kill() );
+							updateState(true);
+						};
+					}else{
+						button.classList.remove("red");
+						button.innerHTML = "Insert";
+						button.onclick = function(){
+							let tank = new Tank(saya.game,offer.id);
+							updateState(true);
+						};
+					}
+
+				}else{
+					// menu.style.backgroundColor = "#777777";
+					let divPrice = f.ce("div");
+					divPrice.style.color = "#000000";
+					// let isEnabled = true;
+
+					divPrice.innerHTML = offer.end>now.getTime()?f.lifeBar(offer.end-now.getTime()):"Times up";
+					let isEnabled = offer.price<=saya.game.uang;
+
+					let divBuy = f.ce("div");
+					let buy = f.ce("button")
+					// buy.innerHTML = "Buy";
+					buy.innerHTML+=" <img src='"+IMG.icon.money+"' class='icon'> "+f.numFormat(offer.price);
+					((buy,i, saya,menu)=>{
+						buy.onclick = function(){
+							// for(let j of Object.keys(GLOBAL.tankItems[i].price)){
+							// 	saya.game.paper[j]-=GLOBAL.tankItems[i].price[j];
+							// }
+							// menu.classList.remove("MENU_showShop");
+							// menu.classList.add("MENU_showUnlocked");
+							saya.game.tankItemsUnlocked.push(offer.id);
+							updateState(true);
+							saya.game.uang-= offer.price
+							saya.game.viewMoney();;
+						};
+						
+					})(buy, offer.id,saya,menu);
+
+					if(!isEnabled){
+						f.sa(buy,"disabled","");
+					}
+					f.ac(divBuy, buy);
+
+					f.ac(divAct, divPrice);
+					f.ac(divAct, divBuy);
+				}
+				if(refresh){
+					divAct0.innerHTML = '';
+					f.ac(divAct0,divAct);
+				}
+				saya.game.viewPaper();
+				return divAct;
+			};
+
+			f.ac(menu,aquaMini);
+			f.ac(menu, divAct0);
+			f.ac(div2,menu);
+			f.ac(saya.game.el.content, div2);
+
+			updateState(true);
+			let update = window.setInterval(()=>updateState(true),1000);
+
+			saya.game.onModalRemoved.push(()=>{
+				window.clearInterval(update);
+			});
+
+
+			saya.game.showModal(offer.title);
+		};
+		this.addMenuL("menuOffer",1,f.lifeBar(offer.end - now.getTime()),offer.icon,click);
+
+		saya.el.menuOffer.classList.add("shiny");
+		this.intervalTimeOffer = window.setInterval(function(){
+			let now = new Date();
+			if(offer.end - now.getTime()<0 || saya.game.tankItemsUnlocked.indexOf(offer.id)!==-1){
+				window.clearInterval(saya.intervalTimeOffer);
+				saya.el.menuOffer.outerHTML = "";
+				return;
+			}
+			try{
+				saya.el.menuOffer.childNodes[2].nodeValue = f.lifeBar(offer.end - now.getTime());
+			}catch(e){
+				console.log(e);
+			}
+		},1000);
+	}
+
 	addMenuSave(){
 		let saya = this;
 		let click = function(){
@@ -67,7 +272,7 @@ class Menu{
 		let click = function(){
 			saya.game.el.content.innerHTML = "";
 			f.ac(saya.game.el.content, saya.guide());
-			saya.game.showModalWide("Gude Book");
+			saya.game.showModalWide("Guide Book");
 		};
 		this.addMenu("menuGuide",3,"Guide",IMG.icon.book,click);
 	}

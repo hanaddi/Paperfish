@@ -292,7 +292,7 @@ class Multi{
 						f.ac(saya.el.aqua,saya.el.amb);
 
 
-						saya.el.avatar.style.backgroundImage = "url('https://cdn4.kongcdn.com/compiled-assets/favicos/favico-57-b4efefa5bfe12e3c2448f94d86df94bf.png')";
+						saya.el.avatar.style.backgroundImage = "url('"+IMG.icon.avatar+"')";
 						saya.el.name.innerText = " "+saya.username+" ";
 
 

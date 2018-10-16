@@ -89,9 +89,9 @@ GLOBAL.tankItems = {
 	pumpkin :{
 		name :"Jack",
 		type :"pumpkin",
-		price:{B:300000,Y:50000},
+		price:{R:300000,Y:100000},
 		money:2,
-		minGlassLvl:3,
+		minGlassLvl:0,
 		width :"80px",
 		height :"80px",
 		onload :function(g,el){
@@ -101,12 +101,12 @@ GLOBAL.tankItems = {
 				el.childNodes[0].style.opacity = "";
 			},3000);
 		},
-		// el : (i=f.ce("div"))&&(f.sa(i,"style","position:absolute;bottom:0;left:0px;width:50px;height:50px;background-image:url('../img/t-9.a.svg');background-size:cover;background-repeat:no-repeat;")||1)&&i
-		el : (i=f.ce("div"))&&(f.sa(i,"class","pumpkin")||1)&&(f.ac(i, (j=f.ce("div"))&&(f.sa(j,"class","yyy")||1)&&j )||1)&&i
+		el : (i=f.ce("div"))&&(f.sa(i,"class","pumpkin")||1)&&(i.style.backgroundImage="url('"+IMG.tank.pumpkin1+"')")&&(f.ac(i, (j=f.ce("div"))&&(f.sa(j,"class","yyy")||1)&&(j.style.backgroundImage="url('"+IMG.tank.pumpkin2+"')")&&j )||1)&&i
 	}
 };
 GLOBAL.tankItemsShop = [
-	"grass","rocks","pagoda","house","sand","name","pumpkin"
+	// "grass","rocks","pagoda","house","sand","name","pumpkin"
+	"grass","rocks","pagoda","house","sand","name"
 ];
 
 class Tank{
